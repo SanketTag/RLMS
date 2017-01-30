@@ -26,6 +26,12 @@ public class IndexController extends BaseController{
 		 
 	        return "login.jsp";
 	    }
+	  
+	  @RequestMapping(value="signup",method = RequestMethod.GET)
+	    public String getSignUpPage() {
+		 
+	        return "signup.jsp";
+	  }
 
 	  @RequestMapping(value="getLoggedInUser",method = RequestMethod.POST)
 	  public @ResponseBody UserMetaInfo getMetaInfoObj(){
