@@ -1,0 +1,280 @@
+package com.rlms.service;
+
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.rlms.constants.RLMSConstants;
+import com.rlms.constants.RlmsErrorType;
+import com.rlms.constants.SpocRoleConstants;
+import com.rlms.contract.BranchDtlsDto;
+import com.rlms.contract.CompanyDtlsDTO;
+import com.rlms.contract.LiftDtlsDto;
+import com.rlms.contract.UserDtlsDto;
+import com.rlms.contract.UserMetaInfo;
+import com.rlms.dao.BranchDao;
+import com.rlms.dao.CompanyDao;
+import com.rlms.exception.ExceptionCode;
+import com.rlms.exception.ValidationException;
+import com.rlms.model.RlmsBranchCustomerMap;
+import com.rlms.model.RlmsBranchMaster;
+import com.rlms.model.RlmsCompanyBranchMapDtls;
+import com.rlms.model.RlmsCompanyMaster;
+import com.rlms.model.RlmsCompanyRoleMap;
+import com.rlms.model.RlmsLiftCustomerMap;
+import com.rlms.model.RlmsUserRoles;
+import com.rlms.utils.PropertyUtils;
+
+@Service("companyService")
+@Transactional
+public class CompanyServiceImpl implements CompanyService{
+	
+	@Autowired
+	private CompanyDao companyDao;
+	
+	@Autowired
+	private BranchDao branchDao;
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private LiftService liftService;
+	
+	
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void saveCompanyM(RlmsCompanyMaster rlmsCompanyMaster){
+		this.companyDao.saveCompanyM(rlmsCompanyMaster);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String validateAndSaveCompanyObj(CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo) throws ValidationException{
+		String statusMesage = this.validateCompanyDtls(companyDtlsDTO);
+		if(null == statusMesage){
+			RlmsCompanyMaster companyMaster = this.constructCompanyM(companyDtlsDTO, metaInfo);
+			this.saveCompanyM(companyMaster);
+			statusMesage = "Successfully created account with RLMS system.";
+		}
+		return statusMesage;
+	}
+	
+	private String validateCompanyDtls(CompanyDtlsDTO companyDtlsDTO) throws ValidationException{
+		
+        String errorMessage = null;
+		if(null != companyDtlsDTO.getEmailId() && !companyDtlsDTO.getEmailId().isEmpty()){
+			RlmsCompanyMaster companyMaster = this.getCompanyByEmailID(companyDtlsDTO.getEmailId());	
+			if(null != companyMaster){
+				errorMessage = "Given EmailId is already registered with us. Kindly use different email id or kindly contact with administrator.";
+			}
+		}else{
+			//errorMessage = "Please provide emailID";
+			throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(),PropertyUtils.getPrpertyFromContext(RlmsErrorType.PLEASE_PROVIDE_EMAILID.getMessage()));
+		}
+		
+		return errorMessage;
+		
+	}
+	
+	private RlmsCompanyMaster constructCompanyM(CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo){
+		RlmsCompanyMaster companyMaster = new RlmsCompanyMaster();
+		companyMaster.setCompanyName(companyDtlsDTO.getCompanyName());
+		companyMaster.setAddress(companyDtlsDTO.getAddress());
+		companyMaster.setContactNumber(companyDtlsDTO.getContactNumber());
+		companyMaster.setActiveFlag(RLMSConstants.ACTIVE.getId());
+		companyMaster.setEmailId(companyDtlsDTO.getEmailId());
+		companyMaster.setPanNumber(companyDtlsDTO.getPanNumber());
+		companyMaster.setStatus(RLMSConstants.ACTIVE.getId());
+		companyMaster.setTinNumber(companyDtlsDTO.getTinNumber());
+		companyMaster.setVatNumber(companyDtlsDTO.getVatNumber());
+		companyMaster.setCreatedDate(new Date());
+		companyMaster.setCretedBy(metaInfo.getUserId());
+		companyMaster.setUpdatedDate(new Date());
+		companyMaster.setUpdatedBy(metaInfo.getUserId());
+		return companyMaster;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public RlmsCompanyMaster getCompanyByEmailID(String emailID){
+		return this.companyDao.getCompanyByEmailID(emailID);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<RlmsCompanyMaster> getAllCompanies(UserMetaInfo metaInfo){
+		RlmsUserRoles userRole = metaInfo.getUserRole();
+		List<RlmsCompanyMaster> listOfAllCompanies = null;
+		if(null != userRole){
+			if(SpocRoleConstants.INDITECH_ADMIN.getSpocRoleId().equals(userRole.getRlmsSpocRoleMaster().getSpocRoleId()) ||
+					SpocRoleConstants.INDITECH_OPERATOR.getSpocRoleId().equals(userRole.getRlmsSpocRoleMaster().getSpocRoleId())){
+				listOfAllCompanies = this.companyDao.getAllCompanies(null);
+			}else{
+				listOfAllCompanies = this.companyDao.getAllCompanies(userRole.getRlmsCompanyMaster().getCompanyId());
+			}
+		}
+		return listOfAllCompanies;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public RlmsCompanyMaster getCompanyById(Integer companyId){
+		return this.companyDao.getCompanyById(companyId);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public RlmsCompanyBranchMapDtls getCompanyBranchMapById(Integer companyBranchMapId){
+		return this.companyDao.getCompanyBranchMapById(companyBranchMapId);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<RlmsCompanyBranchMapDtls> getAllBranches(Integer companyId){
+		return this.branchDao.getAllBranches(companyId);
+	}
+	 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String validateAndAddNewBranchInCompany(BranchDtlsDto dto,UserMetaInfo userMetaInfo) throws ValidationException{
+		RlmsBranchMaster branchM = this.branchDao.getBranchByBranchName(dto.getBranchName());
+		String statusMessage = "";
+		if(null == branchM){
+		
+		RlmsBranchMaster branchMaster = this.constructBranchMaster(dto, userMetaInfo);
+		
+		Integer branchId =  this.branchDao.saveBranchM(branchMaster);
+		
+		branchMaster.setBranchId(branchId);
+		
+		RlmsCompanyBranchMapDtls companyBranchMapDtls = this.constructCompBranchMap(dto, branchMaster, userMetaInfo);
+		
+		this.branchDao.saveCompanyBranchMapDtls(companyBranchMapDtls);
+		
+		statusMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.BRANCH_CREATION_SUCCESSFUL.getMessage());
+		}else{
+			throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.BRANCH_CREATION_SUCCESSFUL.getMessage()));
+		//	statusMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.BRANCH_ALREADY_EXISTS.getMessage());
+		}
+		return statusMessage;
+	}
+	
+	private RlmsBranchMaster constructBranchMaster(BranchDtlsDto dto, UserMetaInfo userMetaInfo){
+		RlmsBranchMaster branchMaster = new RlmsBranchMaster();
+		branchMaster.setBranchName(dto.getBranchName());
+		branchMaster.setBranchAddress(dto.getBranchAddress());
+		branchMaster.setActiveFlag(RLMSConstants.ACTIVE.getId());
+		branchMaster.setCreatedBy(userMetaInfo.getUserId());
+		branchMaster.setCreatedDate(new Date());
+		branchMaster.setUpdatedBy(userMetaInfo.getUserId());
+		branchMaster.setUdpatedDate(new Date());
+		return branchMaster;
+	}
+	
+	private RlmsCompanyBranchMapDtls constructCompBranchMap(BranchDtlsDto dto, RlmsBranchMaster branchMaster, UserMetaInfo userMetaInfo){
+		
+		RlmsCompanyMaster companyMaster = this.companyDao.getCompanyById(dto.getCompanyId());
+		
+		RlmsCompanyBranchMapDtls companyBranchMapDtls = new RlmsCompanyBranchMapDtls();
+		companyBranchMapDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
+		companyBranchMapDtls.setRlmsBranchMaster(branchMaster);
+		companyBranchMapDtls.setRlmsCompanyMaster(companyMaster);
+		companyBranchMapDtls.setCreatedBy(userMetaInfo.getUserId());
+		companyBranchMapDtls.setCreatedDate(new Date());
+		companyBranchMapDtls.setUdpatedDate(new Date());
+		companyBranchMapDtls.setUpdatedBy(userMetaInfo.getUserId());
+		companyBranchMapDtls.setStatus(RLMSConstants.ACTIVE.getId());
+		return companyBranchMapDtls;
+		
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<BranchDtlsDto> getListOfBranchDtls(UserMetaInfo metaInfo){
+		List<Integer> listOFApplicableBranches = this.getListOfApplicableBranch(metaInfo.getUserRole().getUserRoleId(), metaInfo);
+		List<BranchDtlsDto> listOFBranchDtls = new ArrayList<BranchDtlsDto>();
+		for (Integer companyBranchMapId : listOFApplicableBranches) {
+			BranchDtlsDto branchDtlsDto = new BranchDtlsDto();
+			RlmsCompanyBranchMapDtls rlmsCompanyBranchMapDtls = this.branchDao.getCompanyBranchMapDtls(companyBranchMapId);
+			branchDtlsDto.setBranchName(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchName());
+			branchDtlsDto.setBranchAddress(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchAddress());
+			branchDtlsDto.setCompanyName(rlmsCompanyBranchMapDtls.getRlmsCompanyMaster().getCompanyName());
+			List<UserDtlsDto> listOfAllTech = this.getListOFAllTEchnicians(companyBranchMapId);
+			branchDtlsDto.setListOfAllTechnicians(listOfAllTech);
+			if(null != listOfAllTech && !listOfAllTech.isEmpty()){
+				branchDtlsDto.setNumberOfTechnicians(listOfAllTech.size());
+			}
+			List<LiftDtlsDto> listOfAllLifts = this.getListOfAllLifts(companyBranchMapId);
+				branchDtlsDto.setListOfAllLifts(listOfAllLifts);
+			if(null != listOfAllLifts){
+				branchDtlsDto.setNumberOfLifts(listOfAllLifts.size());
+			}
+			listOFBranchDtls.add(branchDtlsDto);			
+		}
+		return listOFBranchDtls;
+	}
+	
+	private List<LiftDtlsDto> getListOfAllLifts(Integer companyBranchMapId){
+		List<LiftDtlsDto> listOfUserDtls = new ArrayList<LiftDtlsDto>();
+		
+		List<RlmsLiftCustomerMap> listOfAllLifts = this.liftService.getAllLiftsForBranch(companyBranchMapId);
+		for (RlmsLiftCustomerMap rlmsLiftCustomerMap : listOfAllLifts) {
+			LiftDtlsDto liftDtlsDto = new LiftDtlsDto();
+			liftDtlsDto.setAddress(rlmsLiftCustomerMap.getLiftMaster().getAddress());
+			liftDtlsDto.setCustomerName(rlmsLiftCustomerMap.getBranchCustomerMap().getCustomerMaster().getCustomerName());
+			liftDtlsDto.setLiftNumber(rlmsLiftCustomerMap.getLiftMaster().getLiftNumber());
+			listOfUserDtls.add(liftDtlsDto);
+		}
+		return listOfUserDtls;
+	}
+	private List<UserDtlsDto> getListOFAllTEchnicians(Integer companyBranchMapId){
+		List<UserDtlsDto> listOfUserDtls = new ArrayList<UserDtlsDto>();
+		List<RlmsUserRoles> listOfAlltech = this.userService.getListOfTechniciansForBranch(companyBranchMapId);
+		for (RlmsUserRoles rlmsUserRoles : listOfAlltech) {
+			UserDtlsDto userDtlsDto = new UserDtlsDto();
+			userDtlsDto.setAddress(rlmsUserRoles.getRlmsUserMaster().getAddress());
+			if(null != rlmsUserRoles.getRlmsCompanyMaster()){
+				userDtlsDto.setCompanyName(rlmsUserRoles.getRlmsCompanyMaster().getCompanyName());
+			}
+			userDtlsDto.setContactNumber(rlmsUserRoles.getRlmsUserMaster().getContactNumber());
+			userDtlsDto.setFirstName(rlmsUserRoles.getRlmsUserMaster().getFirstName());
+			userDtlsDto.setLastName(rlmsUserRoles.getRlmsUserMaster().getLastName());
+			listOfUserDtls.add(userDtlsDto);
+		}
+		return listOfUserDtls;
+	}
+	
+	private List<Integer> getListOfApplicableBranch(Integer userRoleId, UserMetaInfo metaInfo){
+		List<Integer> listOfAllApplicableCompanies = new ArrayList<Integer>();
+		List<Integer> listOfApplicableBranch = new ArrayList<Integer>();
+		if(SpocRoleConstants.ROLE_LEVEL_ONE.getSpocRoleId().equals(metaInfo.getUserRole().getRlmsSpocRoleMaster().getRoleLevel()) || SpocRoleConstants.ROLE_LEVEL_TWO.getSpocRoleId().equals(metaInfo.getUserRole().getRlmsSpocRoleMaster().getRoleLevel())){
+			
+			if(SpocRoleConstants.ROLE_LEVEL_ONE.getSpocRoleId().equals(metaInfo.getUserRole().getRlmsSpocRoleMaster().getRoleLevel())){
+				List<RlmsCompanyMaster> listOfAllCompnies = this.getAllCompanies(metaInfo);
+				for (RlmsCompanyMaster rlmsCompanyMaster : listOfAllCompnies) {
+					listOfAllApplicableCompanies.add(rlmsCompanyMaster.getCompanyId());
+				}	
+			}else{
+				listOfAllApplicableCompanies.add(metaInfo.getUserRole().getRlmsCompanyMaster().getCompanyId());
+			}
+		  List<RlmsCompanyBranchMapDtls> listOfAllBranches = this.branchDao.getAllBranchesForCopanies(listOfAllApplicableCompanies);
+		  for (RlmsCompanyBranchMapDtls rlmsCompanyBranchMapDtls : listOfAllBranches) {
+			  listOfApplicableBranch.add(rlmsCompanyBranchMapDtls.getCompanyBranchMapId());
+		  }
+		}else{
+			listOfApplicableBranch.add(metaInfo.getUserRole().getRlmsCompanyBranchMapDtls().getCompanyBranchMapId());
+		}
+		
+		return listOfApplicableBranch;
+	}
+	
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<RlmsBranchCustomerMap> getAllCustomersOfBranch(Integer commpBranchMapId){
+	  return this.branchDao.getAllCustomersOfBranch(commpBranchMapId);
+	}
+	
+	/*@Transactional(propagation = Propagation.REQUIRED)
+	public RlmsCompanyRoleMap getCompanyRole(Integer companyId, Integer spocRoleId){
+		return this.companyDao.getCompanyRole(companyId, spocRoleId);
+	}*/
+}

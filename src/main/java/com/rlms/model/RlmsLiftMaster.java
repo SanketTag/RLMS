@@ -1,0 +1,460 @@
+package com.rlms.model;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "rlms_lift_master")
+public class RlmsLiftMaster implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Integer liftId;
+	private String liftNumber;
+	private String address;
+	private String latitude;
+	private String longitude;
+	private Date serviceStartDate;
+	private Date serviceEndDate;
+	private Date dateOfInstallation; 
+	private Date amcStartDate;
+	private Integer amcType;
+	private String amcAmount;
+	private Integer doorType;
+	private Integer noOfStops;
+	private Integer engineType; 
+	private String machineMake;
+	private String machineCapacity;
+	private String machineCurrent;
+	private byte[] machinePhoto;
+	private String breakVoltage;
+	private String panelMake;
+	private byte[] panelPhoto;
+	private String ARD;
+	private byte[] ARDPhoto;
+	private Integer NoOfBatteries;
+	private String BatteryCapacity;
+	private String BatteryMake;
+	private String COPMake;
+	private byte[] COPPhoto;
+	private String  LOPMake;
+	private byte[] LOPPhoto;
+	private Integer collectiveType;
+	private Integer SimplexDuplex;
+	private byte[] cartopPhoto;
+	private String autoDoorMake;
+	private byte[] autoDoorHeaderPhoto;
+	private Integer wiringShceme;
+	private byte[] wiringPhoto;
+	private Integer fireMode;
+	private String intercomm;
+	private String alarm;
+	private String alarmBattery;
+	private String accessControl;
+	private byte[] lobbyPhoto;
+	private Integer activeFlag;
+	private Date createdDate;
+	private Integer createdBy;
+	private Date updatedDate;
+	private Integer updatedBy;
+	
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "lift_id", unique = true, nullable = false)
+	public Integer getLiftId() {
+		return liftId;
+	}
+	public void setLiftId(Integer liftId) {
+		this.liftId = liftId;
+	}
+	
+	@Column(name = "lift_number", unique = true, nullable = false)
+	public String getLiftNumber() {
+		return liftNumber;
+	}
+	public void setLiftNumber(String liftNumber) {
+		this.liftNumber = liftNumber;
+	}
+	
+	@Column(name = "address", unique = true, nullable = false)
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	@Column(name = "latitude", unique = true, nullable = false)
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	
+	@Column(name = "longitude", unique = true, nullable = false)
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	
+	@Column(name = "service_start_date", unique = true, nullable = false)
+	public Date getServiceStartDate() {
+		return serviceStartDate;
+	}
+	public void setServiceStartDate(Date serviceStartDate) {
+		this.serviceStartDate = serviceStartDate;
+	}
+	
+	@Column(name = "service_end_date", unique = true, nullable = false)
+	public Date getServiceEndDate() {
+		return serviceEndDate;
+	}
+	public void setServiceEndDate(Date serviceEndDate) {
+		this.serviceEndDate = serviceEndDate;
+	}
+	
+	@Column(name = "date_of_installation", unique = true, nullable = false)
+	public Date getDateOfInstallation() {
+		return dateOfInstallation;
+	}
+	public void setDateOfInstallation(Date dateOfInstallation) {
+		this.dateOfInstallation = dateOfInstallation;
+	}
+	
+	@Column(name = "amc_start_date", unique = true, nullable = false)
+	public Date getAmcStartDate() {
+		return amcStartDate;
+	}
+	public void setAmcStartDate(Date amcStartDate) {
+		this.amcStartDate = amcStartDate;
+	}
+	
+	@Column(name = "amc_type", unique = true, nullable = false)
+	public Integer getAmcType() {
+		return amcType;
+	}
+	public void setAmcType(Integer amcType) {
+		this.amcType = amcType;
+	}
+	
+	@Column(name = "amc_amount", unique = true, nullable = false)
+	public String getAmcAmount() {
+		return amcAmount;
+	}
+	public void setAmcAmount(String amcAmount) {
+		this.amcAmount = amcAmount;
+	}
+	
+	@Column(name = "door_type", unique = true, nullable = false)
+	public Integer getDoorType() {
+		return doorType;
+	}
+	public void setDoorType(Integer doorType) {
+		this.doorType = doorType;
+	}
+	
+	@Column(name = "no_of_stops", unique = true, nullable = false)
+	public Integer getNoOfStops() {
+		return noOfStops;
+	}
+	public void setNoOfStops(Integer noOfStops) {
+		this.noOfStops = noOfStops;
+	}
+	
+	@Column(name = "engine_type", unique = true, nullable = false)
+	public Integer getEngineType() {
+		return engineType;
+	}
+	public void setEngineType(Integer engineType) {
+		this.engineType = engineType;
+	}
+	
+	@Column(name = "machine_make", unique = true, nullable = false)
+	public String getMachineMake() {
+		return machineMake;
+	}
+	public void setMachineMake(String machineMake) {
+		this.machineMake = machineMake;
+	}
+	
+	@Column(name = "machine_capacity", unique = true, nullable = false)
+	public String getMachineCapacity() {
+		return machineCapacity;
+	}
+	public void setMachineCapacity(String machineCapacity) {
+		this.machineCapacity = machineCapacity;
+	}
+	
+	@Column(name = "machine_current", unique = true, nullable = false)
+	public String getMachineCurrent() {
+		return machineCurrent;
+	}
+	public void setMachineCurrent(String machineCurrent) {
+		this.machineCurrent = machineCurrent;
+	}
+	
+	@Column(name = "machine_photo", unique = true, nullable = false)
+	public byte[] getMachinePhoto() {
+		return machinePhoto;
+	}
+	public void setMachinePhoto(byte[] machinePhoto) {
+		this.machinePhoto = machinePhoto;
+	}
+	
+	@Column(name = "break_voltage", unique = true, nullable = false)
+	public String getBreakVoltage() {
+		return breakVoltage;
+	}
+	public void setBreakVoltage(String breakVoltage) {
+		this.breakVoltage = breakVoltage;
+	}
+	
+	@Column(name = "panel_make", unique = true, nullable = false)
+	public String getPanelMake() {
+		return panelMake;
+	}
+	public void setPanelMake(String panelMake) {
+		this.panelMake = panelMake;
+	}
+	
+	@Column(name = "panel_photo", unique = true, nullable = false)
+	public byte[] getPanelPhoto() {
+		return panelPhoto;
+	}
+	public void setPanelPhoto(byte[] panelPhoto) {
+		this.panelPhoto = panelPhoto;
+	}
+	
+	@Column(name = "ard", unique = true, nullable = false)
+	public String getARD() {
+		return ARD;
+	}
+	public void setARD(String aRD) {
+		ARD = aRD;
+	}
+	
+	@Column(name = "ard_photo", unique = true, nullable = false)
+	public byte[] getARDPhoto() {
+		return ARDPhoto;
+	}
+	public void setARDPhoto(byte[] aRDPhoto) {
+		ARDPhoto = aRDPhoto;
+	}
+	
+	@Column(name = "no_of_batteries", unique = true, nullable = false)
+	public Integer getNoOfBatteries() {
+		return NoOfBatteries;
+	}
+	public void setNoOfBatteries(Integer noOfBatteries) {
+		NoOfBatteries = noOfBatteries;
+	}
+	
+	@Column(name = "battery_capacity", unique = true, nullable = false)
+	public String getBatteryCapacity() {
+		return BatteryCapacity;
+	}
+	public void setBatteryCapacity(String batteryCapacity) {
+		BatteryCapacity = batteryCapacity;
+	}
+	
+	@Column(name = "battery_make", unique = true, nullable = false)
+	public String getBatteryMake() {
+		return BatteryMake;
+	}
+	public void setBatteryMake(String batteryMake) {
+		BatteryMake = batteryMake;
+	}
+	
+	@Column(name = "cop_make", unique = true, nullable = false)
+	public String getCOPMake() {
+		return COPMake;
+	}
+	public void setCOPMake(String cOPMake) {
+		COPMake = cOPMake;
+	}
+	
+	@Column(name = "cop_photo", unique = true, nullable = false)
+	public byte[] getCOPPhoto() {
+		return COPPhoto;
+	}
+	public void setCOPPhoto(byte[] cOPPhoto) {
+		COPPhoto = cOPPhoto;
+	}
+	
+	@Column(name = "lop_make", unique = true, nullable = false)
+	public String getLOPMake() {
+		return LOPMake;
+	}
+	public void setLOPMake(String lOPMake) {
+		LOPMake = lOPMake;
+	}
+	
+	@Column(name = "lop_photo", unique = true, nullable = false)
+	public byte[] getLOPPhoto() {
+		return LOPPhoto;
+	}
+	public void setLOPPhoto(byte[] lOPPhoto) {
+		LOPPhoto = lOPPhoto;
+	}
+	
+	@Column(name = "collective_type", unique = true, nullable = false)
+	public Integer getCollectiveType() {
+		return collectiveType;
+	}
+	public void setCollectiveType(Integer collectiveType) {
+		this.collectiveType = collectiveType;
+	}
+	
+	@Column(name = "simplex_duplex", unique = true, nullable = false)
+	public Integer getSimplexDuplex() {
+		return SimplexDuplex;
+	}
+	public void setSimplexDuplex(Integer simplexDuplex) {
+		SimplexDuplex = simplexDuplex;
+	}
+	
+	@Column(name = "cartop_photo", unique = true, nullable = false)
+	public byte[] getCartopPhoto() {
+		return cartopPhoto;
+	}
+	public void setCartopPhoto(byte[] cartopPhoto) {
+		this.cartopPhoto = cartopPhoto;
+	}
+	
+	@Column(name = "auto_door_make", unique = true, nullable = false)
+	public String getAutoDoorMake() {
+		return autoDoorMake;
+	}
+	public void setAutoDoorMake(String autoDoorMake) {
+		this.autoDoorMake = autoDoorMake;
+	}
+	
+	@Column(name = "auto_door_head_photo", unique = true, nullable = false)
+	public byte[] getAutoDoorHeaderPhoto() {
+		return autoDoorHeaderPhoto;
+	}
+	public void setAutoDoorHeaderPhoto(byte[] autoDoorHeaderPhoto) {
+		this.autoDoorHeaderPhoto = autoDoorHeaderPhoto;
+	}
+	
+	@Column(name = "wiring_scheme", unique = true, nullable = false)
+	public Integer getWiringShceme() {
+		return wiringShceme;
+	}
+	public void setWiringShceme(Integer wiringShceme) {
+		this.wiringShceme = wiringShceme;
+	}
+	
+	@Column(name = "wiring_photo", unique = true, nullable = false)
+	public byte[] getWiringPhoto() {
+		return wiringPhoto;
+	}
+	public void setWiringPhoto(byte[] wiringPhoto) {
+		this.wiringPhoto = wiringPhoto;
+	}
+	
+	@Column(name = "fire_mode", unique = true, nullable = false)
+	public Integer getFireMode() {
+		return fireMode;
+	}
+	public void setFireMode(Integer fireMode) {
+		this.fireMode = fireMode;
+	}
+	
+	@Column(name = "intercomm", unique = true, nullable = false)
+	public String getIntercomm() {
+		return intercomm;
+	}
+	public void setIntercomm(String intercomm) {
+		this.intercomm = intercomm;
+	}
+	
+	@Column(name = "alarm", unique = true, nullable = false)
+	public String getAlarm() {
+		return alarm;
+	}
+	public void setAlarm(String alarm) {
+		this.alarm = alarm;
+	}
+	
+	@Column(name = "alarm_battery", unique = true, nullable = false)
+	public String getAlarmBattery() {
+		return alarmBattery;
+	}
+	public void setAlarmBattery(String alarmBattery) {
+		this.alarmBattery = alarmBattery;
+	}
+	
+	@Column(name = "access_control", unique = true, nullable = false)
+	public String getAccessControl() {
+		return accessControl;
+	}
+	public void setAccessControl(String accessControl) {
+		this.accessControl = accessControl;
+	}
+	
+	@Column(name = "lobby_photo", unique = true, nullable = false)
+	public byte[] getLobbyPhoto() {
+		return lobbyPhoto;
+	}
+	public void setLobbyPhoto(byte[] lobbyPhoto) {
+		this.lobbyPhoto = lobbyPhoto;
+	}
+	
+
+	@Column(name = "active_flag", unique = true, nullable = false)
+	public Integer getActiveFlag() {
+		return activeFlag;
+	}
+	public void setActiveFlag(Integer activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+	
+	@Column(name = "created_date", unique = true, nullable = false)
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+	
+	@Column(name = "created_by", unique = true, nullable = false)
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
+	}
+	
+	@Column(name = "updated_date", unique = true, nullable = false)
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+	
+	@Column(name = "updated_by", unique = true, nullable = false)
+	public Integer getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(Integer updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	
+
+}
