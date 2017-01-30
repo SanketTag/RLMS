@@ -11,6 +11,7 @@ public class CustomerDtlsDto {
 	private Integer customerType;
 	private String emailID;
 	private String cntNumber;
+	private Integer branchCompanyMapId;
 	public String getFirstName() {
 		return firstName;
 	}
@@ -64,6 +65,12 @@ public class CustomerDtlsDto {
 	}
 	public void setCntNumber(String cntNumber) {
 		this.cntNumber = cntNumber;
+	}
+	public Integer getBranchCompanyMapId() {
+		return branchCompanyMapId;
+	}
+	public void setBranchCompanyMapId(Integer branchCompanyMapId) {
+		this.branchCompanyMapId = branchCompanyMapId;
 	}
 	
 	

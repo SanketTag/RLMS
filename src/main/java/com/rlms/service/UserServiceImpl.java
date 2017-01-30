@@ -265,6 +265,8 @@ public class UserServiceImpl implements UserService{
 		return isValidUser;
 	}
 	
+	
+	
 	private RlmsUsersMaster constructUserObj(AddNewUserDto dto, UserMetaInfo metaInfo){
 		RlmsUsersMaster user = new RlmsUsersMaster();
 		user.setActiveFlag(RLMSConstants.ACTIVE.getId());

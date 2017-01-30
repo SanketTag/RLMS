@@ -16,6 +16,7 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.contract.AddNewUserDto;
 import com.rlms.contract.BranchDtlsDto;
 import com.rlms.contract.CompanyDtlsDTO;
+import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.RegisterDto;
 import com.rlms.contract.ResponseDto;
 import com.rlms.contract.UserRoleDtlsDTO;
@@ -28,6 +29,7 @@ import com.rlms.model.RlmsCompanyMaster;
 import com.rlms.model.RlmsSpocRoleMaster;
 import com.rlms.model.RlmsUsersMaster;
 import com.rlms.service.CompanyService;
+import com.rlms.service.CustomerService;
 import com.rlms.service.UserService;
 import com.rlms.utils.PropertyUtils;
 
@@ -37,6 +39,9 @@ public class AdminController extends BaseController{
 	
 	@Autowired
 	private CompanyService companyService;
+	
+	@Autowired
+	private CustomerService customerService;
 	
 	@Autowired
 	private UserService userService;
@@ -179,6 +184,28 @@ public class AdminController extends BaseController{
 	 
 	        return reponseDto;
 	  }
+	 
+	 
+	 @RequestMapping(value = "/validateAndRegisterNewCustomer", method = RequestMethod.POST)
+	    public @ResponseBody ResponseDto validateAndRegisterNewCustomer(@RequestBody CustomerDtlsDto dto) throws RunTimeException, ValidationException {
+		 ResponseDto reponseDto = new ResponseDto();
+	        
+	        try{
+	        	logger.info("Method :: validateAndRegisterNewCustomer");
+	        	reponseDto.setResponseMessage(this.customerService.validateAndRegisterNewCustomer(dto, this.getMetaInfo()));
+	        	
+	        }catch(ValidationException vex){
+	        	logger.error(ExceptionUtils.getFullStackTrace(vex));
+	        	throw vex;
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
+	  }
+	 
 	 
 	 @RequestMapping(value = "/addNewBranchInCompany", method = RequestMethod.POST)
 	 public @ResponseBody ResponseDto addNewBranchInCompany(@RequestBody BranchDtlsDto dto) throws RunTimeException{
