@@ -2,10 +2,11 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>My Angular App</title>
+		<title>RLMS</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
 		<link rel="stylesheet" href="css/font-awesome.css" />
 		<link rel="stylesheet" href="css/styles.css">
+
 	</head>
 	<body>
 		<div id="wrapper" class="focusedform">
@@ -37,7 +38,9 @@
 						</div>
 						<div class="panel-footer">
 							<a href="#/" class="pull-left btn btn-link" style="padding-left:0">Forgot password?</a>
-							
+							<div class="pull-right" onClick="signup();">
+								<a class="btn btn-default">Signup</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -46,7 +49,7 @@
 			<footer role="contentinfo" ng-show="!layoutLoading" class="">
 				<div class="clearfix">
 					<ul class="list-unstyled list-inline pull-left">
-						<li>MAVERICK © 2015</li>
+						<li>Telesist &copy; 2015</li>
 					</ul>
 					<button class="pull-right btn btn-default btn-sm hidden-print" back-to-top="" style="padding: 1px 10px;"><i class="fa fa-angle-up"></i></button>
 				</div>
@@ -54,5 +57,11 @@
 		</div>
 	</div>
 </div>
+		<script type="text/javascript">
+			function signup(){
+				window.location.pathname="RLMS/signup.jsp"
+				
+			}
+		</script>
 </body>
 </html>

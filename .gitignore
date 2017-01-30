@@ -27,3 +27,11 @@ hs_err_pid*
 .idea
 .metadata
 target/
+
+src/main/webapp/WEB-INF/hibernate.cfg.xml
+
+src/main/webapp/WEB-INF/jdbc.properties
+
+src/main/webapp/WEB-INF/jdbc.properties
+
+src/main/webapp/WEB-INF/hibernate.cfg.xml
