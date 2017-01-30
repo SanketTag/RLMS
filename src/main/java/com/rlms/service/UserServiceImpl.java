@@ -196,7 +196,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	private void sendAssignedRoleMail(Integer userRoleId, RlmsUserRoles userRole) throws InvalidKeyException, Exception{
-		String encryptedUserRoleId = this.messagingService.encryptToByteArr(userRoleId);
+		String encryptedUserRoleId = this.messagingService.encrypt(userRoleId.toString());
 		
 		this.messagingService.sendAssgnRoleEmail(encryptedUserRoleId, userRole);
 		
@@ -206,7 +206,7 @@ public class UserServiceImpl implements UserService{
 	public String registerUser(RegisterDto dto) throws InvalidKeyException, Exception{
 		String statusMessage = "";
 		String userRoleIdbyte = dto.getRegistrationId();
-		Integer userroleId = Integer.valueOf(this.messagingService.decryptToInteger(userRoleIdbyte));
+		Integer userroleId = Integer.valueOf(this.messagingService.decrypt(userRoleIdbyte));
 		RlmsUserRoles userRole = this.userRoleDao.getUserRoleToRegister(userroleId);
 		if(null != userRole && !this.isAlreadyHasActiveAccount(userRole)){
 			RlmsUsersMaster userMaster = userRole.getRlmsUserMaster();

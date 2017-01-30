@@ -1,9 +1,9 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('addCompanyCtrl', ['$scope', '$filter','serviceApi','$route','utility', function($scope, $filter,serviceApi,$route,utility) {
+	.controller('addCompanyCtrl', ['$scope', '$filter','serviceApi','$route','utility','pinesNotifications','$timeout', function($scope, $filter,serviceApi,$route,utility,pinesNotifications,$timeout) {
 		initAddCompany();
-		$scope.alert = { type: 'success', msg: 'Well done! You successfully read this important alert message.' };
+		$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Company.' };
 		//function to initialize addCompany Model
 		function initAddCompany(){
 			$scope.showAlert = false;
@@ -24,10 +24,13 @@
 				$scope.showAlert = true;
 				var key = Object.keys(response);
 				var successMessage = response[key[0]];
-				$scope.alert.msg = successMessage;
+				utility.showMessage('Company Added',successMessage,'success');
 				initAddCompany();
-				//utility.showMessage('Added Company',successMessage,'success');
 				$route.reload();
+					
+				
+				//utility.showMessage('Added Company',successMessage,'success');
+				
 			})
 		};
 		//Reset Add company form

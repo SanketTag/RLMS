@@ -82,7 +82,7 @@ public class BranchDaoImpl implements BranchDao{
 	public List<RlmsBranchCustomerMap> getAllCustomersOfBranch(Integer commpBranchMapId){
 		 Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsBranchCustomerMap.class)
-				 .add(Restrictions.eq("rlmsCompanyBranchMapDtls.companyBranchMapId", commpBranchMapId))
+				 .add(Restrictions.eq("companyBranchMapDtls.companyBranchMapId", commpBranchMapId))
 				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 		 		 //.add(Restrictions.eq("rlmsSpocRoleMaster.spocRoleId", SpocRoleConstants.TECHNICIAN.getSpocRoleId()));
 		 List<RlmsBranchCustomerMap> listAllCustomers =  criteria.list();

@@ -2,13 +2,16 @@ package com.rlms.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.ehcache.util.PropertyUtil;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.SmackException;
@@ -30,6 +33,12 @@ import com.telesist.email.MailDTO;
 import com.telesist.xmpp.FCMMessaging;
 
 import javax.annotation.Resource;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 
 @Service("MessagingService")
@@ -187,6 +196,40 @@ public class MessagingServiceImpl implements MessagingService{
 		return this.emailService.decryptToInteger(data);
 	}
 	
+	public String encrypt( String value) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
+        
+		 	String key = "Bar12345Bar12345"; // 128 bit key
+	        String initVector = "RandomInitVector"; // 16 bytes IV
+	        
+            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+
+            byte[] encrypted = cipher.doFinal(value.getBytes());
+            System.out.println("encrypted string: "
+                    + Base64.encodeBase64String(encrypted));
+
+            return Base64.encodeBase64String(encrypted);
+    }
+
+    public String decrypt(String encrypted) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+        
+    		String key = "Bar12345Bar12345"; // 128 bit key
+    		String initVector = "RandomInitVector"; // 16 bytes IV
+         
+            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+
+            byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));
+
+            return new String(original);
+    }
+    
 	public void sendNotification(String regId, String message, Map<String, String> dataPayload, String fcmProjectSenderId, String fcmServerKey, String messageId) throws SmackException, IOException, RunTimeException{
 		FCMMessaging fcmMessaging = new FCMMessaging();
 		try{

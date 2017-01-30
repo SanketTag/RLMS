@@ -204,7 +204,9 @@ public class CompanyServiceImpl implements CompanyService{
 				branchDtlsDto.setNumberOfTechnicians(listOfAllTech.size());
 			}
 			List<LiftDtlsDto> listOfAllLifts = this.getListOfAllLifts(companyBranchMapId);
+			if(null != listOfAllLifts){
 				branchDtlsDto.setListOfAllLifts(listOfAllLifts);
+			}
 			if(null != listOfAllLifts){
 				branchDtlsDto.setNumberOfLifts(listOfAllLifts.size());
 			}

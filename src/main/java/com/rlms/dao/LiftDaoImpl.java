@@ -26,7 +26,8 @@ public class LiftDaoImpl implements LiftDao{
 	public List<RlmsLiftCustomerMap> getAllLiftsForCustomers(List<Integer> listOfCuistomers){		
 			 Session session = this.sessionFactory.getCurrentSession();
 			 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class)
-					 .add(Restrictions.in("branchCustomerMap.customerMaster.customerId", listOfCuistomers))
+					 .createAlias("branchCustomerMap.customerMaster", "custo")
+					 .add(Restrictions.in("custo.customerId", listOfCuistomers))
 					 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 			 List<RlmsLiftCustomerMap> listOfAllLifts = criteria.list();
 			 return listOfAllLifts;

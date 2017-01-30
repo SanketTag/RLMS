@@ -43,10 +43,11 @@
 			var data = {
 				companyId : $scope.selectedCompany.selected.companyId
 			}
+			loadUsersData();
 		    serviceApi.doPostWithData('/RLMS/admin/getAllBranchesForCompany',data)
 		    .then(function(response){
 		    	$scope.branches = response;
-		    	loadUsersData();
+		    	
 		    });
 		}
 		function loadCompanyData(){
@@ -56,11 +57,11 @@
 		    });
 		}
 		function loadUsersData(){
-			var companyId = parseInt($scope.selectedCompany.selected.companyId);
+			var companyId = $scope.selectedCompany.selected.companyId;
 			var data = {
 					companyId : companyId
 				}
-		    serviceApi.doPostWithoutData('/RLMS/admin/getAllUsersForCompany',data)
+		    serviceApi.doPostWithData('/RLMS/admin/getAllUsersForCompany',data)
 		    .then(function(response){
 		    	$scope.users = response;
 		    	console.log(response);
@@ -71,7 +72,7 @@
 //			$scope.assignRole.branchId = $scope.selectedBranch.selected.rlmsBranchMaster.branchId;
 			$scope.assignRole.companyId = $scope.selectedCompany.selected.companyId;
 			$scope.assignRole.spocRoleId = $scope.selectedRole.selected.spocRoleId;
-			$scope.assignRole.userId = 1;
+			$scope.assignRole.userId = $scope.selectedUser.selected.userId;
 			serviceApi.doPostWithData("/RLMS/admin/assignRole",$scope.assignRole)
 			.then(function(response){
 				var key = Object.keys(response);

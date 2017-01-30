@@ -23,12 +23,16 @@ public class LiftServiceImpl implements LiftService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<RlmsLiftCustomerMap> getAllLiftsForBranch(Integer companyBranchMapId){
+		List<RlmsLiftCustomerMap> liftsForBranch = new ArrayList<RlmsLiftCustomerMap>();
 		List<Integer> listOfAllCustmers = new ArrayList<Integer>();
 		List<RlmsBranchCustomerMap> listOfCustomersOfBranch = this.companyService.getAllCustomersOfBranch(companyBranchMapId);
 		for (RlmsBranchCustomerMap rlmsBranchCustomerMap : listOfCustomersOfBranch) {
 			listOfAllCustmers.add(rlmsBranchCustomerMap.getCustomerMaster().getCustomerId());
 		}
-		return this.liftDao.getAllLiftsForCustomers(listOfAllCustmers);
+		if(null != listOfAllCustmers && !listOfAllCustmers.isEmpty()){
+			liftsForBranch =  this.liftDao.getAllLiftsForCustomers(listOfAllCustmers);
+		}
+		return liftsForBranch;
 	}
 	
 }

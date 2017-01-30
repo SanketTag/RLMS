@@ -189,7 +189,7 @@ public class AdminController extends BaseController{
 	        	reponseDto.setResponseMessage(this.companyService.validateAndAddNewBranchInCompany(dto, this.getMetaInfo()));
 	        	
 	        }catch(Exception e){
-	        	logger.error("Method :: registerUser");
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
 	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
 	        }
 	 
@@ -205,7 +205,7 @@ public class AdminController extends BaseController{
 	        	listOfBranches = this.companyService.getListOfBranchDtls(this.getMetaInfo());
 	        	
 	        }catch(Exception e){
-	        	logger.error("Method :: registerUser");
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
 	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
 	        	
 	        }

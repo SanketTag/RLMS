@@ -7318,7 +7318,6 @@ select[multiple].input-lg {
 
 .row-border .form-group:first-child {
   border-top: 0;
-  padding-top: 0;
 }
 
 .input-group-addon input[type=radio],
@@ -12308,6 +12307,7 @@ footer #back-to-top {
   line-height: 34px;
   font-weight: 300;
   font-size: 20px;
+  padding: 10 15px 10px 10px;
 }
 
 #page-heading .options {
@@ -14825,7 +14825,7 @@ body.nooverflow {
 .panel.panel-primary .panel-heading,
 accordion.panel-primary .panel-heading {
   color: #a2acb3;
-  background-color: #fff;
+  background-color: #2685ee;
   border-color: #2685ee;
 }
 
@@ -14833,7 +14833,7 @@ accordion.panel-primary .panel-heading {
 accordion.panel-primary .panel-heading h2,
 .panel.panel-primary .panel-heading .panel-title,
 accordion.panel-primary .panel-heading .panel-title {
-  color: #a2acb3;
+  color: #fff;
 }
 
 .panel.panel-primary .panel-heading .nav-tabs li>a,
