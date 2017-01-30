@@ -24,9 +24,9 @@ public class RlmsCompanyMaster implements Serializable{
 	private String address;
 	private String contactNumber;
 	private String emailId;
-	private Long panNumber;
-	private Long tinNumber;
-	private Long vatNumber;
+	private String panNumber;
+	private String tinNumber;
+	private String vatNumber;
 	private Integer activeFlag;
 	private Integer status;
 	private Date createdDate;
@@ -87,29 +87,29 @@ public class RlmsCompanyMaster implements Serializable{
 	}
 
 	@Column(name = "pan_number", unique = true, nullable = false)
-	public Long getPanNumber() {
+	public String getPanNumber() {
 		return panNumber;
 	}
 
-	public void setPanNumber(Long panNumber) {
+	public void setPanNumber(String panNumber) {
 		this.panNumber = panNumber;
 	}
 
 	@Column(name = "tin_number", unique = true, nullable = false)
-	public Long getTinNumber() {
+	public String getTinNumber() {
 		return tinNumber;
 	}
 
-	public void setTinNumber(Long tinNumber) {
+	public void setTinNumber(String tinNumber) {
 		this.tinNumber = tinNumber;
 	}
 
 	@Column(name = "vat_number", unique = true, nullable = false)
-	public Long getVatNumber() {
+	public String getVatNumber() {
 		return vatNumber;
 	}
 
-	public void setVatNumber(Long vatNumber) {
+	public void setVatNumber(String vatNumber) {
 		this.vatNumber = vatNumber;
 	}
 

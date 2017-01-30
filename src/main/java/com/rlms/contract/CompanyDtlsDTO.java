@@ -7,9 +7,9 @@ public class CompanyDtlsDTO {
 	private String address;
 	private String contactNumber;
 	private String emailId;
-	private Long panNumber;
-	private Long tinNumber;
-	private Long vatNumber;
+	private String panNumber;
+	private String tinNumber;
+	private String vatNumber;
 	
 	
 	
@@ -43,22 +43,22 @@ public class CompanyDtlsDTO {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-	public Long getPanNumber() {
+	public String getPanNumber() {
 		return panNumber;
 	}
-	public void setPanNumber(Long panNumber) {
+	public void setPanNumber(String panNumber) {
 		this.panNumber = panNumber;
 	}
-	public Long getTinNumber() {
+	public String getTinNumber() {
 		return tinNumber;
 	}
-	public void setTinNumber(Long tinNumber) {
+	public void setTinNumber(String tinNumber) {
 		this.tinNumber = tinNumber;
 	}
-	public Long getVatNumber() {
+	public String getVatNumber() {
 		return vatNumber;
 	}
-	public void setVatNumber(Long vatNumber) {
+	public void setVatNumber(String vatNumber) {
 		this.vatNumber = vatNumber;
 	}
 	
