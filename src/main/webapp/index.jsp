@@ -70,7 +70,7 @@
 </head>
 
 <body ng-app="rlmsApp" ng-controller="MainController"
-	class="navbar-primary sidebar-default"
+	class="navbar-primary rlms-app sidebar-inverse"
 	class="{{getLayoutOption('sidebarThemeClass')}} {{getLayoutOption('topNavThemeClass')}}"
 	ng-class="{
 			  'static-header': !getLayoutOption('fixedHeader'),
@@ -145,7 +145,10 @@
 					</div>
 					<!--wrap -->
 				</div>
-				<footer role="contentinfo" ng-show="!layoutLoading" ng-cloak>
+				
+			</div>
+		</div>
+		<footer role="contentinfo" ng-show="!layoutLoading" ng-cloak>
 					<div class="clearfix">
 						<ul class="list-unstyled list-inline pull-left">
 							<li>Telesist &copy; 2017</li>
@@ -156,8 +159,6 @@
 						</button>
 					</div>
 				</footer>
-			</div>
-		</div>
 	</div>
 
 	<!-- 	<div ng-include="'views/layout/infobar.html'" class="infobar-wrapper"></div>
@@ -368,6 +369,7 @@
 	<script src="scripts/app/controllers/addBranchCtrl.js"></script>
 	<script src="scripts/app/controllers/assignRoleCtrl.js"></script>
 	<script src="scripts/app/controllers/addUserCtrl.js"></script>
+	<script src="scripts/app/controllers/companyManagement.js"></script>
 	<script src="scripts/app/services/serviceApi.js"></script>
 	<script src="scripts/app/services/utility.js"></script>
 	<!-- App-->

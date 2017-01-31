@@ -1,5 +1,56 @@
+/*Layout*/
+.rlms-wrapper{
+	background-color:#fff;
+	padding:10px;
+	width:100%;
+	box-sizing:border-box;
+}
+.rlms-container{
+}
+.rlms-heading{
+	color: #fff;
+    text-shadow: 1px 0px 1px #0FACF3;
+    background-image: url(../img/photo3@2x.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 15px 10px;
+    margin: 10px 0;
+    margin-top: 0;
+    margin-right: 3px;
+    font-weight: 500;
+}
+/*color scheme*/
+body.navbar-primary.rlms-app #topnav {
+    background: #0FACF3;
+    
+}
+body.sidebar-default.rlms-app #wrapper .static-sidebar .active>a {
+    background: #0FACF3;
+}
+body.sidebar-default #wrapper.rlms-ap .static-sidebar-wrapper {
+    background: #D6EDFF;
+}
+body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active:hover>a {
+    color: #262d33;
+    background: #fff;
+}
+body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
+    color: #262d33;
+    background: #fff;
+}
+.rlms-app footer{
+    background-color: #0FACF3;
+}
+/*Override default*/
+.rlms-app .company-management .container-fluid{
+    border-radius: 3px;
+    margin: 10px 0;
+}
 .add_company #wrap>.container-fluid {
 	padding-bottom: 0px;
+}
+.rlms-app .rlms-btn.btn{
+	background-color: #0FACF3;
 }
 .add_company .form-horizontal .form-group, 
 .add_banch .form-horizontal .form-group,
@@ -33,4 +84,7 @@
 }
 .alert {
 
+}
+.align-right{
+	text-align:right;
 }

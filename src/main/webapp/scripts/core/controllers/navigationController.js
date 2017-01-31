@@ -3,11 +3,15 @@ angular
   .controller('NavigationController', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
     'use strict';
     $scope.menu = [ {
+        label: 'Dashboard',
+        iconClasses: 'glyphicon glyphicon-home',
+        url: '#/company-management'
+      },{
       label: 'Admin',
       iconClasses: 'glyphicon glyphicon-user glyphicons-user-add',
       children: [{
         label: 'Company Management',
-        url: '#/add-company'
+        url: '#/company-management'
       },
       {
           label: 'Branch Management',

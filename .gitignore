@@ -35,5 +35,14 @@ src/main/webapp/WEB-INF/jdbc.properties
 src/main/webapp/WEB-INF/jdbc.properties
 
 src/main/webapp/WEB-INF/hibernate.cfg.xml
+<<<<<<< Updated upstream
 src/main/webapp/scripts/app/controllers/assignRoleCtrl.js
 src/main/webapp/scripts/app/controllers/assignRoleCtrl.js
+=======
+
+src/main/webapp/WEB-INF/hibernate.cfg.xml
+
+src/main/webapp/WEB-INF/hibernate.cfg.xml
+
+src/main/webapp/WEB-INF/jdbc.properties
+>>>>>>> Stashed changes
