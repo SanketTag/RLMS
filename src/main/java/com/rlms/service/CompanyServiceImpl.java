@@ -71,7 +71,7 @@ public class CompanyServiceImpl implements CompanyService{
 		if(null != companyDtlsDTO.getEmailId() && !companyDtlsDTO.getEmailId().isEmpty()){
 			RlmsCompanyMaster companyMaster = this.getCompanyByEmailID(companyDtlsDTO.getEmailId());	
 			if(null != companyMaster){
-				errorMessage = "Given EmailId is already registered with us. Kindly use different email id or kindly contact with administrator.";
+				throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(),PropertyUtils.getPrpertyFromContext(RlmsErrorType.USER_ALREADY_REGISTERED.getMessage()));
 			}
 		}else{
 			//errorMessage = "Please provide emailID";
@@ -245,7 +245,8 @@ public class CompanyServiceImpl implements CompanyService{
 		return listOfUserDtls;
 	}
 	
-	private List<Integer> getListOfApplicableBranch(Integer userRoleId, UserMetaInfo metaInfo){
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<Integer> getListOfApplicableBranch(Integer userRoleId, UserMetaInfo metaInfo){
 		List<Integer> listOfAllApplicableCompanies = new ArrayList<Integer>();
 		List<Integer> listOfApplicableBranch = new ArrayList<Integer>();
 		if(SpocRoleConstants.ROLE_LEVEL_ONE.getSpocRoleId().equals(metaInfo.getUserRole().getRlmsSpocRoleMaster().getRoleLevel()) || SpocRoleConstants.ROLE_LEVEL_TWO.getSpocRoleId().equals(metaInfo.getUserRole().getRlmsSpocRoleMaster().getRoleLevel())){

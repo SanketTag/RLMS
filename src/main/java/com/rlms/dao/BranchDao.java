@@ -17,4 +17,5 @@ public interface BranchDao {
 	public List<RlmsBranchCustomerMap> getAllCustomersOfBranch(Integer commpBranchMapId);
 	public List<RlmsCompanyBranchMapDtls> getAllBranchesForCopanies(List<Integer> ListOfCompanyIds);
 	public RlmsCompanyBranchMapDtls getCompanyBranchMapDtls(Integer compBranchMapId);
+	public Integer saveBranchCustomerMapDtls(RlmsBranchCustomerMap branchCustomerMap);
 }

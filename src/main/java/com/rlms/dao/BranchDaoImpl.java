@@ -78,6 +78,10 @@ public class BranchDaoImpl implements BranchDao{
 		return (Integer) this.sessionFactory.getCurrentSession().save(companyBranchMapDtls);
 	}
 	
+	public Integer saveBranchCustomerMapDtls(RlmsBranchCustomerMap branchCustomerMap){
+		return (Integer) this.sessionFactory.getCurrentSession().save(branchCustomerMap);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<RlmsBranchCustomerMap> getAllCustomersOfBranch(Integer commpBranchMapId){
 		 Session session = this.sessionFactory.getCurrentSession();

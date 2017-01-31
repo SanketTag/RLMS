@@ -49,15 +49,18 @@ public class AdminController extends BaseController{
 	private static final Logger logger = Logger.getLogger(AdminController.class);
 	
 	 @RequestMapping(value = "/addNewCompany", method = RequestMethod.POST)
-	    public @ResponseBody ResponseDto addNewCompany(@RequestBody CompanyDtlsDTO companyDtlsDTO) throws RunTimeException {
+	    public @ResponseBody ResponseDto addNewCompany(@RequestBody CompanyDtlsDTO companyDtlsDTO) throws RunTimeException, ValidationException {
 	        System.out.println("Adding n ew Company");
 	        ResponseDto reponseDto = new ResponseDto();
 	        try{
 	        	logger.info("In addNewCompany method");
 	        	reponseDto.setResponseMessage(this.companyService.validateAndSaveCompanyObj(companyDtlsDTO, this.getMetaInfo()));
 	        	
+	        }catch(ValidationException vex){
+	        	logger.error(ExceptionUtils.getFullStackTrace(vex));	        	
+	        	throw vex;
 	        }catch(Exception e){
-	        	logger.error("In addNewCompany method");	        	
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));	       	
 	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
 	        }
 	 
@@ -170,7 +173,7 @@ public class AdminController extends BaseController{
 		 ResponseDto reponseDto = new ResponseDto();
 	        
 	        try{
-	        	logger.info("Method :: registerUser");
+	        	logger.info("Method :: validateAndRegisterNewUser");
 	        	reponseDto.setResponseMessage(this.userService.validateAndRegisterNewUser(dto, this.getMetaInfo()));
 	        	
 	        }catch(ValidationException vex){
@@ -212,7 +215,7 @@ public class AdminController extends BaseController{
 		 ResponseDto reponseDto = new ResponseDto();
 	        
 	        try{
-	        	logger.info("Method :: registerUser");
+	        	logger.info("Method :: addNewBranchInCompany");
 	        	reponseDto.setResponseMessage(this.companyService.validateAndAddNewBranchInCompany(dto, this.getMetaInfo()));
 	        	
 	        }catch(Exception e){
@@ -228,7 +231,7 @@ public class AdminController extends BaseController{
 		 List<BranchDtlsDto> listOfBranches = null;
 	        
 	        try{
-	        	logger.info("Method :: registerUser");
+	        	logger.info("Method :: getListOfBranchDtls");
 	        	listOfBranches = this.companyService.getListOfBranchDtls(this.getMetaInfo());
 	        	
 	        }catch(Exception e){
@@ -239,4 +242,23 @@ public class AdminController extends BaseController{
 	 
 	        return listOfBranches;
 	 }
+	 
+	 @RequestMapping(value = "/getListOfCustomerDtls", method = RequestMethod.POST)
+	 public @ResponseBody List<CustomerDtlsDto> getListOfCustomerDtls(@RequestBody CustomerDtlsDto customerDtlsDto) throws RunTimeException {
+		 List<CustomerDtlsDto> listOfCustomers = null;
+	        
+	        try{
+	        	logger.info("Method :: getListOfCustomerDtls");
+	        	listOfCustomers = this.customerService.getAllApplicableCustomers(customerDtlsDto, this.getMetaInfo());
+	        	
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        	
+	        }
+	 
+	        return listOfCustomers;
+	 }
+	 
+	
 }
