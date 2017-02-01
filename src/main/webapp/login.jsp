@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="css/styles.css">
 
 	</head>
-	<body>
+	<body class="login">
 		<div id="wrapper" class="focusedform">
 			<div class="static-content-wrapper">
 				<div class="static-content">

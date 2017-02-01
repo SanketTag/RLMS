@@ -44,7 +44,6 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 /*Override default*/
 .rlms-app .company-management .container-fluid{
     border-radius: 3px;
-    margin: 10px 0;
 }
 .add_company #wrap>.container-fluid {
 	padding-bottom: 0px;

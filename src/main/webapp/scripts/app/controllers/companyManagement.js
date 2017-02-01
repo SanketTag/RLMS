@@ -2,7 +2,10 @@
     'use strict';
 	angular.module('rlmsApp')
 	.controller('companyManagement', ['$scope', '$filter','serviceApi','$route','$http','utility', function($scope, $filter,serviceApi,$route,$http,utility) {
-		//-------Branch Details Table---------
+		$scope.goToAddCompany =function(){
+			window.location.pathname = "RLMS/add-company"
+		}
+		//-------Company Details Table---------
 	    $scope.filterOptions = {
 	  	      filterText: '',
 	  	      useExternalFilter: true
@@ -26,35 +29,65 @@
 	  	        var data;
 	  	        if (searchText) {
 	  	          var ft = searchText.toLowerCase();
-	  	          $http.post('/RLMS/admin/getListOfBranchDtls').success(function(largeLoad) {
-	  	        	  var branchDetails=[];
-	  	        	  var brachDetailsObj={};
+	  	          $http.post('/RLMS/admin/getAllApplicableCompanies').success(function(largeLoad) {
+	  	        	  var companyDetails=[];
+	  	        	  var companyDetailsObj={};
 	  	        	  for(var i=0;i<largeLoad.length;i++){
-	  	        		brachDetailsObj["Branch Name"] =largeLoad[i].branchName;
-	  	        		brachDetailsObj["Branch Address"] =largeLoad[i].branchAddress;
-	  	        		brachDetailsObj["Company Name"] =largeLoad[i].companyName;
-	  	        		brachDetailsObj["Number Of Technicians"] =largeLoad[i].numberOfTechnicians;
-	  	        		brachDetailsObj["Number Of Lifts"] =largeLoad[i].numberOfLifts;
-	  	        		branchDetails[i].push(brachDetailsObj);
+	  	        		if(!!largeLoad[i].companyName){
+	  	        			companyDetailsObj["Company_Name"] =largeLoad[i].companyName;
+	  	        		}else{
+	  	        			companyDetailsObj["Company_Name"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].companyName){
+	  	        			companyDetailsObj["Contact_Number"] =largeLoad[i].contactNumber;
+	  	        		}else{
+	  	        			companyDetailsObj["Contact_Number"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].companyName){
+	  	        			companyDetailsObj["Address"] =largeLoad[i].address;
+	  	        		}else{
+	  	        			companyDetailsObj["Address"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].companyName){
+	  	        			companyDetailsObj["Email_Id"] =largeLoad[i].emailId;
+	  	        		}else{
+	  	        			companyDetailsObj["Email_Id"] =" - ";
+	  	        		}
+	  	        		companyDetails.push(companyDetailsObj);
 	  	        	  }
-	  	            data = branchDetails.filter(function(item) {
+	  	            data = companyDetails.filter(function(item) {
 	  	              return JSON.stringify(item).toLowerCase().indexOf(ft) !== -1;
 	  	            });
 	  	            $scope.setPagingData(data, page, pageSize);
 	  	          });
 	  	        } else {
-	  	          $http.post('/RLMS/admin/getListOfBranchDtls').success(function(largeLoad) {
-	  	        	var branchDetails=[];
-	  	        	  var brachDetailsObj={};
+	  	          $http.post('/RLMS/admin/getAllApplicableCompanies').success(function(largeLoad) {
+	  	        	  var companyDetails=[];
+	  	        	  var companyDetailsObj={};
 	  	        	  for(var i=0;i<largeLoad.length;i++){
-	  	        		brachDetailsObj["Branch_Name"] =largeLoad[i].branchName;
-	  	        		brachDetailsObj["Branch_Address"] =largeLoad[i].branchAddress;
-	  	        		brachDetailsObj["Company_Name"] =largeLoad[i].companyName;
-	  	        		brachDetailsObj["Number_Of_Technicians"] =largeLoad[i].numberOfTechnicians;
-	  	        		brachDetailsObj["Number_Of_Lifts"] =largeLoad[i].numberOfLifts;
-	  	        		branchDetails.push(brachDetailsObj);
+	  	        		if(!!largeLoad[i].companyName){
+	  	        			companyDetailsObj["Company_Name"] =largeLoad[i].companyName;
+	  	        		}else{
+	  	        			companyDetailsObj["Company_Name"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].companyName){
+	  	        			companyDetailsObj["Address"] =largeLoad[i].address;
+	  	        		}else{
+	  	        			companyDetailsObj["Address"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].companyName){
+	  	        			companyDetailsObj["Contact_Number"] =largeLoad[i].contactNumber;
+	  	        		}else{
+	  	        			companyDetailsObj["Contact_Number"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].companyName){
+	  	        			companyDetailsObj["Email_Id"] =largeLoad[i].emailId;
+	  	        		}else{
+	  	        			companyDetailsObj["Email_Id"] =" - ";
+	  	        		}
+	  	        		companyDetails.push(companyDetailsObj);
 	  	        	  }
-	  	            $scope.setPagingData(branchDetails, page, pageSize);
+	  	            $scope.setPagingData(companyDetails, page, pageSize);
 	  	          });
 	  	          
 	  	        }
