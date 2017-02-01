@@ -115,6 +115,22 @@ public class AdminController extends BaseController{
 	 
 	        return listOfApplicableCompanies;
 	    }
+	 //Thgis function will return details of each company to show on company page table
+	 @RequestMapping(value = "/getAllCompanyDetails", method = RequestMethod.POST)
+	    public @ResponseBody List<CompanyDtlsDTO> getAllCompanyDetails() throws RunTimeException {
+	        List<CompanyDtlsDTO> listOfApplicableCompaniesDetails = null;
+	        
+	        try{
+	        	logger.info("Method :: getAllCompanyDetails");
+	        	listOfApplicableCompaniesDetails =  this.companyService.getAllCompanyDetails(this.getMetaInfo());
+	        	
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return listOfApplicableCompaniesDetails;
+	    }
 	 
 	 @RequestMapping(value = "/assignRole", method = RequestMethod.POST)
 	    public @ResponseBody ResponseDto assignRole(@RequestBody UserRoleDtlsDTO userRoleDtlsDTO) throws RunTimeException, ValidationException {

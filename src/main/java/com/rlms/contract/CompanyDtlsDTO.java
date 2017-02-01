@@ -1,5 +1,7 @@
 package com.rlms.contract;
 
+import java.util.List;
+
 public class CompanyDtlsDTO {
 
 	private Integer companyId;
@@ -10,6 +12,13 @@ public class CompanyDtlsDTO {
 	private String panNumber;
 	private String tinNumber;
 	private String vatNumber;
+	private List<BranchDtlsDto> listOfBranches;
+	private Integer numberOfBranches;
+	private List<UserDtlsDto> listOfTechnicians;
+	private Integer numberOfTech;
+	private Integer numberOfLifts;
+	private List<LiftDtlsDto> listOfAllLifts;
+	
 	
 	
 	
@@ -61,6 +70,43 @@ public class CompanyDtlsDTO {
 	public void setVatNumber(String vatNumber) {
 		this.vatNumber = vatNumber;
 	}
+	public List<BranchDtlsDto> getListOfBranches() {
+		return listOfBranches;
+	}
+	public void setListOfBranches(List<BranchDtlsDto> listOfBranches) {
+		this.listOfBranches = listOfBranches;
+	}
+	public List<UserDtlsDto> getListOfTechnicians() {
+		return listOfTechnicians;
+	}
+	public void setListOfTechnicians(List<UserDtlsDto> listOfTechnicians) {
+		this.listOfTechnicians = listOfTechnicians;
+	}
+	public Integer getNumberOfBranches() {
+		return numberOfBranches;
+	}
+	public void setNumberOfBranches(Integer numberOfBranches) {
+		this.numberOfBranches = numberOfBranches;
+	}
+	public Integer getNumberOfTech() {
+		return numberOfTech;
+	}
+	public void setNumberOfTech(Integer numberOfTech) {
+		this.numberOfTech = numberOfTech;
+	}
+	public Integer getNumberOfLifts() {
+		return numberOfLifts;
+	}
+	public void setNumberOfLifts(Integer numberOfLifts) {
+		this.numberOfLifts = numberOfLifts;
+	}
+	public List<LiftDtlsDto> getListOfAllLifts() {
+		return listOfAllLifts;
+	}
+	public void setListOfAllLifts(List<LiftDtlsDto> listOfAllLifts) {
+		this.listOfAllLifts = listOfAllLifts;
+	}
+	
 	
 	
 }

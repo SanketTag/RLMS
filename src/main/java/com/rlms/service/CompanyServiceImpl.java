@@ -121,6 +121,78 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
+	public List<CompanyDtlsDTO> getAllCompanyDetails(UserMetaInfo metaInfo){
+		List<CompanyDtlsDTO> listOfCompanyDtos = new ArrayList<CompanyDtlsDTO>();
+		
+		List<RlmsCompanyMaster> listOfCompanies = this.getAllCompanies(metaInfo);
+		
+		//Iterate over applicable companies to get details of each company
+		for (RlmsCompanyMaster rlmsCompanyMaster : listOfCompanies) {
+			CompanyDtlsDTO companyDto = new CompanyDtlsDTO();
+			List<Integer> listOFCompanyIds = new ArrayList<Integer>();
+			listOFCompanyIds.add(rlmsCompanyMaster.getCompanyId());
+			List<UserDtlsDto> listOfAllTechniciansOfCompany = new ArrayList<UserDtlsDto>();
+			List<LiftDtlsDto> listOfAllLiftsUnderCompany = new ArrayList<LiftDtlsDto>();
+			
+			//Set company Details
+			companyDto.setCompanyName(rlmsCompanyMaster.getCompanyName());
+			companyDto.setContactNumber(rlmsCompanyMaster.getContactNumber());
+			companyDto.setAddress(rlmsCompanyMaster.getAddress());
+			companyDto.setEmailId(rlmsCompanyMaster.getEmailId());
+			
+			//Get All branches for company
+			List<BranchDtlsDto> listOfDtos = new ArrayList<BranchDtlsDto>();
+			List<RlmsCompanyBranchMapDtls> listOfAllBranches = this.branchDao.getAllBranchesForCopanies(listOFCompanyIds);
+			for (RlmsCompanyBranchMapDtls rlmsCompanyBranchMapDtls : listOfAllBranches) {
+				BranchDtlsDto dto = new BranchDtlsDto();
+				dto.setBranchName(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchName());
+				dto.setBranchAddress(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchAddress());
+				dto.setCompanyName(rlmsCompanyBranchMapDtls.getRlmsCompanyMaster().getCompanyName());
+				List<UserDtlsDto> listOfAllTech = this.getListOFAllTEchnicians(rlmsCompanyBranchMapDtls.getCompanyBranchMapId());
+				dto.setListOfAllTechnicians(listOfAllTech);
+				if(null != listOfAllTech && !listOfAllTech.isEmpty()){
+					dto.setNumberOfTechnicians(listOfAllTech.size());
+				}
+				List<LiftDtlsDto> listOfAllLifts = this.getListOfAllLifts(rlmsCompanyBranchMapDtls.getCompanyBranchMapId());
+				if(null != listOfAllLifts){
+					dto.setListOfAllLifts(listOfAllLifts);
+				}
+				if(null != listOfAllLifts){
+					dto.setNumberOfLifts(listOfAllLifts.size());
+				}
+				listOfDtos.add(dto);
+				//List Of technicians under single branch of company
+				listOfAllTechniciansOfCompany.addAll(listOfAllTech);
+				
+				//List of lifts under single branch of company
+				listOfAllLiftsUnderCompany.addAll(listOfAllLifts);
+			}
+			
+			//List of all branches of company
+			companyDto.setListOfBranches(listOfDtos);
+			if(null != listOfDtos && !listOfDtos.isEmpty()){
+				companyDto.setNumberOfBranches(listOfDtos.size());
+			}
+			
+			//List of all technicians of company
+			companyDto.setListOfTechnicians(listOfAllTechniciansOfCompany);
+			if(null != listOfAllTechniciansOfCompany && !listOfAllTechniciansOfCompany.isEmpty()){
+				companyDto.setNumberOfTech(listOfAllTechniciansOfCompany.size());
+			}
+			
+			//List of all lifts of company
+			companyDto.setListOfAllLifts(listOfAllLiftsUnderCompany);
+			if(null != listOfAllLiftsUnderCompany && !listOfAllLiftsUnderCompany.isEmpty()){
+				companyDto.setNumberOfLifts(listOfAllLiftsUnderCompany.size());
+			}
+		  listOfCompanyDtos.add(companyDto);
+		}
+		
+		return listOfCompanyDtos;
+		
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
 	public RlmsCompanyMaster getCompanyById(Integer companyId){
 		return this.companyDao.getCompanyById(companyId);
 	}

@@ -32,4 +32,6 @@ public interface CompanyService {
 	//public RlmsCompanyRoleMap getCompanyRole(Integer companyId, Integer spocRoleId);
 	
 	public List<Integer> getListOfApplicableBranch(Integer userRoleId, UserMetaInfo metaInfo);
+	
+	public List<CompanyDtlsDTO> getAllCompanyDetails(UserMetaInfo metaInfo);
 }
