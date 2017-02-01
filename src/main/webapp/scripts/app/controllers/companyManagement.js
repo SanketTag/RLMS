@@ -29,7 +29,7 @@
 	  	        var data;
 	  	        if (searchText) {
 	  	          var ft = searchText.toLowerCase();
-	  	          $http.post('/RLMS/admin/getAllApplicableCompanies').success(function(largeLoad) {
+	  	          $http.post('/RLMS/admin/getAllCompanyDetails').success(function(largeLoad) {
 	  	        	  var companyDetails=[];
 	  	        	  var companyDetailsObj={};
 	  	        	  for(var i=0;i<largeLoad.length;i++){
@@ -61,7 +61,7 @@
 	  	            $scope.setPagingData(data, page, pageSize);
 	  	          });
 	  	        } else {
-	  	          $http.post('/RLMS/admin/getAllApplicableCompanies').success(function(largeLoad) {
+	  	          $http.post('/RLMS/admin/getAllCompanyDetails').success(function(largeLoad) {
 	  	        	  var companyDetails=[];
 	  	        	  var companyDetailsObj={};
 	  	        	  for(var i=0;i<largeLoad.length;i++){
