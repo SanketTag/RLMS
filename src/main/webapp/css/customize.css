@@ -13,7 +13,7 @@
     background-image: url(../img/photo3@2x.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    padding: 15px 10px;
+    padding: 10px;
     margin: 10px 0;
     margin-top: 0;
     margin-right: 3px;
@@ -50,6 +50,8 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 }
 .rlms-app .rlms-btn.btn{
 	background-color: #0FACF3;
+	font-weight: bold;
+    font-size: 14px;
 }
 .add_company .form-horizontal .form-group, 
 .add_banch .form-horizontal .form-group,
@@ -86,4 +88,103 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 }
 .align-right{
 	text-align:right;
+}
+
+.rlms-app .ngFooterPanel {
+    background-color: #757575;
+    color: #fff;
+}
+.rlms-app .ngHeaderText{
+	text-align: center;
+    font-size: 14px;
+}
+.rlms-app .ngCellText{
+	text-align:center;
+}
+.rlms-app .ngHeaderContainer {
+    background-color: #757575;
+    color: #fff;
+}
+.rlms-app #sidebar {
+    font-weight: 500;
+    font-size: 14px;
+}
+.rlms-app .btn{
+    min-width: 110px;
+}
+.rlms-app .btn.btn-primary {
+    background:#0FACF3;
+}
+.rlms-info span.fa.fa-info-circle {
+    padding: 0 10px;
+    color: #0FACF3;
+}
+.rlms-app .btn-toolbar{
+	text-align:right;
+}
+/*add Company*/
+.add_company .container-fluid {
+    margin-left: 2px;
+    margin-right: 2px;
+    border: 1px solid gray;
+    padding: 0px;
+}
+.red{
+	color:red;
+}
+.font-12{
+	 font-size: 12px;
+}
+
+.rlms-app #ios-arrow-left {
+    cursor:pointer;
+    display : block; 
+    position:absolute;
+    z-index : 0;
+    left:50px;
+    height: 36px;
+    width:auto;
+    padding: 0 10px 0 6px;
+    background-repeat:repeat-x;
+    background-size : 100% 30px;
+    background-position :0;
+    background-image : -webkit-linear-gradient(
+        bottom,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0) 50%,
+        rgba(255,255,255,0.1) 50%,
+        rgba(255,255,255,0.3) 100%
+        );
+    border-radius: 5px;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    box-shadow :0 -1px 1px rgba(0,0,0,0.2)inset,
+                0 1px 2px rgba(0,0,0,0.8)inset;
+    font-family : HelveticaNeue;
+    font-weight: 400;
+    font-size : 12px;
+    line-height : 30px;
+    text-align:center;
+    color:#fff;
+    text-shadow : 0px -1px 0px rgba(0,0,0,0.8);
+    background: #757575;
+    font-weight: bold;
+}
+.rlms-app #ios-arrow-left:before{
+	background-color:#757575;
+    position:absolute;
+    content : ' ';
+    left:-11px;
+    top:3.5px;
+    height : 24px;
+    width: 24px;
+    z-index : 1;
+   
+    -webkit-transform : rotate(-45deg) skew(-10deg, -10deg);
+   
+    -webkit-mask-image : 
+        -webkit-gradient(linear, left top, right bottom,
+            from(#000000), 
+            color-stop(0.4,#000000), 
+            color-stop(0.5, transparent), 
+            to(transparent));
 }

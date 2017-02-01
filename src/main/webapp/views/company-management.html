@@ -1,21 +1,21 @@
 <div class="rlms-wrapper">
-<div class="rlms-container company-management">
+<div class="rlms-container company-management" ng-controller="companyManagement">
 	<h1 class="rlms-heading">Company Management</h1>
 	<div class="row">
 		<div class="col-lg-12 align-right">
-			<button class="btn-primary btn rlms-btn" ng-click="goToAddCompany()">Add Company</button>
+			<button class="btn-primary btn rlms-btn" ng-click="goToAddCompany();">Add Company</button>
 		</div>	
 	</div>
 		
-	<div class="container-fluid" ng-controller="companyManagement">
-	<h4 class="rlms-info">Following is the list of registered companies</h4>
+	<div class="container-fluid" >
+	<h5 class="rlms-info"><span class="fa fa-info-circle"></span>Following is the list of registered companies</h5>
 		<div class="row">
 	      <div class="col-md-12">		
                <div class="input-icon right mb10">
                    <i class="fa fa-search"></i>
                    <input type="text" ng-model="filterOptions.filterText" class="form-control" placeholder="Search Filter">
                </div>
-               <div class ="data-table" style="height: 200px;" ng-grid="gridOptions"></div>
+               <div class ="data-table" style="min-height:200px;max-height:300px" ng-grid="gridOptions"></div>
 	        </div>
 	    </div>
 	</div>

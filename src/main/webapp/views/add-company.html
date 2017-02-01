@@ -1,43 +1,27 @@
-<div class="add_company">
-	<div id="page-heading">
-		<h1>Company Management</h1>
-		<!-- <div class="options">
-			<div class="btn-toolbar">
-				<div class="btn-group" dropdown>
-					<button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle>
-						Export as <span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" role="menu">
-					  <li><a href="#">Action</a></li>
-					  <li><a href="#">Another action</a></li>
-					  <li><a href="#">Something else here</a></li>
-					  <li class="divider"></li>
-					  <li><a href="#">Separated link</a></li>
-					</ul>
-				</div>
-				<a href="#" class="btn btn-default hidden-xs"><i class="glyphicon glyphicon-cog"></i></a>
-			</div>
-		</div> -->
-	</div>
-	<div class="container-fluid" ng-controller="addCompanyCtrl as ctrl">
-		<panel panel-class="panel-primary" data-heading="Add Company">
-			<panel-controls>
-				<panel-control-collapse></panel-control-collapse>
-			</panel-controls>
+<div class="rlms-wrapper">
+<div class="rlms-container add_company" ng-controller="companyManagement">
+	<h1 class="rlms-heading">Add Company</h1>
+<!-- 	<div class="row">
+		<div class="col-lg-12 align-right">
+			<button class="btn-primary btn rlms-btn" ng-click="goToAddCompany();">Add Company</button>
+		</div>	
+	</div> -->
+		
+	<div class="container-fluid" >
 		<!--<alert ng-show="showAlert" type="{{alert.type}}"><span ng-bind-html="alert.msg | safe_html"></alert>-->
 		<form action="" class="form-horizontal row-border" name="ctrl.addCompanyForm">
-			<div class="form-group"><label class="col-sm-3 control-label">Company Name : </label>
+			<div class="form-group"><label class="col-sm-3 control-label">Company Name <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
-					<input name="companyName" type="text" placeholder="Required Field" required ng-model="addCompany.companyName" class="form-control">
+					<input name="companyName" type="text" placeholder="Company Name" required ng-model="addCompany.companyName" class="form-control">
 					<span class="help-block"
 						ng-show="addCompanyForm.companyName.$error.required && addCompanyForm.companyName.$dirty">This
 						field is required</span>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Address : </label>
+				<label class="col-sm-3 control-label">Address <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
-					<input name="address" type="text" placeholder="Required Field"
+					<input name="address" type="text" placeholder="Address"
 						required ng-model="addCompany.address" class="form-control">
 					<span class="help-block"
 						ng-show="addCompanyForm.address.$error.required && addCompanyForm.address.$dirty">This
@@ -45,10 +29,10 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Contact Number : </label>
+				<label class="col-sm-3 control-label">Contact Number <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
-					<input name="contactNumber" type="number"
-						placeholder="Required Field" required
+					<input name="contactNumber" type="text"
+						placeholder="Contact Number" required
 						ng-model="addCompany.contactNumber" class="form-control">
 					<span class="help-block"
 						ng-show="addCompanyForm.contactNumber.$error.required && addCompanyForm.contactNumber.$dirty">This
@@ -56,9 +40,9 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Email : </label>
+				<label class="col-sm-3 control-label">Email <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
-					<input name="emailId" type="email" placeholder="Required Field"
+					<input name="emailId" type="email" placeholder="Email Address"
 						required ng-model="addCompany.emailId" class="form-control">
 					<span class="help-block"
 						ng-show="addCompanyForm.emailId.$error.required && addCompanyForm.emailId.$dirty">This
@@ -66,9 +50,9 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Pan Number : </label>
+				<label class="col-sm-3 control-label">PAN Number <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
-					<input name="panNumber" type="text" placeholder="Required Field"
+					<input name="panNumber" type="text" placeholder="PAN Number"
 						required ng-model="addCompany.panNumber" class="form-control">
 					<span class="help-block"
 						ng-show="addCompanyForm.panNumber.$error.required && addCompanyForm.panNumber.$dirty">This
@@ -76,9 +60,9 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Tin Number : </label>
+				<label class="col-sm-3 control-label">TIN Number <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
-					<input name="tinNumber" type="text" placeholder="Required Field"
+					<input name="tinNumber" type="text" placeholder="TIN Number"
 						required ng-model="addCompany.tinNumber" class="form-control">
 					<span class="help-block"
 						ng-show="addCompanyForm.tinNumber.$error.required && addCompanyForm.tinNumber.$dirty">This
@@ -86,19 +70,21 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Vat Number : </label>
+				<label class="col-sm-3 control-label">VAT Number <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
-					<input name="Vat Number" type="text" placeholder="Required Field"
+					<input name="Vat Number" type="text" placeholder="VAT Number"
 						required ng-model="addCompany.vatNumber" class="form-control">
 					<span class="help-block"
 						ng-show="addCompanyForm.vatNumber.$error.required && addCompanyForm.vatNumber.$dirty">This
 						field is required</span>
 				</div>
 			</div>
-		</form>
-		<div class="panel-footer">
+			<div class="panel-footer">
 			<div class="row">
-				<div class="col-sm-6 col-sm-offset-3">
+				<div class="co-lg-3 col-md-3">
+					<button id="ios-arrow-left" class="" ng-click="backPage()">Back</button>
+				</div>
+				<div class="col-sm-6 ">
 					<div class="btn-toolbar">
 						<button class="btn-primary btn" ng-disabled="addCompanyForm.$invalid && addCompanyForm.$pristine" ng-click="submitAddCompany()">Submit</button>
 						<button class="btn-default btn" ng-click="resetAddCompany();">Reset</button>
@@ -106,5 +92,9 @@
 				</div>
 			</div>
 		</div>
-	</panel>
+		</form>
+		
+	</panel> 	
+	</div>
+</div>
 </div>
