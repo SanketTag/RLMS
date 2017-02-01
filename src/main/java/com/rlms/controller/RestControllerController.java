@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rlms.constants.Status;
 import com.rlms.contract.ComplaintsDto;
+import com.rlms.contract.LoginDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.service.ComplaintsService;
 import com.rlms.service.MessagingServiceImpl;
@@ -58,9 +60,9 @@ public class RestControllerController  extends BaseController {
 	   
     
     @RequestMapping("/loginIntoApp")
-    public @ResponseBody UserMetaInfo loginIntoApp(@RequestBody String username,@RequestBody String password, HttpServletRequest request, HttpServletResponse response) {
+    public @ResponseBody UserMetaInfo loginIntoApp(@RequestBody LoginDtlsDto loginDtlsDto, HttpServletRequest request, HttpServletResponse response) {
     
-    	 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+    	 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDtlsDto.getUserName(), loginDtlsDto.getPassword());
 
     	 UserMetaInfo userMetaInfo = null;
          // generate session if one doesn't exist

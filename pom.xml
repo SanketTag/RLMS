@@ -524,6 +524,12 @@ https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling
 		     <version>0.0.2</version>
 		</dependency>
 
+<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-core -->
+<dependency>
+    <groupId>com.sun.jersey</groupId>
+    <artifactId>jersey-core</artifactId>
+    <version>1.18</version>
+</dependency>
 
 
 
