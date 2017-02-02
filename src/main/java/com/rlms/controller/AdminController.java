@@ -19,6 +19,7 @@ import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.RegisterDto;
 import com.rlms.contract.ResponseDto;
+import com.rlms.contract.UserDtlsDto;
 import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
@@ -84,8 +85,8 @@ public class AdminController extends BaseController{
 	 }
 	 
 	 @RequestMapping(value = "/getAllUsersForCompany", method = RequestMethod.POST)
-	    public @ResponseBody List<RlmsUsersMaster> getAllUsersForCompany(@RequestBody CompanyDtlsDTO companyDtlsDTO) throws RunTimeException {
-	        List<RlmsUsersMaster> listOfAllUsers = null;
+	    public @ResponseBody List<UserDtlsDto> getAllUsersForCompany(@RequestBody CompanyDtlsDTO companyDtlsDTO) throws RunTimeException {
+	        List<UserDtlsDto> listOfAllUsers = null;
 	        
 	        try{
 	        	logger.info("Method :: getAllUsersForCompany");

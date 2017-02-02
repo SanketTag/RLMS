@@ -13,7 +13,7 @@ public interface BranchDao {
 	
 	public Integer saveCompanyBranchMapDtls(RlmsCompanyBranchMapDtls companyBranchMapDtls);
 	
-	public RlmsBranchMaster getBranchByBranchName(String branchName);
+	public RlmsCompanyBranchMapDtls getBranchByBranchName(String branchName, Integer companyId);
 	public List<RlmsBranchCustomerMap> getAllCustomersOfBranch(Integer commpBranchMapId);
 	public List<RlmsCompanyBranchMapDtls> getAllBranchesForCopanies(List<Integer> ListOfCompanyIds);
 	public RlmsCompanyBranchMapDtls getCompanyBranchMapDtls(Integer compBranchMapId);

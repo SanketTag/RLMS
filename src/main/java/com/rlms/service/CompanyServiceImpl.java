@@ -209,9 +209,9 @@ public class CompanyServiceImpl implements CompanyService{
 	 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public String validateAndAddNewBranchInCompany(BranchDtlsDto dto,UserMetaInfo userMetaInfo) throws ValidationException{
-		RlmsBranchMaster branchM = this.branchDao.getBranchByBranchName(dto.getBranchName());
+		RlmsCompanyBranchMapDtls companyBranchMapDtls = this.branchDao.getBranchByBranchName(dto.getBranchName(), dto.getCompanyId());
 		String statusMessage = "";
-		if(null == branchM){
+		if(null == companyBranchMapDtls){
 		
 		RlmsBranchMaster branchMaster = this.constructBranchMaster(dto, userMetaInfo);
 		
@@ -219,9 +219,9 @@ public class CompanyServiceImpl implements CompanyService{
 		
 		branchMaster.setBranchId(branchId);
 		
-		RlmsCompanyBranchMapDtls companyBranchMapDtls = this.constructCompBranchMap(dto, branchMaster, userMetaInfo);
+		RlmsCompanyBranchMapDtls newCompanyBranchMapDtls = this.constructCompBranchMap(dto, branchMaster, userMetaInfo);
 		
-		this.branchDao.saveCompanyBranchMapDtls(companyBranchMapDtls);
+		this.branchDao.saveCompanyBranchMapDtls(newCompanyBranchMapDtls);
 		
 		statusMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.BRANCH_CREATION_SUCCESSFUL.getMessage());
 		}else{

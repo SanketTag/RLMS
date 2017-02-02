@@ -60,13 +60,16 @@ public class BranchDaoImpl implements BranchDao{
 		
 	}
 	
-	public RlmsBranchMaster getBranchByBranchName(String branchName){
+	public RlmsCompanyBranchMapDtls getBranchByBranchName(String branchName, Integer companyId){
 		Session session = this.sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(RlmsBranchMaster.class);
-		criteria.add(Restrictions.eq("branchName", branchName));
+		Criteria criteria = session.createCriteria(RlmsCompanyBranchMapDtls.class);
+		criteria.createAlias("rlmsBranchMaster", "BM");
+		criteria.createAlias("rlmsCompanyMaster", "CM");
+		criteria.add(Restrictions.eq("BM.branchName", branchName));
+		criteria.add(Restrictions.eq("CM.companyId", companyId));
 		criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
-		RlmsBranchMaster branchM = (RlmsBranchMaster) criteria.uniqueResult();
-		return branchM;
+		RlmsCompanyBranchMapDtls companyBranchMapDtls = (RlmsCompanyBranchMapDtls) criteria.uniqueResult();
+		return companyBranchMapDtls;
 		
 	}
 	

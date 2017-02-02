@@ -2,11 +2,15 @@ package com.rlms.contract;
 
 public class UserDtlsDto {
 
+    private String userName;
 	private String firstName;
 	private String lastName;
 	private String companyName;
 	private String contactNumber;
 	private String address;
+	private String emailId;
+	private String branchName;
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -36,6 +40,24 @@ public class UserDtlsDto {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getEmailId() {
+		return emailId;
+	}
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+	public String getBranchName() {
+		return branchName;
+	}
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 	
 	

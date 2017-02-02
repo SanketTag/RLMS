@@ -18,6 +18,7 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
 import com.rlms.contract.AddNewUserDto;
 import com.rlms.contract.RegisterDto;
+import com.rlms.contract.UserDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.dao.UserMasterDao;
@@ -131,7 +132,8 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public List<RlmsUsersMaster> getAllUsersForCompany(Integer companyId){
+	public List<UserDtlsDto> getAllUsersForCompany(Integer companyId){
+		List<UserDtlsDto> listOfUserDtls = new ArrayList<UserDtlsDto>();
 		 List<RlmsUsersMaster> listOfAllUsers = this.userMasterDao.getAllUsersForCompany(companyId);
 		 Iterator<RlmsUsersMaster> it = listOfAllUsers.iterator();
 		 while(it.hasNext()){
@@ -141,7 +143,16 @@ public class UserServiceImpl implements UserService{
 				 it.remove();
 			 }
 		 }
-		 return listOfAllUsers;
+		 for (RlmsUsersMaster rlmsUsersMaster : listOfAllUsers) {
+			 UserDtlsDto dto = new UserDtlsDto();
+			 dto.setAddress(rlmsUsersMaster.getAddress());
+			 dto.setCompanyName(rlmsUsersMaster.getRlmsCompanyMaster().getCompanyName());
+			 dto.setContactNumber(rlmsUsersMaster.getContactNumber());
+			 dto.setEmailId(rlmsUsersMaster.getEmailId());
+			 dto.setUserName(rlmsUsersMaster.getFirstName() + " " + rlmsUsersMaster.getLastName());
+			 listOfUserDtls.add(dto);
+		}
+		 return listOfUserDtls;
 	}
 	
 	private RlmsUserRoles constructUserRole(UserRoleDtlsDTO userRoleDtlsDTO, UserMetaInfo metaInfo){

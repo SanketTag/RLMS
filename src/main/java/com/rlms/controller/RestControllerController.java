@@ -60,10 +60,11 @@ public class RestControllerController  extends BaseController {
 	   
     
     @RequestMapping("/loginIntoApp")
-    public @ResponseBody UserMetaInfo loginIntoApp(@RequestBody LoginDtlsDto loginDtlsDto, HttpServletRequest request, HttpServletResponse response) {
+    public @ResponseBody LoginDtlsDto loginIntoApp(@RequestBody LoginDtlsDto loginDtlsDto, HttpServletRequest request, HttpServletResponse response) {
     
     	 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDtlsDto.getUserName(), loginDtlsDto.getPassword());
 
+    	 LoginDtlsDto dto = new LoginDtlsDto();
     	 UserMetaInfo userMetaInfo = null;
          // generate session if one doesn't exist
          request.getSession();
@@ -79,11 +80,14 @@ public class RestControllerController  extends BaseController {
         	    
         	    
         	    userMetaInfo =  this.getMetaInfo();
+        	    dto.setCompanyId(userMetaInfo.getUserRole().getRlmsCompanyMaster().getCompanyId());
+        	    dto.setUserId(userMetaInfo.getUserId());
+        	    dto.setUserRoleId(userMetaInfo.getUserRole().getUserRoleId());
         	} catch(Exception e){
         	        e.printStackTrace();
         	}
          
-         return userMetaInfo;
+         return dto;
         
     }
     
@@ -106,7 +110,7 @@ public class RestControllerController  extends BaseController {
     }   
     
     @RequestMapping(value = "/getAllComplaintsAssigned", method = RequestMethod.POST)
-    public @ResponseBody List<ComplaintsDto> getAllComplaintsAssigned(@RequestBody String userRoleId) {
+    public @ResponseBody List<ComplaintsDto> getAllComplaintsAssigned(@RequestBody LoginDtlsDto loginDtlsDto) {
     
     	List<ComplaintsDto> listOfAllAssignedComplaints = null;
     	 List<Integer> statusList = new ArrayList<Integer>();
@@ -115,7 +119,7 @@ public class RestControllerController  extends BaseController {
     	 statusList.add(Status.RESOLVED.getStatusId());
     	 
     	 try {
-    		 listOfAllAssignedComplaints =  this.ComplaintsService.getAllComplaintsAssigned(Integer.valueOf(userRoleId), statusList);
+    		 listOfAllAssignedComplaints =  this.ComplaintsService.getAllComplaintsAssigned(Integer.valueOf(loginDtlsDto.getUserRoleId()), statusList);
     	 }catch(Exception e){
     		 log.error("some Unknown exception occurs.");
     	 }
