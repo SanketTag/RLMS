@@ -21,7 +21,7 @@
 				emailId:'',
 				companyId:''	
 			};	
-		    $scope.companies = [];
+		    //$scope.companies = [];
 		    $scope.userList={};
 		}
 		//load compay dropdown data
@@ -41,18 +41,19 @@
 				var successMessage = response[key[0]];
 				$scope.alert.msg = successMessage;
 				$scope.alert.type = "success";
+				//utility.showMessage("",successMessage,"success");
 				initAddUser();
 				$scope.addUserForm.$setPristine();
 				$scope.addUserForm.$setUntouched();
 				
 			},function(error){
 				$scope.showAlert = true;
-				$scope.alert.msg = "Error";
+				$scope.alert.msg = error.exceptionMessage;
 				$scope.alert.type = "danger";
 			});
 		}
 		//rese add branch
-		$scope.resetAddBranch = function(){
+		$scope.resetAddUser = function(){
 			$scope.showAlert = false;
 			initAddUser();
 			$scope.addUserForm.$setPristine();
