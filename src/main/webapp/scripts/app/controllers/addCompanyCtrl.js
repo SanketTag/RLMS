@@ -39,7 +39,7 @@
 			$route.reload();
 		};
 		$scope.backPage =function(){
-			 //window.history.back();
+			 $window.history.back();
 		}
 		
 	}]);
