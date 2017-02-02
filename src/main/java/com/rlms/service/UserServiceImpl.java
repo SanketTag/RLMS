@@ -155,6 +155,27 @@ public class UserServiceImpl implements UserService{
 		 return listOfUserDtls;
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<UserDtlsDto> getAllRegisteredUsers(UserMetaInfo metaInfo){
+		List<UserDtlsDto> listOfUserDtls = new ArrayList<UserDtlsDto>();
+		List<RlmsCompanyMaster> listOFApplicableCompanies = this.companyService.getAllCompanies(metaInfo);
+		for (RlmsCompanyMaster rlmsCompanyMaster : listOFApplicableCompanies) {
+			List<RlmsUsersMaster> listOfAllUsers = this.userMasterDao.getAllUsersForCompany(rlmsCompanyMaster.getCompanyId());
+			 
+			 for (RlmsUsersMaster rlmsUsersMaster : listOfAllUsers) {
+				 UserDtlsDto dto = new UserDtlsDto();
+				 dto.setAddress(rlmsUsersMaster.getAddress());
+				 dto.setCompanyName(rlmsUsersMaster.getRlmsCompanyMaster().getCompanyName());
+				 dto.setContactNumber(rlmsUsersMaster.getContactNumber());
+				 dto.setEmailId(rlmsUsersMaster.getEmailId());
+				 dto.setUserName(rlmsUsersMaster.getFirstName() + " " + rlmsUsersMaster.getLastName());
+				 listOfUserDtls.add(dto);
+			}
+		}
+		 
+		 return listOfUserDtls;
+	}
+	
 	private RlmsUserRoles constructUserRole(UserRoleDtlsDTO userRoleDtlsDTO, UserMetaInfo metaInfo){
 		
 		RlmsCompanyMaster companyMaster = this.companyService.getCompanyById(userRoleDtlsDTO.getCompanyId());

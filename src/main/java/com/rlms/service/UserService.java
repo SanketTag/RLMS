@@ -52,4 +52,6 @@ public interface UserService {
 	public List<RlmsUserRoles> getAllUserWithRoleForBranch(Integer commpBranchMapId, Integer spocRoleId);
 	
 	public List<RlmsUserRoles> getListOfTechniciansForBranch(Integer compBranchMapId);
+	
+	public List<UserDtlsDto> getAllRegisteredUsers(UserMetaInfo metaInfo);
 }

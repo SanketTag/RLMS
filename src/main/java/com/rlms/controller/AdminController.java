@@ -99,6 +99,22 @@ public class AdminController extends BaseController{
 	 
 	        return listOfAllUsers;
 	    }
+	 
+	 @RequestMapping(value = "/getAllRegisteredUsers", method = RequestMethod.POST)
+	    public @ResponseBody List<UserDtlsDto> getAllRegisteredUsers() throws RunTimeException {
+	        List<UserDtlsDto> listOfAllUsers = null;
+	        
+	        try{
+	        	logger.info("Method :: getAllRegisteredUsers");
+	        	listOfAllUsers =  this.userService.getAllRegisteredUsers(this.getMetaInfo());
+	        	
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return listOfAllUsers;
+	    }
 	
 
 	 @RequestMapping(value = "/getAllApplicableCompanies", method = RequestMethod.POST)
