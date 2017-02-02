@@ -132,7 +132,16 @@ public class UserServiceImpl implements UserService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<RlmsUsersMaster> getAllUsersForCompany(Integer companyId){
-		return this.userMasterDao.getAllUsersForCompany(companyId);
+		 List<RlmsUsersMaster> listOfAllUsers = this.userMasterDao.getAllUsersForCompany(companyId);
+		 Iterator<RlmsUsersMaster> it = listOfAllUsers.iterator();
+		 while(it.hasNext()){
+			 RlmsUsersMaster userMaster = it.next();
+			 RlmsUserRoles role = this.userRoleDao.getUserRoleByUserId(userMaster.getUserId());
+			 if(null != role){
+				 it.remove();
+			 }
+		 }
+		 return listOfAllUsers;
 	}
 	
 	private RlmsUserRoles constructUserRole(UserRoleDtlsDTO userRoleDtlsDTO, UserMetaInfo metaInfo){
