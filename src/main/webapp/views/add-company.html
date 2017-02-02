@@ -1,5 +1,5 @@
 <div class="rlms-wrapper">
-<div class="rlms-container add_company" ng-controller="companyManagement">
+<div class="rlms-container add_company" ng-controller="addCompanyCtrl as ctrl">
 	<h1 class="rlms-heading">Add Company</h1>
 <!-- 	<div class="row">
 		<div class="col-lg-12 align-right">
@@ -9,8 +9,10 @@
 		
 	<div class="container-fluid" >
 		<!--<alert ng-show="showAlert" type="{{alert.type}}"><span ng-bind-html="alert.msg | safe_html"></alert>-->
-		<form action="" class="form-horizontal row-border" name="ctrl.addCompanyForm">
-			<div class="form-group"><label class="col-sm-3 control-label">Company Name <sup class="red font-12">*</sup> : </label>
+		<form action="" class="form-horizontal row-border" name="addCompanyForm">
+		<fieldset>
+		  <legend>Company Details</legend>
+		  			<div class="form-group"><label class="col-sm-4 control-label">Company Name <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
 					<input name="companyName" type="text" placeholder="Company Name" required ng-model="addCompany.companyName" class="form-control">
 					<span class="help-block"
@@ -19,7 +21,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Address <sup class="red font-12">*</sup> : </label>
+				<label class="col-sm-4 control-label">Address <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
 					<input name="address" type="text" placeholder="Address"
 						required ng-model="addCompany.address" class="form-control">
@@ -29,7 +31,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Contact Number <sup class="red font-12">*</sup> : </label>
+				<label class="col-sm-4 control-label">Contact Number <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
 					<input name="contactNumber" type="text"
 						placeholder="Contact Number" required
@@ -40,7 +42,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Email <sup class="red font-12">*</sup> : </label>
+				<label class="col-sm-4 control-label">Email <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
 					<input name="emailId" type="email" placeholder="Email Address"
 						required ng-model="addCompany.emailId" class="form-control">
@@ -48,9 +50,12 @@
 						ng-show="addCompanyForm.emailId.$error.required && addCompanyForm.emailId.$dirty">This
 						field is required</span>
 				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">PAN Number <sup class="red font-12">*</sup> : </label>
+			</div>	
+		 </fieldset>
+		<fieldset>
+		  <legend>Tax Details</legend>
+		  <div class="form-group">
+				<label class="col-sm-4 control-label">PAN Number <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
 					<input name="panNumber" type="text" placeholder="PAN Number"
 						required ng-model="addCompany.panNumber" class="form-control">
@@ -60,7 +65,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">TIN Number <sup class="red font-12">*</sup> : </label>
+				<label class="col-sm-4 control-label">TIN Number <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
 					<input name="tinNumber" type="text" placeholder="TIN Number"
 						required ng-model="addCompany.tinNumber" class="form-control">
@@ -70,7 +75,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">VAT Number <sup class="red font-12">*</sup> : </label>
+				<label class="col-sm-4 control-label">VAT Number <sup class="red font-12">*</sup> : </label>
 				<div class="col-sm-6">
 					<input name="Vat Number" type="text" placeholder="VAT Number"
 						required ng-model="addCompany.vatNumber" class="form-control">
@@ -79,15 +84,16 @@
 						field is required</span>
 				</div>
 			</div>
+		</fieldset>
 			<div class="panel-footer">
 			<div class="row">
-				<div class="co-lg-3 col-md-3">
-					<button id="ios-arrow-left" class="" ng-click="backPage()">Back</button>
+				<div class="col-sm-6">
+					<button id="ios-arrow-left" class="" ng-click="backPage();">Back</button>
 				</div>
 				<div class="col-sm-6 ">
 					<div class="btn-toolbar">
 						<button class="btn-primary btn" ng-disabled="addCompanyForm.$invalid && addCompanyForm.$pristine" ng-click="submitAddCompany()">Submit</button>
-						<button class="btn-default btn" ng-click="resetAddCompany();">Reset</button>
+						<button class="btn-default btn reset-btn" ng-click="resetAddCompany();">Reset</button>
 					</div>
 				</div>
 			</div>

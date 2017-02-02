@@ -4,6 +4,7 @@
 	padding:10px;
 	width:100%;
 	box-sizing:border-box;
+	margin-bottom: 35px;
 }
 .rlms-container{
 }
@@ -73,7 +74,7 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 }
 
 .data-table {
-	border: 1px solid silver;
+	/* border: 1px solid silver; */
 }
 
 .disabled {
@@ -93,6 +94,7 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 .rlms-app .ngFooterPanel {
     background-color: #757575;
     color: #fff;
+    height: 45px!important;
 }
 .rlms-app .ngHeaderText{
 	text-align: center;
@@ -141,40 +143,29 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
     display : block; 
     position:absolute;
     z-index : 0;
-    left:50px;
+    left: 20px;
     height: 36px;
     width:auto;
     padding: 0 10px 0 6px;
-    background-repeat:repeat-x;
-    background-size : 100% 30px;
-    background-position :0;
-    background-image : -webkit-linear-gradient(
-        bottom,
-        rgba(0,0,0,0) 0%,
-        rgba(0,0,0,0) 50%,
-        rgba(255,255,255,0.1) 50%,
-        rgba(255,255,255,0.3) 100%
-        );
     border-radius: 5px;
     border-bottom: 1px solid rgba(255,255,255,0.4);
-    box-shadow :0 -1px 1px rgba(0,0,0,0.2)inset,
-                0 1px 2px rgba(0,0,0,0.8)inset;
     font-family : HelveticaNeue;
     font-weight: 400;
     font-size : 12px;
     line-height : 30px;
     text-align:center;
     color:#fff;
-    text-shadow : 0px -1px 0px rgba(0,0,0,0.8);
-    background: #757575;
+    background: #0FACF3;
     font-weight: bold;
+    min-width: 90px;
+    border: none;
 }
 .rlms-app #ios-arrow-left:before{
-	background-color:#757575;
+	background-color:#0FACF3;
     position:absolute;
     content : ' ';
-    left:-11px;
-    top:3.5px;
+    left: -9px;
+    top: 6.5px;
     height : 24px;
     width: 24px;
     z-index : 1;
@@ -187,4 +178,20 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
             color-stop(0.4,#000000), 
             color-stop(0.5, transparent), 
             to(transparent));
+}
+.add_company form{
+	width: 70%;
+    margin: 0 auto;
+}
+.add_company form fieldset{
+	margin: 10px;
+	margin-bottom:15px;
+}
+.rlms-app .panel-footer {
+    margin: 15px 10px;
+}
+.rlms-app .reset-btn{
+	background: silver;
+    color: #000;
+}
 }
