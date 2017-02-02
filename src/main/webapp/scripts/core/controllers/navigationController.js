@@ -10,21 +10,22 @@ angular
       label: 'Admin',
       iconClasses: 'glyphicon glyphicon-user glyphicons-user-add',
       children: [{
-        label: 'Company Management',
+          label: 'Manage Users',
+          url: '#/user-management'
+      },
+      {
+        label: 'Manage Companies',
         url: '#/company-management'
       },
       {
-          label: 'Branch Management',
+          label: 'Manage Branches',
           url: '#/add-branch'
       },
       {
-          label: 'Assign Role',
+          label: 'Create Account',
           url: '#/assign-role'
       },
-      {
-          label: 'Add New User',
-          url: '#/add-user'
-      }]
+      ]
     }];
 
 

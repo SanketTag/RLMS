@@ -9,7 +9,7 @@
 	            	deferred.resolve(response);
 	            })
 	            .error(function (error, status, headers, config) {
-	            	deferred.reject("Error occured while making ajax call");
+	            	deferred.reject(error);
 	            });
      		return deferred.promise;
      	};

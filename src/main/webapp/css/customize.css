@@ -125,7 +125,8 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 	text-align:right;
 }
 /*add Company*/
-.add_company .container-fluid {
+.add_company .container-fluid,
+.add_user .container-fluid {
     margin-left: 2px;
     margin-right: 2px;
     border: 1px solid gray;
@@ -179,11 +180,13 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
             color-stop(0.5, transparent), 
             to(transparent));
 }
-.add_company form{
+.add_company form,
+.add_user form{
 	width: 70%;
     margin: 0 auto;
 }
-.add_company form fieldset{
+.add_company form fieldset,
+.add_user form fieldset{
 	margin: 10px;
 	margin-bottom:15px;
 }
@@ -194,4 +197,9 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 	background: silver;
     color: #000;
 }
+.rlms-app .alert {
+    border-width: 0 0 0 3px;
+    margin: 15px;
+    padding: 10px;
+    line-height: 1.6;
 }
