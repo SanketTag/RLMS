@@ -60,7 +60,7 @@ public class CompanyServiceImpl implements CompanyService{
 		if(null == statusMesage){
 			RlmsCompanyMaster companyMaster = this.constructCompanyM(companyDtlsDTO, metaInfo);
 			this.saveCompanyM(companyMaster);
-			statusMesage = "Successfully created account with RLMS system.";
+			statusMesage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPANY_REG_SUCCESFUL.getMessage());
 		}
 		return statusMesage;
 	}

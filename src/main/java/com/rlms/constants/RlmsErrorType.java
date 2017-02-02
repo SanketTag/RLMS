@@ -16,7 +16,8 @@ public enum RlmsErrorType {
 	REGISTRATION_ID_INCORRECT(10,"registration_id_incorrect"),
 	PUSH_NOTIFICATION_FAILED(11,"push_notification_failed"),
 	INVALID_COMPANY_NAME(12,"invalid_company_name"),
-	INVALID_BRANCH_NAME(12,"invalid_branch_name");
+	INVALID_BRANCH_NAME(12,"invalid_branch_name"),
+	COMPANY_REG_SUCCESFUL(13,"company_reg_succesful");
 	
 	private Integer code;
 	private String message;
