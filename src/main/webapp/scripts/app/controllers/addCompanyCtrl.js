@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('addCompanyCtrl', ['$scope', '$filter','serviceApi','$route','utility','pinesNotifications','$timeout', function($scope, $filter,serviceApi,$route,utility,pinesNotifications,$timeout) {
+	.controller('addCompanyCtrl', ['$scope', '$filter','serviceApi','$route','utility','pinesNotifications','$timeout','$window', function($scope, $filter,serviceApi,$route,utility,pinesNotifications,$timeout,$window) {
 		initAddCompany();
 		$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Company.' };
 		//function to initialize addCompany Model
@@ -38,6 +38,9 @@
 			initAddCompany();
 			$route.reload();
 		};
+		$scope.backPage =function(){
+			 //window.history.back();
+		}
 		
 	}]);
 })();

@@ -1168,7 +1168,7 @@ body {
   font-family: Roboto,'Segoe UI','Droid Sans',Tahoma,Arial,sans-serif;
   font-size: 12px;
   line-height: 1.5;
-  color: #707980;
+  color: #757575;
   background-color: #ebeef0;
 }
 
@@ -11451,7 +11451,7 @@ blockquote .small {
 .btn-toolbar>.btn-group+.btn,
 .btn-toolbar>.btn+.btn-group,
 .btn-toolbar>.btn-group+.btn-group {
-  margin-left: 5px;
+  margin-left: 15px;
 }
 
 .btn-group>.btn+.dropdown-toggle {
