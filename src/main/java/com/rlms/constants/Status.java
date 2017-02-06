@@ -5,7 +5,9 @@ public enum Status {
 	PENDING(2, "Pending"),
 	ASSIGNED(3,"Assigned"),
 	INPROGESS(4,"In Progress"),
-	RESOLVED(5,"Resolved");
+	RESOLVED(5,"Resolved"),
+	PENDING_FOR_APPROVAL(6,"Pending For Approval"),
+	COMPLETED(7,"Completed");
 	
 	private Integer statusId;
 	private String statusMsg;

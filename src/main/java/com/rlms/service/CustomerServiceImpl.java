@@ -120,7 +120,9 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<CustomerDtlsDto> getAllApplicableCustomers(CustomerDtlsDto dto, UserMetaInfo metaInfo){
-		List<Integer> listOfApplicableBranchIds = this.companyService.getListOfApplicableBranch(metaInfo.getUserRole().getUserRoleId(), metaInfo);
+		//List<Integer> listOfApplicableBranchIds = this.companyService.getListOfApplicableBranch(metaInfo.getUserRole().getUserRoleId(), metaInfo);
+		List<Integer> listOfApplicableBranchIds = new ArrayList<Integer>();
+		listOfApplicableBranchIds.add(dto.getBranchCompanyMapId());
 		List<RlmsBranchCustomerMap> listOfAllCustomers = this.customerDao.getAllCustomersForBranches(listOfApplicableBranchIds);
 		return this.constructListOfCustomerDtlsDto(listOfAllCustomers);
 	}

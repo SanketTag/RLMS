@@ -62,6 +62,7 @@ public class RlmsLiftMaster implements Serializable{
 	private String alarmBattery;
 	private String accessControl;
 	private byte[] lobbyPhoto;
+	private Integer status;
 	private Integer activeFlag;
 	private Date createdDate;
 	private Integer createdBy;
@@ -70,7 +71,7 @@ public class RlmsLiftMaster implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "lift_id", unique = true, nullable = false)
+	@Column(name = "lift_id", unique = true, nullable = true)
 	public Integer getLiftId() {
 		return liftId;
 	}
@@ -78,7 +79,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.liftId = liftId;
 	}
 	
-	@Column(name = "lift_number", unique = true, nullable = false)
+	@Column(name = "lift_number", unique = true, nullable = true)
 	public String getLiftNumber() {
 		return liftNumber;
 	}
@@ -86,7 +87,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.liftNumber = liftNumber;
 	}
 	
-	@Column(name = "address", unique = true, nullable = false)
+	@Column(name = "address", unique = true, nullable = true)
 	public String getAddress() {
 		return address;
 	}
@@ -94,7 +95,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.address = address;
 	}
 	
-	@Column(name = "latitude", unique = true, nullable = false)
+	@Column(name = "latitude", unique = true, nullable = true)
 	public String getLatitude() {
 		return latitude;
 	}
@@ -102,7 +103,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.latitude = latitude;
 	}
 	
-	@Column(name = "longitude", unique = true, nullable = false)
+	@Column(name = "longitude", unique = true, nullable = true)
 	public String getLongitude() {
 		return longitude;
 	}
@@ -110,7 +111,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.longitude = longitude;
 	}
 	
-	@Column(name = "service_start_date", unique = true, nullable = false)
+	@Column(name = "service_start_date", unique = true, nullable = true)
 	public Date getServiceStartDate() {
 		return serviceStartDate;
 	}
@@ -118,7 +119,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.serviceStartDate = serviceStartDate;
 	}
 	
-	@Column(name = "service_end_date", unique = true, nullable = false)
+	@Column(name = "service_end_date", unique = true, nullable = true)
 	public Date getServiceEndDate() {
 		return serviceEndDate;
 	}
@@ -126,7 +127,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.serviceEndDate = serviceEndDate;
 	}
 	
-	@Column(name = "date_of_installation", unique = true, nullable = false)
+	@Column(name = "date_of_installation", unique = true, nullable = true)
 	public Date getDateOfInstallation() {
 		return dateOfInstallation;
 	}
@@ -134,7 +135,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.dateOfInstallation = dateOfInstallation;
 	}
 	
-	@Column(name = "amc_start_date", unique = true, nullable = false)
+	@Column(name = "amc_start_date", unique = true, nullable = true)
 	public Date getAmcStartDate() {
 		return amcStartDate;
 	}
@@ -142,7 +143,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.amcStartDate = amcStartDate;
 	}
 	
-	@Column(name = "amc_type", unique = true, nullable = false)
+	@Column(name = "amc_type", unique = true, nullable = true)
 	public Integer getAmcType() {
 		return amcType;
 	}
@@ -150,7 +151,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.amcType = amcType;
 	}
 	
-	@Column(name = "amc_amount", unique = true, nullable = false)
+	@Column(name = "amc_amount", unique = true, nullable = true)
 	public String getAmcAmount() {
 		return amcAmount;
 	}
@@ -158,7 +159,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.amcAmount = amcAmount;
 	}
 	
-	@Column(name = "door_type", unique = true, nullable = false)
+	@Column(name = "door_type", unique = true, nullable = true)
 	public Integer getDoorType() {
 		return doorType;
 	}
@@ -166,7 +167,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.doorType = doorType;
 	}
 	
-	@Column(name = "no_of_stops", unique = true, nullable = false)
+	@Column(name = "no_of_stops", unique = true, nullable = true)
 	public Integer getNoOfStops() {
 		return noOfStops;
 	}
@@ -174,7 +175,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.noOfStops = noOfStops;
 	}
 	
-	@Column(name = "engine_type", unique = true, nullable = false)
+	@Column(name = "engine_type", unique = true, nullable = true)
 	public Integer getEngineType() {
 		return engineType;
 	}
@@ -182,7 +183,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.engineType = engineType;
 	}
 	
-	@Column(name = "machine_make", unique = true, nullable = false)
+	@Column(name = "machine_make", unique = true, nullable = true)
 	public String getMachineMake() {
 		return machineMake;
 	}
@@ -190,7 +191,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.machineMake = machineMake;
 	}
 	
-	@Column(name = "machine_capacity", unique = true, nullable = false)
+	@Column(name = "machine_capacity", unique = true, nullable = true)
 	public String getMachineCapacity() {
 		return machineCapacity;
 	}
@@ -198,7 +199,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.machineCapacity = machineCapacity;
 	}
 	
-	@Column(name = "machine_current", unique = true, nullable = false)
+	@Column(name = "machine_current", unique = true, nullable = true)
 	public String getMachineCurrent() {
 		return machineCurrent;
 	}
@@ -206,7 +207,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.machineCurrent = machineCurrent;
 	}
 	
-	@Column(name = "machine_photo", unique = true, nullable = false)
+	@Column(name = "machine_photo", unique = true, nullable = true)
 	public byte[] getMachinePhoto() {
 		return machinePhoto;
 	}
@@ -214,7 +215,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.machinePhoto = machinePhoto;
 	}
 	
-	@Column(name = "break_voltage", unique = true, nullable = false)
+	@Column(name = "break_voltage", unique = true, nullable = true)
 	public String getBreakVoltage() {
 		return breakVoltage;
 	}
@@ -222,7 +223,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.breakVoltage = breakVoltage;
 	}
 	
-	@Column(name = "panel_make", unique = true, nullable = false)
+	@Column(name = "panel_make", unique = true, nullable = true)
 	public String getPanelMake() {
 		return panelMake;
 	}
@@ -230,7 +231,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.panelMake = panelMake;
 	}
 	
-	@Column(name = "panel_photo", unique = true, nullable = false)
+	@Column(name = "panel_photo", unique = true, nullable = true)
 	public byte[] getPanelPhoto() {
 		return panelPhoto;
 	}
@@ -238,7 +239,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.panelPhoto = panelPhoto;
 	}
 	
-	@Column(name = "ard", unique = true, nullable = false)
+	@Column(name = "ard", unique = true, nullable = true)
 	public String getARD() {
 		return ARD;
 	}
@@ -246,7 +247,7 @@ public class RlmsLiftMaster implements Serializable{
 		ARD = aRD;
 	}
 	
-	@Column(name = "ard_photo", unique = true, nullable = false)
+	@Column(name = "ard_photo", unique = true, nullable = true)
 	public byte[] getARDPhoto() {
 		return ARDPhoto;
 	}
@@ -254,7 +255,7 @@ public class RlmsLiftMaster implements Serializable{
 		ARDPhoto = aRDPhoto;
 	}
 	
-	@Column(name = "no_of_batteries", unique = true, nullable = false)
+	@Column(name = "no_of_batteries", unique = true, nullable = true)
 	public Integer getNoOfBatteries() {
 		return NoOfBatteries;
 	}
@@ -262,7 +263,7 @@ public class RlmsLiftMaster implements Serializable{
 		NoOfBatteries = noOfBatteries;
 	}
 	
-	@Column(name = "battery_capacity", unique = true, nullable = false)
+	@Column(name = "battery_capacity", unique = true, nullable = true)
 	public String getBatteryCapacity() {
 		return BatteryCapacity;
 	}
@@ -270,7 +271,7 @@ public class RlmsLiftMaster implements Serializable{
 		BatteryCapacity = batteryCapacity;
 	}
 	
-	@Column(name = "battery_make", unique = true, nullable = false)
+	@Column(name = "battery_make", unique = true, nullable = true)
 	public String getBatteryMake() {
 		return BatteryMake;
 	}
@@ -278,7 +279,7 @@ public class RlmsLiftMaster implements Serializable{
 		BatteryMake = batteryMake;
 	}
 	
-	@Column(name = "cop_make", unique = true, nullable = false)
+	@Column(name = "cop_make", unique = true, nullable = true)
 	public String getCOPMake() {
 		return COPMake;
 	}
@@ -286,7 +287,7 @@ public class RlmsLiftMaster implements Serializable{
 		COPMake = cOPMake;
 	}
 	
-	@Column(name = "cop_photo", unique = true, nullable = false)
+	@Column(name = "cop_photo", unique = true, nullable = true)
 	public byte[] getCOPPhoto() {
 		return COPPhoto;
 	}
@@ -294,7 +295,7 @@ public class RlmsLiftMaster implements Serializable{
 		COPPhoto = cOPPhoto;
 	}
 	
-	@Column(name = "lop_make", unique = true, nullable = false)
+	@Column(name = "lop_make", unique = true, nullable = true)
 	public String getLOPMake() {
 		return LOPMake;
 	}
@@ -302,7 +303,7 @@ public class RlmsLiftMaster implements Serializable{
 		LOPMake = lOPMake;
 	}
 	
-	@Column(name = "lop_photo", unique = true, nullable = false)
+	@Column(name = "lop_photo", unique = true, nullable = true)
 	public byte[] getLOPPhoto() {
 		return LOPPhoto;
 	}
@@ -310,7 +311,7 @@ public class RlmsLiftMaster implements Serializable{
 		LOPPhoto = lOPPhoto;
 	}
 	
-	@Column(name = "collective_type", unique = true, nullable = false)
+	@Column(name = "collective_type", unique = true, nullable = true)
 	public Integer getCollectiveType() {
 		return collectiveType;
 	}
@@ -318,7 +319,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.collectiveType = collectiveType;
 	}
 	
-	@Column(name = "simplex_duplex", unique = true, nullable = false)
+	@Column(name = "simplex_duplex", unique = true, nullable = true)
 	public Integer getSimplexDuplex() {
 		return SimplexDuplex;
 	}
@@ -326,7 +327,7 @@ public class RlmsLiftMaster implements Serializable{
 		SimplexDuplex = simplexDuplex;
 	}
 	
-	@Column(name = "cartop_photo", unique = true, nullable = false)
+	@Column(name = "cartop_photo", unique = true, nullable = true)
 	public byte[] getCartopPhoto() {
 		return cartopPhoto;
 	}
@@ -334,7 +335,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.cartopPhoto = cartopPhoto;
 	}
 	
-	@Column(name = "auto_door_make", unique = true, nullable = false)
+	@Column(name = "auto_door_make", unique = true, nullable = true)
 	public String getAutoDoorMake() {
 		return autoDoorMake;
 	}
@@ -342,7 +343,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.autoDoorMake = autoDoorMake;
 	}
 	
-	@Column(name = "auto_door_head_photo", unique = true, nullable = false)
+	@Column(name = "auto_door_head_photo", unique = true, nullable = true)
 	public byte[] getAutoDoorHeaderPhoto() {
 		return autoDoorHeaderPhoto;
 	}
@@ -350,7 +351,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.autoDoorHeaderPhoto = autoDoorHeaderPhoto;
 	}
 	
-	@Column(name = "wiring_scheme", unique = true, nullable = false)
+	@Column(name = "wiring_scheme", unique = true, nullable = true)
 	public Integer getWiringShceme() {
 		return wiringShceme;
 	}
@@ -358,7 +359,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.wiringShceme = wiringShceme;
 	}
 	
-	@Column(name = "wiring_photo", unique = true, nullable = false)
+	@Column(name = "wiring_photo", unique = true, nullable = true)
 	public byte[] getWiringPhoto() {
 		return wiringPhoto;
 	}
@@ -366,7 +367,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.wiringPhoto = wiringPhoto;
 	}
 	
-	@Column(name = "fire_mode", unique = true, nullable = false)
+	@Column(name = "fire_mode", unique = true, nullable = true)
 	public Integer getFireMode() {
 		return fireMode;
 	}
@@ -374,7 +375,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.fireMode = fireMode;
 	}
 	
-	@Column(name = "intercomm", unique = true, nullable = false)
+	@Column(name = "intercomm", unique = true, nullable = true)
 	public String getIntercomm() {
 		return intercomm;
 	}
@@ -382,7 +383,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.intercomm = intercomm;
 	}
 	
-	@Column(name = "alarm", unique = true, nullable = false)
+	@Column(name = "alarm", unique = true, nullable = true)
 	public String getAlarm() {
 		return alarm;
 	}
@@ -390,7 +391,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.alarm = alarm;
 	}
 	
-	@Column(name = "alarm_battery", unique = true, nullable = false)
+	@Column(name = "alarm_battery", unique = true, nullable = true)
 	public String getAlarmBattery() {
 		return alarmBattery;
 	}
@@ -398,7 +399,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.alarmBattery = alarmBattery;
 	}
 	
-	@Column(name = "access_control", unique = true, nullable = false)
+	@Column(name = "access_control", unique = true, nullable = true)
 	public String getAccessControl() {
 		return accessControl;
 	}
@@ -406,7 +407,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.accessControl = accessControl;
 	}
 	
-	@Column(name = "lobby_photo", unique = true, nullable = false)
+	@Column(name = "lobby_photo", unique = true, nullable = true)
 	public byte[] getLobbyPhoto() {
 		return lobbyPhoto;
 	}
@@ -415,7 +416,7 @@ public class RlmsLiftMaster implements Serializable{
 	}
 	
 
-	@Column(name = "active_flag", unique = true, nullable = false)
+	@Column(name = "active_flag", unique = true, nullable = true)
 	public Integer getActiveFlag() {
 		return activeFlag;
 	}
@@ -423,7 +424,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.activeFlag = activeFlag;
 	}
 	
-	@Column(name = "created_date", unique = true, nullable = false)
+	@Column(name = "created_date", unique = true, nullable = true)
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -431,7 +432,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.createdDate = createdDate;
 	}
 	
-	@Column(name = "created_by", unique = true, nullable = false)
+	@Column(name = "created_by", unique = true, nullable = true)
 	public Integer getCreatedBy() {
 		return createdBy;
 	}
@@ -439,7 +440,7 @@ public class RlmsLiftMaster implements Serializable{
 		this.createdBy = createdBy;
 	}
 	
-	@Column(name = "updated_date", unique = true, nullable = false)
+	@Column(name = "updated_date", unique = true, nullable = true)
 	public Date getUpdatedDate() {
 		return updatedDate;
 	}
@@ -447,12 +448,20 @@ public class RlmsLiftMaster implements Serializable{
 		this.updatedDate = updatedDate;
 	}
 	
-	@Column(name = "updated_by", unique = true, nullable = false)
+	@Column(name = "updated_by", unique = true, nullable = true)
 	public Integer getUpdatedBy() {
 		return updatedBy;
 	}
 	public void setUpdatedBy(Integer updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+	
+	@Column(name = "status", unique = true, nullable = true)
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	

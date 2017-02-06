@@ -104,4 +104,14 @@ public class BranchDaoImpl implements BranchDao{
 		 RlmsCompanyBranchMapDtls companyBranchMapDtls =  (RlmsCompanyBranchMapDtls) criteria.uniqueResult();
 		 return companyBranchMapDtls;
 	}
+	
+	@Override
+	public RlmsBranchCustomerMap getBranchCustomerMapDtls(Integer branchCustomerMapId){
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsBranchCustomerMap.class)
+				 .add(Restrictions.eq("branchCustoMapId", branchCustomerMapId))
+				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 RlmsBranchCustomerMap branchCustomerMap =  (RlmsBranchCustomerMap) criteria.uniqueResult();
+		 return branchCustomerMap;
+	}
 }

@@ -10,6 +10,7 @@ public class UserDtlsDto {
 	private String address;
 	private String emailId;
 	private String branchName;
+	private Integer userId;
 	
 	public String getFirstName() {
 		return firstName;
@@ -58,6 +59,12 @@ public class UserDtlsDto {
 	}
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
+	}
+	public Integer getUserId() {
+		return userId;
+	}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	
 	

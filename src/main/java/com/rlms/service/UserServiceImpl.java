@@ -150,6 +150,7 @@ public class UserServiceImpl implements UserService{
 			 dto.setContactNumber(rlmsUsersMaster.getContactNumber());
 			 dto.setEmailId(rlmsUsersMaster.getEmailId());
 			 dto.setUserName(rlmsUsersMaster.getFirstName() + " " + rlmsUsersMaster.getLastName());
+			 dto.setUserId(rlmsUsersMaster.getUserId());
 			 listOfUserDtls.add(dto);
 		}
 		 return listOfUserDtls;

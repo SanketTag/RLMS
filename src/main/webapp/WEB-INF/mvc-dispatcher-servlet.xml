@@ -90,6 +90,7 @@
 			 <value>com.rlms.model.RlmsCustomerMaster</value>
 			 <value>com.rlms.model.RlmsLiftCustomerMap</value>
 			 <value>com.rlms.model.RlmsLiftMaster</value>
+			 <value>com.rlms.model.RlmsFyaTranDtls</value>
 		     </list>
 		</property> 
         <property name="hibernateProperties">

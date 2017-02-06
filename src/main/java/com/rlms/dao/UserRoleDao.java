@@ -23,4 +23,5 @@ public interface UserRoleDao{
 	public RlmsUserRoles getUserByUserName(String username);
 	public RlmsUserRoles getUserRoleByUserId(Integer userID);
 	public RlmsUserRoles getUserRoleToRegister(Integer userRoleId);
+	RlmsUserRoles getUserRoleForCompany(Integer cmpanyId, Integer spocRoleId);
 }

@@ -134,4 +134,16 @@ UserRoleDao{
 		 return (RlmsUserRoles)criteria.uniqueResult();
 	}
 	
+	@Override
+	public RlmsUserRoles getUserRoleForCompany(Integer cmpanyId, Integer spocRoleId){
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsUserRoles.class)
+				 .add(Restrictions.eq("rlmsCompanyMaster.companyId", cmpanyId))
+		 	     .add(Restrictions.eq("rlmsSpocRoleMaster.spocRoleId", spocRoleId))
+		 	     .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 
+		 RlmsUserRoles userRole = (RlmsUserRoles) criteria.uniqueResult();
+		 return userRole;
+	}
+	
 }

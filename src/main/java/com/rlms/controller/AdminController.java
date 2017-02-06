@@ -1,5 +1,6 @@
 package com.rlms.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -17,6 +18,7 @@ import com.rlms.contract.AddNewUserDto;
 import com.rlms.contract.BranchDtlsDto;
 import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.CustomerDtlsDto;
+import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.RegisterDto;
 import com.rlms.contract.ResponseDto;
 import com.rlms.contract.UserDtlsDto;
@@ -31,6 +33,7 @@ import com.rlms.model.RlmsSpocRoleMaster;
 import com.rlms.model.RlmsUsersMaster;
 import com.rlms.service.CompanyService;
 import com.rlms.service.CustomerService;
+import com.rlms.service.LiftService;
 import com.rlms.service.UserService;
 import com.rlms.utils.PropertyUtils;
 
@@ -46,6 +49,9 @@ public class AdminController extends BaseController{
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private LiftService liftService;
 	
 	private static final Logger logger = Logger.getLogger(AdminController.class);
 	
@@ -292,6 +298,57 @@ public class AdminController extends BaseController{
 	 
 	        return listOfCustomers;
 	 }
+	 
+	 @RequestMapping(value = "/validateAndRegisterNewLift", method = RequestMethod.POST)
+	    public @ResponseBody ResponseDto validateAndRegisterNewLift(@RequestBody LiftDtlsDto dto) throws RunTimeException, ValidationException {
+		 ResponseDto reponseDto = new ResponseDto();
+	        
+	        try{
+	        	logger.info("Method :: validateAndRegisterNewCustomer");
+	        	reponseDto.setResponseMessage(this.liftService.validateAndAddNewLiftDtls(dto, this.getMetaInfo()));
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
+	  }
+	 
+	 @RequestMapping(value = "/getLiftsToBeApproved", method = RequestMethod.POST)
+	    public @ResponseBody List<LiftDtlsDto> getLiftsToBeApproved() throws RunTimeException{
+		 List<LiftDtlsDto> listOfInActiveLifts = new ArrayList<LiftDtlsDto>();
+	        
+	        try{
+	        	logger.info("Method :: getLiftsToBeApproved");
+	        	listOfInActiveLifts = this.liftService.getLiftsToBeApproved();
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return listOfInActiveLifts;
+	  }
+	 
+	 @RequestMapping(value = "/validateAndApproveLift", method = RequestMethod.POST)
+	    public @ResponseBody ResponseDto validateAndApproveLift(@RequestBody LiftDtlsDto dto) throws RunTimeException, ValidationException {
+		 ResponseDto reponseDto = new ResponseDto();
+	        
+	        try{
+	        	logger.info("Method :: validateAndApproveLift");
+	        	reponseDto.setResponseMessage(this.liftService.approveLift(dto, this.getMetaInfo()));
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
+	  }
 	 
 	
 }

@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rlms.constants.RLMSConstants;
+import com.rlms.constants.Status;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.model.RlmsLiftCustomerMap;
+import com.rlms.model.RlmsLiftMaster;
 import com.rlms.model.RlmsSpocRoleMaster;
 @Repository
 public class LiftDaoImpl implements LiftDao{
@@ -32,5 +34,49 @@ public class LiftDaoImpl implements LiftDao{
 			 List<RlmsLiftCustomerMap> listOfAllLifts = criteria.list();
 			 return listOfAllLifts;
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RlmsLiftCustomerMap> getAllLiftsToBeApproved(){		
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class)
+					 .createAlias("liftMaster", "LM")
+					 .add(Restrictions.eq("LM.status", Status.PENDING_FOR_APPROVAL.getStatusId()))
+					 .add(Restrictions.eq("LM.activeFlag", RLMSConstants.INACTIVE.getId()));
+			 List<RlmsLiftCustomerMap> listOfLifts = criteria.list();
+			 return listOfLifts;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public RlmsLiftCustomerMap getLiftCustomerMapByLiftId(Integer liftId){		
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class)
+				 .add(Restrictions.eq("liftMaster.liftId", liftId));
+		 RlmsLiftCustomerMap liftCustomerMap = (RlmsLiftCustomerMap) criteria.uniqueResult();
+		 return liftCustomerMap;
+	
+}
+	
+	@Override
+	public Integer saveLiftM(RlmsLiftMaster liftMaster){
+		return (Integer)this.sessionFactory.getCurrentSession().save(liftMaster);		
+	}
+	
+	@Override
+	public Integer saveLiftCustomerMap(RlmsLiftCustomerMap liftCustomerMap){
+		return (Integer) this.sessionFactory.getCurrentSession().save(liftCustomerMap);
+	}
+	
+	@Override
+	public void updateLiftM(RlmsLiftMaster liftMaster){
+		this.sessionFactory.getCurrentSession().update(liftMaster);		
+	}
+	
+	@Override
+	public void updateLiftCustomerMap(RlmsLiftCustomerMap liftCustomerMap){
+		this.sessionFactory.getCurrentSession().update(liftCustomerMap);
 	}
 }

@@ -26,7 +26,6 @@ public class RlmsLiftCustomerMap implements Serializable{
 	private RlmsLiftMaster liftMaster;
 	private RlmsBranchCustomerMap branchCustomerMap;
 	private Integer activeFlag;
-	private Integer status;
 	private Date createdDate;
 	private Integer createdBy;
 	private Date updatedDate;
@@ -61,13 +60,7 @@ public class RlmsLiftCustomerMap implements Serializable{
 		this.branchCustomerMap = branchCustomerMap;
 	}
 	
-	@Column(name = "status", unique = true, nullable = false)
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+	
 	@Column(name = "active_flag", unique = true, nullable = false)
 	public Integer getActiveFlag() {
 		return activeFlag;
