@@ -70,7 +70,7 @@
 </head>
 
 <body ng-app="rlmsApp" ng-controller="MainController"
-	class="navbar-primary rlms-app sidebar-inverse"
+	class="navbar-midnightblue rlms-app sidebar-default"
 	class="{{getLayoutOption('sidebarThemeClass')}} {{getLayoutOption('topNavThemeClass')}}"
 	ng-class="{
 			  'static-header': !getLayoutOption('fixedHeader'),
