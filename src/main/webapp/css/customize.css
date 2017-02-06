@@ -21,7 +21,7 @@
     font-weight: 500;
 }
 /*color scheme*/
-body.navbar-primary.rlms-app #topnav {
+/* body.navbar-primary.rlms-app #topnav {
     background: #0FACF3;
     
 }
@@ -38,9 +38,10 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active:hove
 body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
     color: #262d33;
     background: #fff;
-}
+} */
 .rlms-app footer{
-    background-color: #0FACF3;
+    background-color: #37444e;
+    color:#fff;
 }
 /*Override default*/
 .rlms-app .company-management .container-fluid{
@@ -92,8 +93,6 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 }
 
 .rlms-app .ngFooterPanel {
-    background-color: #757575;
-    color: #fff;
     height: 45px!important;
 }
 .rlms-app .ngHeaderText{
@@ -103,14 +102,14 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 .rlms-app .ngCellText{
 	text-align:center;
 }
-.rlms-app .ngHeaderContainer {
+/*.rlms-app .ngHeaderContainer {
     background-color: #757575;
     color: #fff;
 }
 .rlms-app #sidebar {
     font-weight: 500;
     font-size: 14px;
-}
+} */
 .rlms-app .btn{
     min-width: 110px;
 }
@@ -193,13 +192,17 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 .rlms-app .panel-footer {
     margin: 15px 10px;
 }
-.rlms-app .reset-btn{
+/* .rlms-app .reset-btn{
 	background: silver;
     color: #000;
-}
+} */
 .rlms-app .alert {
     border-width: 0 0 0 3px;
     margin: 15px;
     padding: 10px;
     line-height: 1.6;
+}
+.rlms-app .go-back{
+	font-size:40px;
+	color:#0FACF3;
 }
