@@ -27,7 +27,7 @@ public interface CompanyService {
 	
 	public List<RlmsBranchCustomerMap> getAllCustomersOfBranch(Integer commpBranchMapId);
 	
-	public List<BranchDtlsDto> getListOfBranchDtls(UserMetaInfo metaInfo);
+	public List<BranchDtlsDto> getListOfBranchDtls(Integer companyId, UserMetaInfo metaInfo);
 	
 	//public RlmsCompanyRoleMap getCompanyRole(Integer companyId, Integer spocRoleId);
 	

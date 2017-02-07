@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
@@ -261,8 +262,16 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public List<BranchDtlsDto> getListOfBranchDtls(UserMetaInfo metaInfo){
-		List<Integer> listOFApplicableBranches = this.getListOfApplicableBranch(metaInfo.getUserRole().getUserRoleId(), metaInfo);
+	public List<BranchDtlsDto> getListOfBranchDtls(Integer companyId, UserMetaInfo metaInfo){
+		List<Integer> listOfAllApplicableCompanies = new ArrayList<Integer>();
+		List<Integer> listOFApplicableBranches = new ArrayList<Integer>();
+		listOfAllApplicableCompanies.add(companyId);
+		 List<RlmsCompanyBranchMapDtls> listOfAllBranches = this.branchDao.getAllBranchesForCopanies(listOfAllApplicableCompanies);
+		  for (RlmsCompanyBranchMapDtls rlmsCompanyBranchMapDtls : listOfAllBranches) {
+			  listOFApplicableBranches.add(rlmsCompanyBranchMapDtls.getCompanyBranchMapId());
+		  }
+		  
+		
 		List<BranchDtlsDto> listOFBranchDtls = new ArrayList<BranchDtlsDto>();
 		for (Integer companyBranchMapId : listOFApplicableBranches) {
 			BranchDtlsDto branchDtlsDto = new BranchDtlsDto();

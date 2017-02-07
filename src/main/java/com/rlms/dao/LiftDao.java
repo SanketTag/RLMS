@@ -20,5 +20,7 @@ public interface LiftDao {
 	void updateLiftM(RlmsLiftMaster liftMaster);
 
 	void updateLiftCustomerMap(RlmsLiftCustomerMap liftCustomerMap);
+	
+	public List<RlmsLiftCustomerMap> getAllLiftsForBranchs(Integer branchCompanyId);
 
 }

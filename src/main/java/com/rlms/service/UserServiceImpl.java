@@ -157,11 +157,9 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public List<UserDtlsDto> getAllRegisteredUsers(UserMetaInfo metaInfo){
+	public List<UserDtlsDto> getAllRegisteredUsers(Integer compamyId, UserMetaInfo metaInfo){
 		List<UserDtlsDto> listOfUserDtls = new ArrayList<UserDtlsDto>();
-		List<RlmsCompanyMaster> listOFApplicableCompanies = this.companyService.getAllCompanies(metaInfo);
-		for (RlmsCompanyMaster rlmsCompanyMaster : listOFApplicableCompanies) {
-			List<RlmsUsersMaster> listOfAllUsers = this.userMasterDao.getAllUsersForCompany(rlmsCompanyMaster.getCompanyId());
+			List<RlmsUsersMaster> listOfAllUsers = this.userMasterDao.getAllUsersForCompany(compamyId);
 			 
 			 for (RlmsUsersMaster rlmsUsersMaster : listOfAllUsers) {
 				 UserDtlsDto dto = new UserDtlsDto();
@@ -172,8 +170,6 @@ public class UserServiceImpl implements UserService{
 				 dto.setUserName(rlmsUsersMaster.getFirstName() + " " + rlmsUsersMaster.getLastName());
 				 listOfUserDtls.add(dto);
 			}
-		}
-		 
 		 return listOfUserDtls;
 	}
 	

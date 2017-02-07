@@ -79,4 +79,16 @@ public class LiftDaoImpl implements LiftDao{
 	public void updateLiftCustomerMap(RlmsLiftCustomerMap liftCustomerMap){
 		this.sessionFactory.getCurrentSession().update(liftCustomerMap);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsLiftCustomerMap> getAllLiftsForBranchs(Integer branchCompanyId){		
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class)
+					 .createAlias("branchCustomerMap.companyBranchMapDtls", "branchCompanyMap")
+					 .add(Restrictions.eq("branchCompanyMap.companyBranchMapId", branchCompanyId))
+					 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+			 List<RlmsLiftCustomerMap> listOfAllLifts = criteria.list();
+			 return listOfAllLifts;
+		
+	}
 }

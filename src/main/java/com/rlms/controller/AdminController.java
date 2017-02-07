@@ -107,12 +107,12 @@ public class AdminController extends BaseController{
 	    }
 	 
 	 @RequestMapping(value = "/getAllRegisteredUsers", method = RequestMethod.POST)
-	    public @ResponseBody List<UserDtlsDto> getAllRegisteredUsers() throws RunTimeException {
+	    public @ResponseBody List<UserDtlsDto> getAllRegisteredUsers(UserDtlsDto dto) throws RunTimeException {
 	        List<UserDtlsDto> listOfAllUsers = null;
 	        
 	        try{
 	        	logger.info("Method :: getAllRegisteredUsers");
-	        	listOfAllUsers =  this.userService.getAllRegisteredUsers(this.getMetaInfo());
+	        	listOfAllUsers =  this.userService.getAllRegisteredUsers(dto.getCompanyId(), this.getMetaInfo());
 	        	
 	        }catch(Exception e){
 	        	logger.error(ExceptionUtils.getFullStackTrace(e));
@@ -266,12 +266,12 @@ public class AdminController extends BaseController{
 	 }
 	 
 	 @RequestMapping(value = "/getListOfBranchDtls", method = RequestMethod.POST)
-	 public @ResponseBody List<BranchDtlsDto> getListOfBranchDtls() throws RunTimeException{
+	 public @ResponseBody List<BranchDtlsDto> getListOfBranchDtls(BranchDtlsDto dto) throws RunTimeException{
 		 List<BranchDtlsDto> listOfBranches = null;
 	        
 	        try{
 	        	logger.info("Method :: getListOfBranchDtls");
-	        	listOfBranches = this.companyService.getListOfBranchDtls(this.getMetaInfo());
+	        	listOfBranches = this.companyService.getListOfBranchDtls(dto.getCompanyId(), this.getMetaInfo());
 	        	
 	        }catch(Exception e){
 	        	logger.error(ExceptionUtils.getFullStackTrace(e));

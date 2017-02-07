@@ -203,4 +203,36 @@ public class LiftServiceImpl implements LiftService{
 		
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<LiftDtlsDto> getLiftDetailsForBranch(LiftDtlsDto liftDtlsDto, UserMetaInfo metaInfo){
+		List<RlmsLiftCustomerMap> listOFAllLifts = this.liftDao.getAllLiftsForBranchs(liftDtlsDto.getBranchCompanyMapId());
+		List<LiftDtlsDto> listOfAllDtos = new ArrayList<LiftDtlsDto>();
+		for (RlmsLiftCustomerMap liftCustomerMap : listOFAllLifts) {
+			RlmsLiftMaster liftM = liftCustomerMap.getLiftMaster();
+			LiftDtlsDto dto = new LiftDtlsDto();
+			dto.setAccessControl(liftM.getAccessControl());
+			dto.setAddress(liftM.getAddress());
+			dto.setAlarm(liftM.getAlarm());
+			dto.setAlarmBattery(liftM.getAlarmBattery());
+			dto.setAmcAmount(liftM.getAmcAmount());
+			dto.setAmcStartDate(liftM.getAmcStartDate());
+			dto.setAmcType(liftM.getAmcType());
+			dto.setArd(liftM.getARD());
+			dto.setARDPhoto(liftM.getARDPhoto());
+			dto.setAutoDoorHeaderPhoto(liftM.getAutoDoorHeaderPhoto());
+			dto.setBatteryCapacity(liftM.getBatteryCapacity());
+			dto.setBatteryMake(liftM.getBatteryMake());
+			dto.setBranchName(liftCustomerMap.getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());;
+			dto.setCustomerName(liftCustomerMap.getBranchCustomerMap().getCustomerMaster().getCustomerName());
+			dto.setDateOfInstallation(liftM.getDateOfInstallation());
+			dto.setLiftNumber(liftM.getLiftNumber());
+			dto.setServiceStartDate(liftM.getServiceStartDate());
+			dto.setServiceEndDate(liftM.getServiceEndDate());
+			listOfAllDtos.add(dto);
+		}
+		
+		return listOfAllDtos;
+		
+	}
+	
 }

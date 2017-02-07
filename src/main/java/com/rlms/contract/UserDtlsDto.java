@@ -11,6 +11,8 @@ public class UserDtlsDto {
 	private String emailId;
 	private String branchName;
 	private Integer userId;
+	private Integer branchCompanyMapId;
+	private Integer companyId;
 	
 	public String getFirstName() {
 		return firstName;
@@ -65,6 +67,18 @@ public class UserDtlsDto {
 	}
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+	public Integer getBranchCompanyMapId() {
+		return branchCompanyMapId;
+	}
+	public void setBranchCompanyMapId(Integer branchCompanyMapId) {
+		this.branchCompanyMapId = branchCompanyMapId;
+	}
+	public Integer getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
 	}
 	
 	
