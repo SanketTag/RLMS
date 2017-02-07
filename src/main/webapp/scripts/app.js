@@ -28,16 +28,13 @@ angular
         redirectTo: '#/'
       });
   }])
-  .run(['$http',function($http) {
+  .run(['$http','$rootScope',function($http,$rootScope) {
 	  $http({
 		  method: 'POST',
 		  url: '/RLMS/getLoggedInUser'
 		}).then(function successCallback(response) {
-		    // this callback will be called asynchronously
-		    // when the response is available
 		    console.log(response);
+		    $rootScope.loggedInUserInfo = response;
 		  }, function errorCallback(response) {
-		    // called asynchronously if an error occurs
-		    // or server returns response with an error status.
 		  });
   }]);;

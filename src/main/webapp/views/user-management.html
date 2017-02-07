@@ -6,7 +6,21 @@
 			<button class="btn-primary btn rlms-btn" ng-click="goToAddUser();">Add User</button>
 		</div>	
 	</div>
+	<div class="filter-section">
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Select Company : </label>
+			<div class="col-sm-3">
+				  <ui-select ng-model="selectedCompany.selected" title="Choose a Company" on-select="loadBranchData();">
+				    <ui-select-match placeholder="Select company">{{$select.selected.companyName}}</ui-select-match>
+				    <ui-select-choices repeat="companyIterator in companies| filter: $select.search">
+				      <span ng-bind-html="companyIterator.companyName | highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+			</div>
+			<button class="btn-sky btn col-sm-offset-1" ng-click="loadUsersInfo()">Proceed</button>
+		</div>
 		
+	</div>
 	<div class="container-fluid" >
 	<h5 class="rlms-info"><span class="fa fa-info-circle"></span>Following is the list of registered Users</h5>
 		<div class="row">

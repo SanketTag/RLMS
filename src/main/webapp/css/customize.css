@@ -217,3 +217,17 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 	  border-top: none;
   	  padding-top: 0;
 }
+.filter-section{
+	width:100%;
+	padding:10px;
+	border:1px solid silver;
+	margin:10px;
+}
+.filter-section .form-group{
+	margin-bottom:0px;
+}
+.filter-section .form-group label{
+	margin-bottom: 0px;
+    margin-top: 7px;
+    text-align: right;
+}

@@ -2,10 +2,21 @@
     'use strict';
 	angular.module('rlmsApp')
 	.controller('userManagement', ['$scope', '$filter','serviceApi','$route','$http','utility', function($scope, $filter,serviceApi,$route,$http,utility) {
+		loadCompanyData();
+		 $scope.selectedCompany={};
 		$scope.goToAddUser =function(){
 			window.location.hash = "#/add-user";
 		};
-		//-------Company Details Table---------
+		function loadCompanyData(){
+			serviceApi.doPostWithoutData('/RLMS/admin/getAllApplicableCompanies')
+		    .then(function(response){
+		    		$scope.companies = response;
+		    });
+		}
+		function loadUsersInfo(){
+			
+		}
+		
 	    $scope.filterOptions = {
 	  	      filterText: '',
 	  	      useExternalFilter: true
@@ -25,11 +36,15 @@
 	  	      }
 	  	    };
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
+	  	    	alert("get Async data");
+		  	    var data = {
+					companyId : $scope.selectedCompany.selected.companyId
+				}
 	  	      setTimeout(function() {
 	  	        var data;
 	  	        if (searchText) {
 	  	          var ft = searchText.toLowerCase();
-	  	          $http.post('/RLMS/admin/getAllRegisteredUsers').success(function(largeLoad) {
+	  	          $http.post('/RLMS/admin/getAllRegisteredUsers',data).success(function(largeLoad) {
 	  	        	  var userDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var userDetailsObj={};
@@ -66,7 +81,7 @@
 	  	            $scope.setPagingData(data, page, pageSize);
 	  	          });
 	  	        } else {
-	  	          $http.post('/RLMS/admin/getAllRegisteredUsers').success(function(largeLoad) {
+	  	          $http.post('/RLMS/admin/getAllRegisteredUsers',data).success(function(largeLoad) {
 	  	        	  var userDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var userDetailsObj={};
@@ -103,8 +118,12 @@
 	  	        }
 	  	      }, 100);
 	  	    };
-
-	  	    $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+	  	    
+	  	  $scope.loadUsersInfo=function(){
+	  	    	 alert("loaduser Info");
+	  	    	 $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+	  	    }
+	  	   
 
 	  	    $scope.$watch('pagingOptions', function(newVal, oldVal) {
 	  	      if (newVal !== oldVal) {
