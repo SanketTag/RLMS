@@ -107,7 +107,7 @@ public class AdminController extends BaseController{
 	    }
 	 
 	 @RequestMapping(value = "/getAllRegisteredUsers", method = RequestMethod.POST)
-	    public @ResponseBody List<UserDtlsDto> getAllRegisteredUsers(UserDtlsDto dto) throws RunTimeException {
+	    public @ResponseBody List<UserDtlsDto> getAllRegisteredUsers(@RequestBody BranchDtlsDto dto) throws RunTimeException {
 	        List<UserDtlsDto> listOfAllUsers = null;
 	        
 	        try{
@@ -266,7 +266,7 @@ public class AdminController extends BaseController{
 	 }
 	 
 	 @RequestMapping(value = "/getListOfBranchDtls", method = RequestMethod.POST)
-	 public @ResponseBody List<BranchDtlsDto> getListOfBranchDtls(BranchDtlsDto dto) throws RunTimeException{
+	 public @ResponseBody List<BranchDtlsDto> getListOfBranchDtls(@RequestBody BranchDtlsDto dto) throws RunTimeException{
 		 List<BranchDtlsDto> listOfBranches = null;
 	        
 	        try{

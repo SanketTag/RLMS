@@ -4,6 +4,7 @@ import java.util.List;
 
 public class BranchDtlsDto {
 
+	private Integer id;
 	private Integer companyId;
 	private String branchName;
 	private String branchAddress;
@@ -60,6 +61,12 @@ public class BranchDtlsDto {
 	}
 	public void setListOfAllLifts(List<LiftDtlsDto> listOfAllLifts) {
 		this.listOfAllLifts = listOfAllLifts;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	
