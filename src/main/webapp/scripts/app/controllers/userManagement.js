@@ -1,20 +1,23 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('userManagement', ['$scope', '$filter','serviceApi','$route','$http','utility', function($scope, $filter,serviceApi,$route,$http,utility) {
+	.controller('userManagement', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
 		loadCompanyData();
 		 $scope.selectedCompany={};
 		$scope.goToAddUser =function(){
 			window.location.hash = "#/add-user";
 		};
+		$scope.showCompany = false;
+		if($rootScope.loggedInUserInfo.data.userRole.userRoleId == 1){
+			$scope.showCompany= true;
+		}else{
+			$scope.loadUsersInfo();
+		}
 		function loadCompanyData(){
 			serviceApi.doPostWithoutData('/RLMS/admin/getAllApplicableCompanies')
 		    .then(function(response){
 		    		$scope.companies = response;
 		    });
-		}
-		function loadUsersInfo(){
-			
 		}
 		
 	    $scope.filterOptions = {
@@ -36,15 +39,23 @@
 	  	      }
 	  	    };
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
-	  	    	alert("get Async data");
-		  	    var data = {
-					companyId : $scope.selectedCompany.selected.companyId
-				}
+	  	    	var companyData ={};
+	  	    	if($scope.showCompany == true){
+	  	    		companyData = {
+  						companyId : $scope.selectedCompany.selected.companyId
+  					}
+	  	    	}else{
+	  	    		companyData = {
+  						companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+  					}
+	  	    	}
+		  	    
 	  	      setTimeout(function() {
 	  	        var data;
 	  	        if (searchText) {
 	  	          var ft = searchText.toLowerCase();
-	  	          $http.post('/RLMS/admin/getAllRegisteredUsers',data).success(function(largeLoad) {
+	  	        serviceApi.doPostWithData('/RLMS/admin/getAllRegisteredUsers',companyData)
+	  	         .then(function(largeLoad) {
 	  	        	  var userDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var userDetailsObj={};
@@ -81,7 +92,17 @@
 	  	            $scope.setPagingData(data, page, pageSize);
 	  	          });
 	  	        } else {
-	  	          $http.post('/RLMS/admin/getAllRegisteredUsers',data).success(function(largeLoad) {
+	  	        	var companyData ={};
+		  	    	if($scope.showCompany == true){
+		  	    		companyData = {
+	  						companyId : $scope.selectedCompany.selected.companyId
+	  					}
+		  	    	}else{
+		  	    		companyData = {
+	  						companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+	  					}
+		  	    	}
+	  	        	serviceApi.doPostWithData('/RLMS/admin/getAllRegisteredUsers',companyData).then(function(largeLoad) {
 	  	        	  var userDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var userDetailsObj={};
@@ -120,7 +141,6 @@
 	  	    };
 	  	    
 	  	  $scope.loadUsersInfo=function(){
-	  	    	 alert("loaduser Info");
 	  	    	 $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
 	  	    }
 	  	   
