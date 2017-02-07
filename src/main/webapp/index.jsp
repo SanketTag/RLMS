@@ -371,6 +371,7 @@
 	<script src="scripts/app/controllers/addUserCtrl.js"></script>
 	<script src="scripts/app/controllers/companyManagement.js"></script>
 	<script src="scripts/app/controllers/userManagement.js"></script>
+	<script src="scripts/app/controllers/branchManagement.js"></script>
 	<script src="scripts/app/services/serviceApi.js"></script>
 	<script src="scripts/app/services/utility.js"></script>
 	<!-- App-->

@@ -4,21 +4,19 @@
 	.controller('assignRoleCtrl', ['$scope', '$filter','serviceApi','$route','utility', function($scope, $filter,serviceApi,$route,utility) {
 		initAssignRole();
 		loadRolesData();
-		//function to initialize addCompany Model
+		$scope.alert = { type: 'success', msg: 'Well done! You successfully Assigned Role.',close:true };
+		$scope.showAlert = false;
+		$scope.roles = [];
+		$scope.companies = [];
+		$scope.branches = [];
+		$scope.users = [];
+		
 		function initAssignRole(){
 			$scope.isRoleSelected = false;
 			$scope.selectedRole = {};
-			$scope.roles = [];
-			
 			$scope.selectedCompany = {};
-			$scope.companies = [];
-			
 			$scope.selectedBranch = {};
-			$scope.branches = [];
-			
 			$scope.selectedUser = {};
-			$scope.users = [];
-			
 			$scope.assignRole={
 					userId:'',
 					companyId:'',
@@ -75,17 +73,26 @@
 			$scope.assignRole.userId = $scope.selectedUser.selected.userId;
 			serviceApi.doPostWithData("/RLMS/admin/assignRole",$scope.assignRole)
 			.then(function(response){
+				$scope.showAlert = true;
 				var key = Object.keys(response);
 				var successMessage = response[key[0]];
+				$scope.alert.msg = successMessage;
+				$scope.alert.type = "success";
 				initAssignRole();
-				utility.showMessage('Assigned Company',successMessage,'success');
-				$route.reload();
+				$scope.assignRoleForm.$setPristine();
+				$scope.assignRoleForm.$setUntouched();
+			},function(error){
+				$scope.showAlert = true;
+				$scope.alert.msg = error.exceptionMessage;
+				$scope.alert.type = "danger";
 			})
 		};
 		//Reset Add company form
-		$scope.resetAddCompany = function(){
+		$scope.resetAssignRole = function(){
+			$scope.showAlert = false;
 			initAssignRole();
-			$route.reload();
+			$scope.assignRoleForm.$setPristine();
+			$scope.assignRoleForm.$setUntouched();
 		};
 	}]);
 })();

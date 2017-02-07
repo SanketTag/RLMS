@@ -1,15 +1,13 @@
-<div class="assign_role">
-	<div id="page-heading">
-		<h1>Assign Role</h1>
-	</div>
-	<div class="container-fluid" ng-controller="assignRoleCtrl">
-		<panel panel-class="panel-primary" heading="">
-			<panel-controls>
-				<panel-control-collapse></panel-control-collapse>
-			</panel-controls>
-
-		<form action="" class="form-horizontal row-border" name="assignRoleForm">
-			<div class="form-group">
+<div class="rlms-wrapper">
+<div class="rlms-container assign_role" ng-controller="assignRoleCtrl as ctrl">
+	<h1 class="rlms-heading">Assign Role</h1>
+	<div class="container-fluid" >
+		<alert ng-show="showAlert" type="{{alert.type}}">
+			<span ng-bind-html="alert.msg | safe_html"></alert>
+		<form class="form-horizontal row-border" name="assignRoleForm">
+		<fieldset>
+		  <legend>Role Details</legend>
+		  <div class="form-group">
 				<label class="col-sm-3 control-label">Select Role</label>
 				<div class="col-sm-6">
 					  <ui-select ng-model="selectedRole.selected" title="Choose a Role">
@@ -57,16 +55,24 @@
 					</div>
 				</div>
 			</div>
-		</form>
-		<div class="panel-footer">
+		 </fieldset>
+		
+			<div class="panel-footer">
 			<div class="row">
-				<div class="col-sm-6 col-sm-offset-3">
+			<div class="col-sm-6">
+					<span></span>
+				</div>
+				<div class="col-sm-6 ">
 					<div class="btn-toolbar">
-						<button class="btn-primary btn" ng-disabled="assignRoleForm.$invalid && assignRoleForm.$pristine" ng-click="submitAssignRole()">Assign</button>
-						<button class="btn-default btn" ng-click="resetAssignRole()">Rest</button>
+						<button class="btn-primary btn" ng-disabled="assignRoleForm.$invalid && assignRoleForm.$pristine" ng-click="submitAssignRole()">Submit</button>
+						<button class="btn-default btn" ng-click="resetAssignRole()">Reset</button>
 					</div>
 				</div>
 			</div>
 		</div>
-	</panel>
+		</form>
+		
+	</panel> 	
+	</div>
+</div>
 </div>

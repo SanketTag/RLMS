@@ -19,10 +19,10 @@ angular
       },
       {
           label: 'Manage Branches',
-          url: '#/add-branch'
+          url: '#/branch-management'
       },
       {
-          label: 'Create Account',
+          label: 'Assign Role',
           url: '#/assign-role'
       },
       ]

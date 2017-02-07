@@ -1,14 +1,13 @@
-<div class="add_banch" ng-controller="addBranchCtrl">
-	<div id="page-heading">
-		<h1>Branch</h1>
-	</div>
-	<div class="container-fluid">
-		<panel panel-class="panel-primary" data-heading="Add Branch">
-			<panel-controls>
-				<panel-control-collapse></panel-control-collapse>
-			</panel-controls>
-		<form action="" class="form-horizontal row-border" name="addCompanyForm">
-			<div class="form-group">
+<div class="rlms-wrapper">
+<div class="rlms-container add_branch" ng-controller="addBranchCtrl as ctrl">
+	<h1 class="rlms-heading">Add Branch</h1>
+	<div class="container-fluid" >
+		<alert ng-show="showAlert" type="{{alert.type}}">
+			<span ng-bind-html="alert.msg | safe_html"></alert>
+		<form class="form-horizontal row-border" name="addBranchForm">
+		<fieldset>
+		  <legend>Branch Details</legend>
+		  <div class="form-group">
 				<label class="col-sm-3 control-label">Select Company</label>
 				<div class="col-sm-6">
 					  <ui-select ng-model="selectedCompany.selected" title="Choose a Company">
@@ -24,7 +23,7 @@
 				<div class="col-sm-6">
 					<input name="branchName" type="text" placeholder="Required Field" required ng-model="addBranch.branchName" class="form-control">
 					<span class="help-block"
-						ng-show="addBranchCtrl.companyName.$error.required && addBranchCtrl.companyName.$dirty">This
+						ng-show="addBranchForm.branchName.$error.required && addBranchForm.branchName.$dirty">This
 						field is required</span>
 				</div>
 			</div>
@@ -33,36 +32,28 @@
 				<div class="col-sm-6">
 					<input name="branchAddress" type="text" placeholder="Required Field" required ng-model="addBranch.branchAddress" class="form-control">
 					<span class="help-block"
-						ng-show="addBranchCtrl.companyName.$error.required && addBranchCtrl.companyName.$dirty">This
+						ng-show="addBranchForm.branchAddress.$error.required && addBranchForm.branchAddress.$dirty">This
 						field is required</span>
 				</div>
 			</div>
-		</form>
-		<div class="panel-footer">
+		 </fieldset>
+		
+			<div class="panel-footer">
 			<div class="row">
-				<div class="col-sm-6 col-sm-offset-3">
+				<div class="col-sm-6">
+					<span ng-click="backPage();" class=" button button-clear fa fa-chevron-circle-left go-back"></span>
+				</div>
+				<div class="col-sm-6 ">
 					<div class="btn-toolbar">
-						<button class="btn-primary btn" ng-disabled="addBranchCtrl.$invalid && addBranchCtrl.$pristine" ng-click="submitAddBranch()">Submit</button>
+						<button class="btn-primary btn" ng-disabled="addBranchForm.$invalid && addBranchForm.$pristine" ng-click="submitAddBranch()">Submit</button>
 						<button class="btn-default btn" ng-click="resetAddBranch();">Reset</button>
 					</div>
 				</div>
 			</div>
 		</div>
-	</panel>
-	<div class="container-fluid branch-list">
-	    <div class="row">
-	      <div class="col-md-12">
-	            <panel panel-class="panel-primary" data-heading="Branch List">
-	                <panel-controls>
-	                    <panel-control-collapse></panel-control-collapse>
-	                </panel-controls>		
-	                <div class="input-icon right mb10">
-	                    <i class="fa fa-search"></i>
-	                    <input type="text" ng-model="filterOptions.filterText" class="form-control" placeholder="Search Filter">
-	                </div>
-	                <div class ="data-table" style="height: 200px;" ng-grid="gridOptions"></div>
-	            </panel>
-	        </div>
-	    </div>
-	</div> 		
+		</form>
+		
+	</panel> 	
+	</div>
+</div>
 </div>
