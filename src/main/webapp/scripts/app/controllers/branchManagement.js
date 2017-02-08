@@ -1,11 +1,20 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('branchManagement', ['$scope', '$filter','serviceApi','$route','$http','utility', function($scope, $filter,serviceApi,$route,$http,utility) {
+	.controller('branchManagement', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
 		$scope.goToAddBranch =function(){
 			window.location.hash = "#/add-branch";
 		};
-
+		$scope.showTable = false;
+		loadCompanyData();
+		$scope.selectedCompany={};
+		$scope.showCompany = false;
+		function loadCompanyData(){
+			serviceApi.doPostWithoutData('/RLMS/admin/getAllApplicableCompanies')
+		    .then(function(response){
+		    		$scope.companies = response;
+		    });
+		}
 		//-------Branch Details Table---------
 	    $scope.filterOptions = {
 	  	      filterText: '',
@@ -26,11 +35,22 @@
 	  	      }
 	  	    };
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
+	  	    	var companyData ={};
+	  	    	if($scope.showCompany == true){
+	  	    		companyData = {
+  						companyId : $scope.selectedCompany.selected.companyId
+  					}
+	  	    	}else{
+	  	    		companyData = {
+  						companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+  					}
+	  	    	}
 	  	      setTimeout(function() {
 	  	        var data;
 	  	        if (searchText) {
 	  	          var ft = searchText.toLowerCase();
-	  	          $http.post('/RLMS/admin/getListOfBranchDtls').success(function(largeLoad) {
+	  	          $http.post('/RLMS/admin/getListOfBranchDtls',companyData).success(function(largeLoad) {
+	  	        	$scope.showTable=true;
 	  	        	  var branchDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var brachDetailsObj={};
@@ -47,7 +67,18 @@
 	  	            $scope.setPagingData(data, page, pageSize);
 	  	          });
 	  	        } else {
-	  	          $http.post('/RLMS/admin/getListOfBranchDtls').success(function(largeLoad) {
+	  	        	var companyData ={};
+		  	    	if($scope.showCompany == true){
+		  	    		companyData = {
+	  						companyId : $scope.selectedCompany.selected.companyId
+	  					}
+		  	    	}else{
+		  	    		companyData = {
+	  						companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+	  					}
+		  	    	}
+	  	          $http.post('/RLMS/admin/getListOfBranchDtls',companyData).success(function(largeLoad) {
+	  	        	$scope.showTable =true;
 	  	        	var branchDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var brachDetailsObj={};
@@ -64,8 +95,15 @@
 	  	        }
 	  	      }, 100);
 	  	    };
-
-	  	    $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+	  	    
+	  	  $scope.loadBranchInfo=function(){
+		  	    	 $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+		  	 }
+		  	if($rootScope.loggedInUserInfo.data.userRole.userRoleId == 1){
+				$scope.showCompany= true;
+			}else{
+				$scope.loadBranchInfo();
+			}
 
 	  	    $scope.$watch('pagingOptions', function(newVal, oldVal) {
 	  	      if (newVal !== oldVal) {

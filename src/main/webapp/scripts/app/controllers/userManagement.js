@@ -4,15 +4,12 @@
 	.controller('userManagement', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
 		loadCompanyData();
 		 $scope.selectedCompany={};
+		 $scope.showTable = false;
 		$scope.goToAddUser =function(){
 			window.location.hash = "#/add-user";
 		};
 		$scope.showCompany = false;
-		if($rootScope.loggedInUserInfo.data.userRole.userRoleId == 1){
-			$scope.showCompany= true;
-		}else{
-			$scope.loadUsersInfo();
-		}
+		
 		function loadCompanyData(){
 			serviceApi.doPostWithoutData('/RLMS/admin/getAllApplicableCompanies')
 		    .then(function(response){
@@ -56,6 +53,7 @@
 	  	          var ft = searchText.toLowerCase();
 	  	        serviceApi.doPostWithData('/RLMS/admin/getAllRegisteredUsers',companyData)
 	  	         .then(function(largeLoad) {
+	  	        	$scope.showTable= true;
 	  	        	  var userDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var userDetailsObj={};
@@ -103,6 +101,7 @@
 	  					}
 		  	    	}
 	  	        	serviceApi.doPostWithData('/RLMS/admin/getAllRegisteredUsers',companyData).then(function(largeLoad) {
+	  	        		 $scope.showTable= true;
 	  	        	  var userDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var userDetailsObj={};
@@ -143,7 +142,11 @@
 	  	  $scope.loadUsersInfo=function(){
 	  	    	 $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
 	  	    }
-	  	   
+	  	if($rootScope.loggedInUserInfo.data.userRole.userRoleId == 1){
+			$scope.showCompany= true;
+		}else{
+			$scope.loadUsersInfo();
+		}
 
 	  	    $scope.$watch('pagingOptions', function(newVal, oldVal) {
 	  	      if (newVal !== oldVal) {
