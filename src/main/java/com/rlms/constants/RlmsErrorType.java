@@ -19,7 +19,11 @@ public enum RlmsErrorType {
 	INVALID_BRANCH_NAME(12,"invalid_branch_name"),
 	COMPANY_REG_SUCCESFUL(13,"company_reg_succesful"),
 	LIFT_ADDED_SUCCESSFULLY(14,"lift_added_successfully"),
-	LIFT_APPROVED(15,"lift_approved");
+	LIFT_APPROVED(15,"lift_approved"),
+	COMPLAINT_TITLE_BLANK(16,"complaint_title_blank"),
+	COMPLAINT_REMARK_BLANK(17,"complaint_remark_blank"),
+	LIFT_CUSTOMER_BLANK(18,"lift_customer_blank"),
+	COMPLAINT_REG_SUCCESSFUL(19,"complaint_reg_successful");
 	
 	private Integer code;
 	private String message;

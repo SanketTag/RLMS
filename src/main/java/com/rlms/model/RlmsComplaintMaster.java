@@ -28,6 +28,7 @@ public class RlmsComplaintMaster implements Serializable{
 	private Date actualServiceEndDate;
 	private RlmsLiftCustomerMap liftCustomerMap;
 	private Integer registrationType;
+	private String title;
 	private String remark;
 	private Integer status;
 	private Integer activeFlag;
@@ -151,5 +152,15 @@ public class RlmsComplaintMaster implements Serializable{
 	public void setUpdatedBy(Integer updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+	
+	@Column(name = "title", unique = true, nullable = true)
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	
 	
 }

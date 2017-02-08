@@ -17,6 +17,8 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.contract.AddNewUserDto;
 import com.rlms.contract.BranchDtlsDto;
 import com.rlms.contract.CompanyDtlsDTO;
+import com.rlms.contract.ComplaintsDtlsDto;
+import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.RegisterDto;
@@ -32,6 +34,7 @@ import com.rlms.model.RlmsCompanyMaster;
 import com.rlms.model.RlmsSpocRoleMaster;
 import com.rlms.model.RlmsUsersMaster;
 import com.rlms.service.CompanyService;
+import com.rlms.service.ComplaintsService;
 import com.rlms.service.CustomerService;
 import com.rlms.service.LiftService;
 import com.rlms.service.UserService;
@@ -52,6 +55,9 @@ public class AdminController extends BaseController{
 	
 	@Autowired
 	private LiftService liftService;
+	
+	@Autowired
+	private ComplaintsService complaintsService;
 	
 	private static final Logger logger = Logger.getLogger(AdminController.class);
 	
@@ -350,5 +356,21 @@ public class AdminController extends BaseController{
 	        return reponseDto;
 	  }
 	 
+	 @RequestMapping(value = "/getListOfComplaints", method = RequestMethod.POST)
+	 public List<ComplaintsDto> getListOfComplaints(@RequestBody ComplaintsDtlsDto dto) throws RunTimeException{
+		 List<ComplaintsDto> listOfComplaints = null;
+		 
+		 try{
+	        	logger.info("Method :: getListOfComplaints");
+	        	listOfComplaints = this.complaintsService.getListOfComplaints(dto);
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return listOfComplaints;
+	 }
 	
 }

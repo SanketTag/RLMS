@@ -5,7 +5,10 @@ public enum RLMSConstants {
 	ACTIVE(1,"Active"),
 	INACTIVE(0,"In Active"),
 	LIFT_TYPE(7,"Lift Type"),
-	INDITECH(1,"Inditech");
+	INDITECH(1,"Inditech"),
+	COMPLAINT_REG_TYPE_END_USER(1, "Registered by Customer"),
+	COMPLAINT_REG_TYPE_ADMIN(2, "Registered over Phone"),
+	COMPLAINT_REG_TYPE_LIFT_EVENT(3, "Registered by Lift events");
 	private Integer id;
 	private String name;
 	

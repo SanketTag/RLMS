@@ -18,6 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
+
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -37,12 +41,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
+import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.LoginDtlsDto;
+import com.rlms.contract.ResponseDto;
 import com.rlms.contract.UserMetaInfo;
+import com.rlms.exception.ExceptionCode;
+import com.rlms.exception.RunTimeException;
+import com.rlms.exception.ValidationException;
 import com.rlms.service.ComplaintsService;
 import com.rlms.service.MessagingServiceImpl;
+import com.rlms.utils.PropertyUtils;
 
 
 
@@ -128,4 +139,22 @@ public class RestControllerController  extends BaseController {
         
     }
     	
+    @RequestMapping(value = "/complaint/validateAndRegisterNewComplaint", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto validateAndRegisterNewComplaint(@RequestBody ComplaintsDtlsDto dto) throws ValidationException, RunTimeException{
+    	ResponseDto reponseDto = new ResponseDto();
+        try{
+        	log.info("Method :: validateAndRegisterNewComplaint");
+        	reponseDto.setResponseMessage(this.ComplaintsService.validateAndRegisterNewComplaint(dto, this.getMetaInfo()));
+        	
+        }catch(ValidationException vex){
+        	log.error(ExceptionUtils.getFullStackTrace(vex));
+        	throw vex;
+        }
+        catch(Exception e){
+        	log.error(ExceptionUtils.getFullStackTrace(e));
+        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        }
+ 
+        return reponseDto;
+    }
 }

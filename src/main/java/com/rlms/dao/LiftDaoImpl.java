@@ -58,7 +58,7 @@ public class LiftDaoImpl implements LiftDao{
 		 RlmsLiftCustomerMap liftCustomerMap = (RlmsLiftCustomerMap) criteria.uniqueResult();
 		 return liftCustomerMap;
 	
-}
+	}
 	
 	@Override
 	public Integer saveLiftM(RlmsLiftMaster liftMaster){
@@ -91,4 +91,14 @@ public class LiftDaoImpl implements LiftDao{
 			 return listOfAllLifts;
 		
 	}
+	
+	@Override
+	public RlmsLiftCustomerMap getLiftCustomerMapById(Integer liftCustomerMapId){		
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class)
+				 .add(Restrictions.eq("liftCustomerMapId", liftCustomerMapId));
+		 RlmsLiftCustomerMap liftCustomerMap = (RlmsLiftCustomerMap) criteria.uniqueResult();
+		 return liftCustomerMap;
+	
+}
 }

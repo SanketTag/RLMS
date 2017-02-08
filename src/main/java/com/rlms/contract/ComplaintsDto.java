@@ -16,8 +16,10 @@ public class ComplaintsDto {
 	private String latitude;
 	private String longitude;
 	private Integer registrationType;
+	private String registrationTypeStr;
 	private String remark;
 	private String status;
+	private String title;
 	public String getComplaintNumber() {
 		return complaintNumber;
 	}
@@ -89,6 +91,18 @@ public class ComplaintsDto {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getRegistrationTypeStr() {
+		return registrationTypeStr;
+	}
+	public void setRegistrationTypeStr(String registrationTypeStr) {
+		this.registrationTypeStr = registrationTypeStr;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	
