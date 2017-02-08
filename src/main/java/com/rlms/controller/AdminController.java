@@ -356,21 +356,6 @@ public class AdminController extends BaseController{
 	        return reponseDto;
 	  }
 	 
-	 @RequestMapping(value = "/getListOfComplaints", method = RequestMethod.POST)
-	 public List<ComplaintsDto> getListOfComplaints(@RequestBody ComplaintsDtlsDto dto) throws RunTimeException{
-		 List<ComplaintsDto> listOfComplaints = null;
-		 
-		 try{
-	        	logger.info("Method :: getListOfComplaints");
-	        	listOfComplaints = this.complaintsService.getListOfComplaints(dto);
-	        	
-	        }
-	        catch(Exception e){
-	        	logger.error(ExceptionUtils.getFullStackTrace(e));
-	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
-	        }
-	 
-	        return listOfComplaints;
-	 }
+	
 	
 }
