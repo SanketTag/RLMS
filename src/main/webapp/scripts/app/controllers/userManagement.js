@@ -139,7 +139,7 @@
 	  	      }, 100);
 	  	    };
 	  	    
-	  	  $scope.loadCustomerList=function(){
+	  	  $scope.loadUsersInfo=function(){
 	  	    	 $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
 	  	    }
 	  	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){

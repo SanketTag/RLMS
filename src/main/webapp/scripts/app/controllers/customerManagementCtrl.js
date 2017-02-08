@@ -176,7 +176,7 @@
 	  	    };
 	  	    
 	  	    $scope.loadCustomerInfo=function(){
-	  	    	alert("");
+	  	    	
 	  	    	 $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
 	  	    }
 	  	    $scope.resetCustomerList=function(){
