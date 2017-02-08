@@ -232,3 +232,12 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
     text-align: right;
     font-size: 14px;
 }
+/*customer management*/
+.customer-management .select-container{
+	display:inline-block;
+	width:20%;
+	margin: 0 10px;
+}
+.margin-left-10{
+	margin-left:10px;
+}

@@ -99,7 +99,7 @@
 	  	  $scope.loadBranchInfo=function(){
 		  	    	 $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
 		  	 }
-		  	if($rootScope.loggedInUserInfo.data.userRole.userRoleId == 1){
+		  	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
 				$scope.showCompany= true;
 			}else{
 				$scope.loadBranchInfo();

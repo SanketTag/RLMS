@@ -25,6 +25,10 @@ angular
           label: 'Assign Role',
           url: '#/assign-role'
       },
+      {
+          label: 'Manage Customers',
+          url: '#/customer-management'
+      }
       ]
     }];
 
