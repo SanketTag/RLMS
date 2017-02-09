@@ -17,9 +17,13 @@ public class LiftDtlsDto {
 	private String latitude;
 	private String longitude;
 	private Date serviceStartDate;
+	private String serviceStartDateStr;
 	private Date serviceEndDate;
-	private Date dateOfInstallation; 
+	private String serviceEndDateStr;
+	private Date dateOfInstallation;
+	private String dateOfInstallationStr;
 	private Date amcStartDate;
+	private String amcStartDateStr;
 	private Integer amcType;
 	private String amcAmount;
 	private Integer doorType;
@@ -357,6 +361,30 @@ public class LiftDtlsDto {
 	}
 	public void setArd(String ard) {
 		this.ard = ard;
+	}
+	public String getServiceStartDateStr() {
+		return serviceStartDateStr;
+	}
+	public void setServiceStartDateStr(String serviceStartDateStr) {
+		this.serviceStartDateStr = serviceStartDateStr;
+	}
+	public String getServiceEndDateStr() {
+		return serviceEndDateStr;
+	}
+	public void setServiceEndDateStr(String serviceEndDateStr) {
+		this.serviceEndDateStr = serviceEndDateStr;
+	}
+	public String getDateOfInstallationStr() {
+		return dateOfInstallationStr;
+	}
+	public void setDateOfInstallationStr(String dateOfInstallationStr) {
+		this.dateOfInstallationStr = dateOfInstallationStr;
+	}
+	public String getAmcStartDateStr() {
+		return amcStartDateStr;
+	}
+	public void setAmcStartDateStr(String amcStartDateStr) {
+		this.amcStartDateStr = amcStartDateStr;
 	}
 	
 	 

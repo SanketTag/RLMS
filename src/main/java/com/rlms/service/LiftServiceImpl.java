@@ -24,6 +24,7 @@ import com.rlms.model.RlmsFyaTranDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsLiftMaster;
 import com.rlms.model.RlmsUserRoles;
+import com.rlms.utils.DateUtils;
 import com.rlms.utils.PropertyUtils;
 
 @Service("LiftService")
@@ -216,6 +217,9 @@ public class LiftServiceImpl implements LiftService{
 			dto.setAlarmBattery(liftM.getAlarmBattery());
 			dto.setAmcAmount(liftM.getAmcAmount());
 			dto.setAmcStartDate(liftM.getAmcStartDate());
+			if(null != liftM.getAmcStartDate()){
+				dto.setAmcStartDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getAmcStartDate()));
+			}
 			dto.setAmcType(liftM.getAmcType());
 			dto.setArd(liftM.getARD());
 			dto.setARDPhoto(liftM.getARDPhoto());
@@ -225,9 +229,18 @@ public class LiftServiceImpl implements LiftService{
 			dto.setBranchName(liftCustomerMap.getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());;
 			dto.setCustomerName(liftCustomerMap.getBranchCustomerMap().getCustomerMaster().getCustomerName());
 			dto.setDateOfInstallation(liftM.getDateOfInstallation());
+			if(null != liftM.getDateOfInstallation()){
+				dto.setDateOfInstallationStr(DateUtils.convertDateToStringWithoutTime(liftM.getDateOfInstallation()));
+			}
 			dto.setLiftNumber(liftM.getLiftNumber());
 			dto.setServiceStartDate(liftM.getServiceStartDate());
+			if(null != liftM.getServiceStartDate()){
+				dto.setServiceStartDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getServiceStartDate()));
+			}
 			dto.setServiceEndDate(liftM.getServiceEndDate());
+			if(null != liftM.getServiceEndDate()){
+				dto.setServiceEndDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getServiceEndDate()));
+			}
 			listOfAllDtos.add(dto);
 		}
 		
