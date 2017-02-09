@@ -28,6 +28,10 @@ angular
       {
           label: 'Manage Customers',
           url: '#/customer-management'
+      },
+      {
+    	  label:'Manage Lift',
+    	  url: "#/lift-management"
       }
       ]
     }];

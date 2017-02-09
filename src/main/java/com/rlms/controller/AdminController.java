@@ -361,7 +361,7 @@ public class AdminController extends BaseController{
 		 List<LiftDtlsDto> listOfLifts = new ArrayList<LiftDtlsDto>();
 	        
 	        try{
-	        	logger.info("Method :: getLiftsToBeApproved");
+	        	logger.info("Method :: getLiftDetailsForBranch");
 	        	listOfLifts = this.liftService.getLiftDetailsForBranch(liftDtlsDto, this.getMetaInfo());
 	        	
 	        }

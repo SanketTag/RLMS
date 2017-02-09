@@ -1,0 +1,128 @@
+<div class="rlms-wrapper">
+<div class="rlms-container add_user" ng-controller="addUserCtrl as ctrl">
+	<h1 class="rlms-heading">Add Lift</h1>
+	<div class="container-fluid" >
+		<alert ng-show="showAlert" type="{{alert.type}}">
+			<span ng-bind-html="alert.msg | safe_html"></alert>
+		<!-- <form class="form-horizontal row-border" name="addUserForm">
+		<fieldset>
+		  <legend>User Details</legend>
+		  <div class="form-group"><label class="col-sm-4 control-label">Select Company</label>
+				<div class="col-sm-6">
+					  <ui-select ng-model="selectedCompany.selected" title="Choose a Company">
+					    <ui-select-match placeholder="Select or search a company in the list...">{{$select.selected.companyName}}</ui-select-match>
+					    <ui-select-choices repeat="companyIterator in companies| filter: $select.search">
+					      <span ng-bind-html="companyIterator.companyName | highlight: $select.search"></span>
+					    </ui-select-choices>
+					  </ui-select>
+				</div>
+			</div>
+			<div class="form-group"><label class="col-sm-4 control-label">First Name : </label>
+				<div class="col-sm-6">
+					<input name="firstName" type="text" placeholder="Required Field" required ng-model="addUser.firstName" class="form-control">
+					<span class="help-block"
+						ng-show="addUserForm.firstName.$error.required && addUserForm.firstName.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Last Name : </label>
+				<div class="col-sm-6">
+					<input name="lastName" type="text" placeholder="Required Field"
+						required ng-model="addUser.lastName" class="form-control">
+					<span class="help-block"
+						ng-show="addUserForm.lastName.$error.required && addUserForm.lastName.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Address : </label>
+				<div class="col-sm-6">
+					<input name="address" type="text"
+						placeholder="Required Field" required
+						ng-model="addUser.address" class="form-control">
+					<span class="help-block"
+						ng-show="addUserForm.address.$error.required && addUserForm.address.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Contact Number : </label>
+				<div class="col-sm-6">
+					<input name="contactNumber" type="number" placeholder="Required Field"
+						required ng-model="addUser.contactNumber" class="form-control">
+					<span class="help-block"
+						ng-show="addUserForm.contactNumber.$error.required && addUserForm.contactNumber.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Email : </label>
+				<div class="col-sm-6">
+					<input name="emailId" type="email" placeholder="Required Field"
+						required ng-model="addUser.emailId" class="form-control">
+					<span class="help-block"
+						ng-show="addUserForm.emailId.$error.required && addUserForm.emailId.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+		 </fieldset>
+		
+			<div class="panel-footer">
+			<div class="row">
+				<div class="col-sm-6">
+					<span ng-click="backPage();" class=" button button-clear fa fa-chevron-circle-left go-back"></span>
+				</div>
+				<div class="col-sm-6 ">
+					<div class="btn-toolbar">
+						<button class="btn-primary btn" ng-disabled="addUserForm.$invalid && addUserForm.$pristine" ng-click="submitAddUser()">Submit</button>
+						<button class="btn-default btn" ng-click="resetAddUser();">Reset</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form> -->
+		<form  data-wizard="{finishButton: true, titleClick: true, block: true, validate: true}" class="form-horizontal">
+					<fieldset title="Step 1">
+						<legend>Registration</legend>
+						<div class="form-group">
+							<label for="fieldname" class="col-md-3 control-label">Name</label>
+							<div class="col-md-6">
+								<input id="fieldname" class="form-control" name="name" minlength="4" type="text" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="fieldemail" class="col-md-3 control-label">Email</label>
+							<div class="col-md-6"><input id="fieldemail" class="form-control" type="email" name="email" required></div>
+						</div>
+						<div class="form-group">
+							<label for="fieldurl" class="col-md-3 control-label">URL</label>
+							<div class="col-md-6"><input id="fieldurl" class="form-control"  type="url" name="url"></div>
+						</div>
+					</fieldset>
+					<fieldset title="Step 2">
+						<legend>Personal Data</legend>
+						<div class="form-group">
+							<label for="fieldnick" class="col-md-3 control-label">Nick</label>
+							<div class="col-md-6"><input id="fieldnick" class="form-control" name="name" minlength="4" type="text" required></div>
+						</div>
+						<div class="form-group">
+							<label for="fieldabout" class="col-md-3 control-label">About</label>
+							<div class="col-md-6"><textarea id="fieldabout" class="form-control autosize" rows="2"></textarea></div>
+						</div>
+					</fieldset>
+					<fieldset title="Step 3">
+						<legend>Preview</legend>
+						<div class="form-group">
+							<label for="" class="col-md-3 control-label">Terms and Conditions</label>
+							<div class="col-md-9">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, nemo, atque consequuntur officiis asperiores consectetur porro labore commodi esse error quisquam nihil illum sunt facere inventore possimus autem ab voluptates quibusdam non voluptatum suscipit architecto. Illo, facilis, corporis, veritatis dolores minus quasi iure cupiditate quis autem ducimus nisi obcaecati tenetur sed ea excepturi pariatur consequatur enim labore officia mollitia. Rerum, voluptatem numquam molestiae recusandae iusto ipsum inventore unde accusantium labore delectus? Doloremque, fugit, sunt libero laboriosam cupiditate sed sequi nostrum saepe. Mollitia, alias, expedita accusantium porro error autem dolore veniam commodi nesciunt provident vitae neque. Nostrum, sed, molestias itaque provident inventore natus animi quasi laborum laboriosam facere ratione aperiam iusto. Non ducimus facere sunt doloribus? Asperiores, natus distinctio quis iure!</p>
+							</div>
+						</div>
+					</fieldset>
+					<input type="submit" class="finish btn-success btn" value="Submit" />
+				</form>
+	</panel> 	
+	</div>
+</div>
+</div>

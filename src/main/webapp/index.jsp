@@ -245,6 +245,8 @@
 	<script src="bower_components/angular-ui-select/dist/select.js"></script>
 	<script src="bower_components/skycons/skycons.js"></script>
 	<script src="bower_components/angular-skycons/angular-skycons.js"></script>
+	<script src="bower_components/jquery-validation/dist/jquery.validate.js"></script>
+	<script src="bower_components/stepy/lib/jquery.stepy.js"></script>
 	<script
 		src="bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 	<!-- 	<script src="bower_components/d3/d3.js"></script>-->
@@ -373,6 +375,8 @@
 	<script src="scripts/app/controllers/userManagement.js"></script>
 	<script src="scripts/app/controllers/branchManagement.js"></script>
 	<script src="scripts/app/controllers/customerManagementCtrl.js"></script>
+	<script src="scripts/app/controllers/liftManagementCtrl.js"></script>
+	<script src="scripts/app/controllers/addLiftCtrl.js"></script>
 	<script src="scripts/app/services/serviceApi.js"></script>
 	<script src="scripts/app/services/utility.js"></script>
 	<!-- App-->
