@@ -15,4 +15,6 @@ public interface LiftService {
 	public String approveLift(LiftDtlsDto liftDtlsDto, UserMetaInfo metaInfo);
 
 	List<LiftDtlsDto> getLiftsToBeApproved();
+	
+	public List<LiftDtlsDto> getLiftDetailsForBranch(LiftDtlsDto liftDtlsDto, UserMetaInfo metaInfo);
 }

@@ -24,6 +24,7 @@ import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.RegisterDto;
 import com.rlms.contract.ResponseDto;
 import com.rlms.contract.UserDtlsDto;
+import com.rlms.contract.UserMetaInfo;
 import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
@@ -355,7 +356,21 @@ public class AdminController extends BaseController{
 	 
 	        return reponseDto;
 	  }
+	 @RequestMapping(value = "/getLiftDetailsForBranch", method = RequestMethod.POST)
+	 public @ResponseBody List<LiftDtlsDto> getLiftDetailsForBranch(@RequestBody LiftDtlsDto liftDtlsDto) throws RunTimeException{
+		 List<LiftDtlsDto> listOfLifts = new ArrayList<LiftDtlsDto>();
+	        
+	        try{
+	        	logger.info("Method :: getLiftsToBeApproved");
+	        	listOfLifts = this.liftService.getLiftDetailsForBranch(liftDtlsDto, this.getMetaInfo());
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
 	 
-	
+	        return listOfLifts;
+	 }
 	
 }
