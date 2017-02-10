@@ -15,6 +15,8 @@ public class CustomerDtlsDto {
 	private Integer totalNumberOfLifts;
 	private String branchName;
 	private String companyName;
+	
+	private Integer branchCustomerMapId;
 	public String getFirstName() {
 		return firstName;
 	}
@@ -92,6 +94,12 @@ public class CustomerDtlsDto {
 	}
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+	public Integer getBranchCustomerMapId() {
+		return branchCustomerMapId;
+	}
+	public void setBranchCustomerMapId(Integer branchCustomerMapId) {
+		this.branchCustomerMapId = branchCustomerMapId;
 	}
 	
 	

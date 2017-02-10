@@ -27,7 +27,7 @@ public class LiftDtlsDto {
 	private Integer amcType;
 	private String amcAmount;
 	private Integer doorType;
-	private Integer noOfStops;
+	private String noOfStops;
 	private Integer engineType; 
 	private String machineMake;
 	private String machineCapacity;
@@ -37,16 +37,16 @@ public class LiftDtlsDto {
 	private String panelMake;
 	private byte[] panelPhoto;
 	private String ard;
-	private byte[] ARDPhoto;
-	private Integer NoOfBatteries;
-	private String BatteryCapacity;
-	private String BatteryMake;
-	private String COPMake;
-	private byte[] COPPhoto;
-	private String  LOPMake;
-	private byte[] LOPPhoto;
+	private byte[] ardPhoto;
+	private Integer noOfBatteries;
+	private String batteryCapacity;
+	private String batteryMake;
+	private String copMake;
+	private byte[] copPhoto;
+	private String  lopMake;
+	private byte[] lopPhoto;
 	private Integer collectiveType;
-	private Integer SimplexDuplex;
+	private Integer simplexDuplex;
 	private byte[] cartopPhoto;
 	private String autoDoorMake;
 	private byte[] autoDoorHeaderPhoto;
@@ -60,7 +60,6 @@ public class LiftDtlsDto {
 	private byte[] lobbyPhoto;
 	private Integer fyaTranId;
 	private Integer liftCustomerMapId;
-	
 	public String getLiftNumber() {
 		return liftNumber;
 	}
@@ -78,6 +77,36 @@ public class LiftDtlsDto {
 	}
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+	public String getBranchName() {
+		return branchName;
+	}
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+	public Integer getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
+	public Integer getBranchCompanyMapId() {
+		return branchCompanyMapId;
+	}
+	public void setBranchCompanyMapId(Integer branchCompanyMapId) {
+		this.branchCompanyMapId = branchCompanyMapId;
+	}
+	public Integer getBranchCustomerMapId() {
+		return branchCustomerMapId;
+	}
+	public void setBranchCustomerMapId(Integer branchCustomerMapId) {
+		this.branchCustomerMapId = branchCustomerMapId;
+	}
+	public Integer getLiftId() {
+		return liftId;
+	}
+	public void setLiftId(Integer liftId) {
+		this.liftId = liftId;
 	}
 	public String getLatitude() {
 		return latitude;
@@ -97,11 +126,23 @@ public class LiftDtlsDto {
 	public void setServiceStartDate(Date serviceStartDate) {
 		this.serviceStartDate = serviceStartDate;
 	}
+	public String getServiceStartDateStr() {
+		return serviceStartDateStr;
+	}
+	public void setServiceStartDateStr(String serviceStartDateStr) {
+		this.serviceStartDateStr = serviceStartDateStr;
+	}
 	public Date getServiceEndDate() {
 		return serviceEndDate;
 	}
 	public void setServiceEndDate(Date serviceEndDate) {
 		this.serviceEndDate = serviceEndDate;
+	}
+	public String getServiceEndDateStr() {
+		return serviceEndDateStr;
+	}
+	public void setServiceEndDateStr(String serviceEndDateStr) {
+		this.serviceEndDateStr = serviceEndDateStr;
 	}
 	public Date getDateOfInstallation() {
 		return dateOfInstallation;
@@ -109,11 +150,23 @@ public class LiftDtlsDto {
 	public void setDateOfInstallation(Date dateOfInstallation) {
 		this.dateOfInstallation = dateOfInstallation;
 	}
+	public String getDateOfInstallationStr() {
+		return dateOfInstallationStr;
+	}
+	public void setDateOfInstallationStr(String dateOfInstallationStr) {
+		this.dateOfInstallationStr = dateOfInstallationStr;
+	}
 	public Date getAmcStartDate() {
 		return amcStartDate;
 	}
 	public void setAmcStartDate(Date amcStartDate) {
 		this.amcStartDate = amcStartDate;
+	}
+	public String getAmcStartDateStr() {
+		return amcStartDateStr;
+	}
+	public void setAmcStartDateStr(String amcStartDateStr) {
+		this.amcStartDateStr = amcStartDateStr;
 	}
 	public Integer getAmcType() {
 		return amcType;
@@ -133,10 +186,10 @@ public class LiftDtlsDto {
 	public void setDoorType(Integer doorType) {
 		this.doorType = doorType;
 	}
-	public Integer getNoOfStops() {
+	public String getNoOfStops() {
 		return noOfStops;
 	}
-	public void setNoOfStops(Integer noOfStops) {
+	public void setNoOfStops(String noOfStops) {
 		this.noOfStops = noOfStops;
 	}
 	public Integer getEngineType() {
@@ -187,54 +240,59 @@ public class LiftDtlsDto {
 	public void setPanelPhoto(byte[] panelPhoto) {
 		this.panelPhoto = panelPhoto;
 	}
-	
-	public byte[] getARDPhoto() {
-		return ARDPhoto;
+	public String getArd() {
+		return ard;
 	}
-	public void setARDPhoto(byte[] aRDPhoto) {
-		ARDPhoto = aRDPhoto;
+	public void setArd(String ard) {
+		this.ard = ard;
+	}
+	public byte[] getArdPhoto() {
+		return ardPhoto;
+	}
+	public void setArdPhoto(byte[] ardPhoto) {
+		this.ardPhoto = ardPhoto;
 	}
 	public Integer getNoOfBatteries() {
-		return NoOfBatteries;
+		return noOfBatteries;
 	}
 	public void setNoOfBatteries(Integer noOfBatteries) {
-		NoOfBatteries = noOfBatteries;
+		this.noOfBatteries = noOfBatteries;
 	}
 	public String getBatteryCapacity() {
-		return BatteryCapacity;
+		return batteryCapacity;
 	}
 	public void setBatteryCapacity(String batteryCapacity) {
-		BatteryCapacity = batteryCapacity;
+		this.batteryCapacity = batteryCapacity;
 	}
 	public String getBatteryMake() {
-		return BatteryMake;
+		return batteryMake;
 	}
 	public void setBatteryMake(String batteryMake) {
-		BatteryMake = batteryMake;
+		this.batteryMake = batteryMake;
 	}
-	public String getCOPMake() {
-		return COPMake;
+	public String getCopMake() {
+		return copMake;
 	}
-	public void setCOPMake(String cOPMake) {
-		COPMake = cOPMake;
+	public void setCopMake(String copMake) {
+		this.copMake = copMake;
 	}
-	public byte[] getCOPPhoto() {
-		return COPPhoto;
+	public byte[] getCopPhoto() {
+		return copPhoto;
 	}
-	public void setCOPPhoto(byte[] cOPPhoto) {
-		COPPhoto = cOPPhoto;
+	public void setCopPhoto(byte[] copPhoto) {
+		this.copPhoto = copPhoto;
 	}
-	public String getLOPMake() {
-		return LOPMake;
+	public String getLopMake() {
+		return lopMake;
 	}
-	public void setLOPMake(String lOPMake) {
-		LOPMake = lOPMake;
+	public void setLopMake(String lopMake) {
+		this.lopMake = lopMake;
 	}
-	public byte[] getLOPPhoto() {
-		return LOPPhoto;
+	public byte[] getLopPhoto() {
+		return lopPhoto;
 	}
-	public void setLOPPhoto(byte[] lOPPhoto) {
-		LOPPhoto = lOPPhoto;
+	public void setLopPhoto(byte[] lopPhoto) {
+		this.lopPhoto = lopPhoto;
 	}
 	public Integer getCollectiveType() {
 		return collectiveType;
@@ -243,10 +301,10 @@ public class LiftDtlsDto {
 		this.collectiveType = collectiveType;
 	}
 	public Integer getSimplexDuplex() {
-		return SimplexDuplex;
+		return simplexDuplex;
 	}
 	public void setSimplexDuplex(Integer simplexDuplex) {
-		SimplexDuplex = simplexDuplex;
+		this.simplexDuplex = simplexDuplex;
 	}
 	public byte[] getCartopPhoto() {
 		return cartopPhoto;
@@ -314,36 +372,6 @@ public class LiftDtlsDto {
 	public void setLobbyPhoto(byte[] lobbyPhoto) {
 		this.lobbyPhoto = lobbyPhoto;
 	}
-	public Integer getCompanyId() {
-		return companyId;
-	}
-	public void setCompanyId(Integer companyId) {
-		this.companyId = companyId;
-	}
-	public Integer getBranchCompanyMapId() {
-		return branchCompanyMapId;
-	}
-	public void setBranchCompanyMapId(Integer branchCompanyMapId) {
-		this.branchCompanyMapId = branchCompanyMapId;
-	}
-	public Integer getBranchCustomerMapId() {
-		return branchCustomerMapId;
-	}
-	public void setBranchCustomerMapId(Integer branchCustomerMapId) {
-		this.branchCustomerMapId = branchCustomerMapId;
-	}
-	public String getBranchName() {
-		return branchName;
-	}
-	public void setBranchName(String branchName) {
-		this.branchName = branchName;
-	}
-	public Integer getLiftId() {
-		return liftId;
-	}
-	public void setLiftId(Integer liftId) {
-		this.liftId = liftId;
-	}
 	public Integer getFyaTranId() {
 		return fyaTranId;
 	}
@@ -356,36 +384,7 @@ public class LiftDtlsDto {
 	public void setLiftCustomerMapId(Integer liftCustomerMapId) {
 		this.liftCustomerMapId = liftCustomerMapId;
 	}
-	public String getArd() {
-		return ard;
-	}
-	public void setArd(String ard) {
-		this.ard = ard;
-	}
-	public String getServiceStartDateStr() {
-		return serviceStartDateStr;
-	}
-	public void setServiceStartDateStr(String serviceStartDateStr) {
-		this.serviceStartDateStr = serviceStartDateStr;
-	}
-	public String getServiceEndDateStr() {
-		return serviceEndDateStr;
-	}
-	public void setServiceEndDateStr(String serviceEndDateStr) {
-		this.serviceEndDateStr = serviceEndDateStr;
-	}
-	public String getDateOfInstallationStr() {
-		return dateOfInstallationStr;
-	}
-	public void setDateOfInstallationStr(String dateOfInstallationStr) {
-		this.dateOfInstallationStr = dateOfInstallationStr;
-	}
-	public String getAmcStartDateStr() {
-		return amcStartDateStr;
-	}
-	public void setAmcStartDateStr(String amcStartDateStr) {
-		this.amcStartDateStr = amcStartDateStr;
-	}
+	
 	
 	 
 }

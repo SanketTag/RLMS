@@ -148,4 +148,19 @@ public class CustomerServiceImpl implements CustomerService{
 		}
 		return listOFDtos;
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<CustomerDtlsDto> getAllCustomersForBranch(CustomerDtlsDto dto, UserMetaInfo metaInfo){
+		List<CustomerDtlsDto> listOFDtos = new ArrayList<CustomerDtlsDto>();
+		List<Integer> listOfApplicableBranchIds = new ArrayList<Integer>();
+		listOfApplicableBranchIds.add(dto.getBranchCompanyMapId());
+		List<RlmsBranchCustomerMap> listOfAllCustomers = this.customerDao.getAllCustomersForBranches(listOfApplicableBranchIds);
+		for (RlmsBranchCustomerMap rlmsBranchCustomerMap : listOfAllCustomers) {
+			CustomerDtlsDto customerDtlsDto = new CustomerDtlsDto();
+			customerDtlsDto.setBranchCustomerMapId(rlmsBranchCustomerMap.getBranchCustoMapId());
+			customerDtlsDto.setFirstName(rlmsBranchCustomerMap.getCustomerMaster().getCustomerName());
+			listOFDtos.add(customerDtlsDto);
+		}
+		return listOFDtos;
+	}
 }

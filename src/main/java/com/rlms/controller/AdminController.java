@@ -306,6 +306,23 @@ public class AdminController extends BaseController{
 	        return listOfCustomers;
 	 }
 	 
+	 @RequestMapping(value = "/getAllCustomersForBranch", method = RequestMethod.POST)
+	 public @ResponseBody List<CustomerDtlsDto> getAllCustomersForBranch(@RequestBody CustomerDtlsDto customerDtlsDto) throws RunTimeException {
+		 List<CustomerDtlsDto> listOfCustomers = null;
+	        
+	        try{
+	        	logger.info("Method :: getAllCustomersForBranch");
+	        	listOfCustomers = this.customerService.getAllCustomersForBranch(customerDtlsDto, this.getMetaInfo());
+	        	
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        	
+	        }
+	 
+	        return listOfCustomers;
+	 }
+	 
 	 @RequestMapping(value = "/validateAndRegisterNewLift", method = RequestMethod.POST)
 	    public @ResponseBody ResponseDto validateAndRegisterNewLift(@RequestBody LiftDtlsDto dto) throws RunTimeException, ValidationException {
 		 ResponseDto reponseDto = new ResponseDto();

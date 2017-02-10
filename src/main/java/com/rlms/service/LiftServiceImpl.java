@@ -120,7 +120,7 @@ public class LiftServiceImpl implements LiftService{
 		liftM.setAmcStartDate(dto.getAmcStartDate());
 		liftM.setAmcType(dto.getAmcType());
 		liftM.setARD(dto.getArd());
-		liftM.setARDPhoto(dto.getARDPhoto());
+		liftM.setARDPhoto(dto.getArdPhoto());
 		liftM.setAutoDoorHeaderPhoto(dto.getAutoDoorHeaderPhoto());
 		liftM.setAutoDoorMake(dto.getAutoDoorMake());
 		liftM.setBatteryCapacity(dto.getBatteryCapacity());
@@ -128,8 +128,8 @@ public class LiftServiceImpl implements LiftService{
 		liftM.setBreakVoltage(dto.getBreakVoltage());
 		liftM.setCartopPhoto(dto.getCartopPhoto());
 		liftM.setCollectiveType(dto.getCollectiveType());
-		liftM.setCOPMake(dto.getCOPMake());
-		liftM.setCOPPhoto(dto.getCOPPhoto());		
+		liftM.setCOPMake(dto.getCopMake());
+		liftM.setCOPPhoto(dto.getCopPhoto());		
 		liftM.setDateOfInstallation(dto.getDateOfInstallation());
 		liftM.setDoorType(dto.getDoorType());
 		liftM.setEngineType(dto.getEngineType());
@@ -139,8 +139,8 @@ public class LiftServiceImpl implements LiftService{
 		liftM.setLiftNumber(dto.getLiftNumber());
 		liftM.setLobbyPhoto(dto.getLobbyPhoto());
 		liftM.setLongitude(dto.getLongitude());
-		liftM.setLOPMake(dto.getLOPMake());
-		liftM.setLOPPhoto(dto.getLOPPhoto());
+		liftM.setLOPMake(dto.getLopMake());
+		liftM.setLOPPhoto(dto.getLopPhoto());
 		liftM.setMachineCapacity(dto.getMachineCapacity());
 		liftM.setMachineCurrent(dto.getMachineCurrent());
 		liftM.setMachineMake(dto.getMachineMake());
@@ -222,7 +222,7 @@ public class LiftServiceImpl implements LiftService{
 			}
 			dto.setAmcType(liftM.getAmcType());
 			dto.setArd(liftM.getARD());
-			dto.setARDPhoto(liftM.getARDPhoto());
+			dto.setArdPhoto(liftM.getARDPhoto());
 			dto.setAutoDoorHeaderPhoto(liftM.getAutoDoorHeaderPhoto());
 			dto.setBatteryCapacity(liftM.getBatteryCapacity());
 			dto.setBatteryMake(liftM.getBatteryMake());
