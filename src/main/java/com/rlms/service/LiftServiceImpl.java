@@ -180,6 +180,7 @@ public class LiftServiceImpl implements LiftService{
 			dto.setLiftId(liftCustomerMap.getLiftMaster().getLiftId());
 			dto.setLiftCustomerMapId(liftCustomerMap.getLiftCustomerMapId());
 			dto.setFyaTranId(fyaTranDtls.getFyaTranId());
+			dto.setCompanyName(liftCustomerMap.getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyName());
 			listOfDtos.add(dto);
 		}
 		

@@ -8,6 +8,7 @@ public class LiftDtlsDto {
 	private String address;
 	private String customerName;
 	private String branchName;
+	private String companyName;
 	
 	private Integer companyId;
 	private Integer branchCompanyMapId;
@@ -383,6 +384,12 @@ public class LiftDtlsDto {
 	}
 	public void setLiftCustomerMapId(Integer liftCustomerMapId) {
 		this.liftCustomerMapId = liftCustomerMapId;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 	
 	
