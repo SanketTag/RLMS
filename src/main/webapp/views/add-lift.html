@@ -4,124 +4,314 @@
 	<div class="container-fluid" >
 		<alert ng-show="showAlert" type="{{alert.type}}">
 			<span ng-bind-html="alert.msg | safe_html"></alert>
-		<!-- <form class="form-horizontal row-border" name="addUserForm">
-		<fieldset>
-		  <legend>User Details</legend>
-		  <div class="form-group"><label class="col-sm-4 control-label">Select Company</label>
-				<div class="col-sm-6">
-					  <ui-select ng-model="selectedCompany.selected" title="Choose a Company">
-					    <ui-select-match placeholder="Select or search a company in the list...">{{$select.selected.companyName}}</ui-select-match>
-					    <ui-select-choices repeat="companyIterator in companies| filter: $select.search">
-					      <span ng-bind-html="companyIterator.companyName | highlight: $select.search"></span>
-					    </ui-select-choices>
-					  </ui-select>
-				</div>
+		<form  name="addLiftForm" data-wizard="{finishButton: true, titleClick: true, block: true, validate: true}" class="form-horizontal">
+	<fieldset title="Step 1">
+		<legend>Lift Information</legend>
+		<div class="form-group">
+			<label for="liftNumber" class="col-md-3 control-label">Lift Number</label>
+			<div class="col-md-6">
+				<input ng-model="addLift.liftNumber" class="form-control" name="liftNumber" type="text" required/>
 			</div>
-			<div class="form-group"><label class="col-sm-4 control-label">First Name : </label>
+		</div>
+		<div class="form-group">
+			<label for="address" class="col-md-3 control-label">Address</label>
+			<div class="col-md-6"><input ng-model="addLift.address" class="form-control" type="text" name="address" required></div>
+		</div>
+		<div class="form-group">
+			<label for="latitude" class="col-md-3 control-label">Latitude</label>
+			<div class="col-md-6"><input ng-model="addLift.latitude" class="form-control"  type="text" name="latitude"></div>
+		</div>
+		<div class="form-group">
+			<label for="longitude" class="col-md-3 control-label">Longitude</label>
+			<div class="col-md-6"><input ng-model="addLift.longitude" class="form-control"  type="text" name="longitude"></div>
+		</div>
+		<div class="form-group">
+			<label for="serviceStartDate" class="col-md-3 control-label">Service Start Date</label>
+			<div class="col-md-6"><input ng-model="addLift.serviceStartDate" class="form-control"  type="text" name="serviceStartDate"></div>
+		</div>
+		<div class="form-group">
+			<label for="serviceEndDate" class="col-md-3 control-label">Service End Date</label>
+			<div class="col-md-6"><input ng-model="addLift.serviceEndDate" class="form-control"  type="text" name="serviceEndDate"></div>
+		</div>
+		<div class="form-group">
+			<label for="dateOfInstallation" class="col-md-3 control-label">Date Of Installation</label>
+			<div class="col-md-6"><input ng-model="addLift.dateOfInstallation" class="form-control"  type="text" name="dateOfInstallation"></div>
+		</div>
+		<div class="form-group">
+			<label for="amcStartDate" class="col-md-3 control-label">Amc Start Date</label>
+			<div class="col-md-6"><input ng-model="addLift.amcStartDate" class="form-control"  type="text" name="amcStartDate"></div>
+		</div>
+		<div class="form-group">
+			<label for="amcType" class="col-md-3 control-label">Amc Type</label>
+			<div class="col-md-6"><input ng-model="addLift.amcType" class="form-control"  type="text" name="amcType"></div>
+		</div>
+		<div class="form-group">
+			<label for="amcAmount" class="col-md-3 control-label">Amc Amount</label>
+			<div class="col-md-6"><input ng-model="addLift.amcAmount" class="form-control"  type="text" name="amcAmount"></div>
+		</div>
+	</fieldset>
+	<fieldset title="Step 2">
+		<legend>Technical Details</legend>
+		<div class="form-group">
+			<label for="doorType" class="col-md-3 control-label">Door Type</label>
+			<div class="col-md-6"><input ng-model="addLift.doorType" class="form-control"  type="text" name="doorType"></div>
+		</div>
+		<div class="form-group">
+			<label for="noOfStops" class="col-md-3 control-label">No Of Stops</label>
+			<div class="col-md-6"><input ng-model="addLift.noOfStops" class="form-control"  type="text" name="noOfStops"></div>
+		</div>
+		<div class="form-group">
+			<label for="engineType" class="col-md-3 control-label">Engine Type</label>
+			<div class="col-md-6"><input ng-model="addLift.engineType" class="form-control"  type="text" name="engineType"></div>
+		</div>
+		<div class="form-group">
+			<label for="machineMake" class="col-md-3 control-label">Machine Make</label>
+			<div class="col-md-6"><input ng-model="addLift.machineMake" class="form-control"  type="text" name="machineMake"></div>
+		</div>
+		<div class="form-group">
+			<label for="machineCurrent" class="col-md-3 control-label">Machine Current</label>
+			<div class="col-md-6"><input ng-model="addLift.machineCurrent" class="form-control"  type="text" name="machineCurrent"></div>
+		</div>
+		<div class="form-group">
+			<label for="machineCapacity" class="col-md-3 control-label">Machine Capacity</label>
+			<div class="col-md-6"><input ng-model="addLift.machineCapacity" class="form-control"  type="text" name="machineCapacity"></div>
+		</div>
+		<div class="form-group">
+			<label for="breakVoltage" class="col-md-3 control-label">Break Voltage</label>
+			<div class="col-md-6"><input ng-model="addLift.breakVoltage" class="form-control"  type="text" name="breakVoltage"></div>
+		</div>
+		<div class="form-group">
+			<label for="panelMake" class="col-md-3 control-label">Panel Make</label>
+			<div class="col-md-6"><input ng-model="addLift.panelMake" class="form-control"  type="text" name="panelMake"></div>
+		</div>
+		<div class="form-group">
+			<label for="ARD" class="col-md-3 control-label">ARD</label>
+			<div class="col-md-6"><input ng-model="addLift.ARD" class="form-control"  type="text" name="ARD"></div>
+		</div>
+		<div class="form-group">
+			<label for="NoOfBatteries" class="col-md-3 control-label">No Of Batteries</label>
+			<div class="col-md-6"><input ng-model="addLift.NoOfBatteries" class="form-control"  type="text" name="NoOfBatteries"></div>
+		</div>
+		<div class="form-group">
+			<label for="BatteryCapacity" class="col-md-3 control-label">Battery Capacity</label>
+			<div class="col-md-6"><input ng-model="addLift.BatteryCapacity" class="form-control"  type="text" name="BatteryCapacity"></div>
+		</div>
+		<div class="form-group">
+			<label for="BatteryMake" class="col-md-3 control-label">Battery Make</label>
+			<div class="col-md-6"><input ng-model="addLift.BatteryCapacity" class="form-control"  type="text" name="BatteryMake"></div>
+		</div>
+		<div class="form-group">
+			<label for="COPMake" class="col-md-3 control-label">COPMake</label>
+			<div class="col-md-6"><input ng-model="addLift.COPMake" class="form-control"  type="text" name="COPMake"></div>
+		</div>
+		<div class="form-group">
+			<label for="LOPMake" class="col-md-3 control-label">LOPMake</label>
+			<div class="col-md-6"><input ng-model="addLift.LOPMake" class="form-control"  type="text" name="LOPMake"></div>
+		</div>
+		<div class="form-group">
+			<label for="collectiveType" class="col-md-3 control-label">Collective Type</label>
+			<div class="col-md-6"><input ng-model="addLift.collectiveType" class="form-control"  type="text" name="collectiveType"></div>
+		</div>
+		<div class="form-group">
+			<label for="SimplexDuplex" class="col-md-3 control-label">Simplex Duplex</label>
+			<div class="col-md-6"><input ng-model="addLift.SimplexDuplex" class="form-control"  type="text" name="SimplexDuplex"></div>
+		</div>
+		<div class="form-group">
+			<label for="autoDoorMake" class="col-md-3 control-label">Auto Door Make</label>
+			<div class="col-md-6"><input ng-model="addLift.autoDoorMake" class="form-control"  type="text" name="autoDoorMake"></div>
+		</div>
+		<div class="form-group">
+			<label for="wiringShceme" class="col-md-3 control-label">Wiring Shceme</label>
+			<div class="col-md-6"><input ng-model="addLift.wiringShceme" class="form-control"  type="text" name="wiringShceme"></div>
+		</div>
+		<div class="form-group">
+			<label for="fireMode" class="col-md-3 control-label">Fire Mode</label>
+			<div class="col-md-6"><input ng-model="addLift.fireMode" class="form-control"  type="text" name="fireMode"></div>
+		</div>
+		<div class="form-group">
+			<label for="intercomm" class="col-md-3 control-label">intercomm</label>
+			<div class="col-md-6"><input ng-model="addLift.intercomm" class="form-control"  type="text" name="intercomm"></div>
+		</div>
+		<div class="form-group">
+			<label for="alarm" class="col-md-3 control-label">alarm</label>
+			<div class="col-md-6"><input ng-model="addLift.alarm" class="form-control"  type="text" name="alarm"></div>
+		</div>
+		<div class="form-group">
+			<label for="alarmBattery" class="col-md-3 control-label">Alarm Battery</label>
+			<div class="col-md-6"><input ng-model="addLift.alarmBattery" class="form-control"  type="text" name="alarmBattery"></div>
+		</div>
+		<div class="form-group">
+			<label for="accessControl" class="col-md-3 control-label">Access Control</label>
+			<div class="col-md-6"><input ng-model="addLift.accessControl" class="form-control"  type="text" name="accessControl"></div>
+		</div>
+	</fieldset>
+	<fieldset title="Step 3">
+		<legend>Photos</legend>
+		<div class="form-group">
+				<label class="col-sm-3 control-label">Machine Photo</label>
 				<div class="col-sm-6">
-					<input name="firstName" type="text" placeholder="Required Field" required ng-model="addUser.firstName" class="form-control">
-					<span class="help-block"
-						ng-show="addUserForm.firstName.$error.required && addUserForm.firstName.$dirty">This
-						field is required</span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-4 control-label">Last Name : </label>
-				<div class="col-sm-6">
-					<input name="lastName" type="text" placeholder="Required Field"
-						required ng-model="addUser.lastName" class="form-control">
-					<span class="help-block"
-						ng-show="addUserForm.lastName.$error.required && addUserForm.lastName.$dirty">This
-						field is required</span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-4 control-label">Address : </label>
-				<div class="col-sm-6">
-					<input name="address" type="text"
-						placeholder="Required Field" required
-						ng-model="addUser.address" class="form-control">
-					<span class="help-block"
-						ng-show="addUserForm.address.$error.required && addUserForm.address.$dirty">This
-						field is required</span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-4 control-label">Contact Number : </label>
-				<div class="col-sm-6">
-					<input name="contactNumber" type="number" placeholder="Required Field"
-						required ng-model="addUser.contactNumber" class="form-control">
-					<span class="help-block"
-						ng-show="addUserForm.contactNumber.$error.required && addUserForm.contactNumber.$dirty">This
-						field is required</span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-sm-4 control-label">Email : </label>
-				<div class="col-sm-6">
-					<input name="emailId" type="email" placeholder="Required Field"
-						required ng-model="addUser.emailId" class="form-control">
-					<span class="help-block"
-						ng-show="addUserForm.emailId.$error.required && addUserForm.emailId.$dirty">This
-						field is required</span>
-				</div>
-			</div>
-		 </fieldset>
-		
-			<div class="panel-footer">
-			<div class="row">
-				<div class="col-sm-6">
-					<span ng-click="backPage();" class=" button button-clear fa fa-chevron-circle-left go-back"></span>
-				</div>
-				<div class="col-sm-6 ">
-					<div class="btn-toolbar">
-						<button class="btn-primary btn" ng-disabled="addUserForm.$invalid && addUserForm.$pristine" ng-click="submitAddUser()">Submit</button>
-						<button class="btn-default btn" ng-click="resetAddUser();">Reset</button>
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="input-group">
+							<div class="form-control uneditable-input" data-trigger="fileinput">
+								<i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
+							</div>
+							<span class="input-group-addon btn btn-default btn-file">
+								<span class="fileinput-new">Select file</span>
+								<span class="fileinput-exists">Change</span>
+								<input type="file" name="...">
+							</span>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		</form> -->
-		<form  data-wizard="{finishButton: true, titleClick: true, block: true, validate: true}" class="form-horizontal">
-					<fieldset title="Step 1">
-						<legend>Registration</legend>
-						<div class="form-group">
-							<label for="fieldname" class="col-md-3 control-label">Name</label>
-							<div class="col-md-6">
-								<input id="fieldname" class="form-control" name="name" minlength="4" type="text" required>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Panel Photo</label>
+				<div class="col-sm-6">
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="input-group">
+							<div class="form-control uneditable-input" data-trigger="fileinput">
+								<i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
 							</div>
+							<span class="input-group-addon btn btn-default btn-file">
+								<span class="fileinput-new">Select file</span>
+								<span class="fileinput-exists">Change</span>
+								<input type="file" name="...">
+							</span>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 						</div>
-						<div class="form-group">
-							<label for="fieldemail" class="col-md-3 control-label">Email</label>
-							<div class="col-md-6"><input id="fieldemail" class="form-control" type="email" name="email" required></div>
-						</div>
-						<div class="form-group">
-							<label for="fieldurl" class="col-md-3 control-label">URL</label>
-							<div class="col-md-6"><input id="fieldurl" class="form-control"  type="url" name="url"></div>
-						</div>
-					</fieldset>
-					<fieldset title="Step 2">
-						<legend>Personal Data</legend>
-						<div class="form-group">
-							<label for="fieldnick" class="col-md-3 control-label">Nick</label>
-							<div class="col-md-6"><input id="fieldnick" class="form-control" name="name" minlength="4" type="text" required></div>
-						</div>
-						<div class="form-group">
-							<label for="fieldabout" class="col-md-3 control-label">About</label>
-							<div class="col-md-6"><textarea id="fieldabout" class="form-control autosize" rows="2"></textarea></div>
-						</div>
-					</fieldset>
-					<fieldset title="Step 3">
-						<legend>Preview</legend>
-						<div class="form-group">
-							<label for="" class="col-md-3 control-label">Terms and Conditions</label>
-							<div class="col-md-9">
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, nemo, atque consequuntur officiis asperiores consectetur porro labore commodi esse error quisquam nihil illum sunt facere inventore possimus autem ab voluptates quibusdam non voluptatum suscipit architecto. Illo, facilis, corporis, veritatis dolores minus quasi iure cupiditate quis autem ducimus nisi obcaecati tenetur sed ea excepturi pariatur consequatur enim labore officia mollitia. Rerum, voluptatem numquam molestiae recusandae iusto ipsum inventore unde accusantium labore delectus? Doloremque, fugit, sunt libero laboriosam cupiditate sed sequi nostrum saepe. Mollitia, alias, expedita accusantium porro error autem dolore veniam commodi nesciunt provident vitae neque. Nostrum, sed, molestias itaque provident inventore natus animi quasi laborum laboriosam facere ratione aperiam iusto. Non ducimus facere sunt doloribus? Asperiores, natus distinctio quis iure!</p>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">ARDPhoto</label>
+				<div class="col-sm-6">
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="input-group">
+							<div class="form-control uneditable-input" data-trigger="fileinput">
+								<i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
 							</div>
+							<span class="input-group-addon btn btn-default btn-file">
+								<span class="fileinput-new">Select file</span>
+								<span class="fileinput-exists">Change</span>
+								<input type="file" name="...">
+							</span>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 						</div>
-					</fieldset>
-					<input type="submit" class="finish btn-success btn" value="Submit" />
-				</form>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">LOPPhoto</label>
+				<div class="col-sm-6">
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="input-group">
+							<div class="form-control uneditable-input" data-trigger="fileinput">
+								<i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
+							</div>
+							<span class="input-group-addon btn btn-default btn-file">
+								<span class="fileinput-new">Select file</span>
+								<span class="fileinput-exists">Change</span>
+								<input type="file" name="...">
+							</span>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">COPPhoto</label>
+				<div class="col-sm-6">
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="input-group">
+							<div class="form-control uneditable-input" data-trigger="fileinput">
+								<i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
+							</div>
+							<span class="input-group-addon btn btn-default btn-file">
+								<span class="fileinput-new">Select file</span>
+								<span class="fileinput-exists">Change</span>
+								<input type="file" name="...">
+							</span>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Cartop Photo</label>
+				<div class="col-sm-6">
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="input-group">
+							<div class="form-control uneditable-input" data-trigger="fileinput">
+								<i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
+							</div>
+							<span class="input-group-addon btn btn-default btn-file">
+								<span class="fileinput-new">Select file</span>
+								<span class="fileinput-exists">Change</span>
+								<input type="file" name="...">
+							</span>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Auto Door Header Photo</label>
+				<div class="col-sm-6">
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="input-group">
+							<div class="form-control uneditable-input" data-trigger="fileinput">
+								<i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
+							</div>
+							<span class="input-group-addon btn btn-default btn-file">
+								<span class="fileinput-new">Select file</span>
+								<span class="fileinput-exists">Change</span>
+								<input type="file" name="...">
+							</span>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Wiring Photo</label>
+				<div class="col-sm-6">
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="input-group">
+							<div class="form-control uneditable-input" data-trigger="fileinput">
+								<i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
+							</div>
+							<span class="input-group-addon btn btn-default btn-file">
+								<span class="fileinput-new">Select file</span>
+								<span class="fileinput-exists">Change</span>
+								<input type="file" name="...">
+							</span>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Lobby Photo</label>
+				<div class="col-sm-6">
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="input-group">
+							<div class="form-control uneditable-input" data-trigger="fileinput">
+								<i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
+							</div>
+							<span class="input-group-addon btn btn-default btn-file">
+								<span class="fileinput-new">Select file</span>
+								<span class="fileinput-exists">Change</span>
+								<input type="file" name="...">
+							</span>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+						</div>
+					</div>
+				</div>
+			</div>
+	</fieldset>
+	<input type="submit" ng-click="submitAddLift()" class="finish btn-success btn" value="Submit" />
+</form>
 	</panel> 	
 	</div>
 </div>

@@ -3,48 +3,71 @@
 	angular.module('rlmsApp')
 	.controller('addUserCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$window','pinesNotifications', function($scope, $filter,serviceApi,$route,$http,utility,$window,pinesNotifications) {
 		//initialize add Branch
-		initAddUser();
-		loadCompayInfo();
-		//loadBranchListInfo();
-		$scope.backPage = function(){
-			$window.history.back();
-		}
-		$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Company.',close:true };
+		initAddLift();
+		$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Lift.',close:true };
 		$scope.showAlert = false;
-		function initAddUser(){
-			$scope.selectedCompany = {};
-			$scope.addUser={
-				firstName:'',
-				lastName:'',
-				address:'',
-				contactNumber:'',
-				emailId:'',
-				companyId:''	
+		function initAddLift(){
+			$scope.addLift={
+					liftNumber : '',
+					address : '',
+					latitude : '',
+					longitude : '',
+					serviceStartDate : '',
+					serviceEndDate : '',
+					dateOfInstallation : '',
+					amcStartDate : '',
+					amcType : '',
+					amcAmount : '',
+
+
+					doorType : '',
+					noOfStops : '',
+					engineType : '',
+					machineMake : '',
+					machineCapacity : '',
+					machineCurrent : '',
+					breakVoltage : '',
+					panelMake : '',
+					ARD : '',
+					NoOfBatteries : '',
+					BatteryCapacity : '',
+					BatteryMake : '',
+					COPMake : '',
+					LOPMake : '',
+					collectiveType : '',
+					SimplexDuplex : '',
+					autoDoorMake : '',
+					wiringShceme : '',
+					fireMode : '',
+					intercomm : '',
+					alarm : '',
+					alarmBattery : '',
+					accessControl : '',
+
+					machinePhoto : '',
+					panelPhoto : '',
+					ARDPhoto : '',
+					LOPPhoto : '',
+					COPPhoto : '',
+					cartopPhoto : '',
+					autoDoorHeaderPhoto : '',
+					wiringPhoto : '',
+					lobbyPhoto	 : '',
 			};	
-		    //$scope.companies = [];
-		    $scope.userList={};
 		}
 		//load compay dropdown data
-		function loadCompayInfo(){
-			serviceApi.doPostWithoutData('/RLMS/admin/getAllApplicableCompanies')
-		    .then(function(response){
-		    		$scope.companies = response;
-		    });
-		};
 		//Post call add branch
-		$scope.submitAddUser = function(){
-			$scope.addUser.companyId = $scope.selectedCompany.selected.companyId;
-			serviceApi.doPostWithData("/RLMS/admin/validateAndRegisterNewUser",$scope.addUser)
+		$scope.submitAddLift = function(){
+			serviceApi.doPostWithData("/RLMS/admin/validateAndRegisterNewLift",$scope.addLift)
 			.then(function(response){
 				$scope.showAlert = true;
 				var key = Object.keys(response);
 				var successMessage = response[key[0]];
 				$scope.alert.msg = successMessage;
 				$scope.alert.type = "success";
-				//utility.showMessage("",successMessage,"success");
-				initAddUser();
-				$scope.addUserForm.$setPristine();
-				$scope.addUserForm.$setUntouched();
+				initAddLift();
+				$scope.addLiftForm.$setPristine();
+				$scope.addLiftForm.$setUntouched();
 				
 			},function(error){
 				$scope.showAlert = true;
@@ -53,12 +76,12 @@
 			});
 		}
 		//rese add branch
-		$scope.resetAddUser = function(){
-			$scope.showAlert = false;
-			initAddUser();
-			$scope.addUserForm.$setPristine();
-			$scope.addUserForm.$setUntouched();
-		}
+//		$scope.resetAddUser = function(){
+//			$scope.showAlert = false;
+//			initAddUser();
+//			$scope.addUserForm.$setPristine();
+//			$scope.addUserForm.$setUntouched();
+//		}
 		
 	}]);
 })();
