@@ -28,7 +28,7 @@
 					machineCurrent : '',
 					breakVoltage : '',
 					panelMake : '',
-					ARD : '',
+					ard : '',
 					NoOfBatteries : '',
 					BatteryCapacity : '',
 					BatteryMake : '',
