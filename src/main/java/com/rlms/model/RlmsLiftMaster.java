@@ -27,11 +27,13 @@ public class RlmsLiftMaster implements Serializable{
 	private Date serviceStartDate;
 	private Date serviceEndDate;
 	private Date dateOfInstallation; 
+	
 	private Date amcStartDate;
 	private Integer amcType;
 	private String amcAmount;
+	
 	private Integer doorType;
-	private Integer noOfStops;
+	private String noOfStops;
 	private Integer engineType; 
 	private String machineMake;
 	private String machineCapacity;
@@ -48,7 +50,7 @@ public class RlmsLiftMaster implements Serializable{
 	private String COPMake;
 	private byte[] COPPhoto;
 	private String  LOPMake;
-	private byte[] LOPPhoto;
+	private byte[] LOPPhoto;	
 	private Integer collectiveType;
 	private Integer SimplexDuplex;
 	private byte[] cartopPhoto;
@@ -62,6 +64,7 @@ public class RlmsLiftMaster implements Serializable{
 	private String alarmBattery;
 	private String accessControl;
 	private byte[] lobbyPhoto;
+	
 	private Integer status;
 	private Integer activeFlag;
 	private Date createdDate;
@@ -168,10 +171,10 @@ public class RlmsLiftMaster implements Serializable{
 	}
 	
 	@Column(name = "no_of_stops", unique = true, nullable = true)
-	public Integer getNoOfStops() {
+	public String getNoOfStops() {
 		return noOfStops;
 	}
-	public void setNoOfStops(Integer noOfStops) {
+	public void setNoOfStops(String noOfStops) {
 		this.noOfStops = noOfStops;
 	}
 	
