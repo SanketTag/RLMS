@@ -377,6 +377,7 @@
 	<script src="scripts/app/controllers/customerManagementCtrl.js"></script>
 	<script src="scripts/app/controllers/liftManagementCtrl.js"></script>
 	<script src="scripts/app/controllers/addLiftCtrl.js"></script>
+	<script src="scripts/app/controllers/workListCtrl.js"></script>
 	<script src="scripts/app/services/serviceApi.js"></script>
 	<script src="scripts/app/services/utility.js"></script>
 	<!-- App-->
