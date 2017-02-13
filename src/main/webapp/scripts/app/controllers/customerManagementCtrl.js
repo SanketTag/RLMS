@@ -5,6 +5,9 @@
 		initCustomerList();
 		$scope.showCompany = false;
 		$scope.showBranch = false;
+		$scope.goToAddCustomer = function(){
+			window.location.hash = "#/add-customer";
+		}
 		function initCustomerList(){
 			 $scope.selectedCompany={};
 			 $scope.selectedBranch = {};

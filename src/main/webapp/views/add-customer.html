@@ -1,0 +1,142 @@
+<div class="rlms-wrapper">
+<div class="rlms-container add_customer" ng-controller="addCustomerCtrl">
+	<h1 class="rlms-heading">Add Customer</h1>
+	<div class="container-fluid" >
+		<alert ng-show="showAlert" type="{{alert.type}}">
+			<span ng-bind-html="alert.msg | safe_html"></alert>
+		<form class="form-horizontal row-border" name="addCustomerForm">
+		<fieldset>
+		  <legend>Customer Details</legend>
+		  <div class="form-group">
+				<label class="col-sm-3 control-label">Select Company</label>
+				<div class="col-sm-6">
+					  <ui-select ng-model="selectedCompany.selected" title="Choose a Company" on-select="loadBranchData()">
+					    <ui-select-match placeholder="Select or search a company in the list...">{{$select.selected.companyName}}</ui-select-match>
+					    <ui-select-choices repeat="companyIterator in companies| filter: $select.search">
+					      <span ng-bind-html="companyIterator.companyName | highlight: $select.search"></span>
+					    </ui-select-choices>
+					  </ui-select>
+				</div>
+			</div>
+			<div class="form-group">
+					<label class="col-sm-3 control-label">Select Branch</label>
+					<div class="col-sm-6">
+						  <ui-select ng-model="selectedBranch.selected" title="Choose a Branch">
+						    <ui-select-match placeholder="Select or search a branch in the list...">{{$select.selected.rlmsBranchMaster.branchName}}</ui-select-match>
+						    <ui-select-choices repeat="branchIterator in branches| filter: $select.search">
+						      <span ng-bind-html="branchIterator.rlmsBranchMaster.branchName | highlight: $select.search"></span>
+						    </ui-select-choices>
+						  </ui-select>
+					</div>
+				</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">First Name</label>
+				<div class="col-sm-6">
+					<input name="firstName" type="text" placeholder="Required Field" required ng-model="addCustomer.firstName" class="form-control">
+					<span class="help-block"
+						ng-show="addCustomerForm.firstName.$error.required && addCustomerForm.firstName.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Last Name</label>
+				<div class="col-sm-6">
+					<input name="lastName" type="text" placeholder="Required Field" required ng-model="addCustomer.lastName" class="form-control">
+					<span class="help-block"
+						ng-show="addCustomerForm.lastName.$error.required && addCustomerForm.lastName.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Address</label>
+				<div class="col-sm-6">
+					<input name="address" type="text" placeholder="Required Field" required ng-model="addCustomer.address" class="form-control">
+					<span class="help-block"
+						ng-show="addCustomerForm.address.$error.required && addCustomerForm.address.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Email ID</label>
+				<div class="col-sm-6">
+					<input name="emailID" type="email" placeholder="Required Field" required ng-model="addCustomer.emailID" class="form-control">
+					<span class="help-block"
+						ng-show="addCustomerForm.emailID.$error.required && addCustomerForm.emailID.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Contact Number</label>
+				<div class="col-sm-6">
+					<input name="cntNumber" type="number" placeholder="Required Field" required ng-model="addCustomer.cntNumber" class="form-control">
+					<span class="help-block"
+						ng-show="addCustomerForm.cntNumber.$error.required && addCustomerForm.cntNumber.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Total Number Of Lifts</label>
+				<div class="col-sm-6">
+					<input name="totalNumberOfLifts" type="number" placeholder="Required Field" required ng-model="addCustomer.totalNumberOfLifts" class="form-control">
+					<span class="help-block"
+						ng-show="addCustomerForm.totalNumberOfLifts.$error.required && addCustomerForm.totalNumberOfLifts.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Customer Type</label>
+				<div class="col-sm-6">
+					<input name="customerType" type="number" placeholder="Required Field" required ng-model="addCustomer.customerType" class="form-control">
+					<span class="help-block"
+						ng-show="addCustomerForm.customerType.$error.required && addCustomerForm.customerType.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">PAN Number</label>
+				<div class="col-sm-6">
+					<input name="panNumber" type="number" placeholder="Required Field" required ng-model="addCustomer.panNumber" class="form-control">
+					<span class="help-block"
+						ng-show="addCustomerForm.panNumber.$error.required && addCustomerForm.panNumber.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">TIN Number</label>
+				<div class="col-sm-6">
+					<input name="tinNumber" type="number" placeholder="Required Field" required ng-model="addCustomer.tinNumber" class="form-control">
+					<span class="help-block"
+						ng-show="addCustomerForm.tinNumber.$error.required && addCustomerForm.tinNumber.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">VAT Number</label>
+				<div class="col-sm-6">
+					<input name="vatNumber" type="number" placeholder="Required Field" required ng-model="addCustomer.vatNumber" class="form-control">
+					<span class="help-block"
+						ng-show="addCustomerForm.vatNumber.$error.required && addCustomerForm.vatNumber.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+		 </fieldset>
+		
+			<div class="panel-footer">
+			<div class="row">
+				<div class="col-sm-6">
+					<span ng-click="backPage();" class=" button button-clear fa fa-chevron-circle-left go-back"></span>
+				</div>
+				<div class="col-sm-6 ">
+					<div class="btn-toolbar">
+						<button class="btn-primary btn" ng-disabled="addCustomerForm.$invalid && addCustomerForm.$pristine" ng-click="submitAddCustomer()">Submit</button>
+						<button class="btn-default btn" ng-click="resetAddBranch();">Reset</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+		
+	</panel> 	
+	</div>
+</div>
+</div>
