@@ -49,8 +49,8 @@
 			//Post call add customer
 			$scope.submitAddCustomer = function(){
 				$scope.addCustomer.companyName = $scope.selectedCompany.selected.companyName;
-				$scope.addCustomer.branchName = $scope.selectedBranch.selected.branchName;
-				$scope.addCustomer.branchCompanyMapId = $scope.selectedBranch.selected.branchCompanyMapId;
+				$scope.addCustomer.branchName = $scope.selectedBranch.selected.rlmsBranchMaster.branchName;
+				$scope.addCustomer.branchCompanyMapId = $scope.selectedBranch.selected.companyBranchMapId;
 				serviceApi.doPostWithData("/RLMS/admin/validateAndRegisterNewCustomer",$scope.addCustomer)
 				.then(function(response){
 					$scope.showAlert = true;
@@ -59,8 +59,8 @@
 					$scope.alert.msg = successMessage;
 					$scope.alert.type = "success";
 					initAddCustomer();
-					$scope.addBranchForm.$setPristine();
-					$scope.addBranchForm.$setUntouched();
+					$scope.addCustomerForm.$setPristine();
+					$scope.addCustomerForm.$setUntouched();
 				},function(error){
 					$scope.showAlert = true;
 					$scope.alert.msg = error.exceptionMessage;
