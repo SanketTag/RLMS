@@ -30,8 +30,8 @@
 				    </ui-select-choices>
 				  </ui-select>
 			</div>
-			<button class="btn-sky btn" ng-click="loadCustomerInfo()">Proceed</button>
-			<button class="btn-sky btn margin-left-10" ng-click="resetCustomerList()">Reset</button>
+			<!-- <button class="btn-sky btn" ng-click="loadCustomerInfo()">Proceed</button>
+			<button class="btn-sky btn margin-left-10" ng-click="resetCustomerList()">Reset</button> -->
 		</div>
 	</div>
 	<div class="container-fluid" >
@@ -60,7 +60,7 @@
 		</div>
 		<div class="form-group">
 			<label for="serviceStartDate" class="col-md-3 control-label">Service Start Date</label>
-			<div class="col-md-6"><input ng-model="addLift.serviceStartDate" class="form-control"  type="text" name="serviceStartDate"></div>
+			<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event)" is-open="opened" ng-model="addLift.serviceStartDate"/></div>
 		</div>
 		<div class="form-group">
 			<label for="serviceEndDate" class="col-md-3 control-label">Service End Date</label>

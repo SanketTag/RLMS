@@ -242,3 +242,7 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 .margin-left-10{
 	margin-left:10px;
 }
+/* date picker*/
+.rlms-app .dropdown-menu .btn{
+	min-width:0px;
+}

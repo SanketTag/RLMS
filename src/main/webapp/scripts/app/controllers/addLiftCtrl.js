@@ -4,6 +4,44 @@
 	.controller('addUserCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$window','pinesNotifications','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$window,pinesNotifications,$rootScope) {
 		//initialize add Branch
 		initAddLift();
+		// Date Picker
+		$scope.today = function() {
+		      $scope.dt = new Date();
+		    };
+		    $scope.today();
+
+		    $scope.clear = function() {
+		      $scope.dt = null;
+		    };
+
+		    // Disable weekend selection
+		    $scope.disabled = function(date, mode) {
+		      return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
+		    };
+
+		    $scope.toggleMin = function() {
+		      $scope.minDate = $scope.minDate ? null : new Date();
+		    };
+		    $scope.toggleMin();
+
+		    $scope.open = function($event) {
+		      $event.preventDefault();
+		      $event.stopPropagation();
+		      if($scope.opened != true)
+		          $scope.opened = true;
+		      else
+		          $scope.opened = false;
+		    };
+
+		    $scope.dateOptions = {
+		      formatYear: 'yy',
+		      startingDay: 1,
+		    };
+
+		    $scope.initDate = new Date('2016-15-20');
+		    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+		    $scope.format = $scope.formats[0];
+	    //Date Picker End
 		$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Lift.',close:true };
 		$scope.showAlert = false;
 		$scope.showCompany = false;
@@ -114,8 +152,17 @@
 					autoDoorHeaderPhoto : '',
 					wiringPhoto : '',
 					lobbyPhoto	 : '',
-			};	
+			};
+			$scope.addLift.serviceStartDate = new Date();
 		}
+		$scope.open = function($event) {
+		      $event.preventDefault();
+		      $event.stopPropagation();
+		      if($scope.opened != true)
+		          $scope.opened = true;
+		      else
+		          $scope.opened = false;
+		    };
 		//load compay dropdown data
 		//Post call add branch
 		$scope.submitAddLift = function(){
