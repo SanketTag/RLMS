@@ -2,6 +2,7 @@ angular
   .module('rlmsApp', [
     'theme',
     'theme.demos',
+    'base64'
   ])
   .config(['$provide', '$routeProvider', function($provide, $routeProvider) {
     'use strict';

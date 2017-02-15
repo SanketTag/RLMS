@@ -23,7 +23,7 @@
 			</div>
 		<label class="control-label">Select Customer</label>
 			<div class="select-container">
-				  <ui-select ng-model="selectedCustomer.selected" title="Choose a Branch">
+				  <ui-select ng-model="selectedCustomer.selected" title="Choose a Branch" on-select="showWizardFun()">
 				    <ui-select-match placeholder="Select Branch">{{$select.selected.firstName}}</ui-select-match>
 				    <ui-select-choices repeat="customerIterator in cutomers| filter: $select.search">
 				      <span ng-bind-html="customerIterator.firstName | highlight: $select.search"></span>
@@ -34,7 +34,7 @@
 			<button class="btn-sky btn margin-left-10" ng-click="resetCustomerList()">Reset</button> -->
 		</div>
 	</div>
-	<div class="container-fluid" >
+	<div class="container-fluid" ng-show="showWizard">
 		<alert ng-show="showAlert" type="{{alert.type}}">
 			<span ng-bind-html="alert.msg | safe_html"></alert>
 		<form  name="addLiftForm" data-wizard="{finishButton: true, titleClick: true, block: true, validate: true}" class="form-horizontal">
@@ -60,42 +60,42 @@
 		</div>
 		<div class="form-group">
 			<label for="serviceStartDate" class="col-md-3 control-label">Service Start Date</label>
-			<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event)" is-open="opened" ng-model="addLift.serviceStartDate"/></div>
+			<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'serviceStartDate')" is-open="openFlag.serviceStartDate" ng-model="addLift.serviceStartDate"/></div>
 		</div>
 		<div class="form-group">
 			<label for="serviceEndDate" class="col-md-3 control-label">Service End Date</label>
-			<div class="col-md-6"><input ng-model="addLift.serviceEndDate" class="form-control"  type="text" name="serviceEndDate"></div>
+			<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'serviceEndDate')" is-open="openFlag.serviceEndDate" ng-model="addLift.serviceEndDate"/></div>
 		</div>
 		<div class="form-group">
 			<label for="dateOfInstallation" class="col-md-3 control-label">Date Of Installation</label>
-			<div class="col-md-6"><input ng-model="addLift.dateOfInstallation" class="form-control"  type="text" name="dateOfInstallation"></div>
+			<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'dateOfInstallation')" is-open="openFlag.dateOfInstallation" ng-model="addLift.dateOfInstallation"/></div>
 		</div>
 		<div class="form-group">
 			<label for="amcStartDate" class="col-md-3 control-label">Amc Start Date</label>
-			<div class="col-md-6"><input ng-model="addLift.amcStartDate" class="form-control"  type="text" name="amcStartDate"></div>
+			<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'amcStartDate')" is-open="openFlag.amcStartDate" ng-model="addLift.amcStartDate"/></div>
 		</div>
 		<div class="form-group">
 			<label for="amcType" class="col-md-3 control-label">Amc Type</label>
-			<div class="col-md-6"><input ng-model="addLift.amcType" class="form-control"  type="text" name="amcType"></div>
+			<div class="col-md-6"><input ng-model="addLift.amcType" class="form-control"  type="number" name="amcType"></div>
 		</div>
 		<div class="form-group">
 			<label for="amcAmount" class="col-md-3 control-label">Amc Amount</label>
-			<div class="col-md-6"><input ng-model="addLift.amcAmount" class="form-control"  type="text" name="amcAmount"></div>
+			<div class="col-md-6"><input ng-model="addLift.amcAmount" class="form-control"  type="number" name="amcAmount"></div>
 		</div>
 	</fieldset>
 	<fieldset title="Step 2">
 		<legend>Technical Details</legend>
 		<div class="form-group">
 			<label for="doorType" class="col-md-3 control-label">Door Type</label>
-			<div class="col-md-6"><input ng-model="addLift.doorType" class="form-control"  type="text" name="doorType"></div>
+			<div class="col-md-6"><input ng-model="addLift.doorType" class="form-control"  type="number" name="doorType"></div>
 		</div>
 		<div class="form-group">
 			<label for="noOfStops" class="col-md-3 control-label">No Of Stops</label>
-			<div class="col-md-6"><input ng-model="addLift.noOfStops" class="form-control"  type="text" name="noOfStops"></div>
+			<div class="col-md-6"><input ng-model="addLift.noOfStops" class="form-control"  type="number" name="noOfStops"></div>
 		</div>
 		<div class="form-group">
 			<label for="engineType" class="col-md-3 control-label">Engine Type</label>
-			<div class="col-md-6"><input ng-model="addLift.engineType" class="form-control"  type="text" name="engineType"></div>
+			<div class="col-md-6"><input ng-model="addLift.engineType" class="form-control"  type="number" name="engineType"></div>
 		</div>
 		<div class="form-group">
 			<label for="machineMake" class="col-md-3 control-label">Machine Make</label>
@@ -123,7 +123,7 @@
 		</div>
 		<div class="form-group">
 			<label for="noOfBatteries" class="col-md-3 control-label">No Of Batteries</label>
-			<div class="col-md-6"><input ng-model="addLift.noOfBatteries" class="form-control"  type="text" name="noOfBatteries"></div>
+			<div class="col-md-6"><input ng-model="addLift.noOfBatteries" class="form-control"  type="number" name="noOfBatteries"></div>
 		</div>
 		<div class="form-group">
 			<label for="batteryCapacity" class="col-md-3 control-label">Battery Capacity</label>
@@ -143,7 +143,7 @@
 		</div>
 		<div class="form-group">
 			<label for="collectiveType" class="col-md-3 control-label">Collective Type</label>
-			<div class="col-md-6"><input ng-model="addLift.collectiveType" class="form-control"  type="text" name="collectiveType"></div>
+			<div class="col-md-6"><input ng-model="addLift.collectiveType" class="form-control"  type="number" name="collectiveType"></div>
 		</div>
 		<div class="form-group">
 			<label for="simplexDuplex" class="col-md-3 control-label">Simplex Duplex</label>
@@ -191,7 +191,7 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="...">
+								<input type="file" name="..." ng-model='addLift.machinePhoto' base-sixty-four-input>
 							</span>
 							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 						</div>
@@ -209,10 +209,11 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="...">
+								<input type="file" name="..." ng-model='addLift.panelPhoto' base-sixty-four-input>
 							</span>
 							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 						</div>
+						{{addLift.panelPhoto.size}}
 					</div>
 				</div>
 			</div>
@@ -227,10 +228,11 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="...">
+								<input type="file" name="..." ng-model='addLift.ardPhoto' base-sixty-four-input>
 							</span>
 							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 						</div>
+						{{addLift.ardPhoto.size}}
 					</div>
 				</div>
 			</div>
@@ -245,11 +247,12 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="...">
+								<input type="file" name="..." ng-model='addLift.lopPhoto' base-sixty-four-input>
 							</span>
 							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 						</div>
 					</div>
+					{{addLift.lopPhoto.size}}
 				</div>
 			</div>
 			<div class="form-group">
@@ -263,10 +266,11 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="...">
+								<input type="file" name="..." ng-model='addLift.copPhoto' base-sixty-four-input>
 							</span>
 							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 						</div>
+						{{addLift.copPhoto.size}}
 					</div>
 				</div>
 			</div>
@@ -281,11 +285,12 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="...">
+								<input type="file" name="..." ng-model='addLift.cartopPhoto' base-sixty-four-input>
 							</span>
 							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 						</div>
 					</div>
+					{{addLift.cartopPhoto.size}}
 				</div>
 			</div>
 			<div class="form-group">
@@ -299,11 +304,12 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="...">
+								<input type="file" name="..." ng-model='addLift.autoDoorHeaderPhoto' base-sixty-four-input>
 							</span>
 							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 						</div>
 					</div>
+					{{addLift.autoDoorHeaderPhoto.size}}
 				</div>
 			</div>
 			<div class="form-group">
@@ -317,11 +323,12 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="...">
+								<input type="file" name="..." ng-model='addLift.wiringPhoto' base-sixty-four-input>
 							</span>
 							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 						</div>
 					</div>
+					{{addLift.wiringPhoto.size}}
 				</div>
 			</div>
 			<div class="form-group">
@@ -335,12 +342,13 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="...">
+								<input type="file" name="..." ng-model='addLift.lobbyPhoto' base-sixty-four-input>
 							</span>
 							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 						</div>
 					</div>
 				</div>
+				{{addLift.lobbyPhoto.size}}
 			</div>
 	</fieldset>
 	<input type="submit" ng-click="submitAddLift()" class="finish btn-success btn" value="Submit" />

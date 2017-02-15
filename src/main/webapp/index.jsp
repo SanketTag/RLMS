@@ -53,6 +53,7 @@
 	<link rel="stylesheet" href="bower_components/nvd3/src/nv.d3.css" />
 	<link rel="stylesheet" href="bower_components/skylo/vendor/styles/skylo.css" />
 	<link rel="stylesheet" href="bower_components/bootstrap-datepaginator/dist/bootstrap-datepaginator.min.css" />
+	
 	<!-- endbower -->
 	<link rel='stylesheet' type='text/css' href='assets/fonts/glyphicons/css/glyphicons.min.css' /> 
 	<link rel='stylesheet' type='text/css' href='assets/plugins/form-fseditor/fseditor.css' /> 
@@ -263,6 +264,7 @@
 		src="bower_components/bootstrap-datepaginator/dist/bootstrap-datepaginator.min.js"></script>
 	<script src="bower_components/velocity/velocity.js"></script>
 	<script src="bower_components/velocity/velocity.ui.js"></script>
+	<script src="bower_components/angular-base64-upload/src/angular-base64-upload.js"></script>
 	<!-- endbower -->
 
 	<script type='text/javascript'

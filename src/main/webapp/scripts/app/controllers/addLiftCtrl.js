@@ -153,19 +153,38 @@
 					wiringPhoto : '',
 					lobbyPhoto	 : '',
 			};
-			$scope.addLift.serviceStartDate = new Date();
+			$scope.showWizard = false;
+			//$scope.addLift.serviceStartDate = new Date();
 		}
-		$scope.open = function($event) {
+		$scope.openFlag={
+				serviceStartDate:false,
+				serviceEndDate:false,
+				dateOfInstallation :false,
+				amcStartDate :false,
+		}
+		$scope.open = function($event,which) {
 		      $event.preventDefault();
 		      $event.stopPropagation();
-		      if($scope.opened != true)
-		          $scope.opened = true;
+		      if($scope.openFlag[which] != true)
+		    	  $scope.openFlag[which] = true;
 		      else
-		          $scope.opened = false;
+		    	  $scope.openFlag[which] = false;
 		    };
 		//load compay dropdown data
 		//Post call add branch
+		function parseBase64(){
+			$scope.addLift.machinePhoto = $scope.addLift.machinePhoto.base64;
+			$scope.addLift.panelPhoto = $scope.addLift.panelPhoto.base64;
+			$scope.addLift.ardPhoto = $scope.addLift.ardPhoto.base64;
+			$scope.addLift.lopPhoto = $scope.addLift.lopPhoto.base64;
+			$scope.addLift.copPhoto = $scope.addLift.copPhoto.base64;
+			$scope.addLift.cartopPhoto = $scope.addLift.cartopPhoto.base64;
+			$scope.addLift.autoDoorHeaderPhoto = $scope.addLift.autoDoorHeaderPhoto.base64;
+			$scope.addLift.wiringPhoto = $scope.addLift.wiringPhoto.base64;
+			$scope.addLift.lobbyPhoto = $scope.addLift.lobbyPhoto.base64;
+		}
 		$scope.submitAddLift = function(){
+			parseBase64();
 			$scope.addLift.branchCustomerMapId = $scope.selectedCustomer.selected.branchCustomerMapId
 			serviceApi.doPostWithData("/RLMS/admin/validateAndRegisterNewLift",$scope.addLift)
 			.then(function(response){
@@ -184,13 +203,16 @@
 				$scope.alert.type = "danger";
 			});
 		}
+		$scope.showWizardFun = function(){
+			$scope.showWizard = true;
+		}
 		//rese add branch
-//		$scope.resetAddUser = function(){
-//			$scope.showAlert = false;
-//			initAddUser();
-//			$scope.addUserForm.$setPristine();
-//			$scope.addUserForm.$setUntouched();
-//		}
+		$scope.resetAddLift = function(){
+			$scope.showAlert = false;
+			initAddLift();
+			$scope.addLiftForm.$setPristine();
+			$scope.addLiftForm.$setUntouched();
+		}
 		
 	}]);
 })();
