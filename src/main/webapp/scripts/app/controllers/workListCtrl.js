@@ -20,6 +20,8 @@
 	  	        $scope.$apply();
 	  	      }
 	  	    };
+	  	    $scope.alert = { type: 'success', msg: 'Well done! You successfully Added Lift.',close:true };
+			$scope.showAlert = false;
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
 	  	    	
 	  	      setTimeout(function() {
@@ -28,6 +30,7 @@
 	  	          var ft = searchText.toLowerCase();
 	  	        serviceApi.doPostWithoutData('/RLMS/admin/getLiftsToBeApproved')
 	  	         .then(function(largeLoad) {
+	  	         $scope.response = largeLoad;
 	  	        	$scope.showTable= true;
 	  	        	  var userDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
@@ -52,6 +55,11 @@
 	  	        		}else{
 	  	        			userDetailsObj["Branch_Name"] =" - ";
 	  	        		}
+	  	        		if(!!largeLoad[i].liftId){
+	  	        			userDetailsObj["liftId"] =largeLoad[i].liftId;
+	  	        		}else{
+	  	        			userDetailsObj["liftId"] =" - ";
+	  	        		}
 	  	        		userDetails.push(userDetailsObj);
 	  	        	  }
 	  	            data = userDetails.filter(function(item) {
@@ -63,6 +71,7 @@
 	  	        	
 	  	        	serviceApi.doPostWithoutData('/RLMS/admin/getLiftsToBeApproved').then(function(largeLoad) {
 	  	        	  var userDetails=[];
+	  	        	  $scope.response = largeLoad;
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var userDetailsObj={};
 	  	        		if(!!largeLoad[i].liftNumber){
@@ -76,7 +85,7 @@
 	  	        			userDetailsObj["Address"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].customerName){
-	  	        			userDetailsObj["customerName"] =largeLoad[i].customerName;
+	  	        			userDetailsObj["Customer_Name"] =largeLoad[i].customerName;
 	  	        		}else{
 	  	        			userDetailsObj["Contact_Number"] =" - ";
 	  	        		}
@@ -84,6 +93,11 @@
 	  	        			userDetailsObj["Branch_Name"] =largeLoad[i].branchName;
 	  	        		}else{
 	  	        			userDetailsObj["Branch_Name"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].liftId){
+	  	        			userDetailsObj["liftId"] =largeLoad[i].liftId;
+	  	        		}else{
+	  	        			userDetailsObj["liftId"] =" - ";
 	  	        		}
 	  	        		userDetails.push(userDetailsObj);
 	  	        	  }
@@ -117,18 +131,47 @@
 	  	      pagingOptions: $scope.pagingOptions,
 	  	      filterOptions: $scope.filterOptions,
 	  	      multiSelect: false,
-	  	      gridFooterHeight:35
+	  	      gridFooterHeight:35,
+    		  enableHighlighting: true,
+    		  enableRowSelection: true,
+    		  selectedItems: [],
+    		  columnDefs: [{
+		          field: 'Lift_Number',
+		          displayName: 'Lift Number',
+		        }, {
+		          field: 'Address',
+		          displayName: 'Address'
+		        },
+		        {
+		          field: 'Customer_Name',
+		          displayName: 'Customer Name'
+		        }, {
+		          field: 'Branch_Name',
+		          displayName: 'Branch Name'
+		        },{
+		          field: 'liftId',
+		          displayName: 'liftId',
+		          visible: false,
+		        }]
 	  	    };
+	  	    //liftId
 	  	    $scope.approveLift =function(){
+	  	    //var slectedRow = $filter('filter')($scope.response,{liftNumber:$scope.gridOptions.selectedItems[0]}.Lift_Number,companyName:$scope.gridOptions.selectedItems[0]}.Customer_Name)
+	  	    var selected = $filter('filter')($scope.response,{liftId:$scope.gridOptions.selectedItems[0].liftId}); 
 	  	    	var dataToSend = {
-	  	    			fyaTranId:2,
-	  	    			liftId:7
+	  	    			fyaTranId:selected[0].fyaTranId,
+	  	    			liftId:selected[0].liftId
 	  	    	};
 	  	    	serviceApi.doPostWithData('/RLMS/admin/validateAndApproveLift',dataToSend)
 	  	    	.then(function(response) {
-	  	    		alert(response);
+	  	    		$scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+	  	    		$scope.showAlert = true;
+					var key = Object.keys(response);
+					var successMessage = response[key[0]];
+					$scope.alert.msg = successMessage;
+					$scope.alert.type = "success";
 	  	    	})
-	  	    } 
+	  	    }
 		
 	}]);
 })();

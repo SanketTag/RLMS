@@ -1,44 +1,84 @@
 angular
   .module('theme.core.navigation_controller', ['theme.core.services'])
-  .controller('NavigationController', ['$scope', '$location', '$timeout', function($scope, $location, $timeout) {
+  .controller('NavigationController', ['$scope', '$location', '$timeout','$rootScope', function($scope, $location, $timeout,$rootScope) {
     'use strict';
-    $scope.menu = [ {
-        label: 'Dashboard',
-        iconClasses: 'glyphicon glyphicon-home',
-        url: '#/company-management'
-      },{
-      label: 'Admin',
-      iconClasses: 'glyphicon glyphicon-user glyphicons-user-add',
-      children: [{
-          label: 'Manage Users',
-          url: '#/user-management'
-      },
-      {
-        label: 'Manage Companies',
-        url: '#/company-management'
-      },
-      {
-          label: 'Manage Branches',
-          url: '#/branch-management'
-      },
-      {
-          label: 'Assign Role',
-          url: '#/assign-role'
-      },
-      {
-          label: 'Manage Customers',
-          url: '#/customer-management'
-      },
-      {
-    	  label:'Manage Lift',
-    	  url: "#/lift-management"
-      },
-      {
-    	  label:'Work List',
-    	  url: "#/work-list"
-      }
-      ]
-    }];
+    $timeout(function() {
+    	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+       	 $scope.menu = [ {
+   	        label: 'Dashboard',
+   	        iconClasses: 'glyphicon glyphicon-home',
+   	        url: '#/company-management'
+       	      },{
+       	      label: 'Admin',
+       	      iconClasses: 'glyphicon glyphicon-user glyphicons-user-add',
+       	      children: [{
+       	          label: 'Manage Users',
+       	          url: '#/user-management'
+       	      },
+       	      {
+       	        label: 'Manage Companies',
+       	        url: '#/company-management'
+       	      },
+       	      {
+       	          label: 'Manage Branches',
+       	          url: '#/branch-management'
+       	      },
+       	      {
+       	          label: 'Assign Role',
+       	          url: '#/assign-role'
+       	      },
+       	      {
+       	          label: 'Manage Customers',
+       	          url: '#/customer-management'
+       	      },
+       	      {
+       	    	  label:'Manage Lift',
+       	    	  url: "#/lift-management"
+       	      },
+       	      {
+       	    	  label:'Work List',
+       	    	  url: "#/work-list"
+       	      }
+       	      ]
+       	    }];
+   	}else{
+   		$scope.menu = [ {
+   	        label: 'Dashboard',
+   	        iconClasses: 'glyphicon glyphicon-home',
+   	        url: '#/company-management'
+       	      },{
+       	      label: 'Admin',
+       	      iconClasses: 'glyphicon glyphicon-user glyphicons-user-add',
+       	      children: [{
+       	          label: 'Manage Users',
+       	          url: '#/user-management'
+       	      },
+       	      {
+       	        label: 'Manage Companies',
+       	        url: '#/company-management'
+       	      },
+       	      {
+       	          label: 'Manage Branches',
+       	          url: '#/branch-management'
+       	      },
+       	      {
+       	          label: 'Assign Role',
+       	          url: '#/assign-role'
+       	      },
+       	      {
+       	          label: 'Manage Customers',
+       	          url: '#/customer-management'
+       	      },
+       	      {
+       	    	  label:'Manage Lift',
+       	    	  url: "#/lift-management"
+       	      }
+       	      ]
+       	    }];
+   	}
+      },1000);
+    
+   
 
 
     var setParent = function(children, parent) {

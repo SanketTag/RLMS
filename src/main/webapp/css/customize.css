@@ -185,14 +185,18 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 .add_company form,
 .add_user form,
 .add_branch form,
-.assign_role form{
+.assign_role form,
+.add_lift form,
+.add_customer form{
 	width: 70%;
     margin: 0 auto;
 }
 .add_company form fieldset,
 .add_user form fieldset,
-.add_branch form fieldse,
-.assign_role form fieldse{
+.add_branch form fieldset,
+.assign_role form fieldset,
+.add_lift form fieldset,
+.add_customer fieldset{
 	margin: 10px;
 	margin-bottom:15px;
 }
@@ -245,4 +249,42 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 /* date picker*/
 .rlms-app .dropdown-menu .btn{
 	min-width:0px;
+}
+/* add lift wizard */
+ul.stepy-header{
+	background-color:rgb(202,214,231);
+	padding-bottom: 0px; 
+}
+
+.stepy-header li{
+	padding:10px 10px 10px 50px;
+}
+.stepy-header li{
+	background-image: url(../img/step.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+.stepy-header li.stepy-active{
+	background-image: url(../img/active_step.png);
+	padding-left: 50px;
+	color:#fff;
+}
+.stepy-header li:first-child{
+	background-image: none;
+}
+.stepy-header li.stepy-active:first-child{
+	background-image: url(../img/active_step_first.png);
+}
+.stepy-header li.stepy-active:last-child{
+	background-image: url(../img/active_step_last.png);
+}
+.stepy-header li.stepy-active div {
+	color:#fff;
+}
+.stepy-header li.stepy-active + li{
+	background:none;
+}
+.stepy-navigator a {
+    margin-left: 10px;
+    width: 110px;
 }

@@ -115,29 +115,29 @@
 					serviceEndDate : '',
 					dateOfInstallation : '',
 					amcStartDate : '',
-					amcType : '',
-					amcAmount : '',
+					amcType : 0,
+					amcAmount : 0,
 
 
-					doorType : '',
-					noOfStops : '',
-					engineType : '',
+					doorType : 0,
+					noOfStops : 0,
+					engineType : 0,
 					machineMake : '',
 					machineCapacity : '',
 					machineCurrent : '',
 					breakVoltage : '',
 					panelMake : '',
 					ard : '',
-					noOfBatteries : '',
+					noOfBatteries :0,
 					batteryCapacity : '',
 					batteryMake : '',
 					copMake : '',
 					lopMake : '',
-					collectiveType : '',
-					simplexDuplex : '',
+					collectiveType : 0,
+					simplexDuplex : 0,
 					autoDoorMake : '',
-					wiringShceme : '',
-					fireMode : '',
+					wiringShceme : 0,
+					fireMode : 0,
 					intercomm : '',
 					alarm : '',
 					alarmBattery : '',
@@ -173,15 +173,39 @@
 		//load compay dropdown data
 		//Post call add branch
 		function parseBase64(){
-			$scope.addLift.machinePhoto = $scope.addLift.machinePhoto.base64;
-			$scope.addLift.panelPhoto = $scope.addLift.panelPhoto.base64;
-			$scope.addLift.ardPhoto = $scope.addLift.ardPhoto.base64;
-			$scope.addLift.lopPhoto = $scope.addLift.lopPhoto.base64;
-			$scope.addLift.copPhoto = $scope.addLift.copPhoto.base64;
-			$scope.addLift.cartopPhoto = $scope.addLift.cartopPhoto.base64;
-			$scope.addLift.autoDoorHeaderPhoto = $scope.addLift.autoDoorHeaderPhoto.base64;
-			$scope.addLift.wiringPhoto = $scope.addLift.wiringPhoto.base64;
-			$scope.addLift.lobbyPhoto = $scope.addLift.lobbyPhoto.base64;
+			if($scope.addLift.machinePhoto != ''){
+				$scope.addLift.machinePhoto = $scope.addLift.machinePhoto.base64;
+			}
+			if($scope.addLift.machinePhoto != ''){
+				$scope.addLift.machinePhoto = $scope.addLift.machinePhoto.base64;
+			}
+			if($scope.addLift.panelPhoto != ''){
+				$scope.addLift.panelPhoto = $scope.addLift.panelPhoto.base64;
+			}
+			if($scope.addLift.ardPhoto != ''){
+				$scope.addLift.ardPhoto = $scope.addLift.ardPhoto.base64;
+			}
+			if($scope.addLift.lopPhoto != ''){
+				$scope.addLift.lopPhoto = $scope.addLift.lopPhoto.base64;
+			}
+			if($scope.addLift.copPhoto != ''){
+				$scope.addLift.copPhoto = $scope.addLift.copPhoto.base64;
+			}
+			if($scope.addLift.cartopPhoto != ''){
+				$scope.addLift.cartopPhoto = $scope.addLift.cartopPhoto.base64;
+			}
+			if($scope.addLift.cartopPhoto != ''){
+				$scope.addLift.cartopPhoto = $scope.addLift.cartopPhoto.base64;
+			}
+			if($scope.addLift.autoDoorHeaderPhoto != ''){
+				$scope.addLift.autoDoorHeaderPhoto = $scope.addLift.autoDoorHeaderPhoto.base64;
+			}
+			if($scope.addLift.wiringPhoto != ''){
+				$scope.addLift.wiringPhoto = $scope.addLift.wiringPhoto.base64;
+			}
+			if($scope.addLift.lobbyPhoto != ''){
+				$scope.addLift.lobbyPhoto = $scope.addLift.lobbyPhoto.base64;
+			}
 		}
 		$scope.submitAddLift = function(){
 			parseBase64();
