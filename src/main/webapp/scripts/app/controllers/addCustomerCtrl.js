@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('addCustomerCtrl', ['$scope', '$filter','serviceApi','$route','utility', function($scope, $filter,serviceApi,$route,utility) {
+	.controller('addCustomerCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window', function($scope, $filter,serviceApi,$route,utility,$window) {
 	initAddCustomer();
 			loadCompayInfo();
 			$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Branch.',close:true };

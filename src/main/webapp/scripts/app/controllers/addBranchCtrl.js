@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('addBranchCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility', function($scope, $filter,serviceApi,$route,$http,utility) {
+	.controller('addBranchCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$window', function($scope, $filter,serviceApi,$route,$http,utility,$window) {
 		//initialize add Branch
 		initAddBranch();
 		loadCompayInfo();
