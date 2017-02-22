@@ -23,7 +23,10 @@ public enum RlmsErrorType {
 	COMPLAINT_TITLE_BLANK(16,"complaint_title_blank"),
 	COMPLAINT_REMARK_BLANK(17,"complaint_remark_blank"),
 	LIFT_CUSTOMER_BLANK(18,"lift_customer_blank"),
-	COMPLAINT_REG_SUCCESSFUL(19,"complaint_reg_successful");
+	COMPLAINT_REG_SUCCESSFUL(19,"complaint_reg_successful"),
+	MEMBER_WITH_SAME_CONTACT_NO(20,"member_with_same_contact_no"),
+	MEMBER_REG_SUCCESSFUL(30,"member_reg_successful"),
+	INVALID_CONTACT_NUMBER(31,"invalid_contact_number");
 	
 	private Integer code;
 	private String message;

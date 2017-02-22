@@ -54,4 +54,6 @@ public interface UserService {
 	public List<RlmsUserRoles> getListOfTechniciansForBranch(Integer compBranchMapId);
 	
 	public List<UserDtlsDto> getAllRegisteredUsers(Integer compamyId, UserMetaInfo metaInfo);
+	
+	public UserDtlsDto getTechnicianDtlsByMblNo(UserDtlsDto dto) throws ValidationException;
 }

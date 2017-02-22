@@ -17,6 +17,7 @@ import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
 import com.rlms.contract.AddNewUserDto;
+import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.RegisterDto;
 import com.rlms.contract.UserDtlsDto;
 import com.rlms.contract.UserMetaInfo;
@@ -28,6 +29,8 @@ import com.rlms.exception.ValidationException;
 import com.rlms.model.RlmsCompanyBranchMapDtls;
 import com.rlms.model.RlmsCompanyMaster;
 import com.rlms.model.RlmsCompanyRoleMap;
+import com.rlms.model.RlmsCustomerMemberMap;
+import com.rlms.model.RlmsMemberMaster;
 import com.rlms.model.RlmsSpocRoleMaster;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.model.RlmsUsersMaster;
@@ -344,6 +347,32 @@ public class UserServiceImpl implements UserService{
 		listOfUserRoles = this.getAllUserWithRoleForBranch(compBranchMapId, SpocRoleConstants.TECHNICIAN.getSpocRoleId());
 		
 		return listOfUserRoles;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public UserDtlsDto getTechnicianDtlsByMblNo(UserDtlsDto dto) throws ValidationException{
+		RlmsUserRoles userRole = this.userRoleDao.getTechnicianRoleObjByMblNo(dto.getContactNumber(), SpocRoleConstants.TECHNICIAN.getSpocRoleId());
+		if(null == userRole){
+			throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.INVALID_CONTACT_NUMBER.getMessage()));
+		}
+		
+		return this.constructMemberDltsSto(userRole);
+		
+	}
+	
+	private UserDtlsDto constructMemberDltsSto(RlmsUserRoles userRole){
+		
+		UserDtlsDto userDtlsDto = new UserDtlsDto();
+		userDtlsDto.setBranchCompanyMapId(userRole.getRlmsCompanyBranchMapDtls().getCompanyBranchMapId());
+		userDtlsDto.setBranchName(userRole.getRlmsCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());
+		userDtlsDto.setCompanyName(userRole.getRlmsCompanyMaster().getCompanyName());
+		userDtlsDto.setContactNumber(userRole.getRlmsUserMaster().getContactNumber());
+		userDtlsDto.setFirstName(userRole.getRlmsUserMaster().getFirstName());
+		userDtlsDto.setLastName(userRole.getRlmsUserMaster().getLastName());
+		userDtlsDto.setUserId(userRole.getRlmsUserMaster().getUserId());
+		userDtlsDto.setUserRoleId(userRole.getUserRoleId());
+		return userDtlsDto;
+		
 	}
 	
 }

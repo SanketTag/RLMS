@@ -60,7 +60,7 @@ public class RlmsLiftMaster implements Serializable{
 	private byte[] wiringPhoto;
 	private Integer fireMode;
 	private String intercomm;
-	private String alarm;
+	private Integer alarm;
 	private String alarmBattery;
 	private String accessControl;
 	private byte[] lobbyPhoto;
@@ -387,10 +387,10 @@ public class RlmsLiftMaster implements Serializable{
 	}
 	
 	@Column(name = "alarm", unique = true, nullable = true)
-	public String getAlarm() {
+	public Integer getAlarm() {
 		return alarm;
 	}
-	public void setAlarm(String alarm) {
+	public void setAlarm(Integer alarm) {
 		this.alarm = alarm;
 	}
 	

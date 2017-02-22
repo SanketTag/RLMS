@@ -3,6 +3,7 @@ package com.rlms.service;
 import java.util.List;
 
 import com.rlms.contract.CustomerDtlsDto;
+import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.exception.ValidationException;
 import com.rlms.model.RlmsCustomerMaster;
@@ -12,4 +13,5 @@ public interface CustomerService {
 	public String validateAndRegisterNewCustomer(CustomerDtlsDto customerDtlsDto, UserMetaInfo metaInfo) throws ValidationException;
 	public List<CustomerDtlsDto> getAllApplicableCustomers(CustomerDtlsDto dto, UserMetaInfo metaInfo);
 	public List<CustomerDtlsDto> getAllCustomersForBranch(CustomerDtlsDto dto, UserMetaInfo metaInfo);
+	public MemberDtlsDto getMemeberDtlsByMblNo(MemberDtlsDto dto) throws ValidationException;
 }

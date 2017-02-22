@@ -55,7 +55,7 @@ public class LiftDtlsDto {
 	private byte[] wiringPhoto;
 	private Integer fireMode;
 	private String intercomm;
-	private String alarm;
+	private Integer alarm;
 	private String alarmBattery;
 	private String accessControl;
 	private byte[] lobbyPhoto;
@@ -349,10 +349,10 @@ public class LiftDtlsDto {
 	public void setIntercomm(String intercomm) {
 		this.intercomm = intercomm;
 	}
-	public String getAlarm() {
+	public Integer getAlarm() {
 		return alarm;
 	}
-	public void setAlarm(String alarm) {
+	public void setAlarm(Integer alarm) {
 		this.alarm = alarm;
 	}
 	public String getAlarmBattery() {

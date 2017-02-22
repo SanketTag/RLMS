@@ -146,4 +146,18 @@ UserRoleDao{
 		 return userRole;
 	}
 	
+	@Override
+	public RlmsUserRoles getTechnicianRoleObjByMblNo(String mblNumber, Integer spocRoleId){
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsUserRoles.class)
+				 .createAlias("rlmsUserMaster", "um")
+		 		 .createAlias("rlmsSpocRoleMaster", "sm")
+				 .add(Restrictions.eq("um.contactNumber", mblNumber))
+		 	     .add(Restrictions.eq("sm.spocRoleId", spocRoleId))
+		 	     .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 
+		 RlmsUserRoles userRole = (RlmsUserRoles) criteria.uniqueResult();
+		 return userRole;
+	}
+	
 }

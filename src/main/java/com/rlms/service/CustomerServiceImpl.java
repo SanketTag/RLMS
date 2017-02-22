@@ -15,6 +15,7 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.contract.AddNewUserDto;
 import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.CustomerDtlsDto;
+import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.dao.BranchDao;
 import com.rlms.dao.CustomerDao;
@@ -25,8 +26,10 @@ import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsCompanyBranchMapDtls;
 import com.rlms.model.RlmsCompanyMaster;
 import com.rlms.model.RlmsCustomerMaster;
+import com.rlms.model.RlmsCustomerMemberMap;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsLiftMaster;
+import com.rlms.model.RlmsMemberMaster;
 import com.rlms.model.RlmsUsersMaster;
 import com.rlms.utils.PropertyUtils;
 
@@ -163,4 +166,100 @@ public class CustomerServiceImpl implements CustomerService{
 		}
 		return listOFDtos;
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String validateAndRegisterNewMember(MemberDtlsDto memberDtlsDto, UserMetaInfo metaInfo) throws ValidationException{
+		String statusMessage = "";
+		if(this.validateMemberDtls(memberDtlsDto)){
+			RlmsMemberMaster  memberMaster = this.constructMemberMaster(memberDtlsDto, metaInfo);
+			Integer memberID = this.customerDao.saveMemberM(memberMaster);
+			memberMaster.setMemberId(memberID);
+			
+			RlmsCustomerMemberMap customerMemberMap = this.constructCustoMemberMap(memberMaster, memberDtlsDto, metaInfo);
+			this.customerDao.saveCustomerMemberMap(customerMemberMap);
+			
+			statusMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.MEMBER_REG_SUCCESSFUL.getMessage());
+		}
+		return statusMessage;
+		
+	}
+	
+	private boolean validateMemberDtls(MemberDtlsDto memberDtlsDto) throws ValidationException{
+		boolean isValidMember = true;
+		RlmsMemberMaster memberMaster = this.customerDao.getMemberByCntNo(memberDtlsDto.getContactNumber());
+		if(null != memberMaster){
+			isValidMember = false;
+			throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.MEMBER_WITH_SAME_CONTACT_NO.getMessage()));
+		}
+		
+		return isValidMember;
+	}
+	
+	private RlmsMemberMaster constructMemberMaster(MemberDtlsDto memberDtlsDto, UserMetaInfo metaInfo){
+	
+		RlmsMemberMaster memberMaster = new RlmsMemberMaster();
+		memberMaster.setActiveFlag(RLMSConstants.ACTIVE.getId());
+		memberMaster.setAddress(memberDtlsDto.getAddress());
+		memberMaster.setContactNumber(memberDtlsDto.getContactNumber());
+		memberMaster.setEmailId(memberDtlsDto.getEmailId());
+		memberMaster.setFirstName(memberDtlsDto.getFirstName());
+		memberMaster.setLastName(memberDtlsDto.getLastName());
+		memberMaster.setUpdatedBy(metaInfo.getUserId());
+		memberMaster.setUpdatedDate(new Date());
+		memberMaster.setCreatedBy(metaInfo.getUserId());
+		memberMaster.setCreatedDate(new Date());
+		return memberMaster;
+	}
+	
+	private RlmsCustomerMemberMap constructCustoMemberMap(RlmsMemberMaster memberMaster, MemberDtlsDto memberDtlsDto, UserMetaInfo metaInfo){
+		RlmsCustomerMemberMap customerMemberMap =  new RlmsCustomerMemberMap();
+		RlmsCustomerMaster customerMaster = this.customerDao.getCustomerById(memberDtlsDto.getCustomerId());
+		customerMemberMap.setActiveFlag(RLMSConstants.ACTIVE.getId());
+		customerMemberMap.setRlmsCustomerMaster(customerMaster);
+		customerMemberMap.setRlmsMemberMaster(memberMaster);
+		customerMemberMap.setCreatedBy(metaInfo.getUserId());
+		customerMemberMap.setCreatedDate(new Date());
+		customerMemberMap.setUpdatedBy(metaInfo.getUserId());
+		customerMemberMap.setUpdatedDate(new Date());
+		return customerMemberMap;
+
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public MemberDtlsDto getMemeberDtlsByMblNo(MemberDtlsDto dto) throws ValidationException{
+		RlmsMemberMaster memberMaster = this.customerDao.getMemberByCntNo(dto.getContactNumber());
+		if(null == memberMaster){
+			throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.INVALID_CONTACT_NUMBER.getMessage()));
+		}
+		
+		return this.constructMemberDltsSto(memberMaster);
+		
+	}
+	
+	private MemberDtlsDto constructMemberDltsSto(RlmsMemberMaster memberMaster){
+		
+		List<RlmsCustomerMemberMap> listOFAllCustomers = this.customerDao.getAllCustomersForMember(memberMaster.getMemberId());
+		MemberDtlsDto memberDtlsDto = new MemberDtlsDto();
+		memberDtlsDto.setFirstName(memberMaster.getFirstName());
+		memberDtlsDto.setLastName(memberMaster.getLastName());
+		memberDtlsDto.setContactNumber(memberMaster.getContactNumber());
+		memberDtlsDto.setListOfCustomerDtls(this.constructCustoDtlsDto(listOFAllCustomers));
+		return memberDtlsDto;
+		
+	}
+	
+	private List<CustomerDtlsDto> constructCustoDtlsDto(List<RlmsCustomerMemberMap> listOfAllCustomers){
+		List<CustomerDtlsDto> listOfCusoDtls = new ArrayList<CustomerDtlsDto>();
+		for (RlmsCustomerMemberMap customerMemberMap : listOfAllCustomers) {
+			RlmsBranchCustomerMap branchCustomerMap = this.customerDao.getBranchCustomerMapByCustoId(customerMemberMap.getRlmsCustomerMaster().getCustomerId());
+			CustomerDtlsDto customerDtlsDto =  new CustomerDtlsDto();
+			customerDtlsDto.setBranchCompanyMapId(branchCustomerMap.getBranchCustoMapId());
+			customerDtlsDto.setBranchName(branchCustomerMap.getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());
+			customerDtlsDto.setCustomerName(branchCustomerMap.getCustomerMaster().getCustomerName());
+			customerDtlsDto.setCompanyName(branchCustomerMap.getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyName());
+			listOfCusoDtls.add(customerDtlsDto);
+		}
+		return listOfCusoDtls;
+	}
 }
+

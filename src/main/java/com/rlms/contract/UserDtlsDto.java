@@ -13,6 +13,7 @@ public class UserDtlsDto {
 	private Integer userId;
 	private Integer branchCompanyMapId;
 	private Integer companyId;
+	private Integer userRoleId;
 	
 	public String getFirstName() {
 		return firstName;
@@ -79,6 +80,12 @@ public class UserDtlsDto {
 	}
 	public void setCompanyId(Integer companyId) {
 		this.companyId = companyId;
+	}
+	public Integer getUserRoleId() {
+		return userRoleId;
+	}
+	public void setUserRoleId(Integer userRoleId) {
+		this.userRoleId = userRoleId;
 	}
 	
 	

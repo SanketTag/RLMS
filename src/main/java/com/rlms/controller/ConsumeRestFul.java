@@ -15,14 +15,14 @@ public class ConsumeRestFul {
 
 		  try {
 
-			URL url = new URL("http://localhost:8000/RLMS/API/getAllComplaintsAssigned");
+			URL url = new URL("http://localhost:8000/RLMS/API/register/getMemberDtlsByMblNumber");
 			//URL url = new URL("http://localhost:8000/RLMS/API/loginIntoApp");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json");
 
-			String input = "{\"userRoleId\":\"2\"}";
+			String input = "{\"contactNumber\":\"8983564574\"}";
 			//String input = "{\"userName\":\"admin\",\"password\":\"rlms1234\"}";
 
 			OutputStream os = conn.getOutputStream();
