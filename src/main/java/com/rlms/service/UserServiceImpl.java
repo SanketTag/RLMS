@@ -32,6 +32,7 @@ import com.rlms.model.RlmsCompanyRoleMap;
 import com.rlms.model.RlmsCustomerMemberMap;
 import com.rlms.model.RlmsMemberMaster;
 import com.rlms.model.RlmsSpocRoleMaster;
+import com.rlms.model.RlmsUserApplicationMapDtls;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.model.RlmsUsersMaster;
 import com.rlms.model.User;
@@ -350,16 +351,35 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public UserDtlsDto getTechnicianDtlsByMblNo(UserDtlsDto dto) throws ValidationException{
+	public UserDtlsDto registerTechnicianDeviceByMblNo(UserDtlsDto dto, UserMetaInfo metaInfo) throws ValidationException{
 		RlmsUserRoles userRole = this.userRoleDao.getTechnicianRoleObjByMblNo(dto.getContactNumber(), SpocRoleConstants.TECHNICIAN.getSpocRoleId());
 		if(null == userRole){
 			throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.INVALID_CONTACT_NUMBER.getMessage()));
 		}
-		
+		this.registerUserDevice(dto, userRole, metaInfo);
 		return this.constructMemberDltsSto(userRole);
 		
 	}
 	
+	private void registerUserDevice(UserDtlsDto dto, RlmsUserRoles userRole, UserMetaInfo metaInfo){
+		RlmsUserApplicationMapDtls userApplicationMapDtls = this.constructUserAppMapDtls(dto, userRole, metaInfo);
+		this.userRoleDao.saveUserAppDlts(userApplicationMapDtls);
+	}
+	
+	private RlmsUserApplicationMapDtls constructUserAppMapDtls(UserDtlsDto dto, RlmsUserRoles userRole, UserMetaInfo metaInfo){
+		RlmsUserApplicationMapDtls userApplicationMapDtls = new RlmsUserApplicationMapDtls();
+		userApplicationMapDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
+		userApplicationMapDtls.setAppRegId(dto.getAppRegId());
+		userApplicationMapDtls.setLatitude(dto.getLatitude());
+		userApplicationMapDtls.setLongitude(dto.getLongitude());
+		userApplicationMapDtls.setUserId(userRole.getUserRoleId());
+		userApplicationMapDtls.setUserRefType(RLMSConstants.USER_ROLE_TYPE.getId());
+		userApplicationMapDtls.setCreatedBy(metaInfo.getUserId());
+		userApplicationMapDtls.setCreatedDate(new Date());
+		userApplicationMapDtls.setUpdatedDate(new Date());
+		userApplicationMapDtls.setUpdatedBy(metaInfo.getUserId());
+		return userApplicationMapDtls;
+	}
 	private UserDtlsDto constructMemberDltsSto(RlmsUserRoles userRole){
 		
 		UserDtlsDto userDtlsDto = new UserDtlsDto();

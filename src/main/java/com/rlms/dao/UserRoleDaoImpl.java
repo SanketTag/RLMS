@@ -15,6 +15,7 @@ import com.rlms.contract.UserMetaInfo;
 import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsCompanyRoleMap;
 import com.rlms.model.RlmsSpocRoleMaster;
+import com.rlms.model.RlmsUserApplicationMapDtls;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.model.RlmsUsersMaster;
 
@@ -158,6 +159,11 @@ UserRoleDao{
 		 
 		 RlmsUserRoles userRole = (RlmsUserRoles) criteria.uniqueResult();
 		 return userRole;
+	}
+	
+	@Override
+	public void saveUserAppDlts(RlmsUserApplicationMapDtls userApplicationMapDtls){
+		 this.sessionFactory.getCurrentSession().save(userApplicationMapDtls);
 	}
 	
 }

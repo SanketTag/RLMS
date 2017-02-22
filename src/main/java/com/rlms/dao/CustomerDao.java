@@ -20,4 +20,6 @@ public interface CustomerDao {
 	public Integer saveCustomerMemberMap(RlmsCustomerMemberMap customerMemberMap);
 	public List<RlmsCustomerMemberMap> getAllCustomersForMember(Integer memberId);
 	public RlmsBranchCustomerMap getBranchCustomerMapByCustoId(Integer customerId);
+	public List<RlmsCustomerMemberMap> getAllMembersForCustomer(
+			Integer branchCustomerMapId);
 }

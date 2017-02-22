@@ -26,6 +26,7 @@ public class RlmsMemberMaster {
 	private String address;
 	private String contactNumber;
 	private String emailId;
+	private Date registrationDate;
 	private Integer activeFlag;
 	private Date createdDate;
 	private Integer createdBy;
@@ -130,6 +131,14 @@ public class RlmsMemberMaster {
 	
 	public void setUpdatedBy(Integer updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+	
+	@Column(name = "registration_date", unique = true, nullable = false)
+	public Date getRegistrationDate() {
+		return registrationDate;
+	}
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
 	}
 	
 	

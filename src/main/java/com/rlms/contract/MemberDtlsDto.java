@@ -1,16 +1,26 @@
 package com.rlms.contract;
 
+import java.util.Date;
 import java.util.List;
 
 public class MemberDtlsDto {
 
+	
 	private String firstName;
 	private String lastName;
 	private String companyName;
 	private String contactNumber;
 	private String address;
 	private String emailId;
-	private Integer customerId;
+	private Integer branchCustoMapId;
+	private String appRegId;
+	private Double latitude;
+	private Double longitude;
+	private String branchName;
+	private String customerName;
+	private Date registrationDate;
+	
+	
 	private List<CustomerDtlsDto> listOfCustomerDtls;
 	
 	
@@ -50,17 +60,55 @@ public class MemberDtlsDto {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-	public Integer getCustomerId() {
-		return customerId;
-	}
-	public void setCustomerId(Integer customerId) {
-		this.customerId = customerId;
-	}
+	
 	public List<CustomerDtlsDto> getListOfCustomerDtls() {
 		return listOfCustomerDtls;
 	}
 	public void setListOfCustomerDtls(List<CustomerDtlsDto> listOfCustomerDtls) {
 		this.listOfCustomerDtls = listOfCustomerDtls;
+	}
+	public String getAppRegId() {
+		return appRegId;
+	}
+	public void setAppRegId(String appRegId) {
+		this.appRegId = appRegId;
+	}
+	public Double getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+	public Double getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+	
+	public String getBranchName() {
+		return branchName;
+	}
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
+	public String getCustomerName() {
+		return customerName;
+	}
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+	public Date getRegistrationDate() {
+		return registrationDate;
+	}
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
+	}
+	public Integer getBranchCustoMapId() {
+		return branchCustoMapId;
+	}
+	public void setBranchCustoMapId(Integer branchCustoMapId) {
+		this.branchCustoMapId = branchCustoMapId;
 	}
 	
 	

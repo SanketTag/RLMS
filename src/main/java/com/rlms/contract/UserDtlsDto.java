@@ -14,6 +14,9 @@ public class UserDtlsDto {
 	private Integer branchCompanyMapId;
 	private Integer companyId;
 	private Integer userRoleId;
+	private String appRegId;
+	private Double latitude;
+	private Double longitude;
 	
 	public String getFirstName() {
 		return firstName;
@@ -86,6 +89,24 @@ public class UserDtlsDto {
 	}
 	public void setUserRoleId(Integer userRoleId) {
 		this.userRoleId = userRoleId;
+	}
+	public String getAppRegId() {
+		return appRegId;
+	}
+	public void setAppRegId(String appRegId) {
+		this.appRegId = appRegId;
+	}
+	public Double getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+	public Double getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
 	}
 	
 	

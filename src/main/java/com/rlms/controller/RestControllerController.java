@@ -172,12 +172,12 @@ public class RestControllerController  extends BaseController {
         return reponseDto;
     }
     
-    @RequestMapping(value = "/register/getMemberDtlsByMblNumber", method = RequestMethod.POST)
-    public @ResponseBody MemberDtlsDto getMemberDtlsByMblNumber(@RequestBody MemberDtlsDto memberDtlsDto) throws ValidationException, RunTimeException{
+    @RequestMapping(value = "/register/registerMemeberDeviceByMblNo", method = RequestMethod.POST)
+    public @ResponseBody MemberDtlsDto registerMemeberDeviceByMblNo(@RequestBody MemberDtlsDto memberDtlsDto) throws ValidationException, RunTimeException{
     	MemberDtlsDto memberDtls = null;
         try{
-        	log.info("Method :: getMemberDtlsByMblNumber");
-        	memberDtls = this.customerService.getMemeberDtlsByMblNo(memberDtlsDto);
+        	log.info("Method :: registerMemeberDeviceByMblNo");
+        	memberDtls = this.customerService.registerMemeberDeviceByMblNo(memberDtlsDto, this.getMetaInfo());
         	
         }catch(ValidationException vex){
         	log.error(ExceptionUtils.getFullStackTrace(vex));
@@ -191,12 +191,12 @@ public class RestControllerController  extends BaseController {
         return memberDtls;
     }
     
-    @RequestMapping(value = "/register/getTechnicianDtlsByMblNumber", method = RequestMethod.POST)
-    public @ResponseBody UserDtlsDto getTechnicianDtlsByMblNumber(@RequestBody UserDtlsDto userDtlsDto) throws ValidationException, RunTimeException{
+    @RequestMapping(value = "/register/registerTechnicianDeviceByMblNo", method = RequestMethod.POST)
+    public @ResponseBody UserDtlsDto registerTechnicianDeviceByMblNo(@RequestBody UserDtlsDto userDtlsDto) throws ValidationException, RunTimeException{
     	UserDtlsDto useDtls = null;
         try{
-        	log.info("Method :: getTechnicianDtlsByMblNumber");
-        	useDtls = this.userService.getTechnicianDtlsByMblNo(userDtlsDto);
+        	log.info("Method :: registerTechnicianDeviceByMblNo");
+        	useDtls = this.userService.registerTechnicianDeviceByMblNo(userDtlsDto, this.getMetaInfo());
         	
         }catch(ValidationException vex){
         	log.error(ExceptionUtils.getFullStackTrace(vex));

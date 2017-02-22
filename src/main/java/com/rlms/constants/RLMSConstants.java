@@ -8,7 +8,9 @@ public enum RLMSConstants {
 	INDITECH(1,"Inditech"),
 	COMPLAINT_REG_TYPE_END_USER(1, "Registered by Customer"),
 	COMPLAINT_REG_TYPE_ADMIN(2, "Registered over Phone"),
-	COMPLAINT_REG_TYPE_LIFT_EVENT(3, "Registered by Lift events");
+	COMPLAINT_REG_TYPE_LIFT_EVENT(3, "Registered by Lift events"),
+	USER_ROLE_TYPE(8,"user_role_type"),
+	MEMBER_TYPE(9,"Member Type");
 	private Integer id;
 	private String name;
 	

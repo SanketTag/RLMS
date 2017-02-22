@@ -93,6 +93,7 @@
 			 <value>com.rlms.model.RlmsFyaTranDtls</value>
 			  <value>com.rlms.model.RlmsMemberMaster</value>
 			   <value>com.rlms.model.RlmsCustomerMemberMap</value>
+			   <value>com.rlms.model.RlmsUserApplicationMapDtls</value>
 		     </list>
 		</property> 
         <property name="hibernateProperties">

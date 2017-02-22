@@ -109,5 +109,17 @@ public class CustomerDaoImpl implements CustomerDao{
 		 
 		 return (RlmsBranchCustomerMap) criteria.uniqueResult();
 	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<RlmsCustomerMemberMap> getAllMembersForCustomer(Integer branchCustomerMapId){
+		Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsCustomerMemberMap.class)
+				 .createAlias("rlmsBranchCustomerMap", "cm")
+				 .add(Restrictions.eq("cm.branchCustoMapId", branchCustomerMapId))
+				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 
+		 return criteria.list();
+	}
 
 }

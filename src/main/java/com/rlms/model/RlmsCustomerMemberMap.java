@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class RlmsCustomerMemberMap {
 
 	private Integer customerMemberMapId;
-	private RlmsCustomerMaster rlmsCustomerMaster;
+	private RlmsBranchCustomerMap rlmsBranchCustomerMap;
 	private RlmsMemberMaster rlmsMemberMaster;
 	private Integer activeFlag;
 	private Date createdDate;
@@ -40,20 +40,20 @@ public class RlmsCustomerMemberMap {
 	}
 
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "customer_id")
-	public RlmsCustomerMaster getRlmsCustomerMaster() {
-		return rlmsCustomerMaster;
+	@JoinColumn(name = "branch_customer_map_id")
+	public RlmsBranchCustomerMap getRlmsBranchCustomerMap() {
+		return rlmsBranchCustomerMap;
 	}
 
-	public void setRlmsCustomerMaster(RlmsCustomerMaster rlmsCustomerMaster) {
-		this.rlmsCustomerMaster = rlmsCustomerMaster;
+	public void setRlmsBranchCustomerMap(RlmsBranchCustomerMap rlmsBranchCustomerMap) {
+		this.rlmsBranchCustomerMap = rlmsBranchCustomerMap;
 	}
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "member_id")
 	public RlmsMemberMaster getRlmsMemberMaster() {
 		return rlmsMemberMaster;
-	}
+	}	
 
 	public void setRlmsMemberMaster(RlmsMemberMaster rlmsMemberMaster) {
 		this.rlmsMemberMaster = rlmsMemberMaster;

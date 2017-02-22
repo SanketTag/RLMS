@@ -55,5 +55,5 @@ public interface UserService {
 	
 	public List<UserDtlsDto> getAllRegisteredUsers(Integer compamyId, UserMetaInfo metaInfo);
 	
-	public UserDtlsDto getTechnicianDtlsByMblNo(UserDtlsDto dto) throws ValidationException;
+	public UserDtlsDto registerTechnicianDeviceByMblNo(UserDtlsDto dto, UserMetaInfo metaInfo) throws ValidationException;
 }

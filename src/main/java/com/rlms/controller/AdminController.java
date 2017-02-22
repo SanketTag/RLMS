@@ -21,6 +21,7 @@ import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
+import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.RegisterDto;
 import com.rlms.contract.ResponseDto;
 import com.rlms.contract.UserDtlsDto;
@@ -388,6 +389,40 @@ public class AdminController extends BaseController{
 	        }
 	 
 	        return listOfLifts;
+	 }
+	 
+	 @RequestMapping(value = "/validateAndRegisterNewMember", method = RequestMethod.POST)
+	 public @ResponseBody ResponseDto validateAndRegisterNewMember(MemberDtlsDto memberDtlsDto) throws RunTimeException{
+		 ResponseDto reponseDto = new ResponseDto();
+	        
+	        try{
+	        	logger.info("Method :: validateAndRegisterNewMember");
+	        	reponseDto.setResponseMessage(this.customerService.validateAndRegisterNewMember(memberDtlsDto, this.getMetaInfo()));
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
+	 }
+	 
+	 @RequestMapping(value = "/getListOfAllMemberDtls", method = RequestMethod.POST)
+	 public @ResponseBody List<MemberDtlsDto> getListOfAllMemberDtls(MemberDtlsDto memberDtlsDto) throws RunTimeException{
+		 List<MemberDtlsDto> listOFMembers = new ArrayList<MemberDtlsDto>();
+	        
+	        try{
+	        	logger.info("Method :: getListOfAllMemberDtls");
+	        	listOFMembers = this.customerService.getListOfAllMemberDtls(memberDtlsDto);
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return listOFMembers;
 	 }
 	
 }
