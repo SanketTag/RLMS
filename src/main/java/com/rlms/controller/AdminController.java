@@ -392,7 +392,7 @@ public class AdminController extends BaseController{
 	 }
 	 
 	 @RequestMapping(value = "/validateAndRegisterNewMember", method = RequestMethod.POST)
-	 public @ResponseBody ResponseDto validateAndRegisterNewMember(MemberDtlsDto memberDtlsDto) throws RunTimeException{
+	 public @ResponseBody ResponseDto validateAndRegisterNewMember(@RequestBody MemberDtlsDto memberDtlsDto) throws RunTimeException{
 		 ResponseDto reponseDto = new ResponseDto();
 	        
 	        try{
@@ -409,7 +409,7 @@ public class AdminController extends BaseController{
 	 }
 	 
 	 @RequestMapping(value = "/getListOfAllMemberDtls", method = RequestMethod.POST)
-	 public @ResponseBody List<MemberDtlsDto> getListOfAllMemberDtls(MemberDtlsDto memberDtlsDto) throws RunTimeException{
+	 public @ResponseBody List<MemberDtlsDto> getListOfAllMemberDtls(@RequestBody MemberDtlsDto memberDtlsDto) throws RunTimeException{
 		 List<MemberDtlsDto> listOFMembers = new ArrayList<MemberDtlsDto>();
 	        
 	        try{
