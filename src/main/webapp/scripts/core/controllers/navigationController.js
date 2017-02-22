@@ -30,6 +30,10 @@ angular
    	          url: '#/customer-management'
    	      },
    	      {
+   	          label: 'Manage Member',
+   	          url: '#/member-management'
+   	      },
+   	      {
    	    	  label:'Manage Lift',
    	    	  url: "#/lift-management"
    	      },

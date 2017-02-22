@@ -238,7 +238,8 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 }
 /*customer management*/
 .customer-management .select-container,
-.add_lift .select-container{
+.add_lift .select-container,
+.member-management .select-container{
 	display:inline-block;
 	width:20%;
 	margin: 0 10px;
