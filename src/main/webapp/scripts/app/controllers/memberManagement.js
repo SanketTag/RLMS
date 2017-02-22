@@ -2,13 +2,13 @@
     'use strict';
 	angular.module('rlmsApp')
 	.controller('memberManagementCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
-		initCustomerList();
+		initMemberList();
 		$scope.showCompany = false;
 		$scope.showBranch = false;
-		$scope.goToAddCustomer = function(){
+		$scope.goToAddMember = function(){
 			window.location.hash = "#/add-member";
 		}
-		function initCustomerList(){
+		function initMemberList(){
 			 $scope.selectedCompany={};
 			 $scope.selectedBranch = {};
 			 $scope.selectedCustomer = {};	
@@ -79,9 +79,9 @@
 	  	    };
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
 	  	    	var dataToSend = {
-	  	    			branchCustomerMapId:0
+	  	    			branchCustoMapId:0
 	  	    	}
-	  	    	dataToSend.branchCustomerMapId= $scope.selectedCustomer.selected.branchCustomerMapId
+	  	    	dataToSend.branchCustoMapId= $scope.selectedCustomer.selected.branchCustomerMapId
 	  	      setTimeout(function() {
 	  	        var data;
 	  	        if (searchText) {
@@ -135,9 +135,9 @@
 	  	          });
 	  	        } else {
 	  	        	var dataToSend = {
-		  	    			branchCustomerMapId:0
+	  	        			branchCustoMapId:0
 		  	    	}
-		  	    	dataToSend.branchCustomerMapId= $scope.selectedCustomer.selected.branchCustomerMapId
+		  	    	dataToSend.branchCustoMapId= $scope.selectedCustomer.selected.branchCustomerMapId
 	  	        	serviceApi.doPostWithData('/RLMS/admin/getListOfAllMemberDtls',dataToSend).then(function(largeLoad) {
 	  	        	  var details=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
