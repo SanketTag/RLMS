@@ -96,13 +96,13 @@
 	  	        		}else{
 	  	        			detailsObj["Name"] =" - ";
 	  	        		}
-	  	        		if(!!largeLoad[i].cntNumber){
-	  	        			detailsObj["Contact_Number"] =largeLoad[i].cntNumber;
+	  	        		if(!!largeLoad[i].contactNumber){
+	  	        			detailsObj["Contact_Number"] =largeLoad[i].contactNumber;
 	  	        		}else{
 	  	        			detailsObj["Contact_Number"] =" - ";
 	  	        		}
-	  	        		if(!!largeLoad[i].emailID){
-	  	        			detailsObj["Email_Id"] =largeLoad[i].emailID;
+	  	        		if(!!largeLoad[i].emailId){
+	  	        			detailsObj["Email_Id"] =largeLoad[i].emailId;
 	  	        		}else{
 	  	        			detailsObj["Email_Id"] =" - ";
 	  	        		}
@@ -115,16 +115,6 @@
 	  	        			detailsObj["Branch"] =largeLoad[i].branchName;
 	  	        		}else{
 	  	        			detailsObj["Branch"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].companyName){
-	  	        			detailsObj["Company"] =largeLoad[i].companyName;
-	  	        		}else{
-	  	        			detailsObj["Company"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].totalNumberOfLifts){
-	  	        			detailsObj["Lifts_Count"] =largeLoad[i].totalNumberOfLifts;
-	  	        		}else{
-	  	        			detailsObj["Lifts_Count"] =" - ";
 	  	        		}
 	  	        		details.push(detailsObj);
 	  	        	  }
@@ -147,13 +137,13 @@
 	  	        		}else{
 	  	        			detailsObj["Name"] =" - ";
 	  	        		}
-	  	        		if(!!largeLoad[i].cntNumber){
-	  	        			detailsObj["Contact_Number"] =largeLoad[i].cntNumber;
+	  	        		if(!!largeLoad[i].contactNumber){
+	  	        			detailsObj["Contact_Number"] =largeLoad[i].contactNumber;
 	  	        		}else{
 	  	        			detailsObj["Contact_Number"] =" - ";
 	  	        		}
-	  	        		if(!!largeLoad[i].emailID){
-	  	        			detailsObj["Email_Id"] =largeLoad[i].emailID;
+	  	        		if(!!largeLoad[i].emailId){
+	  	        			detailsObj["Email_Id"] =largeLoad[i].emailId;
 	  	        		}else{
 	  	        			detailsObj["Email_Id"] =" - ";
 	  	        		}
@@ -166,16 +156,6 @@
 	  	        			detailsObj["Branch"] =largeLoad[i].branchName;
 	  	        		}else{
 	  	        			detailsObj["Branch"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].companyName){
-	  	        			detailsObj["Company"] =largeLoad[i].companyName;
-	  	        		}else{
-	  	        			detailsObj["Company"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].totalNumberOfLifts){
-	  	        			detailsObj["Lifts_Count"] =largeLoad[i].totalNumberOfLifts;
-	  	        		}else{
-	  	        			detailsObj["Lifts_Count"] =" - ";
 	  	        		}
 	  	        		details.push(detailsObj);
 	  	        	  }

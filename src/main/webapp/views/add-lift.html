@@ -76,26 +76,65 @@
 		</div>
 		<div class="form-group">
 			<label for="amcType" class="col-md-3 control-label">Amc Type</label>
-			<div class="col-md-6"><input ng-model="addLift.amcType" class="form-control"  type="number" name="amcType"></div>
+			<!-- <div class="col-md-6"><input ng-model="addLift.amcType" class="form-control"  type="number" name="amcType"></div> -->
+			<div class="col-sm-6">
+					  <ui-select ng-model="selectedAMCType.selected" title="Choose a AMC Type">
+					    <ui-select-match placeholder="Select a AMC Type in the list...">{{$select.selected.name}}</ui-select-match> <ui-select-choices
+								repeat="iterator in AMCType| filter: $select.search">
+							<span
+								ng-bind-html="iterator.name | highlight: $select.search"></span>
+							</ui-select-choices>
+					  </ui-select>
+				</div>
 		</div>
 		<div class="form-group">
 			<label for="amcAmount" class="col-md-3 control-label">Amc Amount</label>
 			<div class="col-md-6"><input ng-model="addLift.amcAmount" class="form-control"  type="number" name="amcAmount"></div>
 		</div>
+<!-- 		<div class="form-group">
+				<label class="col-sm-3 control-label">Select Customer Type</label>
+				<div class="col-sm-6">
+					  <ui-select ng-model="selectedCustomerType.selected" title="Choose a Customer Type">
+					    <ui-select-match placeholder="Select or search a company in the list...">{{$select.selected.name}}</ui-select-match> <ui-select-choices
+								repeat="iterator in customerType| filter: $select.search">
+							<span
+								ng-bind-html="iterator.name | highlight: $select.search"></span>
+							</ui-select-choices>
+					  </ui-select>
+				</div>
+			</div> -->
 	</fieldset>
 	<fieldset title="Step 2">
 		<legend>Technical Details</legend>
 		<div class="form-group">
 			<label for="doorType" class="col-md-3 control-label">Door Type</label>
-			<div class="col-md-6"><input ng-model="addLift.doorType" class="form-control"  type="number" name="doorType"></div>
+			<!-- <div class="col-md-6"><input ng-model="addLift.doorType" class="form-control"  type="number" name="doorType"></div> -->
+			<div class="col-sm-6">
+					  <ui-select ng-model="selectedDoorType.selected" title="Choose a Door Type">
+					    <ui-select-match placeholder="Select a door type...">{{$select.selected.name}}</ui-select-match> <ui-select-choices
+								repeat="iterator in DoorType| filter: $select.search">
+							<span
+								ng-bind-html="iterator.name | highlight: $select.search"></span>
+							</ui-select-choices>
+					  </ui-select>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="noOfStops" class="col-md-3 control-label">No Of Stops</label>
 			<div class="col-md-6"><input ng-model="addLift.noOfStops" class="form-control"  type="number" name="noOfStops"></div>
 		</div>
 		<div class="form-group">
-			<label for="engineType" class="col-md-3 control-label">Engine Type</label>
-			<div class="col-md-6"><input ng-model="addLift.engineType" class="form-control"  type="number" name="engineType"></div>
+			<label for="engineType" class="col-md-3 control-label">Machine Type</label>
+			<!-- <div class="col-md-6"><input ng-model="addLift.engineType" class="form-control"  type="number" name="engineType"></div> -->
+			<div class="col-sm-6">
+					  <ui-select ng-model="selectedEngineMachineType.selected" title="Choose a Door Type">
+					    <ui-select-match placeholder="Select a door type...">{{$select.selected.name}}</ui-select-match> <ui-select-choices
+								repeat="iterator in EngineMachineType| filter: $select.search">
+							<span
+								ng-bind-html="iterator.name | highlight: $select.search"></span>
+							</ui-select-choices>
+					  </ui-select>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="machineMake" class="col-md-3 control-label">Machine Make</label>
@@ -110,7 +149,7 @@
 			<div class="col-md-6"><input ng-model="addLift.machineCapacity" class="form-control"  type="text" name="machineCapacity"></div>
 		</div>
 		<div class="form-group">
-			<label for="breakVoltage" class="col-md-3 control-label">Break Voltage</label>
+			<label for="breakVoltage" class="col-md-3 control-label">Brake Voltage</label>
 			<div class="col-md-6"><input ng-model="addLift.breakVoltage" class="form-control"  type="text" name="breakVoltage"></div>
 		</div>
 		<div class="form-group">
@@ -143,11 +182,29 @@
 		</div>
 		<div class="form-group">
 			<label for="collectiveType" class="col-md-3 control-label">Collective Type</label>
-			<div class="col-md-6"><input ng-model="addLift.collectiveType" class="form-control"  type="number" name="collectiveType"></div>
+			<div class="col-sm-6">
+					  <ui-select ng-model="selectedCollectiveType.selected" title="Choose a Collective Type">
+					    <ui-select-match placeholder="Select a collective type...">{{$select.selected.name}}</ui-select-match> <ui-select-choices
+								repeat="iterator in CollectiveType |filter: $select.search">
+							<span
+								ng-bind-html="iterator.name | highlight: $select.search"></span>
+							</ui-select-choices>
+					  </ui-select>
+			</div>
+			<!-- <div class="col-md-6"><input ng-model="addLift.collectiveType" class="form-control"  type="number" name="collectiveType"></div> -->
 		</div>
 		<div class="form-group">
 			<label for="simplexDuplex" class="col-md-3 control-label">Simplex Duplex</label>
-			<div class="col-md-6"><input ng-model="addLift.simplexDuplex" class="form-control"  type="number" name="simplexDuplex"></div>
+			<!-- <div class="col-md-6"><input ng-model="addLift.simplexDuplex" class="form-control"  type="number" name="simplexDuplex"></div> -->
+			<div class="col-sm-6">
+					  <ui-select ng-model="selectedSimplexDuplex.selected" title="Choose a simplexDuplex Type">
+					    <ui-select-match placeholder="Select a simplexDuplex type...">{{$select.selected.name}}</ui-select-match> <ui-select-choices
+								repeat="iterator in SimplexDuplex| filter: $select.search">
+							<span
+								ng-bind-html="iterator.name | highlight: $select.search"></span>
+							</ui-select-choices>
+					  </ui-select>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="autoDoorMake" class="col-md-3 control-label">Auto Door Make</label>
@@ -155,18 +212,29 @@
 		</div>
 		<div class="form-group">
 			<label for="wiringShceme" class="col-md-3 control-label">Wiring Shceme</label>
-			<div class="col-md-6"><input ng-model="addLift.wiringShceme" class="form-control"  type="number" name="wiringShceme"></div>
+			<!-- <div class="col-md-6"><input ng-model="addLift.wiringShceme" class="form-control"  type="number" name="wiringShceme"></div> -->
+			<div class="col-sm-6">
+					  <ui-select ng-model="selectedWiringScheme.selected" title="Choose a Wiring Scheme Type">
+					    <ui-select-match placeholder="Select a Wiring Scheme type...">{{$select.selected.name}}</ui-select-match> <ui-select-choices
+								repeat="iterator in WiringScheme |filter: $select.search">
+							<span
+								ng-bind-html="iterator.name | highlight: $select.search"></span>
+							</ui-select-choices>
+					  </ui-select>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="fireMode" class="col-md-3 control-label">Fire Mode</label>
-			<div class="col-md-6"><input ng-model="addLift.fireMode" class="form-control"  type="number" name="fireMode"></div>
+			<!-- <div class="col-md-6"><input ng-model="addLift.fireMode" class="form-control"  type="number" name="fireMode"></div> -->
+			<div class="col-sm-6"><input type="checkbox" ng-model="addLift.fireMode" class="js-switch" ui-switch="{color: '#4697ce', secondaryColor: '#c5cbd1'}" /></div>
+			
 		</div>
 		<div class="form-group">
-			<label for="intercomm" class="col-md-3 control-label">intercomm</label>
+			<label for="intercomm" class="col-md-3 control-label">Texr Details</label>
 			<div class="col-md-6"><input ng-model="addLift.intercomm" class="form-control"  type="text" name="intercomm"></div>
 		</div>
 		<div class="form-group">
-			<label for="alarm" class="col-md-3 control-label">alarm</label>
+			<label for="alarm" class="col-md-3 control-label">Text</label>
 			<div class="col-md-6"><input ng-model="addLift.alarm" class="form-control"  type="text" name="alarm"></div>
 		</div>
 		<div class="form-group">
