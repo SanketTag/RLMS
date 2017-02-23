@@ -229,7 +229,6 @@
 					amcType : 0,
 					amcAmount : 0,
 
-
 					doorType : 0,
 					noOfStops : 0,
 					engineType : 0,
@@ -320,6 +319,18 @@
 		}
 		$scope.submitAddLift = function(){
 			parseBase64();
+			//addLift.customerType = $scope.selectedCustomerType;
+			$scope.addLift.amcType = $scope.selectedAMCType.id;
+			$scope.addLift.doorType = $scope.selectedDoorType.id;
+			$scope.addLift.engineType = $scope.selectedEngineMachineType.id;
+			$scope.addLift.collectiveType = $scope.selectedCollectiveType.id;
+			$scope.addLift.simplexDuplex = $scope.selectedSimplexDuplex.id;
+			$scope.addLift.wiringShceme = $scope.selectedWiringScheme.id;
+			if($scope.addLift.fireMode){
+				$scope.addLift.fireMode = 1;
+			}else{
+				$scope.addLift.fireMode = 0;
+			}
 			$scope.addLift.branchCustomerMapId = $scope.selectedCustomer.selected.branchCustomerMapId
 			serviceApi.doPostWithData("/RLMS/admin/validateAndRegisterNewLift",$scope.addLift)
 			.then(function(response){
