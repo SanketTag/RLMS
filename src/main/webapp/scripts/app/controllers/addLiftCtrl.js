@@ -104,7 +104,118 @@
 		function initAddLift(){
 			$scope.selectedCompany={};
 			$scope.selectedBranch = {};
-			$scope.selectedCustomer = {};	
+			$scope.selectedCustomer = {};
+			$scope.selectedCustomerType={};
+			$scope.selectedAMCType={};
+			$scope.selectedDoorType={};
+			$scope.selectedEngineMachineType={};
+			$scope.selectedCollectiveType={};
+			$scope.selectedSimplexDuplex={};
+			$scope.selectedWiringScheme={};
+			$scope.customerType=[
+					{
+						id:0,
+						name:'Residential'
+					},
+					{
+						id:1,
+						name:'Commertial'
+					},
+					{
+						id:2,
+						name:'Bunglo'
+					},
+					{
+						id:3,
+						name:'Hospital'
+					},
+					{
+						id:4,
+						name:'Goods'
+					},
+					{
+						id:5,
+						name:"Dumb Waiter"
+					}
+			];
+			//AMC Type
+			$scope.AMCType=[
+				{
+					id:0,
+					name:'Comprehensive'
+				},
+				{
+					id:1,
+					name:'Non-Comprehensive'
+				},
+				{
+					id:2,
+					name:'On Demand'
+				},
+				{
+					id:3,
+					name:'Other'
+				},
+			];
+			//Door Type
+			$scope.DoorType=[
+				{
+					id:0,
+					name:'Auto Door'
+				},
+				{
+					id:1,
+					name:'Manual Door'
+				}
+			];
+			//Engine-Machine Type
+			$scope.EngineMachineType=[
+				{
+					id:0,
+					name:'Geared'
+				},
+				{
+					id:1,
+					name:'Gearless'
+				}
+			];
+			//Collective Type
+			$scope.CollectiveType=[
+				{
+					id:0,
+					name:'Down Collective'
+				},
+				{
+					id:1,
+					name:'Full Collective'
+				}
+			];
+			//SimplexDuplex - Group
+			$scope.SimplexDuplex=[
+				{
+					id:0,
+					name:'Simplex'
+				},
+				{
+					id:1,
+					name:'Duplex'
+				},
+				{
+					id:1,
+					name:'Group'
+				}
+			];
+			//WiringScheme
+			$scope.WiringScheme=[
+				{
+					id:0,
+					name:'Pluggable'
+				},
+				{
+					id:1,
+					name:'NonPluggabel'
+				}
+			];
 			$scope.addLift={
 					branchCustomerMapId :'',
 					liftNumber : '',
