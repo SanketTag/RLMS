@@ -9,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
+import com.rlms.contract.ResponseDto;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
 import com.rlms.service.ComplaintsService;
@@ -20,7 +22,7 @@ import com.rlms.utils.PropertyUtils;
 
 @Controller
 @RequestMapping("/complaint")
-public class ComplaintController {
+public class ComplaintController extends BaseController{
 
 	@Autowired
 	private ComplaintsService complaintsService;
@@ -34,7 +36,7 @@ public class ComplaintController {
 		 
 		 try{
 	        	logger.info("Method :: getListOfComplaints");
-	        	listOfComplaints = this.complaintsService.getListOfComplaints(dto);
+	        	listOfComplaints = this.complaintsService.getListOfComplaintsBy(dto);
 	        	
 	        }
 	        catch(Exception e){
@@ -43,5 +45,39 @@ public class ComplaintController {
 	        }
 	 
 	        return listOfComplaints;
+	 }
+	
+	@RequestMapping(value = "/validateAndRegisterNewComplaint", method = RequestMethod.POST)
+	 public @ResponseBody ResponseDto validateAndRegisterNewComplaint(@RequestBody ComplaintsDtlsDto dto) throws RunTimeException{
+		 ResponseDto reponseDto = new ResponseDto();
+		 
+		 try{
+	        	logger.info("Method :: validateAndRegisterNewComplaint");
+	        	reponseDto.setResponseMessage(this.complaintsService.validateAndRegisterNewComplaint(dto, this.getMetaInfo()));
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
+	 }
+	
+	@RequestMapping(value = "/assignComplaint", method = RequestMethod.POST)
+	 public @ResponseBody ResponseDto assignComplaint(@RequestBody ComplaintsDto dto) throws RunTimeException{
+		 ResponseDto reponseDto = new ResponseDto();
+		 
+		 try{
+	        	logger.info("Method :: assignComplaint");
+	        	reponseDto.setResponseMessage(this.complaintsService.assignComplaint(dto, this.getMetaInfo()));
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
 	 }
 }

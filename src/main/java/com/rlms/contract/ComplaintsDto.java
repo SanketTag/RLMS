@@ -20,6 +20,9 @@ public class ComplaintsDto {
 	private String remark;
 	private String status;
 	private String title;
+	private String technicianDtls;
+	private Integer complaintId;
+	private Integer userRoleId;
 	public String getComplaintNumber() {
 		return complaintNumber;
 	}
@@ -103,6 +106,24 @@ public class ComplaintsDto {
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getTechnicianDtls() {
+		return technicianDtls;
+	}
+	public void setTechnicianDtls(String technicianDtls) {
+		this.technicianDtls = technicianDtls;
+	}
+	public Integer getComplaintId() {
+		return complaintId;
+	}
+	public void setComplaintId(Integer complaintId) {
+		this.complaintId = complaintId;
+	}
+	public Integer getUserRoleId() {
+		return userRoleId;
+	}
+	public void setUserRoleId(Integer userRoleId) {
+		this.userRoleId = userRoleId;
 	}
 	
 	

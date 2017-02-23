@@ -6,10 +6,14 @@ public class ComplaintsDtlsDto {
 
 	private Integer branchCompanyMapId;
 	private Integer liftCustomerMapId;
+	private Integer companyId;
+	private Integer branchCustomerMapId;
+	private List<Integer> listOfLiftIds;
 	private String complaintsTitle;
 	private String complaintsRemark;
 	private Integer registrationType;
 	private List<Integer> statusList;
+	private Integer complaintId;
 	
 	public Integer getLiftCustomerMapId() {
 		return liftCustomerMapId;
@@ -46,6 +50,30 @@ public class ComplaintsDtlsDto {
 	}
 	public void setStatusList(List<Integer> statusList) {
 		this.statusList = statusList;
+	}
+	public Integer getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
+	}
+	public Integer getBranchCustomerMapId() {
+		return branchCustomerMapId;
+	}
+	public void setBranchCustomerMapId(Integer branchCustomerMapId) {
+		this.branchCustomerMapId = branchCustomerMapId;
+	}
+	public List<Integer> getListOfLiftIds() {
+		return listOfLiftIds;
+	}
+	public void setListOfLiftIds(List<Integer> listOfLiftIds) {
+		this.listOfLiftIds = listOfLiftIds;
+	}
+	public Integer getComplaintId() {
+		return complaintId;
+	}
+	public void setComplaintId(Integer complaintId) {
+		this.complaintId = complaintId;
 	}
 	
 	

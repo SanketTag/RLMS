@@ -22,6 +22,7 @@ import com.rlms.exception.ValidationException;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
+import com.rlms.model.RlmsUserRoles;
 import com.rlms.utils.PropertyUtils;
 
 @Service("complaaintsService")
@@ -32,6 +33,9 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	@Autowired
 	private LiftDao liftDao;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<ComplaintsDto> getAllComplaintsAssigned(Integer userRoleId, List<Integer> statusList){
@@ -113,17 +117,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		return complaintMaster;
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED)
-	public List<ComplaintsDto> getListOfComplaints(ComplaintsDtlsDto dto){
-		List<ComplaintsDto> listOfAllComplaints = new ArrayList<ComplaintsDto>();
-		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForBranch(dto.getBranchCompanyMapId(), dto.getLiftCustomerMapId(), dto.getStatusList());
-		for (RlmsComplaintMaster rlmsComplaintMaster : listOfComplaints) {
-			ComplaintsDto complaintsDto = this.constructComplaintDto(rlmsComplaintMaster);
-			listOfAllComplaints.add(complaintsDto);
-		}
-		
-		return listOfAllComplaints;
-	}
+	
 	private ComplaintsDto constructComplaintDto(RlmsComplaintMaster complaintMaster){
 		ComplaintsDto dto = new ComplaintsDto();
 		if(RLMSConstants.COMPLAINT_REG_TYPE_ADMIN.getId().equals(complaintMaster.getRegistrationType())){
@@ -143,6 +137,13 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		dto.setTitle(complaintMaster.getTitle());
 		dto.setServiceStartDate(complaintMaster.getServiceStartDate());
 		
+		if(!Status.PENDING.getStatusId().equals(complaintMaster.getStatus())){
+			RlmsComplaintTechMapDtls complaintTechMapDtls = this.complaintsDao.getComplTechMapObjByComplaintId(complaintMaster.getComplaintId());
+			String techDtls = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";			
+			dto.setTechnicianDtls(techDtls);
+		}else{
+			dto.setTechnicianDtls("-");
+		}
 		if(Status.PENDING.getStatusId().equals(complaintMaster.getStatus())){
 			dto.setStatus(Status.PENDING.getStatusMsg());
 		}else if(Status.ASSIGNED.getStatusId().equals(complaintMaster.getStatus())){
@@ -153,5 +154,44 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			dto.setStatus(Status.COMPLETED.getStatusMsg());
 		}
 		return dto;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<ComplaintsDto> getListOfComplaintsBy(ComplaintsDtlsDto dto){
+		List<ComplaintsDto> listOfAllComplaints = new ArrayList<ComplaintsDto>();
+		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftIds(), dto.getStatusList());
+		for (RlmsComplaintMaster rlmsComplaintMaster : listOfComplaints) {
+			ComplaintsDto complaintsDto = this.constructComplaintDto(rlmsComplaintMaster);
+			listOfAllComplaints.add(complaintsDto);
+		}
+		
+		return listOfAllComplaints;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String assignComplaint(ComplaintsDto complaintsDto, UserMetaInfo metaInfo){
+		RlmsComplaintTechMapDtls complaintTechMapDtls = this.constructComplaintTechMapDtlsDto(complaintsDto, metaInfo);
+		this.complaintsDao.saveComplaintTechMapDtls(complaintTechMapDtls);
+		String techName = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() +  " " +complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";
+		String statusMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_ASSIGNED_SUUCESSFULLY.getMessage()) + " " + techName;
+		return statusMessage;
+		
+	}
+	
+	private RlmsComplaintTechMapDtls constructComplaintTechMapDtlsDto(ComplaintsDto complaintsDto, UserMetaInfo metaInfo){
+		RlmsComplaintTechMapDtls complaintTechMapDtls = new RlmsComplaintTechMapDtls();
+		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDto.getComplaintId());
+		RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(complaintsDto.getUserRoleId());
+		complaintTechMapDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
+		complaintTechMapDtls.setAssignedDate(new Date());
+		complaintTechMapDtls.setComplaintMaster(complaintMaster);
+		complaintTechMapDtls.setCreatedBy(metaInfo.getUserId());
+		complaintTechMapDtls.setCreatedDate(new Date());
+		complaintTechMapDtls.setRemark(complaintsDto.getRemark());
+		complaintTechMapDtls.setStatus(Status.PENDING_FOR_APPROVAL.getStatusId());
+		complaintTechMapDtls.setUpdatedBy(metaInfo.getUserId());
+		complaintTechMapDtls.setUpdatedDate(new Date());
+		complaintTechMapDtls.setUserRoles(userRoles);
+		return complaintTechMapDtls;
 	}
 }

@@ -395,4 +395,9 @@ public class UserServiceImpl implements UserService{
 		
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public RlmsUserRoles getUserRoleObjhById(Integer userRoleId){
+		return this.userRoleDao.getUserRole(userRoleId);
+	}
+	
 }

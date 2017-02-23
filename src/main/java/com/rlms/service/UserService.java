@@ -56,4 +56,6 @@ public interface UserService {
 	public List<UserDtlsDto> getAllRegisteredUsers(Integer compamyId, UserMetaInfo metaInfo);
 	
 	public UserDtlsDto registerTechnicianDeviceByMblNo(UserDtlsDto dto, UserMetaInfo metaInfo) throws ValidationException;
+	
+	public RlmsUserRoles getUserRoleObjhById(Integer userRoleId);
 }
