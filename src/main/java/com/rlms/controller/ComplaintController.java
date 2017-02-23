@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
+import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.ResponseDto;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
@@ -80,4 +81,20 @@ public class ComplaintController extends BaseController{
 	 
 	        return reponseDto;
 	 }
+	
+	@RequestMapping(value = "/getAllApplicableLifts", method = RequestMethod.POST)
+	public @ResponseBody List<LiftDtlsDto> getAllApplicableLifts(@RequestBody LiftDtlsDto dto) throws RunTimeException{
+		List<LiftDtlsDto> listOfLifts = null;
+		try{
+        	logger.info("Method :: assignComplaint");
+        	listOfLifts = this.complaintsService.getAllLiftsForBranchsOrCustomer(dto);
+        	
+        }
+        catch(Exception e){
+        	logger.error(ExceptionUtils.getFullStackTrace(e));
+        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        }
+		return listOfLifts;
+	}
+	
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.Status;
+import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsLiftMaster;
@@ -100,5 +101,22 @@ public class LiftDaoImpl implements LiftDao{
 		 RlmsLiftCustomerMap liftCustomerMap = (RlmsLiftCustomerMap) criteria.uniqueResult();
 		 return liftCustomerMap;
 	
-}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsLiftCustomerMap> getAllLiftsForBranchsOrCustomer(LiftDtlsDto dto){		
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class)
+					 .createAlias("branchCustomerMap.companyBranchMapDtls", "branchCompanyMap");
+					 if(null != dto.getBranchCustomerMapId() && !RLMSConstants.MINUS_ONE.getId().equals(dto.getBranchCustomerMapId())){
+						 criteria.add(Restrictions.eq("branchCustomerMap.branchCustoMapId", dto.getBranchCustomerMapId()));
+					 }
+					 if(null != dto.getBranchCompanyMapId()){
+						 criteria.add(Restrictions.eq("branchCompanyMap.companyBranchMapId", dto.getBranchCompanyMapId()));
+					 }
+					 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+			 List<RlmsLiftCustomerMap> listOfAllLifts = criteria.list();
+			 return listOfAllLifts;
+		
+	}
 }

@@ -14,6 +14,7 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
+import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.dao.ComplaintsDao;
 import com.rlms.dao.LiftDao;
@@ -193,5 +194,18 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		complaintTechMapDtls.setUpdatedDate(new Date());
 		complaintTechMapDtls.setUserRoles(userRoles);
 		return complaintTechMapDtls;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<LiftDtlsDto> getAllLiftsForBranchsOrCustomer(LiftDtlsDto dto){
+		List<LiftDtlsDto> listOfLiftDtls = new ArrayList<LiftDtlsDto>();
+		List<RlmsLiftCustomerMap> listOfLifts = this.liftDao.getAllLiftsForBranchsOrCustomer(dto);
+		for (RlmsLiftCustomerMap rlmsLiftCustomerMap : listOfLifts) {
+			LiftDtlsDto lift = new LiftDtlsDto();
+			lift.setLiftId(rlmsLiftCustomerMap.getLiftMaster().getLiftId());
+			lift.setLiftNumber(rlmsLiftCustomerMap.getLiftMaster().getLiftNumber());
+			listOfLiftDtls.add(lift);
+		}
+		return listOfLiftDtls;
 	}
 }
