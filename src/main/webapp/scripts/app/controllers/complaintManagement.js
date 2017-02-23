@@ -1,0 +1,292 @@
+(function () {
+    'use strict';
+	angular.module('rlmsApp')
+	.controller('complaiantManagementCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
+		initCustomerList();
+		$scope.showCompany = false;
+		$scope.showBranch = false;
+		$scope.goToAddLift =function(){
+			window.location.hash = "#/add-lift";
+		};
+		function initCustomerList(){
+			 $scope.selectedCompany={};
+			 $scope.selectedBranch = {};
+			 $scope.selectedCustomer = {};
+			 $scope.selectedLifts = {};
+			 $scope.branches=[];
+			 $scope.showAdvanceFilter = false;
+			 $scope.showTable = false;
+		} 
+		function loadCompanyData(){
+			serviceApi.doPostWithoutData('/RLMS/admin/getAllApplicableCompanies')
+		    .then(function(response){
+		    		$scope.companies = response;
+		    });
+		}
+		$scope.loadBranchData = function(){
+			var companyData={};
+			if($scope.showCompany == true){
+  	    		companyData = {
+						companyId : $scope.selectedCompany.selected.companyId
+					}
+  	    	}else{
+  	    		companyData = {
+						companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+					}
+  	    	}
+		    serviceApi.doPostWithData('/RLMS/admin/getAllBranchesForCompany',companyData)
+		    .then(function(response){
+		    	$scope.branches = response;
+		    	
+		    });
+		}
+		$scope.loadCustomerData = function(){
+			var branchData ={};
+  	    	if($scope.showBranch == true){
+  	    		branchData = {
+  	    			branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId
+					}
+  	    	}else{
+  	    		branchData = {
+  	    			branchCompanyMapId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId
+					}
+  	    	}
+  	    	serviceApi.doPostWithData('/RLMS/admin/getAllCustomersForBranch',branchData)
+ 	         .then(function(customerData) {
+ 	        	 $scope.cutomers = customerData;
+ 	         })
+		}
+		$scope.loadLifts =function(){
+			var dataToSend = {
+					branchCompanyMapId: $scope.selectedBranch.selected.companyBranchMapId,
+					branchCustomerMapId: -1
+			}
+			serviceApi.doPostWithData('/RLMS/complaint/getAllApplicableLifts',dataToSend)
+	         .then(function(liftData) {
+	        	 $scope.lifts = liftData;
+	         })
+		}
+		$scope.selectedCountry = {};
+	    $scope.selectedCountries = {};
+	    $scope.countries = [];
+	    $http.get('assets/demo/countries.json').success(function(response) {
+	      $scope.countries = response;
+	    });
+		//Toggle Advance Filter
+		$scope.toggleAdvanceFilter = function(){
+			if($scope.showAdvanceFilter == true){
+				$scope.showAdvanceFilter = false;
+			}else{
+				$scope.showAdvanceFilter = true;
+				$scope.loadLifts();
+			}
+		};
+	    $scope.filterOptions = {
+	  	      filterText: '',
+	  	      useExternalFilter: true
+	  	    };
+	  	    $scope.totalServerItems = 0;
+	  	    $scope.pagingOptions = {
+	  	      pageSizes: [10, 20, 50],
+	  	      pageSize: 10,
+	  	      currentPage: 1
+	  	    };
+	  	    $scope.setPagingData = function(data, page, pageSize) {
+	  	      var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+	  	      $scope.myData = pagedData;
+	  	      $scope.totalServerItems = data.length;
+	  	      if (!$scope.$$phase) {
+	  	        $scope.$apply();
+	  	      }
+	  	    };
+	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
+	  	    	var branchData ={};
+	  	    	if($scope.showBranch == true){
+	  	    		branchData = {
+	  	    			branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId
+  					}
+	  	    	}else{
+	  	    		branchData = {
+	  	    			branchCompanyMapId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId
+  					}
+	  	    	}
+	  	      setTimeout(function() {
+	  	        var data;
+	  	        if (searchText) {
+	  	          var ft = searchText.toLowerCase();
+	  	        serviceApi.doPostWithData('/RLMS/admin/getLiftDetailsForBranch',branchData)
+	  	         .then(function(largeLoad) {
+	  	        	$scope.showTable= true;
+	  	        	  var userDetails=[];
+	  	        	  for(var i=0;i<largeLoad.length;i++){
+	  	        		var userDetailsObj={};
+	  	        		if(!!largeLoad[i].liftNumber){
+	  	        			userDetailsObj["Lift_Number"] =largeLoad[i].liftNumber;
+	  	        		}else{
+	  	        			userDetailsObj["Lift_Number"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].address){
+	  	        			userDetailsObj["Address"] =largeLoad[i].address;
+	  	        		}else{
+	  	        			userDetailsObj["Address"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].customerName){
+	  	        			userDetailsObj["Customer_Name"] =largeLoad[i].customerName;
+	  	        		}else{
+	  	        			userDetailsObj["Customer_Name"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].branchName){
+	  	        			userDetailsObj["Branch_Name"] =largeLoad[i].branchName;
+	  	        		}else{
+	  	        			userDetailsObj["Branch_Name"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].serviceStartDateStr){
+	  	        			userDetailsObj["Service_Start_Date"] =largeLoad[i].serviceStartDateStr;
+	  	        		}else{
+	  	        			userDetailsObj["Service_Start_Date"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].serviceEndDateStr){
+	  	        			userDetailsObj["Service_End_Date"] =largeLoad[i].serviceEndDateStr;
+	  	        		}else{
+	  	        			userDetailsObj["Service_End_Date"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].dateOfInstallationStr){
+	  	        			userDetailsObj["Installation_Date"] =largeLoad[i].dateOfInstallationStr;
+	  	        		}else{
+	  	        			userDetailsObj["Installation_Date"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].amcStartDateStr){
+	  	        			userDetailsObj["Amc_Start_Date"] =largeLoad[i].amcStartDateStr;
+	  	        		}else{
+	  	        			userDetailsObj["Amc_Start_Date"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].dateOfInstallationStr){
+	  	        			userDetailsObj["amcType"] =largeLoad[i].amcTypeStr;
+	  	        		}else{
+	  	        			userDetailsObj["amcType"] =" - ";
+	  	        		}
+	  	        		userDetails.push(userDetailsObj);
+	  	        	  }
+	  	            data = userDetails.filter(function(item) {
+	  	              return JSON.stringify(item).toLowerCase().indexOf(ft) !== -1;
+	  	            });
+	  	            $scope.setPagingData(data, page, pageSize);
+	  	          });
+	  	        } else {
+	  	        	var branchData ={};
+		  	    	if($scope.showBranch == true){
+		  	    		branchData = {
+		  	    			branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId
+	  					}
+		  	    	}else{
+		  	    		branchData = {
+		  	    			branchCompanyMapId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId
+	  					}
+		  	    	}
+	  	        	serviceApi.doPostWithData('/RLMS/admin/getLiftDetailsForBranch',branchData).then(function(largeLoad) {
+	  	        		 $scope.showTable= true;
+	  	        	  var userDetails=[];
+	  	        	  for(var i=0;i<largeLoad.length;i++){
+	  	        		var userDetailsObj={};
+	  	        		if(!!largeLoad[i].liftNumber){
+	  	        			userDetailsObj["Lift_Number"] =largeLoad[i].liftNumber;
+	  	        		}else{
+	  	        			userDetailsObj["Lift_Number"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].address){
+	  	        			userDetailsObj["Address"] =largeLoad[i].address;
+	  	        		}else{
+	  	        			userDetailsObj["Address"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].customerName){
+	  	        			userDetailsObj["Customer_Name"] =largeLoad[i].customerName;
+	  	        		}else{
+	  	        			userDetailsObj["Customer_Name"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].branchName){
+	  	        			userDetailsObj["Branch_Name"] =largeLoad[i].branchName;
+	  	        		}else{
+	  	        			userDetailsObj["Branch_Name"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].serviceStartDateStr){
+	  	        			userDetailsObj["Service_Start_Date"] =largeLoad[i].serviceStartDateStr;
+	  	        		}else{
+	  	        			userDetailsObj["Service_Start_Date"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].serviceEndDateStr){
+	  	        			userDetailsObj["Service_End_Date"] =largeLoad[i].serviceEndDateStr;
+	  	        		}else{
+	  	        			userDetailsObj["Service_End_Date"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].dateOfInstallationStr){
+	  	        			userDetailsObj["Installation_Date"] =largeLoad[i].dateOfInstallationStr;
+	  	        		}else{
+	  	        			userDetailsObj["Installation_Date"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].amcStartDateStr){
+	  	        			userDetailsObj["Amc_Start_Date"] =largeLoad[i].amcStartDateStr;
+	  	        		}else{
+	  	        			userDetailsObj["Amc_Start_Date"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].dateOfInstallationStr){
+	  	        			userDetailsObj["amcType"] =largeLoad[i].amcTypeStr;
+	  	        		}else{
+	  	        			userDetailsObj["amcType"] =" - ";
+	  	        		}
+	  	        		userDetails.push(userDetailsObj);
+	  	        	  }
+	  	            $scope.setPagingData(userDetails, page, pageSize);
+	  	          });
+	  	          
+	  	        }
+	  	      }, 100);
+	  	    };
+	  	    
+	  	    $scope.loadCustomerInfo=function(){
+	  	    	
+	  	    	 $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+	  	    }
+	  	    $scope.resetCustomerList=function(){
+	  	    	initCustomerList();
+	  	    }
+	  	    //showCompnay Flag
+		  	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+				$scope.showCompany= true;
+				loadCompanyData();
+			}else{
+				$scope.showCompany= false;
+				$scope.loadBranchData();
+			}
+		  	
+		  	//showBranch Flag
+		  	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel < 3){
+				$scope.showBranch= true;
+			}else{
+				$scope.showBranch=false;
+			}
+		  	
+	  	    $scope.$watch('pagingOptions', function(newVal, oldVal) {
+	  	      if (newVal !== oldVal) {
+	  	        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+	  	      }
+	  	    }, true);
+	  	    $scope.$watch('filterOptions', function(newVal, oldVal) {
+	  	      if (newVal !== oldVal) {
+	  	        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+	  	      }
+	  	    }, true);
+
+	  	    $scope.gridOptions = {
+	  	      data: 'myData',
+	  	      rowHeight: 40,
+	  	      enablePaging: true,
+	  	      showFooter: true,
+	  	      totalServerItems: 'totalServerItems',
+	  	      pagingOptions: $scope.pagingOptions,
+	  	      filterOptions: $scope.filterOptions,
+	  	      multiSelect: false,
+	  	      gridFooterHeight:35
+	  	    };
+		
+	}]);
+})();

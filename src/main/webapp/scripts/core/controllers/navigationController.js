@@ -42,7 +42,15 @@ angular
    	    	  url: "#/work-list"
    	      }
    	      ]
-   	    }];
+   	    },{
+     	      label: 'Complaints',
+       	      iconClasses: 'glyphicon glyphicon-user ',
+       	      children: [{
+       	          label: 'Manage Complaint',
+       	          url: '#/complaint-management'
+       	      }
+       	      ]
+       	    }];
     
    
 

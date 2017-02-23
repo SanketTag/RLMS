@@ -10193,7 +10193,7 @@ footer {
   text-shadow: none !important;
   background-color: transparent !important;
   border: 0 !important;
-  background: url("http://localhost:8888/v1.0.4%202/prebuilt/assets/img/logo.png") no-repeat left top;
+  background: url("RLMS/assets/img/logo.png") no-repeat left top;
   height: 50px;
   width: 190px;
 }
@@ -10203,7 +10203,7 @@ footer {
   text-shadow: none !important;
   background-color: transparent !important;
   border: 0 !important;
-  background: url("http://localhost:8888/v1.0.4%202/prebuilt/assets/img/logo.png") no-repeat left bottom;
+  background: url("RLMS/assets/img/logo.png") no-repeat left bottom;
   height: 50px;
   width: 190px;
 }

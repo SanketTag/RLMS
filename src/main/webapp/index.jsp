@@ -382,7 +382,8 @@
 	<script src="scripts/app/controllers/workListCtrl.js"></script>
 	<script src="scripts/app/controllers/addCustomerCtrl.js"></script>
 	<script src="scripts/app/controllers/memberManagement.js"></script>
-	<script src="scripts/app/controllers/addMember.js"></script>	
+	<script src="scripts/app/controllers/addMember.js"></script>
+	<script src="scripts/app/controllers/complaintManagement.js"></script>	
 	<script src="scripts/app/services/serviceApi.js"></script>
 	<script src="scripts/app/services/utility.js"></script>
 	<!-- App-->
