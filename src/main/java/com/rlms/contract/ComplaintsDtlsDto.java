@@ -1,5 +1,6 @@
 package com.rlms.contract;
 
+import java.util.Date;
 import java.util.List;
 
 public class ComplaintsDtlsDto {
@@ -14,6 +15,8 @@ public class ComplaintsDtlsDto {
 	private Integer registrationType;
 	private List<Integer> statusList;
 	private Integer complaintId;
+	private Date fromDate;
+	private Date toDate;
 	
 	public Integer getLiftCustomerMapId() {
 		return liftCustomerMapId;
@@ -74,6 +77,18 @@ public class ComplaintsDtlsDto {
 	}
 	public void setComplaintId(Integer complaintId) {
 		this.complaintId = complaintId;
+	}
+	public Date getFromDate() {
+		return this.fromDate;
+	}
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+	public Date getToDate() {
+		return this.toDate;
+	}
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
 	}
 	
 	

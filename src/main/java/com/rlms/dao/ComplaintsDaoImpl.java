@@ -1,5 +1,6 @@
 package com.rlms.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -60,7 +61,7 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(Integer branchCompanyMapId, Integer branchCustomerMapId,List<Integer> listOfLioftIds,  List<Integer> statusList){
+	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(Integer branchCompanyMapId, Integer branchCustomerMapId,List<Integer> listOfLioftIds,  List<Integer> statusList, Date fromDate, Date toDate){
 		 Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsComplaintMaster.class);
 		 criteria.createAlias("liftCustomerMap.branchCustomerMap", "bcm");
@@ -74,6 +75,10 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 				 }
 				 if(null != listOfLioftIds && !listOfLioftIds.isEmpty()){
 					 criteria.add(Restrictions.in("lm.liftId", listOfLioftIds));
+				 }
+				 if(null != fromDate && null != toDate){
+					 criteria.add(Restrictions.ge("registrationDate", fromDate));
+					 criteria.add(Restrictions.le("registrationDate", toDate));
 				 }
 				 criteria.add(Restrictions.in("status", statusList));
 				 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));

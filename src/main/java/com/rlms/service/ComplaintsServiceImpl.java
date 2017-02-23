@@ -159,7 +159,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<ComplaintsDto> getListOfComplaintsBy(ComplaintsDtlsDto dto){
 		List<ComplaintsDto> listOfAllComplaints = new ArrayList<ComplaintsDto>();
-		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftIds(), dto.getStatusList());
+		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftIds(), dto.getStatusList(),dto.getFromDate(), dto.getToDate());
 		for (RlmsComplaintMaster rlmsComplaintMaster : listOfComplaints) {
 			ComplaintsDto complaintsDto = this.constructComplaintDto(rlmsComplaintMaster);
 			listOfAllComplaints.add(complaintsDto);
