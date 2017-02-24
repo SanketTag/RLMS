@@ -1,30 +1,49 @@
 package com.rlms.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.log4j.Logger;
+import org.jivesoftware.smack.SmackException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mysql.jdbc.Messages;
 import com.rlms.constants.RLMSConstants;
+import com.rlms.constants.RLMSMessages;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
+import com.rlms.constants.XMPPServerDetails;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
+import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
+import com.rlms.contract.MemberDtlsDto;
+import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserMetaInfo;
+import com.rlms.controller.RestControllerController;
 import com.rlms.dao.ComplaintsDao;
+import com.rlms.dao.CustomerDao;
 import com.rlms.dao.LiftDao;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.ValidationException;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
+import com.rlms.model.RlmsCustomerMemberMap;
 import com.rlms.model.RlmsLiftCustomerMap;
+import com.rlms.model.RlmsMemberMaster;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.utils.PropertyUtils;
+import com.telesist.xmpp.AndroidNotificationService;
+import com.telesist.xmpp.AndroidNotificationServiceImpl;
+import com.telesist.xmpp.util.Util;
 
 @Service("complaaintsService")
 public class ComplaintsServiceImpl implements ComplaintsService{
@@ -37,6 +56,14 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CustomerService customerService;
+	
+	/*@Autowired
+	private MessagingService messagingService;*/
+	
+	private static final Logger log = Logger.getLogger(ComplaintsServiceImpl.class);
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<ComplaintsDto> getAllComplaintsAssigned(Integer userRoleId, List<Integer> statusList){
@@ -75,6 +102,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			RlmsComplaintMaster complaintMaster = this.counstructComplaintMaster(dto, metaInfo);	
 			this.complaintsDao.saveComplaintM(complaintMaster);
 			result = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_REG_SUCCESSFUL.getMessage());
+			//this.sendNotificationsAboutComplaintRegistration(complaintMaster);
 		}
 	  return result;
 	}
@@ -160,7 +188,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<ComplaintsDto> getListOfComplaintsBy(ComplaintsDtlsDto dto){
 		List<ComplaintsDto> listOfAllComplaints = new ArrayList<ComplaintsDto>();
-		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftIds(), dto.getStatusList(),dto.getFromDate(), dto.getToDate());
+		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate());
 		for (RlmsComplaintMaster rlmsComplaintMaster : listOfComplaints) {
 			ComplaintsDto complaintsDto = this.constructComplaintDto(rlmsComplaintMaster);
 			listOfAllComplaints.add(complaintsDto);
@@ -175,6 +203,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		this.complaintsDao.saveComplaintTechMapDtls(complaintTechMapDtls);
 		String techName = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() +  " " +complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";
 		String statusMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_ASSIGNED_SUUCESSFULLY.getMessage()) + " " + techName;
+		//this.sendNotificationsAboutComplaintAssign(complaintTechMapDtls);
 		return statusMessage;
 		
 	}
@@ -202,10 +231,13 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		List<RlmsLiftCustomerMap> listOfLifts = this.liftDao.getAllLiftsForBranchsOrCustomer(dto);
 		for (RlmsLiftCustomerMap rlmsLiftCustomerMap : listOfLifts) {
 			LiftDtlsDto lift = new LiftDtlsDto();
-			lift.setLiftId(rlmsLiftCustomerMap.getLiftMaster().getLiftId());
+			lift.setLiftId(rlmsLiftCustomerMap.getLiftCustomerMapId());
 			lift.setLiftNumber(rlmsLiftCustomerMap.getLiftMaster().getLiftNumber());
 			listOfLiftDtls.add(lift);
 		}
 		return listOfLiftDtls;
 	}
+	
+	
+	
 }

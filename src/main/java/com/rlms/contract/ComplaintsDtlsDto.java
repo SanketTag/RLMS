@@ -9,7 +9,7 @@ public class ComplaintsDtlsDto {
 	private Integer liftCustomerMapId;
 	private Integer companyId;
 	private Integer branchCustomerMapId;
-	private List<Integer> listOfLiftIds;
+	private List<Integer> listOfLiftCustoMapId;
 	private String complaintsTitle;
 	private String complaintsRemark;
 	private Integer registrationType;
@@ -66,12 +66,7 @@ public class ComplaintsDtlsDto {
 	public void setBranchCustomerMapId(Integer branchCustomerMapId) {
 		this.branchCustomerMapId = branchCustomerMapId;
 	}
-	public List<Integer> getListOfLiftIds() {
-		return listOfLiftIds;
-	}
-	public void setListOfLiftIds(List<Integer> listOfLiftIds) {
-		this.listOfLiftIds = listOfLiftIds;
-	}
+	
 	public Integer getComplaintId() {
 		return complaintId;
 	}
@@ -89,6 +84,12 @@ public class ComplaintsDtlsDto {
 	}
 	public void setToDate(Date toDate) {
 		this.toDate = toDate;
+	}
+	public List<Integer> getListOfLiftCustoMapId() {
+		return listOfLiftCustoMapId;
+	}
+	public void setListOfLiftCustoMapId(List<Integer> listOfLiftCustoMapId) {
+		this.listOfLiftCustoMapId = listOfLiftCustoMapId;
 	}
 	
 	
