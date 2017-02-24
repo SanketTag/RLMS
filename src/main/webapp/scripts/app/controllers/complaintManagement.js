@@ -14,6 +14,24 @@
 			 $scope.selectedCustomer = {};
 			 $scope.selectedLifts = {};
 			 $scope.branches=[];
+			 $scope.selectedlifts = {};
+			 $scope.selectedStatus={};
+			 $scope.dateRange={};
+			 $scope.status=[
+				 {
+					 id:2,
+					 name:'Pending'
+				 },
+				 {
+					 id:3,
+					 name:'Assigned'
+				 },
+				 {
+					 id:4,
+					 name:'Completed'
+				 }
+			 ];
+			 $scope.lifts = [];
 			 $scope.showAdvanceFilter = false;
 			 $scope.showTable = false;
 		} 
@@ -53,25 +71,24 @@
   	    	}
   	    	serviceApi.doPostWithData('/RLMS/admin/getAllCustomersForBranch',branchData)
  	         .then(function(customerData) {
+ 	        	 var tempAll = {
+ 	        			branchCustomerMapId  : -1,
+ 	        			firstName : "All"
+ 	        	 }
  	        	 $scope.cutomers = customerData;
+ 	        	$scope.cutomers.unshift(tempAll);
  	         })
 		}
 		$scope.loadLifts =function(){
 			var dataToSend = {
 					branchCompanyMapId: $scope.selectedBranch.selected.companyBranchMapId,
-					branchCustomerMapId: -1
+					branchCustomerMapId:$scope.selectedCustomer.selected.branchCustomerMapId
 			}
 			serviceApi.doPostWithData('/RLMS/complaint/getAllApplicableLifts',dataToSend)
 	         .then(function(liftData) {
 	        	 $scope.lifts = liftData;
 	         })
-		}
-		$scope.selectedCountry = {};
-	    $scope.selectedCountries = {};
-	    $scope.countries = [];
-	    $http.get('assets/demo/countries.json').success(function(response) {
-	      $scope.countries = response;
-	    });
+		}	 
 		//Toggle Advance Filter
 		$scope.toggleAdvanceFilter = function(){
 			if($scope.showAdvanceFilter == true){
@@ -100,21 +117,13 @@
 	  	      }
 	  	    };
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
-	  	    	var branchData ={};
-	  	    	if($scope.showBranch == true){
-	  	    		branchData = {
-	  	    			branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId
-  					}
-	  	    	}else{
-	  	    		branchData = {
-	  	    			branchCompanyMapId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId
-  					}
-	  	    	}
+	  	    	
 	  	      setTimeout(function() {
 	  	        var data;
 	  	        if (searchText) {
 	  	          var ft = searchText.toLowerCase();
-	  	        serviceApi.doPostWithData('/RLMS/admin/getLiftDetailsForBranch',branchData)
+	  	          var dataToSend =  $scope.construnctObjeToSend();
+	  	        serviceApi.doPostWithData('/RLMS/complaint/getListOfComplaints',dataToSend)
 	  	         .then(function(largeLoad) {
 	  	        	$scope.showTable= true;
 	  	        	  var userDetails=[];
@@ -173,17 +182,8 @@
 	  	            $scope.setPagingData(data, page, pageSize);
 	  	          });
 	  	        } else {
-	  	        	var branchData ={};
-		  	    	if($scope.showBranch == true){
-		  	    		branchData = {
-		  	    			branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId
-	  					}
-		  	    	}else{
-		  	    		branchData = {
-		  	    			branchCompanyMapId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId
-	  					}
-		  	    	}
-	  	        	serviceApi.doPostWithData('/RLMS/admin/getLiftDetailsForBranch',branchData).then(function(largeLoad) {
+	  	        	var dataToSend =  $scope.construnctObjeToSend();
+	  	        	serviceApi.doPostWithData('/RLMS/complaint/getListOfComplaints',dataToSend).then(function(largeLoad) {
 	  	        		 $scope.showTable= true;
 	  	        	  var userDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
@@ -241,9 +241,30 @@
 	  	        }
 	  	      }, 100);
 	  	    };
-	  	    
-	  	    $scope.loadCustomerInfo=function(){
-	  	    	
+	  	    $scope.construnctObjeToSend = function(){
+	  	    	var dataToSend ={};
+	  	    	if($scope.showBranch == true){  	    		
+	  	    		dataToSend["branchCompanyMapId"] = $scope.selectedBranch.selected.companyBranchMapId
+	  	    	}else{
+	  	    		dataToSend["branchCompanyMapId"] = $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId
+	  	    	}
+	  	    	dataToSend["branchCustomerMapId"]=$scope.selectedCustomer.selected.branchCustomerMapId;
+	  	    	var tempLiftIds= [];
+	  	    	for(var i=0; i< $scope.selectedlifts.selected.length; i++){
+	  	    		tempLiftIds.push($scope.selectedlifts.selected[i].liftId);
+	  	    	}
+	  	    	var tempStatus= [];
+	  	    	for(var j=0;j < $scope.selectedStatus.selected.length; j++){
+	  	    		tempStatus.push($scope.selectedStatus.selected[j].id);
+	  	    	}
+	  	    	dataToSend["liftCustomerMapId"]=tempLiftIds;
+	  	    	dataToSend["statusList"]=tempStatus;
+	  	    	//dataToSend["fromDate"]=$scope.dateRange;
+	  	    	//dataToSend["toDate"]=$scope.dateRange;
+
+	  	    	return dataToSend;
+	  	    }
+	  	    $scope.loadComplaintsList = function(){
 	  	    	 $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
 	  	    }
 	  	    $scope.resetCustomerList=function(){

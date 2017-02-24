@@ -17,16 +17,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mysql.jdbc.Messages;
 import com.rlms.constants.RLMSConstants;
-import com.rlms.constants.RLMSMessages;
+//import com.rlms.constants.RLMSMessages;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
-import com.rlms.constants.XMPPServerDetails;
+//import com.rlms.constants.XMPPServerDetails;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
-import com.rlms.contract.UserAppDtls;
+//import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.controller.RestControllerController;
 import com.rlms.dao.ComplaintsDao;
@@ -41,8 +41,8 @@ import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsMemberMaster;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.utils.PropertyUtils;
-import com.telesist.xmpp.AndroidNotificationService;
-import com.telesist.xmpp.AndroidNotificationServiceImpl;
+//import com.telesist.xmpp.AndroidNotificationService;
+//import com.telesist.xmpp.AndroidNotificationServiceImpl;
 import com.telesist.xmpp.util.Util;
 
 @Service("complaaintsService")
