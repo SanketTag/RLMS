@@ -111,6 +111,11 @@
 	  	        		}else{
 	  	        			detailsObj["Address"] =" - ";
 	  	        		}
+	  	        		if(!!largeLoad[i].city){
+	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        		}else{
+	  	        			userDetailsObj["City"] =" - ";
+	  	        		}
 	  	        		if(!!largeLoad[i].branchName){
 	  	        			detailsObj["Branch"] =largeLoad[i].branchName;
 	  	        		}else{
@@ -151,6 +156,11 @@
 	  	        			detailsObj["Address"] =largeLoad[i].address;
 	  	        		}else{
 	  	        			detailsObj["Address"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].city){
+	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        		}else{
+	  	        			userDetailsObj["City"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].branchName){
 	  	        			detailsObj["Branch"] =largeLoad[i].branchName;

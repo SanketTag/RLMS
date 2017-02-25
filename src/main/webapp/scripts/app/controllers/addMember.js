@@ -17,6 +17,9 @@
 						firstName:'',
 						lastName:'',
 						address:'',
+						city:'',
+						area:'',
+						pinCode:'',
 						emailId:'',
 						contactNumber:0,
 						branchCustoMapId:0

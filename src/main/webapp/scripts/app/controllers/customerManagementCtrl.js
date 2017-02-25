@@ -96,6 +96,11 @@
 	  	        		}else{
 	  	        			userDetailsObj["Address"] =" - ";
 	  	        		}
+	  	        		if(!!largeLoad[i].city){
+	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        		}else{
+	  	        			userDetailsObj["City"] =" - ";
+	  	        		}
 	  	        		if(!!largeLoad[i].branchName){
 	  	        			userDetailsObj["Branch"] =largeLoad[i].branchName;
 	  	        		}else{
@@ -153,6 +158,11 @@
 	  	        			userDetailsObj["Address"] =largeLoad[i].address;
 	  	        		}else{
 	  	        			userDetailsObj["Address"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].city){
+	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        		}else{
+	  	        			userDetailsObj["City"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].branchName){
 	  	        			userDetailsObj["Branch"] =largeLoad[i].branchName;

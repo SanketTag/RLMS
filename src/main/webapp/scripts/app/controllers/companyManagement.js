@@ -48,6 +48,11 @@
 	  	        		}else{
 	  	        			companyDetailsObj["Address"] =" - ";
 	  	        		}
+	  	        		if(!!largeLoad[i].city){
+	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        		}else{
+	  	        			userDetailsObj["City"] =" - ";
+	  	        		}
 	  	        		if(!!largeLoad[i].emailId){
 	  	        			companyDetailsObj["Email_Id"] =largeLoad[i].emailId;
 	  	        		}else{
@@ -89,6 +94,11 @@
 	  	        			companyDetailsObj["Address"] =largeLoad[i].address;
 	  	        		}else{
 	  	        			companyDetailsObj["Address"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].city){
+	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        		}else{
+	  	        			userDetailsObj["City"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].contactNumber){
 	  	        			companyDetailsObj["Contact_Number"] =largeLoad[i].contactNumber;

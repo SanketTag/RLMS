@@ -77,6 +77,21 @@
 	  	        		}else{
 	  	        			userDetailsObj["Address"] =" - ";
 	  	        		}
+	  	        		if(!!largeLoad[i].city){
+	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        		}else{
+	  	        			userDetailsObj["City"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].branchName){
+	  	        			userDetailsObj["Branch"] =largeLoad[i].branchName;
+	  	        		}else{
+	  	        			userDetailsObj["Branch"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].userRoleName){
+	  	        			userDetailsObj["Role"] =largeLoad[i].userRoleName;
+	  	        		}else{
+	  	        			userDetailsObj["Role"] =" - ";
+	  	        		}
 	  	        		if(!!largeLoad[i].emailId){
 	  	        			userDetailsObj["Email_Id"] =largeLoad[i].emailId;
 	  	        		}else{
@@ -125,11 +140,27 @@
 	  	        		}else{
 	  	        			userDetailsObj["Address"] =" - ";
 	  	        		}
+	  	        		if(!!largeLoad[i].city){
+	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        		}else{
+	  	        			userDetailsObj["City"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].branchName){
+	  	        			userDetailsObj["Branch"] =largeLoad[i].branchName;
+	  	        		}else{
+	  	        			userDetailsObj["Branch"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].userRoleName){
+	  	        			userDetailsObj["Role"] =largeLoad[i].userRoleName;
+	  	        		}else{
+	  	        			userDetailsObj["Role"] =" - ";
+	  	        		}
 	  	        		if(!!largeLoad[i].emailId){
 	  	        			userDetailsObj["Email_Id"] =largeLoad[i].emailId;
 	  	        		}else{
 	  	        			userDetailsObj["Email_Id"] =" - ";
 	  	        		}
+	  	        		
 	  	        		userDetails.push(userDetailsObj);
 	  	        	  }
 	  	            $scope.setPagingData(userDetails, page, pageSize);

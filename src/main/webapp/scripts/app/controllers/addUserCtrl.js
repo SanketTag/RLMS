@@ -19,7 +19,10 @@
 				address:'',
 				contactNumber:'',
 				emailId:'',
-				companyId:''	
+				companyId:'',
+				city:'',
+				area:'',
+				pinCode:''
 			};	
 		    //$scope.companies = [];
 		    $scope.userList={};

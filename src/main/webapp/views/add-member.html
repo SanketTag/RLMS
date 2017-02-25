@@ -61,10 +61,30 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Address</label>
 				<div class="col-sm-6">
-					<input name="address" type="text" placeholder="Required Field"  ng-model="addMember.address" class="form-control">
-					<span class="help-block"
-						ng-show="addMemberForm.address.$error.required && addMemberForm.address.$dirty">This
-						field is required</span>
+					<input name="address" type="text" placeholder=""  ng-model="addMember.address" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Area : </label>
+				<div class="col-sm-6">
+					<input name="area" type="text"
+						placeholder=""
+						ng-model="addMember.area" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">City : </label>
+				<div class="col-sm-6">
+					<input name="city" type="text"
+						placeholder=""
+						ng-model="addMember.city" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Pincode : </label>
+				<div class="col-sm-6">
+					<input name="pinCode" type="number"
+						ng-model="addMember.pinCode" class="form-control">
 				</div>
 			</div>
 			<div class="form-group">
