@@ -158,9 +158,9 @@
 	  	        			detailsObj["Address"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].city){
-	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        			detailsObj["City"] =largeLoad[i].city;
 	  	        		}else{
-	  	        			userDetailsObj["City"] =" - ";
+	  	        			detailsObj["City"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].branchName){
 	  	        			detailsObj["Branch"] =largeLoad[i].branchName;

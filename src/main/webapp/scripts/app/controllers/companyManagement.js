@@ -96,9 +96,9 @@
 	  	        			companyDetailsObj["Address"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].city){
-	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        			companyDetailsObj["City"] =largeLoad[i].city;
 	  	        		}else{
-	  	        			userDetailsObj["City"] =" - ";
+	  	        			companyDetailsObj["City"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].contactNumber){
 	  	        			companyDetailsObj["Contact_Number"] =largeLoad[i].contactNumber;
