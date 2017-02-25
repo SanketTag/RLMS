@@ -12,6 +12,7 @@
 			function initAddCustomer(){
 				$scope.selectedCompany = {};
 				$scope.selectedBranch = {};
+				$scope.selectedCustomerTypes = {};
 				$scope.addCustomer={
 						firstName:'',
 						lastName:'',
@@ -28,9 +29,48 @@
 						branchName:'',
 						companyName:'',
 						totalNumberOfLifts:'',
-						branchCompanyMapId:''
+						branchCompanyMapId:'',
+						chairmanName :'',
+						chairmanNumber :'',
+						chairmanEmail :'',
+						secretaryName :'',
+						secretaryNumber :'',
+						secretaryEmail :'',
+						treasurerName :'',
+						treasurerNumber :'',
+						treasurerEmail :'',
+						watchmenName :'',
+						watchmenNumber :'',
+						watchmenEmail :'',
+						
 						
 				};	
+				$scope.customerTypes = [
+					{
+						name:"RESIDENTIAL",
+						id:15
+					},
+					{
+						name:"COMMERTIAL",
+						id:16
+					},
+					{
+						name:"BUNGLO",
+						id:17
+					},
+					{
+						name:"HOSPITAL",
+						id:18
+					},
+					{
+						name:"GOODS",
+						id:19
+					},
+					{
+						name:"DUMB_WAITER",
+						id:20
+					}
+				]
 			}
 			//load compay dropdown data
 			function loadCompayInfo(){
@@ -54,6 +94,7 @@
 				$scope.addCustomer.companyName = $scope.selectedCompany.selected.companyName;
 				$scope.addCustomer.branchName = $scope.selectedBranch.selected.rlmsBranchMaster.branchName;
 				$scope.addCustomer.branchCompanyMapId = $scope.selectedBranch.selected.companyBranchMapId;
+				$scope.addCustomer.customerType =$scope.selectedCustomerTypes.selected
 				serviceApi.doPostWithData("/RLMS/admin/validateAndRegisterNewCustomer",$scope.addCustomer)
 				.then(function(response){
 					$scope.showAlert = true;
