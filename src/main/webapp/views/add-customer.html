@@ -30,7 +30,7 @@
 					</div>
 				</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">First Name</label>
+				<label class="col-sm-3 control-label">Customer Name</label>
 				<div class="col-sm-6">
 					<input name="firstName" type="text" placeholder="Required Field" required ng-model="addCustomer.firstName" class="form-control">
 					<span class="help-block"
@@ -38,15 +38,7 @@
 						field is required</span>
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Last Name</label>
-				<div class="col-sm-6">
-					<input name="lastName" type="text" placeholder="Required Field" required ng-model="addCustomer.lastName" class="form-control">
-					<span class="help-block"
-						ng-show="addCustomerForm.lastName.$error.required && addCustomerForm.lastName.$dirty">This
-						field is required</span>
-				</div>
-			</div>
+			
 			<div class="form-group">
 				<label class="col-sm-3 control-label">Address</label>
 				<div class="col-sm-6">

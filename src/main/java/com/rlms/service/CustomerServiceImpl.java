@@ -358,6 +358,8 @@ public class CustomerServiceImpl implements CustomerService{
 			dto.setCity(rlmsCustomerMemberMap.getRlmsMemberMaster().getCity());
 			dto.setArea(rlmsCustomerMemberMap.getRlmsMemberMaster().getArea());
 			dto.setPinCode(rlmsCustomerMemberMap.getRlmsMemberMaster().getPincode());
+			dto.setEmailId(rlmsCustomerMemberMap.getRlmsMemberMaster().getEmailId());
+			dto.setAddress(rlmsCustomerMemberMap.getRlmsMemberMaster().getAddress());
 			
 			listOfMemberDtls.add(dto);
 		}

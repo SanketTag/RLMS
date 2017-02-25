@@ -112,7 +112,7 @@ public class LiftServiceImpl implements LiftService{
 	private RlmsLiftMaster constructLiftMaster(LiftDtlsDto dto, UserMetaInfo metaInfo){
 		RlmsLiftMaster liftM = new RlmsLiftMaster();
 		liftM.setAccessControl(dto.getAccessControl());
-		liftM.setActiveFlag(RLMSConstants.INACTIVE.getId());
+		liftM.setActiveFlag(RLMSConstants.ACTIVE.getId());
 		liftM.setAddress(dto.getAddress());
 		liftM.setCity(dto.getCity());
 		liftM.setArea(dto.getArea());

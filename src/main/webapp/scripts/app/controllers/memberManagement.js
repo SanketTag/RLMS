@@ -92,7 +92,7 @@
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var detailsObj={};
 	  	        		if(!!largeLoad[i].firstName){
-	  	        			detailsObj["Name"] =largeLoad[i].firstName;
+	  	        			detailsObj["Name"] =largeLoad[i].firstName + " " +largeLoad[i].lastName;
 	  	        		}else{
 	  	        			detailsObj["Name"] =" - ";
 	  	        		}
@@ -138,7 +138,7 @@
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var detailsObj={};
 	  	        		if(!!largeLoad[i].firstName){
-	  	        			detailsObj["Name"] =largeLoad[i].firstName;
+	  	        			detailsObj["Name"] =largeLoad[i].firstName + " " + largeLoad[i].lastName;
 	  	        		}else{
 	  	        			detailsObj["Name"] =" - ";
 	  	        		}

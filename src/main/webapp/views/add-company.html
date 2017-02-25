@@ -21,6 +21,31 @@
 						field is required</span>
 				</div>
 			</div>
+			<div class="form-group"><label class="col-sm-4 control-label">Owner Name <sup class="red font-12">*</sup> : </label>
+				<div class="col-sm-6">
+					<input name="ownerName" type="text" placeholder="Owner Name" required ng-model="addCompany.ownerName" class="form-control">
+					<span class="help-block"
+						ng-show="addCompanyForm.ownerName.$error.required && addCompanyForm.ownerName.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group"><label class="col-sm-4 control-label">Owner Number <sup class="red font-12">*</sup> : </label>
+				<div class="col-sm-6">
+					<input name="ownerNumber" type="number" placeholder="Owner Number" required ng-model="addCompany.ownerNumber" class="form-control">
+					<span class="help-block"
+						ng-show="addCompanyForm.ownerNumber.$error.required && addCompanyForm.ownerNumber.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			<div class="form-group"><label class="col-sm-4 control-label">Owner Email <sup class="red font-12">*</sup> : </label>
+				<div class="col-sm-6">
+					<input name="ownerEmail" type="email" placeholder="Owner Email" required ng-model="addCompany.ownerEmail" class="form-control">
+					<span class="help-block"
+						ng-show="addCompanyForm.ownerEmail.$error.required && addCompanyForm.ownerEmail.$dirty">This
+						field is required</span>
+				</div>
+			</div>
+			
 			<div class="form-group">
 				<label class="col-sm-4 control-label">Address : </label>
 				<div class="col-sm-6">

@@ -17,7 +17,10 @@
 					emailId:"",
 					panNumber:'',
 					tinNumber:'',
-					vatNumber:'',	
+					vatNumber:'',
+					ownerName:'',
+					ownerNumber:0,
+					ownerEmail:''
 			}
 		};
 		//Post call
