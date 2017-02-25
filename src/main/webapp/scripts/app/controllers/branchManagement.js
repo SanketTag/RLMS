@@ -55,7 +55,8 @@
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var brachDetailsObj={};
 	  	        		brachDetailsObj["Branch Name"] =largeLoad[i].branchName;
-	  	        		brachDetailsObj["Branch Address"] =largeLoad[i].branchAddress;
+	  	        		brachDetailsObj["Address"] =largeLoad[i].branchAddress;
+	  	        		brachDetailsObj["City"] =largeLoad[i].city;
 	  	        		brachDetailsObj["Company Name"] =largeLoad[i].companyName;
 	  	        		brachDetailsObj["Number Of Technicians"] =largeLoad[i].numberOfTechnicians;
 	  	        		brachDetailsObj["Number Of Lifts"] =largeLoad[i].numberOfLifts;
@@ -83,7 +84,8 @@
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var brachDetailsObj={};
 	  	        		brachDetailsObj["Branch_Name"] =largeLoad[i].branchName;
-	  	        		brachDetailsObj["Branch_Address"] =largeLoad[i].branchAddress;
+	  	        		brachDetailsObj["Address"] =largeLoad[i].branchAddress;
+	  	        		brachDetailsObj["City"] =largeLoad[i].city;
 	  	        		brachDetailsObj["Company_Name"] =largeLoad[i].companyName;
 	  	        		brachDetailsObj["Number_Of_Technicians"] =largeLoad[i].numberOfTechnicians;
 	  	        		brachDetailsObj["Number_Of_Lifts"] =largeLoad[i].numberOfLifts;

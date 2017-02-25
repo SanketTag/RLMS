@@ -14,7 +14,10 @@
 			$scope.addBranch={
 					companyId:'',
 					branchName:'',
-					branchAddress:''	
+					branchAddress:'',
+					city:'',
+					area:'',
+					pinCode:''
 			};	
 		    $scope.branchList={};
 		}

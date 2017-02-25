@@ -10,6 +10,9 @@
 			$scope.addCompany={
 					companyName:'',
 					address:'',
+					city:'',
+					area:'',
+					pinCode:'',
 					contactNumber:'',
 					emailId:"",
 					panNumber:'',

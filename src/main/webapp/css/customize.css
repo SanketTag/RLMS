@@ -113,7 +113,7 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
     font-weight: 500;
     font-size: 14px;
 } */
-.rlms-app .btn{
+.rlms-app button.btn{
     min-width: 110px;
 }
 .rlms-app .btn.btn-primary {
@@ -235,6 +235,8 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
     margin-top: 7px;
     text-align: right;
     font-size: 14px;
+    min-width: 10%;
+    vertical-align: top;
 }
 /*customer management*/
 .customer-management .select-container,

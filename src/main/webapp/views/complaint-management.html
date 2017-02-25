@@ -40,28 +40,29 @@
 	</div>
 	<div class="filter-section" ng-show="showAdvanceFilter">
 		<div class="form-group">
-			<label class="control-label" ng-show="showCompany">Select Lifts : </label>
-			<div class="select-container">
-			   <ui-select multiple ng-model="selectedCountries.selected" close-on-select="false" title="Choose a country">
-			    <ui-select-match placeholder="Select or search a country in the list...">{{$select.selected[$index]}}</ui-select-match>
-			    <ui-select-choices repeat="countryIterator in countries | filter: $select.search">
-			      <span ng-bind-html="countryIterator | highlight: $select.search"></span>
-			    </ui-select-choices>
-			  </ui-select>
-  			</div>
-			<label class="control-label" ng-show="showBranch">Select Branch</label>
+			<label class="control-label" ng-show="showBranch">Select Date Range</label>
 			<div class="select-container">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-					<input type="text" class="form-control" daterangepicker="">
+					<input type="text" class="form-control" daterangepicker="" ng-model="dateRange">
 				</div>
 			</div>
-			<label class="control-label">Status</label>
+			<label class="control-label" >Select Lifts : </label>
 			<div class="select-container">
-			   <ui-select multiple ng-model="selectedCountries.selected" close-on-select="false"  title="Choose a country">
-			    <ui-select-match placeholder="Select or search a country in the list...">{{$select.selected[$index]}}</ui-select-match>
-			    <ui-select-choices repeat="countryIterator in countries | filter: $select.search">
-			      <span ng-bind-html="countryIterator | highlight: $select.search"></span>
+			   <ui-select multiple ng-model="selectedlifts.selected" close-on-select="false" title="Choose lifts">
+			    <ui-select-match placeholder="Select lifts in the list...">{{$select.selected[$index].liftNumber}}</ui-select-match>
+			    <ui-select-choices repeat="iterator in lifts | filter: $select.search">
+			      <span ng-bind-html="iterator.liftNumber | highlight: $select.search"></span>
+			    </ui-select-choices>
+			  </ui-select>
+  			</div>
+			
+			<label class="control-label">Select Status</label>
+			<div class="select-container">
+			   <ui-select multiple ng-model="selectedStatus.selected" close-on-select="false"  title="Choose a status">
+			    <ui-select-match placeholder="Select status in the list...">{{$select.selected[$index].name}}</ui-select-match>
+			    <ui-select-choices repeat="iterator in status | filter: $select.search">
+			      <span ng-bind-html="iterator.name | highlight: $select.search"></span>
 			    </ui-select-choices>
 			  </ui-select>
   			</div>
