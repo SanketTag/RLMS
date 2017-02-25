@@ -114,6 +114,9 @@ public class LiftServiceImpl implements LiftService{
 		liftM.setAccessControl(dto.getAccessControl());
 		liftM.setActiveFlag(RLMSConstants.INACTIVE.getId());
 		liftM.setAddress(dto.getAddress());
+		liftM.setCity(dto.getCity());
+		liftM.setArea(dto.getArea());
+		liftM.setPincode(dto.getPinCode());
 		liftM.setAlarm(dto.getAlarm());
 		liftM.setAlarmBattery(dto.getAlarmBattery());
 		liftM.setAmcAmount(dto.getAmcAmount());
@@ -214,6 +217,9 @@ public class LiftServiceImpl implements LiftService{
 			LiftDtlsDto dto = new LiftDtlsDto();
 			dto.setAccessControl(liftM.getAccessControl());
 			dto.setAddress(liftM.getAddress());
+			dto.setArea(liftM.getArea());
+			dto.setPinCode(liftM.getPincode());
+			dto.setCity(liftM.getCity());
 			dto.setAlarm(liftM.getAlarm());
 			dto.setAlarmBattery(liftM.getAlarmBattery());
 			dto.setAmcAmount(liftM.getAmcAmount());

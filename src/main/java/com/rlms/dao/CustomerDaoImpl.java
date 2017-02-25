@@ -14,6 +14,7 @@ import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsCustomerMaster;
 import com.rlms.model.RlmsCustomerMemberMap;
 import com.rlms.model.RlmsMemberMaster;
+import com.rlms.model.RlmsUserApplicationMapDtls;
 
 @Repository("customerDao")
 public class CustomerDaoImpl implements CustomerDao{
@@ -120,6 +121,18 @@ public class CustomerDaoImpl implements CustomerDao{
 				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 		 
 		 return criteria.list();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public RlmsUserApplicationMapDtls getUserAppDtls(Integer userId, Integer userType){
+		Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsUserApplicationMapDtls.class)
+				 .add(Restrictions.eq("userId", userId))
+				 .add(Restrictions.eq("userRefType", userType))
+				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 
+		 return (RlmsUserApplicationMapDtls) criteria.uniqueResult();
 	}
 
 }

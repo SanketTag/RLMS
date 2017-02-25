@@ -9,7 +9,9 @@ public class LiftDtlsDto {
 	private String customerName;
 	private String branchName;
 	private String companyName;
-	
+	private String city;
+	private String area;
+	private Integer pinCode;
 	private Integer companyId;
 	private Integer branchCompanyMapId;
 	private Integer branchCustomerMapId;
@@ -390,6 +392,24 @@ public class LiftDtlsDto {
 	}
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public Integer getPinCode() {
+		return pinCode;
+	}
+	public void setPinCode(Integer pinCode) {
+		this.pinCode = pinCode;
 	}
 	
 	

@@ -21,6 +21,9 @@ public class RlmsCompanyMaster implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Integer companyId;
 	private String companyName;
+	private String ownerNAme;
+	private String ownerNumber;
+	private String ownerEmailId;
 	private String address;
 	private String contactNumber;
 	private String emailId;
@@ -29,6 +32,9 @@ public class RlmsCompanyMaster implements Serializable{
 	private String vatNumber;
 	private Integer activeFlag;
 	private Integer status;
+	private String city;
+	private String area;
+	private Integer pincode;
 	private Date createdDate;
 	private Integer cretedBy;
 	private Date updatedDate;
@@ -167,7 +173,59 @@ public class RlmsCompanyMaster implements Serializable{
 		this.updatedBy = updatedBy;
 	}
 	
+	@Column(name = "city", unique = true, nullable = false)
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	@Column(name = "area", unique = true, nullable = false)
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	@Column(name = "pincode", unique = true, nullable = false)
+	public Integer getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(Integer pincode) {
+		this.pincode = pincode;
+	}
+
+	@Column(name = "owner_name", unique = true, nullable = false)
+	public String getOwnerNAme() {
+		return ownerNAme;
+	}
+
+	public void setOwnerNAme(String ownerNAme) {
+		this.ownerNAme = ownerNAme;
+	}
 	
+	@Column(name = "owner_number", unique = true, nullable = false)
+	public String getOwnerNumber() {
+		return ownerNumber;
+	}
+
+	public void setOwnerNumber(String ownerNumber) {
+		this.ownerNumber = ownerNumber;
+	}
+
+	@Column(name = "owner_email", unique = true, nullable = false)
+	public String getOwnerEmailId() {
+		return ownerEmailId;
+	}
+
+	public void setOwnerEmailId(String ownerEmailId) {
+		this.ownerEmailId = ownerEmailId;
+	}
 	
 	
 }

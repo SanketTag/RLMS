@@ -16,6 +16,21 @@ public class CustomerDtlsDto {
 	private String branchName;
 	private String companyName;
 	private String customerName;
+	private String city;
+	private String area;
+	private Integer pinCode;
+	private String chairmanName;
+	private String chairmanNumber;
+	private String chairmanEmail;
+	private String secretaryName;
+	private String secretaryNumber;
+	private String secretaryEmail;
+	private String treasurerName;
+	private String treasurerNumber;
+	private String treasurerEmail;
+	private String watchmenName;
+	private String watchmenNumber;
+	private String watchmenEmail;
 	
 	private Integer branchCustomerMapId;
 	public String getFirstName() {
@@ -107,6 +122,96 @@ public class CustomerDtlsDto {
 	}
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public Integer getPinCode() {
+		return pinCode;
+	}
+	public void setPinCode(Integer pinCode) {
+		this.pinCode = pinCode;
+	}
+	public String getChairmanName() {
+		return chairmanName;
+	}
+	public void setChairmanName(String chairmanName) {
+		this.chairmanName = chairmanName;
+	}
+	public String getChairmanNumber() {
+		return chairmanNumber;
+	}
+	public void setChairmanNumber(String chairmanNumber) {
+		this.chairmanNumber = chairmanNumber;
+	}
+	public String getChairmanEmail() {
+		return chairmanEmail;
+	}
+	public void setChairmanEmail(String chairmanEmail) {
+		this.chairmanEmail = chairmanEmail;
+	}
+	public String getSecretaryName() {
+		return secretaryName;
+	}
+	public void setSecretaryName(String secretaryName) {
+		this.secretaryName = secretaryName;
+	}
+	public String getSecretaryNumber() {
+		return secretaryNumber;
+	}
+	public void setSecretaryNumber(String secretaryNumber) {
+		this.secretaryNumber = secretaryNumber;
+	}
+	public String getSecretaryEmail() {
+		return secretaryEmail;
+	}
+	public void setSecretaryEmail(String secretaryEmail) {
+		this.secretaryEmail = secretaryEmail;
+	}
+	public String getTreasurerName() {
+		return treasurerName;
+	}
+	public void setTreasurerName(String treasurerName) {
+		this.treasurerName = treasurerName;
+	}
+	public String getTreasurerNumber() {
+		return treasurerNumber;
+	}
+	public void setTreasurerNumber(String treasurerNumber) {
+		this.treasurerNumber = treasurerNumber;
+	}
+	public String getTreasurerEmail() {
+		return treasurerEmail;
+	}
+	public void setTreasurerEmail(String treasurerEmail) {
+		this.treasurerEmail = treasurerEmail;
+	}
+	public String getWatchmenName() {
+		return watchmenName;
+	}
+	public void setWatchmenName(String watchmenName) {
+		this.watchmenName = watchmenName;
+	}
+	public String getWatchmenNumber() {
+		return watchmenNumber;
+	}
+	public void setWatchmenNumber(String watchmenNumber) {
+		this.watchmenNumber = watchmenNumber;
+	}
+	public String getWatchmenEmail() {
+		return watchmenEmail;
+	}
+	public void setWatchmenEmail(String watchmenEmail) {
+		this.watchmenEmail = watchmenEmail;
 	}
 	
 	

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rlms.constants.EmailTemplateEnum;
 import com.rlms.constants.RlmsErrorType;
+import com.rlms.constants.XMPPServerDetails;
 import com.rlms.dao.EmailDao;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
@@ -30,6 +31,7 @@ import com.rlms.model.RlmsUserRoles;
 import com.rlms.utils.PropertyUtils;
 import com.telesist.email.EmailService;
 import com.telesist.email.MailDTO;
+import com.telesist.xmpp.AndroidNotificationService;
 import com.telesist.xmpp.FCMMessaging;
 
 import javax.annotation.Resource;
@@ -53,7 +55,9 @@ public class MessagingServiceImpl implements MessagingService{
 	@Resource(name = "emailService")
 	private EmailService emailService;
 	 
-		
+	@Resource(name = "androidNotificationService")
+	private AndroidNotificationService androidNotificationService;
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public EmailTemplate getEmailTemplate(Integer templateId){
 		return this.emailDao.getEmailTemplate(templateId);
@@ -240,6 +244,13 @@ public class MessagingServiceImpl implements MessagingService{
 			throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.PUSH_NOTIFICATION_FAILED.getMessage()));
 		}
 		
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void sendNotification(String appRegId, Map<String, String> dataPayload) throws SmackException, IOException{
+		String fcmProjectSenderId = PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_PROJECT_SENDER_ID.getMessage());
+		String fcmServerKey = PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_SERVER_KEY.getMessage());
+		this.androidNotificationService.sendNotification(appRegId, dataPayload, fcmProjectSenderId, fcmServerKey);
 	}
 
 }

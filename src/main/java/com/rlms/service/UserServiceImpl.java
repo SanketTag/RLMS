@@ -150,6 +150,9 @@ public class UserServiceImpl implements UserService{
 		 for (RlmsUsersMaster rlmsUsersMaster : listOfAllUsers) {
 			 UserDtlsDto dto = new UserDtlsDto();
 			 dto.setAddress(rlmsUsersMaster.getAddress());
+			 dto.setArea(rlmsUsersMaster.getArea());
+			 dto.setCity(rlmsUsersMaster.getCity());
+			 dto.setPinCode(rlmsUsersMaster.getPincode());
 			 dto.setCompanyName(rlmsUsersMaster.getRlmsCompanyMaster().getCompanyName());
 			 dto.setContactNumber(rlmsUsersMaster.getContactNumber());
 			 dto.setEmailId(rlmsUsersMaster.getEmailId());
@@ -172,6 +175,24 @@ public class UserServiceImpl implements UserService{
 				 dto.setContactNumber(rlmsUsersMaster.getContactNumber());
 				 dto.setEmailId(rlmsUsersMaster.getEmailId());
 				 dto.setUserName(rlmsUsersMaster.getFirstName() + " " + rlmsUsersMaster.getLastName());
+				 dto.setCity(rlmsUsersMaster.getCity());
+				 dto.setArea(rlmsUsersMaster.getArea());
+				 dto.setPinCode(rlmsUsersMaster.getPincode());
+				 
+				 RlmsUserRoles userRoles = this.userRoleDao.getUserRoleByUserId(rlmsUsersMaster.getUserId());
+				 if(null != userRoles){
+					 dto.setUserRoleName(userRoles.getRole());
+					 if(null != userRoles.getRlmsCompanyBranchMapDtls()){
+						dto.setBranchName(userRoles.getRlmsCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName()); 
+					 }else{
+						 dto.setBranchName(RLMSConstants.NA.getName());
+					 }
+				 }else{
+					 dto.setUserRoleName(RLMSConstants.NA.getName());
+					 dto.setBranchName(RLMSConstants.NA.getName());
+				 }
+				 
+				 
 				 listOfUserDtls.add(dto);
 			}
 		 return listOfUserDtls;
@@ -318,6 +339,9 @@ public class UserServiceImpl implements UserService{
 		user.setEnabled(RLMSConstants.ACTIVE.getId());
 		user.setFirstName(dto.getFirstName());
 		user.setLastName(dto.getLastName());
+		user.setCity(dto.getCity());
+		user.setArea(dto.getArea());
+		user.setPincode(dto.getPinCode());
 		user.setCreatedBy(metaInfo.getUserId());
 		user.setCreatedDate(new Date());
 		user.setUpdatedBy(metaInfo.getUserId());

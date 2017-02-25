@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.websystique.springmvc</groupId>
-	<artifactId>Spring4MVCAngularJSNgResourceExample</artifactId>
+	<groupId>com.rlms</groupId>
+	<artifactId>RLMS</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0</version>
 
@@ -554,7 +554,7 @@ https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling
 					<version>2.4</version>
 					<configuration>
 						<warSourceDirectory>src/main/webapp</warSourceDirectory>
-						<warName>Spring4MVCAngularJSNgResourceExample</warName>
+						<warName>RLMS</warName>
 						<failOnMissingWebXml>false</failOnMissingWebXml>
 					</configuration>
 				</plugin>
@@ -562,6 +562,6 @@ https://mvnrepository.com/artifact/org.jboss.marshalling/jboss-marshalling
 
 		</pluginManagement>
 
-		<finalName>Spring4MVCAngularJSNgResourceExample</finalName>
+		<finalName>RLMS</finalName>
 	</build>
 </project>

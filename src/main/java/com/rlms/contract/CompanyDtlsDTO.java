@@ -8,6 +8,9 @@ public class CompanyDtlsDTO {
 	private String companyName;
 	private String address;
 	private String contactNumber;
+	private String ownerName;
+	private String ownerNumber;
+	private String ownerEmail;
 	private String emailId;
 	private String panNumber;
 	private String tinNumber;
@@ -19,7 +22,9 @@ public class CompanyDtlsDTO {
 	private Integer numberOfLifts;
 	private List<LiftDtlsDto> listOfAllLifts;
 	
-	
+	private String city;
+	private String area;
+	private Integer pinCode;
 	
 	
 	public Integer getCompanyId() {
@@ -105,6 +110,42 @@ public class CompanyDtlsDTO {
 	}
 	public void setListOfAllLifts(List<LiftDtlsDto> listOfAllLifts) {
 		this.listOfAllLifts = listOfAllLifts;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public Integer getPinCode() {
+		return pinCode;
+	}
+	public void setPinCode(Integer pinCode) {
+		this.pinCode = pinCode;
+	}
+	public String getOwnerName() {
+		return ownerName;
+	}
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
+	}
+	public String getOwnerNumber() {
+		return ownerNumber;
+	}
+	public void setOwnerNumber(String ownerNumber) {
+		this.ownerNumber = ownerNumber;
+	}
+	public String getOwnerEmail() {
+		return ownerEmail;
+	}
+	public void setOwnerEmail(String ownerEmail) {
+		this.ownerEmail = ownerEmail;
 	}
 	
 	

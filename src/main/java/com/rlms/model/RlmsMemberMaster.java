@@ -27,6 +27,9 @@ public class RlmsMemberMaster {
 	private String contactNumber;
 	private String emailId;
 	private Date registrationDate;
+	private String city;
+	private String area;
+	private Integer pincode;
 	private Integer activeFlag;
 	private Date createdDate;
 	private Integer createdBy;
@@ -140,6 +143,31 @@ public class RlmsMemberMaster {
 	public void setRegistrationDate(Date registrationDate) {
 		this.registrationDate = registrationDate;
 	}
-	
+	@Column(name = "city", unique = true, nullable = false)
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	@Column(name = "area", unique = true, nullable = false)
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	@Column(name = "pincode", unique = true, nullable = false)
+	public Integer getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(Integer pincode) {
+		this.pincode = pincode;
+	}
 	
 }

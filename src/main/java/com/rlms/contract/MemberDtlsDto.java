@@ -19,6 +19,9 @@ public class MemberDtlsDto {
 	private String branchName;
 	private String customerName;
 	private Date registrationDate;
+	private String city;
+	private String area;
+	private Integer pinCode;
 	
 	
 	private List<CustomerDtlsDto> listOfCustomerDtls;
@@ -109,6 +112,24 @@ public class MemberDtlsDto {
 	}
 	public void setBranchCustoMapId(Integer branchCustoMapId) {
 		this.branchCustoMapId = branchCustoMapId;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public Integer getPinCode() {
+		return pinCode;
+	}
+	public void setPinCode(Integer pinCode) {
+		this.pinCode = pinCode;
 	}
 	
 	

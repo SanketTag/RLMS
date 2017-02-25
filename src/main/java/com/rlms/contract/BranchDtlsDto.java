@@ -13,6 +13,10 @@ public class BranchDtlsDto {
 	private Integer numberOfLifts;
 	private List<UserDtlsDto> listOfAllTechnicians;
 	private List<LiftDtlsDto> listOfAllLifts;
+	private String city;
+	private String area;
+	private Integer pinCode;
+	
 	
 	public Integer getCompanyId() {
 		return companyId;
@@ -67,6 +71,24 @@ public class BranchDtlsDto {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public Integer getPinCode() {
+		return pinCode;
+	}
+	public void setPinCode(Integer pinCode) {
+		this.pinCode = pinCode;
 	}
 	
 	

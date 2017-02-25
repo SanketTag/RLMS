@@ -17,6 +17,10 @@ public class UserDtlsDto {
 	private String appRegId;
 	private Double latitude;
 	private Double longitude;
+	private String city;
+	private String area;
+	private Integer pinCode;
+	private String userRoleName;
 	
 	public String getFirstName() {
 		return firstName;
@@ -107,6 +111,30 @@ public class UserDtlsDto {
 	}
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public Integer getPinCode() {
+		return pinCode;
+	}
+	public void setPinCode(Integer pinCode) {
+		this.pinCode = pinCode;
+	}
+	public String getUserRoleName() {
+		return userRoleName;
+	}
+	public void setUserRoleName(String userRoleName) {
+		this.userRoleName = userRoleName;
 	}
 	
 	

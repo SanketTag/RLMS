@@ -39,6 +39,7 @@ import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsCustomerMemberMap;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsMemberMaster;
+import com.rlms.model.RlmsUserApplicationMapDtls;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.utils.PropertyUtils;
 import com.telesist.xmpp.AndroidNotificationService;
@@ -60,8 +61,8 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	@Autowired
 	private CustomerService customerService;
 	
-	/*@Autowired
-	private MessagingService messagingService;*/
+	@Autowired
+	private MessagingService messagingService;
 	
 	private static final Logger log = Logger.getLogger(ComplaintsServiceImpl.class);
 	
@@ -102,7 +103,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			RlmsComplaintMaster complaintMaster = this.counstructComplaintMaster(dto, metaInfo);	
 			this.complaintsDao.saveComplaintM(complaintMaster);
 			result = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_REG_SUCCESSFUL.getMessage());
-			//this.sendNotificationsAboutComplaintRegistration(complaintMaster);
+			this.sendNotificationsAboutComplaintRegistration(complaintMaster);
 		}
 	  return result;
 	}
@@ -203,7 +204,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		this.complaintsDao.saveComplaintTechMapDtls(complaintTechMapDtls);
 		String techName = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() +  " " +complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";
 		String statusMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_ASSIGNED_SUUCESSFULLY.getMessage()) + " " + techName;
-		//this.sendNotificationsAboutComplaintAssign(complaintTechMapDtls);
+		this.sendNotificationsAboutComplaintAssign(complaintTechMapDtls);
 		return statusMessage;
 		
 	}
@@ -238,6 +239,76 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		return listOfLiftDtls;
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<UserAppDtls> getRegIdsOfAllApplicableUsers(Integer liftCustomerMapId){
+		List<UserAppDtls> listOfAllApplicableDtls = new ArrayList<UserAppDtls>();
+		RlmsLiftCustomerMap liftCustomerMap = this.liftDao.getLiftCustomerMapById(liftCustomerMapId);
+		List<RlmsCustomerMemberMap> listOfAllMembers = this.customerService.getAllMembersForCustomer(liftCustomerMap.getBranchCustomerMap().getBranchCustoMapId());
+		for (RlmsCustomerMemberMap rlmsCustomerMemberMap : listOfAllMembers) {
+			listOfAllApplicableDtls.add(this.customerService.getUserAppDtls(rlmsCustomerMemberMap.getRlmsMemberMaster().getMemberId(), RLMSConstants.MEMBER_TYPE.getId()));
+		}
+		return listOfAllApplicableDtls;
+	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void sendNotificationsAboutComplaintRegistration(RlmsComplaintMaster complaintMaster){
+		Map<String, String> dataPayload = new HashMap<String, String>();
+		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TITLE, PropertyUtils.getPrpertyFromContext(RLMSMessages.COMPLAINT_REGISTERED.getMessage()) + " - " + complaintMaster.getTitle());
+		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_MESSAGE, complaintMaster.getRemark());
+		
+		List<UserAppDtls> listOfUsers = this.getRegIdsOfAllApplicableUsers(complaintMaster.getLiftCustomerMap().getLiftCustomerMapId());
+		
+		for (UserAppDtls userAppDtls : listOfUsers) {
+			try{
+				log.debug("sendNotificationsAboutComplaintRegistration :: Sending notification");
+				this.messagingService.sendNotification(userAppDtls.getAppRegId(), dataPayload);
+				log.debug("sendNotificationsAboutComplaintRegistration :: Notification sent to Id :" + userAppDtls.getAppRegId());
+			}catch(Exception e){
+				log.error(ExceptionUtils.getFullStackTrace(e));
+			}
+		}
+		
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void sendNotificationsAboutComplaintAssign(RlmsComplaintTechMapDtls complaintTechMapDtls){
+		this.notifyTechnician(complaintTechMapDtls);
+		this.sendNotificationsToMembers(complaintTechMapDtls);
+	}
+	
+	private void notifyTechnician(RlmsComplaintTechMapDtls complaintTechMapDtls){
+		UserAppDtls userAppDtls = this.customerService.getUserAppDtls(complaintTechMapDtls.getUserRoles().getUserRoleId(), RLMSConstants.USER_ROLE_TYPE.getId());
+		Map<String, String> dataPayload = new HashMap<String, String>();
+		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TITLE, PropertyUtils.getPrpertyFromContext(RLMSMessages.COMPLAINT_REGISTERED.getMessage()) + " - " + complaintTechMapDtls.getComplaintMaster().getTitle());
+		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_MESSAGE, complaintTechMapDtls.getComplaintMaster().getRemark());	
+		
+		try{
+			log.debug("notifyTechnician :: Sending notification");
+			this.messagingService.sendNotification(userAppDtls.getAppRegId(), dataPayload);
+			log.debug("notifyTechnician :: Notification sent to Id :" + userAppDtls.getAppRegId());
+		}catch(Exception e){
+			log.error(ExceptionUtils.getFullStackTrace(e));
+		}
+		
+	}
+	private void sendNotificationsToMembers(RlmsComplaintTechMapDtls complaintTechMapDtls){
+		Map<String, String> dataPayload = new HashMap<String, String>();
+		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TITLE, PropertyUtils.getPrpertyFromContext(RLMSMessages.COMPLAINT_REGISTERED.getMessage()) + " - " + complaintTechMapDtls.getComplaintMaster().getTitle());
+		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_MESSAGE, complaintTechMapDtls.getComplaintMaster().getRemark());
+		String techDtls = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";
+		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TECHNICIAN, techDtls);
+		
+		List<UserAppDtls> listOfUsers = this.getRegIdsOfAllApplicableUsers(complaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftCustomerMapId());
+		
+		for (UserAppDtls userAppDtls : listOfUsers) {
+			try{
+				log.debug("sendNotificationsAboutComplaintRegistration :: Sending notification");
+				this.messagingService.sendNotification(userAppDtls.getAppRegId(), dataPayload);
+				log.debug("sendNotificationsAboutComplaintRegistration :: Notification sent to Id :" + userAppDtls.getAppRegId());
+			}catch(Exception e){
+				log.error(ExceptionUtils.getFullStackTrace(e));
+			}
+		}
+	}
 	
 }

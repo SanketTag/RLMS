@@ -11,7 +11,8 @@ public enum RLMSConstants {
 	COMPLAINT_REG_TYPE_LIFT_EVENT(3, "Registered by Lift events"),
 	USER_ROLE_TYPE(8,"user_role_type"),
 	MEMBER_TYPE(9,"Member Type"),
-	MINUS_ONE(-1, "Minus One");
+	MINUS_ONE(-1, "Minus One"),
+	NA(10, "NA");
 	private Integer id;
 	private String name;
 	

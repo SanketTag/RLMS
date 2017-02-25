@@ -94,6 +94,12 @@ public class CompanyServiceImpl implements CompanyService{
 		companyMaster.setStatus(RLMSConstants.ACTIVE.getId());
 		companyMaster.setTinNumber(companyDtlsDTO.getTinNumber());
 		companyMaster.setVatNumber(companyDtlsDTO.getVatNumber());
+		companyMaster.setCity(companyDtlsDTO.getCity());
+		companyMaster.setArea(companyDtlsDTO.getArea());
+		companyMaster.setPincode(companyDtlsDTO.getPinCode());
+		companyMaster.setOwnerNAme(companyDtlsDTO.getOwnerName());
+		companyMaster.setOwnerNumber(companyDtlsDTO.getOwnerNumber());
+		companyMaster.setOwnerEmailId(companyDtlsDTO.getOwnerEmail());
 		companyMaster.setCreatedDate(new Date());
 		companyMaster.setCretedBy(metaInfo.getUserId());
 		companyMaster.setUpdatedDate(new Date());
@@ -140,6 +146,9 @@ public class CompanyServiceImpl implements CompanyService{
 			companyDto.setContactNumber(rlmsCompanyMaster.getContactNumber());
 			companyDto.setAddress(rlmsCompanyMaster.getAddress());
 			companyDto.setEmailId(rlmsCompanyMaster.getEmailId());
+			companyDto.setArea(rlmsCompanyMaster.getArea());
+			companyDto.setCity(rlmsCompanyMaster.getCity());
+			companyDto.setPinCode(rlmsCompanyMaster.getPincode());
 			
 			//Get All branches for company
 			List<BranchDtlsDto> listOfDtos = new ArrayList<BranchDtlsDto>();
@@ -236,6 +245,9 @@ public class CompanyServiceImpl implements CompanyService{
 		RlmsBranchMaster branchMaster = new RlmsBranchMaster();
 		branchMaster.setBranchName(dto.getBranchName());
 		branchMaster.setBranchAddress(dto.getBranchAddress());
+		branchMaster.setCity(dto.getCity());
+		branchMaster.setArea(dto.getArea());
+		branchMaster.setPincode(dto.getPinCode());
 		branchMaster.setActiveFlag(RLMSConstants.ACTIVE.getId());
 		branchMaster.setCreatedBy(userMetaInfo.getUserId());
 		branchMaster.setCreatedDate(new Date());
@@ -278,6 +290,9 @@ public class CompanyServiceImpl implements CompanyService{
 			RlmsCompanyBranchMapDtls rlmsCompanyBranchMapDtls = this.branchDao.getCompanyBranchMapDtls(companyBranchMapId);
 			branchDtlsDto.setBranchName(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchName());
 			branchDtlsDto.setBranchAddress(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchAddress());
+			branchDtlsDto.setArea(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getArea());
+			branchDtlsDto.setCity(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getCity());
+			branchDtlsDto.setPinCode(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getPincode());
 			branchDtlsDto.setCompanyName(rlmsCompanyBranchMapDtls.getRlmsCompanyMaster().getCompanyName());
 			List<UserDtlsDto> listOfAllTech = this.getListOFAllTEchnicians(companyBranchMapId);
 			branchDtlsDto.setListOfAllTechnicians(listOfAllTech);

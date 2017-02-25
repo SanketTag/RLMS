@@ -16,6 +16,7 @@ import com.rlms.contract.AddNewUserDto;
 import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
+import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.dao.BranchDao;
@@ -121,7 +122,22 @@ public class CustomerServiceImpl implements CustomerService{
 		customerMaster.setEmailID(customerDtlsDto.getEmailID());
 		customerMaster.setPanNumber(customerDtlsDto.getPanNumber());
 		customerMaster.setTinNumber(customerDtlsDto.getTinNumber());
+		customerMaster.setCity(customerDtlsDto.getCity());
+		customerMaster.setArea(customerDtlsDto.getArea());
+		customerMaster.setPincode(customerDtlsDto.getPinCode());
 		customerMaster.setVatNumber(customerDtlsDto.getVatNumber());
+		customerMaster.setChairmanName(customerDtlsDto.getChairmanName());
+		customerMaster.setChairmanNumber(customerDtlsDto.getChairmanNumber());
+		customerMaster.setChairmanEmail(customerDtlsDto.getChairmanEmail());
+		customerMaster.setTreasurerName(customerDtlsDto.getTreasurerName());
+		customerMaster.setTreasurerNumber(customerDtlsDto.getTreasurerNumber());
+		customerMaster.setTreasurerEmail(customerDtlsDto.getTreasurerEmail());
+		customerMaster.setSecretaryName(customerDtlsDto.getSecretaryName());
+		customerMaster.setSecretaryNumber(customerDtlsDto.getSecretaryNumber());
+		customerMaster.setSecretaryEmail(customerDtlsDto.getSecretaryEmail());
+		customerMaster.setWatchmenName(customerDtlsDto.getWatchmenName());
+		customerMaster.setWatchmenNumber(customerDtlsDto.getWatchmenNumber());
+		customerMaster.setWatchmenEmail(customerDtlsDto.getWatchmenEmail());
 		customerMaster.setCreatedBy(metaInfo.getUserId());
 		customerMaster.setCreatedDate(new Date());
 		customerMaster.setUpdatedBy(metaInfo.getUserId());
@@ -146,10 +162,25 @@ public class CustomerServiceImpl implements CustomerService{
 			CustomerDtlsDto dto = new CustomerDtlsDto();
 			List<RlmsLiftCustomerMap> listOfLifts = this.liftDao.getAllLiftsForCustomers(listOfCustomer);
 			dto.setAddress(branchCustomerMap.getCustomerMaster().getAddress());
+			dto.setArea(branchCustomerMap.getCustomerMaster().getArea());
+			dto.setCity(branchCustomerMap.getCustomerMaster().getCity());
+			dto.setPinCode(branchCustomerMap.getCustomerMaster().getPincode());
 			dto.setCntNumber(branchCustomerMap.getCustomerMaster().getCntNumber());
 			dto.setFirstName(branchCustomerMap.getCustomerMaster().getCustomerName());
 			dto.setEmailID(branchCustomerMap.getCustomerMaster().getEmailID());
 			dto.setPanNumber(branchCustomerMap.getCustomerMaster().getPanNumber());
+			dto.setChairmanName(branchCustomerMap.getCustomerMaster().getChairmanName());
+			dto.setChairmanNumber(branchCustomerMap.getCustomerMaster().getChairmanNumber());
+			dto.setChairmanEmail(branchCustomerMap.getCustomerMaster().getChairmanEmail());
+			dto.setSecretaryName(branchCustomerMap.getCustomerMaster().getSecretaryName());
+			dto.setSecretaryNumber(branchCustomerMap.getCustomerMaster().getSecretaryNumber());
+			dto.setSecretaryEmail(branchCustomerMap.getCustomerMaster().getSecretaryEmail());
+			dto.setTreasurerName(branchCustomerMap.getCustomerMaster().getTreasurerName());
+			dto.setTreasurerNumber(branchCustomerMap.getCustomerMaster().getTreasurerNumber());
+			dto.setTreasurerEmail(branchCustomerMap.getCustomerMaster().getTreasurerEmail());
+			dto.setWatchmenName(branchCustomerMap.getCustomerMaster().getWatchmenName());
+			dto.setWatchmenNumber(branchCustomerMap.getCustomerMaster().getWatchmenNumber());
+			dto.setWatchmenEmail(branchCustomerMap.getCustomerMaster().getWatchmenEmail());
 			if(null != listOfLifts && !listOfLifts.isEmpty()){
 				dto.setTotalNumberOfLifts(listOfLifts.size());
 			}
@@ -170,6 +201,21 @@ public class CustomerServiceImpl implements CustomerService{
 			CustomerDtlsDto customerDtlsDto = new CustomerDtlsDto();
 			customerDtlsDto.setBranchCustomerMapId(rlmsBranchCustomerMap.getBranchCustoMapId());
 			customerDtlsDto.setFirstName(rlmsBranchCustomerMap.getCustomerMaster().getCustomerName());
+			customerDtlsDto.setCity(rlmsBranchCustomerMap.getCustomerMaster().getCity());
+			customerDtlsDto.setArea(rlmsBranchCustomerMap.getCustomerMaster().getArea());
+			customerDtlsDto.setPinCode(rlmsBranchCustomerMap.getCustomerMaster().getPincode());
+			customerDtlsDto.setChairmanName(rlmsBranchCustomerMap.getCustomerMaster().getChairmanName());
+			customerDtlsDto.setChairmanNumber(rlmsBranchCustomerMap.getCustomerMaster().getChairmanNumber());
+			customerDtlsDto.setChairmanEmail(rlmsBranchCustomerMap.getCustomerMaster().getChairmanEmail());
+			customerDtlsDto.setTreasurerName(rlmsBranchCustomerMap.getCustomerMaster().getTreasurerName());
+			customerDtlsDto.setTreasurerNumber(rlmsBranchCustomerMap.getCustomerMaster().getTreasurerNumber());
+			customerDtlsDto.setTreasurerEmail(rlmsBranchCustomerMap.getCustomerMaster().getTreasurerEmail());
+			customerDtlsDto.setSecretaryName(rlmsBranchCustomerMap.getCustomerMaster().getSecretaryName());
+			customerDtlsDto.setSecretaryNumber(rlmsBranchCustomerMap.getCustomerMaster().getSecretaryNumber());
+			customerDtlsDto.setSecretaryEmail(rlmsBranchCustomerMap.getCustomerMaster().getSecretaryEmail());
+			customerDtlsDto.setWatchmenName(rlmsBranchCustomerMap.getCustomerMaster().getWatchmenName());
+			customerDtlsDto.setWatchmenNumber(rlmsBranchCustomerMap.getCustomerMaster().getWatchmenNumber());
+			customerDtlsDto.setWatchmenEmail(rlmsBranchCustomerMap.getCustomerMaster().getWatchmenEmail());
 			listOFDtos.add(customerDtlsDto);
 		}
 		return listOFDtos;
@@ -212,6 +258,9 @@ public class CustomerServiceImpl implements CustomerService{
 		memberMaster.setEmailId(memberDtlsDto.getEmailId());
 		memberMaster.setFirstName(memberDtlsDto.getFirstName());
 		memberMaster.setLastName(memberDtlsDto.getLastName());
+		memberMaster.setCity(memberDtlsDto.getCity());
+		memberMaster.setArea(memberDtlsDto.getArea());
+		memberMaster.setPincode(memberDtlsDto.getPinCode());
 		memberMaster.setUpdatedBy(metaInfo.getUserId());
 		memberMaster.setUpdatedDate(new Date());
 		memberMaster.setCreatedBy(metaInfo.getUserId());
@@ -297,6 +346,7 @@ public class CustomerServiceImpl implements CustomerService{
 		List<RlmsCustomerMemberMap> listOfAllMembers = this.customerDao.getAllMembersForCustomer(memberDtlsDto.getBranchCustoMapId());
 		List<MemberDtlsDto> listOfMemberDtls= new ArrayList<MemberDtlsDto>();
 		for (RlmsCustomerMemberMap rlmsCustomerMemberMap : listOfAllMembers) {
+			
 			MemberDtlsDto dto = new MemberDtlsDto();
 			dto.setBranchName(rlmsCustomerMemberMap.getRlmsBranchCustomerMap().getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());
 			dto.setCompanyName(rlmsCustomerMemberMap.getRlmsBranchCustomerMap().getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyName());
@@ -305,9 +355,32 @@ public class CustomerServiceImpl implements CustomerService{
 			dto.setFirstName(rlmsCustomerMemberMap.getRlmsMemberMaster().getFirstName());
 			dto.setLastName(rlmsCustomerMemberMap.getRlmsMemberMaster().getLastName());
 			dto.setRegistrationDate(rlmsCustomerMemberMap.getRlmsMemberMaster().getRegistrationDate());
+			dto.setCity(rlmsCustomerMemberMap.getRlmsMemberMaster().getCity());
+			dto.setArea(rlmsCustomerMemberMap.getRlmsMemberMaster().getArea());
+			dto.setPinCode(rlmsCustomerMemberMap.getRlmsMemberMaster().getPincode());
+			
 			listOfMemberDtls.add(dto);
 		}
 		return listOfMemberDtls;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public UserAppDtls getUserAppDtls(Integer userId, Integer userType){
+		UserAppDtls userAppDtls = new UserAppDtls();
+		RlmsUserApplicationMapDtls userApplicationMapDtls = this.customerDao.getUserAppDtls(userId, userType);
+		if(null != userApplicationMapDtls){
+			
+			userAppDtls.setAppRegId(userApplicationMapDtls.getAppRegId());
+			userAppDtls.setUserId(userId);
+			userAppDtls.setUserType(userType);
+		}
+		return userAppDtls;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<RlmsCustomerMemberMap> getAllMembersForCustomer(
+			Integer branchCustomerMapId){
+		return this.getAllMembersForCustomer(branchCustomerMapId);
 	}
 }
 

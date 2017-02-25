@@ -7,6 +7,9 @@ public class AddNewUserDto {
 	private String contactNumber;
 	private String emailId;
 	private Integer companyId;
+	private String city;
+	private String area;
+	private Integer pinCode;
 	public String getFirstName() {
 		return firstName;
 	}
@@ -42,6 +45,24 @@ public class AddNewUserDto {
 	}
 	public void setCompanyId(Integer companyId) {
 		this.companyId = companyId;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public Integer getPinCode() {
+		return pinCode;
+	}
+	public void setPinCode(Integer pinCode) {
+		this.pinCode = pinCode;
 	}
 	
 	

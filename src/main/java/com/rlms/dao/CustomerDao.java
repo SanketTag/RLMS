@@ -6,6 +6,7 @@ import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsCustomerMaster;
 import com.rlms.model.RlmsCustomerMemberMap;
 import com.rlms.model.RlmsMemberMaster;
+import com.rlms.model.RlmsUserApplicationMapDtls;
 
 public interface CustomerDao {
 
@@ -22,4 +23,5 @@ public interface CustomerDao {
 	public RlmsBranchCustomerMap getBranchCustomerMapByCustoId(Integer customerId);
 	public List<RlmsCustomerMemberMap> getAllMembersForCustomer(
 			Integer branchCustomerMapId);
+	public RlmsUserApplicationMapDtls getUserAppDtls(Integer userId, Integer userType);
 }

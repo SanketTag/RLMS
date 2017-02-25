@@ -22,6 +22,9 @@ public class RlmsLiftMaster implements Serializable{
 	private Integer liftId;
 	private String liftNumber;
 	private String address;
+	private String city;
+	private String area;
+	private Integer pincode;
 	private String latitude;
 	private String longitude;
 	private Date serviceStartDate;
@@ -467,6 +470,32 @@ public class RlmsLiftMaster implements Serializable{
 		this.status = status;
 	}
 
+	@Column(name = "city", unique = true, nullable = false)
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	@Column(name = "area", unique = true, nullable = false)
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	@Column(name = "pincode", unique = true, nullable = false)
+	public Integer getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(Integer pincode) {
+		this.pincode = pincode;
+	}
 	
 
 }
