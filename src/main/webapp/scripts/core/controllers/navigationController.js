@@ -37,10 +37,10 @@ angular
    	    	  label:'Manage Lift',
    	    	  url: "#/lift-management"
    	      },
-   	      {
+   	      /*{
    	    	  label:'Work List',
    	    	  url: "#/work-list"
-   	      }
+   	      }*/
    	      ]
    	    },{
      	      label: 'Complaints',

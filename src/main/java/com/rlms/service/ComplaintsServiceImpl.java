@@ -41,6 +41,7 @@ import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsMemberMaster;
 import com.rlms.model.RlmsUserApplicationMapDtls;
 import com.rlms.model.RlmsUserRoles;
+import com.rlms.utils.DateUtils;
 import com.rlms.utils.PropertyUtils;
 //import com.telesist.xmpp.AndroidNotificationService;
 //import com.telesist.xmpp.AndroidNotificationServiceImpl;
@@ -162,11 +163,19 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		dto.setCustomerName(complaintMaster.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getCustomerName());
 		dto.setLiftAddress(complaintMaster.getLiftCustomerMap().getLiftMaster().getAddress());
 		dto.setRegistrationDate(complaintMaster.getRegistrationDate());
+		if(null != complaintMaster.getRegistrationDate()){
+			dto.setRegistrationDateStr(DateUtils.convertDateToStringWithoutTime(complaintMaster.getRegistrationDate()));
+		}
 		dto.setActualServiceEndDate(complaintMaster.getActualServiceEndDate());
+		if(null != complaintMaster.getActualServiceEndDate()){
+			dto.setActualServiceEndDateStr(DateUtils.convertDateToStringWithoutTime(complaintMaster.getActualServiceEndDate()));
+		}
 		dto.setRemark(complaintMaster.getRemark());
 		dto.setTitle(complaintMaster.getTitle());
 		dto.setServiceStartDate(complaintMaster.getServiceStartDate());
-		
+		if(null != complaintMaster.getServiceStartDate()){
+			dto.setServiceStartDateStr(DateUtils.convertDateToStringWithoutTime(complaintMaster.getServiceStartDate()));
+		}
 		if(!Status.PENDING.getStatusId().equals(complaintMaster.getStatus())){
 			RlmsComplaintTechMapDtls complaintTechMapDtls = this.complaintsDao.getComplTechMapObjByComplaintId(complaintMaster.getComplaintId());
 			String techDtls = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";			

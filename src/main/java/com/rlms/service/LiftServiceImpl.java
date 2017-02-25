@@ -98,7 +98,7 @@ public class LiftServiceImpl implements LiftService{
 		RlmsLiftCustomerMap liftCustomerMap =  new RlmsLiftCustomerMap();
 		RlmsBranchCustomerMap branchCustomerMap = this.branchDao.getBranchCustomerMapDtls(dto.getBranchCustomerMapId());
 		
-		liftCustomerMap.setActiveFlag(RLMSConstants.INACTIVE.getId());
+		liftCustomerMap.setActiveFlag(RLMSConstants.ACTIVE.getId());
 		liftCustomerMap.setBranchCustomerMap(branchCustomerMap);
 		liftCustomerMap.setLiftMaster(liftM);
 		liftCustomerMap.setUpdatedBy(metaInfo.getUserId());

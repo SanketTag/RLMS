@@ -32,7 +32,7 @@ public class ComplaintController extends BaseController{
 	private static final Logger logger = Logger.getLogger(ComplaintController.class);
 	
 	@RequestMapping(value = "/getListOfComplaints", method = RequestMethod.POST)
-	 public List<ComplaintsDto> getListOfComplaints(@RequestBody ComplaintsDtlsDto dto) throws RunTimeException{
+	 public  @ResponseBody List<ComplaintsDto> getListOfComplaints(@RequestBody ComplaintsDtlsDto dto) throws RunTimeException{
 		 List<ComplaintsDto> listOfComplaints = null;
 		 
 		 try{

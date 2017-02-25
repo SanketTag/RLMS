@@ -8,8 +8,11 @@ public class ComplaintsDto {
 
 	private String complaintNumber;
 	private Date registrationDate;
+	private String registrationDateStr;
 	private Date serviceStartDate;
+	private String serviceStartDateStr;
 	private Date actualServiceEndDate;
+	private String actualServiceEndDateStr;
 	private String liftNumber;
 	private String customerName;
 	private String liftAddress;
@@ -124,6 +127,24 @@ public class ComplaintsDto {
 	}
 	public void setUserRoleId(Integer userRoleId) {
 		this.userRoleId = userRoleId;
+	}
+	public String getRegistrationDateStr() {
+		return registrationDateStr;
+	}
+	public void setRegistrationDateStr(String registrationDateStr) {
+		this.registrationDateStr = registrationDateStr;
+	}
+	public String getServiceStartDateStr() {
+		return serviceStartDateStr;
+	}
+	public void setServiceStartDateStr(String serviceStartDateStr) {
+		this.serviceStartDateStr = serviceStartDateStr;
+	}
+	public String getActualServiceEndDateStr() {
+		return actualServiceEndDateStr;
+	}
+	public void setActualServiceEndDateStr(String actualServiceEndDateStr) {
+		this.actualServiceEndDateStr = actualServiceEndDateStr;
 	}
 	
 	

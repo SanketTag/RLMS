@@ -99,8 +99,8 @@
 				<label class="col-sm-3 control-label">Customer Type</label>
 				<div class="col-sm-6">
 						  <ui-select ng-model="selectedCustomerTypes.selected" title="Choose a Branch">
-						    <ui-select-match placeholder="Select or search a branch in the list...">{{$select.selected.rlmsBranchMaster.branchName}}</ui-select-match>
-						    <ui-select-choices repeat="iterator in customerTypes filter: $select.search">
+						    <ui-select-match placeholder="Select or search a branch in the list...">{{$select.selected.name}}</ui-select-match>
+						    <ui-select-choices repeat="iterator in customerTypes | filter: $select.search">
 						      <span ng-bind-html="iterator.name | highlight: $select.search"></span>
 						    </ui-select-choices>
 						  </ui-select>

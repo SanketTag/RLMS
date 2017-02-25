@@ -70,7 +70,7 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 					 criteria.add(Restrictions.eq("cbm.companyBranchMapId", branchCompanyMapId));
 				 }
 				 if(null != branchCustomerMapId && !RLMSConstants.MINUS_ONE.getId().equals(branchCustomerMapId)){
-					 criteria.add(Restrictions.eq("bcm.branchCustomerMapId", branchCustomerMapId));
+					 criteria.add(Restrictions.eq("bcm.branchCustoMapId", branchCustomerMapId));
 				 }
 				 if(null != listOfLiftCustoMapId && !listOfLiftCustoMapId.isEmpty()){
 					 criteria.add(Restrictions.in("liftCustomerMap.liftCustomerMapId", listOfLiftCustoMapId));
