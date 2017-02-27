@@ -23,16 +23,6 @@
 		      $scope.minDate = $scope.minDate ? null : new Date();
 		    };
 		    $scope.toggleMin();
-
-		    $scope.open = function($event) {
-		      $event.preventDefault();
-		      $event.stopPropagation();
-		      if($scope.opened != true)
-		          $scope.opened = true;
-		      else
-		          $scope.opened = false;
-		    };
-
 		    $scope.dateOptions = {
 		      formatYear: 'yy',
 		      startingDay: 1,

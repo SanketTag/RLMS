@@ -1,31 +1,44 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('addMemberCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window','$rootScope', function($scope, $filter,serviceApi,$route,utility,$window,$rootScope) {
-	initAddMember();
+	.controller('addComplaintCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window','$rootScope', function($scope, $filter,serviceApi,$route,utility,$window,$rootScope) {
+		initAddComplaint();
 			loadCompayInfo();
-			$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Branch.',close:true };
-			//loadBranchListInfo();
+			$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Complaint.',close:true };
 			$scope.showAlert = false;
 			$scope.companies = [];
 			$scope.branches = [];
-			function initAddMember(){
+			function initAddComplaint() {
 				$scope.selectedCompany = {};
 				$scope.selectedBranch = {};
 				$scope.selectedCustomer = {};
-				$scope.addMember={
-						firstName:'',
-						lastName:'',
-						address:'',
-						city:'',
-						area:'',
-						pinCode:'',
-						emailId:'',
-						contactNumber:0,
-						branchCustoMapId:0
-						
-				};	
+				$scope.selectedLifts = {};
+				$scope.selectedLifts = {};
+				
+				$scope.addComplaint={
+						branchCompanyMapId:0,
+						liftCustomerMapId:0,
+						branchCustomerMapId:0,
+						companyId:0,
+						complaintsTitle:'',
+						complaintsRemark:'',
+						registrationType:'',
+						fromDate:'',
+						toDate:''
+				};
 			}
+			$scope.openFlag={
+					fromDate:false,
+					toDate:false
+			}
+			$scope.open = function($event,which) {
+			      $event.preventDefault();
+			      $event.stopPropagation();
+			      if($scope.openFlag[which] != true)
+			    	  $scope.openFlag[which] = true;
+			      else
+			    	  $scope.openFlag[which] = false;
+			  }
 			//load compay dropdown data
 			function loadCompayInfo(){
 				serviceApi.doPostWithoutData('/RLMS/admin/getAllApplicableCompanies')
@@ -59,19 +72,35 @@
 	 	        	 $scope.cutomers = customerData;
 	 	         })
 			}
+			$scope.loadLifts = function() {
+				var dataToSend = {
+					branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId,
+					branchCustomerMapId : $scope.selectedCustomer.selected.branchCustomerMapId
+				}
+				serviceApi
+						.doPostWithData(
+								'/RLMS/complaint/getAllApplicableLifts',
+								dataToSend)
+						.then(function(liftData) {
+							$scope.lifts = liftData;
+						})
+			}
 			//Post call add customer
-			$scope.submitAddCustomer = function(){
-				$scope.addMember.branchCustoMapId = $scope.selectedCustomer.selected.branchCustomerMapId;
-				serviceApi.doPostWithData("/RLMS/admin/validateAndRegisterNewMember",$scope.addMember)
+			$scope.submitAddComplaint = function(){
+				$scope.addComplaint.companyId = $scope.selectedCompany.selected.companyId;
+				$scope.addComplaint.branchCompanyMapId = $scope.selectedBranch.selected.companyBranchMapId;
+				$scope.addComplaint.branchCustomerMapId = $scope.selectedCustomer.selected.branchCustomerMapId;
+				$scope.addComplaint.liftCustomerMapId = $scope.selectedCustomer.selected.branchCustomerMapId;
+				serviceApi.doPostWithData("/RLMS/complaint/validateAndRegisterNewComplaint",$scope.addComplaint)
 				.then(function(response){
 					$scope.showAlert = true;
 					var key = Object.keys(response);
 					var successMessage = response[key[0]];
 					$scope.alert.msg = successMessage;
 					$scope.alert.type = "success";
-					initAddMember();
-					$scope.addMemberForm.$setPristine();
-					$scope.addMemberForm.$setUntouched();
+					initAddComplaint();
+					$scope.addComplaintForm.$setPristine();
+					$scope.addComplaintForm.$setUntouched();
 				},function(error){
 					$scope.showAlert = true;
 					$scope.alert.msg = error.exceptionMessage;
@@ -94,8 +123,8 @@
 				$scope.showBranch=false;
 			}
 			//rese add branch
-			$scope.resetAddMember = function(){
-				initAddMember();
+			$scope.resetaddComplaint = function(){
+				initAddComplaint();
 			}
 			$scope.backPage =function(){
 				 $window.history.back();
