@@ -245,6 +245,7 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 	display:inline-block;
 	width:20%;
 	margin: 0 10px;
+	vertical-align: top;
 }
 .margin-left-10{
 	margin-left:10px;
@@ -290,4 +291,13 @@ ul.stepy-header{
 .stepy-navigator a {
     margin-left: 10px;
     width: 110px;
+}
+.advance-filter-container{
+	text-align:right;
+	margin-top: 10px;
+}
+.advance-filter-container span{
+	text-decoration:underline;
+	color:#0FACF3;
+	font-weight:bold;
 }

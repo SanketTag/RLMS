@@ -17,9 +17,11 @@
 								initCustomerList();
 								$scope.showCompany = false;
 								$scope.showBranch = false;
-								$scope.goToAddLift = function() {
-									window.location.hash = "#/add-lift";
+								
+								$scope.goToAddComplaint = function() {
+									window.location.hash = "#/add-complaint";
 								};
+								
 								function initCustomerList() {
 									$scope.selectedCompany = {};
 									$scope.selectedBranch = {};
@@ -28,7 +30,7 @@
 									$scope.branches = [];
 									$scope.selectedlifts = {};
 									$scope.selectedStatus = {};
-									$scope.dateRange = {};
+									$scope.dateRange ='';
 									$scope.status = [ {
 										id : 2,
 										name : 'Pending'
@@ -318,28 +320,36 @@
 											}, 100);
 								};
 								$scope.construnctObjeToSend = function() {
-									var dataToSend = {};
+									var dataToSend = {
+											branchCompanyMapId:0,
+											branchCustomerMapId:0,
+											listOfLiftCustoMapId:[],
+											statusList:[]
+											
+									};
 									if ($scope.showBranch == true) {
 										dataToSend["branchCompanyMapId"] = $scope.selectedBranch.selected.companyBranchMapId
 									} else {
 										dataToSend["branchCompanyMapId"] = $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId
 									}
 									dataToSend["branchCustomerMapId"] = $scope.selectedCustomer.selected.branchCustomerMapId;
-									var tempLiftIds = [];
-									for (var i = 0; i < $scope.selectedlifts.selected.length; i++) {
-										tempLiftIds
-												.push($scope.selectedlifts.selected[i].liftId);
+									
+									if($scope.showAdvanceFilter){
+										var tempLiftIds = [];
+										for (var i = 0; i < $scope.selectedlifts.selected.length; i++) {
+											tempLiftIds
+													.push($scope.selectedlifts.selected[i].liftId);
+										}
+										var tempStatus = [];
+										for (var j = 0; j < $scope.selectedStatus.selected.length; j++) {
+											tempStatus
+													.push($scope.selectedStatus.selected[j].id);
+										}
+										dataToSend["listOfLiftCustoMapId"] = tempLiftIds;
+										dataToSend["statusList"] = tempStatus;
+										// dataToSend["fromDate"]=$scope.dateRange;
+										// dataToSend["toDate"]=$scope.dateRange;
 									}
-									var tempStatus = [];
-									for (var j = 0; j < $scope.selectedStatus.selected.length; j++) {
-										tempStatus
-												.push($scope.selectedStatus.selected[j].id);
-									}
-									dataToSend["listOfLiftCustoMapId"] = tempLiftIds;
-									dataToSend["statusList"] = tempStatus;
-									// dataToSend["fromDate"]=$scope.dateRange;
-									// dataToSend["toDate"]=$scope.dateRange;
-
 									return dataToSend;
 								}
 								$scope.loadComplaintsList = function() {
