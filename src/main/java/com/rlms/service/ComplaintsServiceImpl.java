@@ -137,7 +137,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		RlmsLiftCustomerMap liftCustomerMap = this.liftDao.getLiftCustomerMapById(dto.getLiftCustomerMapId());
 		
 		complaintMaster.setActiveFlag(RLMSConstants.ACTIVE.getId());
-		
+		complaintMaster.setComplaintNumber(String.valueOf(Math.random()));
 		complaintMaster.setLiftCustomerMap(liftCustomerMap);
 		complaintMaster.setRegistrationDate(new Date());
 		complaintMaster.setRegistrationType(dto.getRegistrationType());

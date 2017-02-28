@@ -63,7 +63,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.registrationDate = registrationDate;
 	}
 	
-	@Column(name = "service_start_date", unique = true, nullable = false)
+	@Column(name = "service_start_date", unique = true, nullable = true)
 	public Date getServiceStartDate() {
 		return serviceStartDate;
 	}
@@ -71,7 +71,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.serviceStartDate = serviceStartDate;
 	}
 	
-	@Column(name = "actual_service_end_date", unique = true, nullable = false)
+	@Column(name = "actual_service_end_date", unique = true, nullable = true)
 	public Date getActualServiceEndDate() {
 		return actualServiceEndDate;
 	}

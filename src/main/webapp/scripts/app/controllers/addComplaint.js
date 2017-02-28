@@ -90,7 +90,7 @@
 				$scope.addComplaint.companyId = $scope.selectedCompany.selected.companyId;
 				$scope.addComplaint.branchCompanyMapId = $scope.selectedBranch.selected.companyBranchMapId;
 				$scope.addComplaint.branchCustomerMapId = $scope.selectedCustomer.selected.branchCustomerMapId;
-				$scope.addComplaint.liftCustomerMapId = $scope.selectedCustomer.selected.branchCustomerMapId;
+				$scope.addComplaint.liftCustomerMapId = $scope.selectedLift.selected.liftId;
 				serviceApi.doPostWithData("/RLMS/complaint/validateAndRegisterNewComplaint",$scope.addComplaint)
 				.then(function(response){
 					$scope.showAlert = true;
