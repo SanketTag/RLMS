@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mysql.jdbc.Messages;
 import com.rlms.constants.RLMSConstants;
+import com.rlms.constants.RLMSMessages;
 //import com.rlms.constants.RLMSMessages;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
@@ -26,6 +27,7 @@ import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
+import com.rlms.contract.UserAppDtls;
 //import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.controller.RestControllerController;
@@ -47,7 +49,7 @@ import com.rlms.utils.PropertyUtils;
 //import com.telesist.xmpp.AndroidNotificationServiceImpl;
 import com.telesist.xmpp.util.Util;
 
-@Service("complaaintsService")
+@Service("ComplaintsService")
 public class ComplaintsServiceImpl implements ComplaintsService{
 
 	@Autowired
