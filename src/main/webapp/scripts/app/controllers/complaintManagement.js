@@ -12,8 +12,10 @@
 							'$http',
 							'utility',
 							'$rootScope',
+							'$modal',
+							'$log',
 							function($scope, $filter, serviceApi, $route,
-									$http, utility, $rootScope) {
+									$http, utility, $rootScope,$modal,$log) {
 								initCustomerList();
 								$scope.showCompany = false;
 								$scope.showBranch = false;
@@ -104,10 +106,7 @@
 										branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId,
 										branchCustomerMapId : $scope.selectedCustomer.selected.branchCustomerMapId
 									}
-									serviceApi
-											.doPostWithData(
-													'/RLMS/complaint/getAllApplicableLifts',
-													dataToSend)
+									serviceApi.doPostWithData('/RLMS/complaint/getAllApplicableLifts',dataToSend)
 											.then(function(liftData) {
 												$scope.lifts = liftData;
 											})
@@ -153,12 +152,10 @@
 													var dataToSend = $scope
 															.construnctObjeToSend();
 													serviceApi
-															.doPostWithData(
-																	'/RLMS/complaint/getListOfComplaints',
-																	dataToSend)
+															.doPostWithData('/RLMS/complaint/getListOfComplaints',dataToSend)
 															.then(
-																	function(
-																			largeLoad) {
+																	function(largeLoad) {
+																		$scope.complaints = largeLoad;
 																		$scope.showTable = true;
 																		var userDetails = [];
 																		for (var i = 0; i < largeLoad.length; i++) {
@@ -247,6 +244,7 @@
 															.then(
 																	function(
 																			largeLoad) {
+																		$scope.complaints = largeLoad;
 																		$scope.showTable = true;
 																		var userDetails = [];
 																		for (var i = 0; i < largeLoad.length; i++) {
@@ -411,6 +409,7 @@
 									filterOptions : $scope.filterOptions,
 									multiSelect : false,
 									gridFooterHeight : 35,
+									selectedItems: [],
 									columnDefs : [ {
 										field : "Number",
 										displayName:"Number",
@@ -462,6 +461,14 @@
 									}
 									]
 								};
-
-							} ]);
+								
+								$scope.assignComplaint =function(){
+									//var selected = $filter('filter')($scope.response,{complaintId:$scope.gridOptions.selectedItems[0].complaintId}); 
+									var modalInstance = $modal.open({
+								        templateUrl: 'assignComplaintTemplate',
+								        scope:$scope
+								})
+							}
+							}]);
+	
 })();
