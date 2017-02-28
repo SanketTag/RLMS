@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('addComplaintCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window','$rootScope', function($scope, $filter,serviceApi,$route,utility,$window,$rootScope) {
+	.controller('addComplaintCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window','$rootScope','$modal', function($scope, $filter,serviceApi,$route,utility,$window,$rootScope,$modal) {
 		initAddComplaint();
 			loadCompayInfo();
 			$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Complaint.',close:true };
@@ -21,7 +21,7 @@
 						companyId:0,
 						complaintsTitle:'',
 						complaintsRemark:'',
-						registrationType:'',
+						registrationType:2,
 						fromDate:'',
 						toDate:''
 				};
