@@ -22,7 +22,7 @@
 						companyId:0,
 						complaintsTitle:'',
 						complaintsRemark:'',
-						registrationType:'',
+						registrationType:2,
 						fromDate:'',
 						toDate:''
 				};
