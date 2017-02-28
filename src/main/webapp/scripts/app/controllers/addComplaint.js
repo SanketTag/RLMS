@@ -12,8 +12,7 @@
 				$scope.selectedCompany = {};
 				$scope.selectedBranch = {};
 				$scope.selectedCustomer = {};
-				$scope.selectedLifts = {};
-				$scope.selectedLifts = {};
+				$scope.selectedLift = {};
 				
 				$scope.addComplaint={
 						branchCompanyMapId:0,

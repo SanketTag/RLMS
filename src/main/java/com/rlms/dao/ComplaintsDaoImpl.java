@@ -52,8 +52,13 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 		 return listOfAllcomplaints;
 	}
 	
-	public void saveComplaintM(RlmsComplaintMaster complaintMaster){
-		this.sessionFactory.getCurrentSession().save(complaintMaster);
+	public Integer saveComplaintM(RlmsComplaintMaster complaintMaster){
+		Integer complaintsId = (Integer) this.sessionFactory.getCurrentSession().save(complaintMaster);
+		return complaintsId;
+	}
+	
+	public void mergeComplaintM(RlmsComplaintMaster complaintMaster){
+		this.sessionFactory.getCurrentSession().merge(complaintMaster);
 	}
 	
 	public void saveComplaintTechMapDtls(RlmsComplaintTechMapDtls complaintTechMapDtls){

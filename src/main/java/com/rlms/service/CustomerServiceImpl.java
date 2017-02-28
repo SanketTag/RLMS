@@ -386,7 +386,7 @@ public class CustomerServiceImpl implements CustomerService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<RlmsCustomerMemberMap> getAllMembersForCustomer(
 			Integer branchCustomerMapId){
-		return this.getAllMembersForCustomer(branchCustomerMapId);
+		return this.customerDao.getAllMembersForCustomer(branchCustomerMapId);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)

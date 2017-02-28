@@ -104,8 +104,10 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	public String validateAndRegisterNewComplaint(ComplaintsDtlsDto dto, UserMetaInfo metaInfo) throws ValidationException{
 		String result = null;
 		if(this.validateComplaintDetails(dto)){
-			RlmsComplaintMaster complaintMaster = this.counstructComplaintMaster(dto, metaInfo);	
-			this.complaintsDao.saveComplaintM(complaintMaster);
+			RlmsComplaintMaster complaintMaster = this.counstructComplaintMaster(dto, metaInfo);			
+			Integer complaintId = this.complaintsDao.saveComplaintM(complaintMaster);
+			complaintMaster.setComplaintNumber(complaintId.toString());
+			this.complaintsDao.mergeComplaintM(complaintMaster);
 			result = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_REG_SUCCESSFUL.getMessage());
 			this.sendNotificationsAboutComplaintRegistration(complaintMaster);
 		}
