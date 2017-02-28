@@ -9,6 +9,7 @@ import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.UserAppDtls;
 //import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserMetaInfo;
+import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.exception.ValidationException;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 
@@ -19,4 +20,6 @@ public interface ComplaintsService {
 	public String assignComplaint(ComplaintsDto complaintsDto, UserMetaInfo metaInfo);
 	public List<LiftDtlsDto> getAllLiftsForBranchsOrCustomer(LiftDtlsDto dto);
 	public List<UserAppDtls> getRegIdsOfAllApplicableUsers(Integer complaintId);
+	public List<ComplaintsDto> getAllComplaintsByMember(Integer memberId);
+	public List<UserRoleDtlsDTO> getAllTechniciansToAssignComplaint(ComplaintsDtlsDto complaintsDtlsDto);
 }

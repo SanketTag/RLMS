@@ -26,6 +26,7 @@ public class ComplaintsDto {
 	private String technicianDtls;
 	private Integer complaintId;
 	private Integer userRoleId;
+	private Integer liftCustoMapId;
 	public String getComplaintNumber() {
 		return complaintNumber;
 	}
@@ -145,6 +146,12 @@ public class ComplaintsDto {
 	}
 	public void setActualServiceEndDateStr(String actualServiceEndDateStr) {
 		this.actualServiceEndDateStr = actualServiceEndDateStr;
+	}
+	public Integer getLiftCustoMapId() {
+		return liftCustoMapId;
+	}
+	public void setLiftCustoMapId(Integer liftCustoMapId) {
+		this.liftCustoMapId = liftCustoMapId;
 	}
 	
 	

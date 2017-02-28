@@ -104,4 +104,15 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 		 return complaintMaster;
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsComplaintMaster> getAllComplaintsByMemberId(Integer memberId){
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsComplaintMaster.class)
+				 .add(Restrictions.eq("createdBy", memberId))
+				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 List<RlmsComplaintMaster> listOfAllComplaints =  criteria.list();
+		 return listOfAllComplaints;
+	}
+	
 }

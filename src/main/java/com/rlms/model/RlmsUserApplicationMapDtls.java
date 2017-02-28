@@ -20,6 +20,7 @@ public class RlmsUserApplicationMapDtls {
 	private String appRegId;
 	private Double latitude;
 	private Double longitude;
+	private String address;
 	private Integer activeFlag;
 	private Integer createdBy;
 	private Date createdDate;
@@ -114,6 +115,14 @@ public class RlmsUserApplicationMapDtls {
 	}
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+	
+	@Column(name = "address", unique = true, nullable = false)
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
     
     

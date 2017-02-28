@@ -15,6 +15,7 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.contract.AddNewUserDto;
 import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.CustomerDtlsDto;
+import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserDtlsDto;
@@ -375,6 +376,9 @@ public class CustomerServiceImpl implements CustomerService{
 			userAppDtls.setAppRegId(userApplicationMapDtls.getAppRegId());
 			userAppDtls.setUserId(userId);
 			userAppDtls.setUserType(userType);
+			userAppDtls.setLatitude(userApplicationMapDtls.getLatitude());
+			userAppDtls.setLongitude(userApplicationMapDtls.getLongitude());
+			userAppDtls.setAddress(userApplicationMapDtls.getAddress());
 		}
 		return userAppDtls;
 	}
@@ -383,6 +387,26 @@ public class CustomerServiceImpl implements CustomerService{
 	public List<RlmsCustomerMemberMap> getAllMembersForCustomer(
 			Integer branchCustomerMapId){
 		return this.getAllMembersForCustomer(branchCustomerMapId);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<LiftDtlsDto> getAllLiftsForMember(Integer memberId){
+		List<LiftDtlsDto> listOfLiftDtls = new ArrayList<LiftDtlsDto>();
+		List<RlmsCustomerMemberMap> listOfAllCustomers = this.customerDao.getAllCustomersForMember(memberId);
+		List<Integer> listOfAllBranchCustomerMapIds = new ArrayList<Integer>();
+		for (RlmsCustomerMemberMap customerMemberMap : listOfAllCustomers) {
+			listOfAllBranchCustomerMapIds.add(customerMemberMap.getRlmsBranchCustomerMap().getBranchCustoMapId());
+		}
+		
+		List<RlmsLiftCustomerMap> allLiftsForCustomes = this.liftDao.getAllLiftsForCustomres(listOfAllBranchCustomerMapIds);
+		for (RlmsLiftCustomerMap rlmsLiftCustomerMap : allLiftsForCustomes) {
+			LiftDtlsDto dto = new LiftDtlsDto();
+			dto.setLiftCustomerMapId(rlmsLiftCustomerMap.getLiftCustomerMapId());
+			dto.setLiftNumber(rlmsLiftCustomerMap.getLiftMaster().getLiftNumber());
+			listOfLiftDtls.add(dto);
+		}
+		
+		return listOfLiftDtls;
 	}
 }
 

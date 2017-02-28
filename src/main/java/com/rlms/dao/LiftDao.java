@@ -27,5 +27,7 @@ public interface LiftDao {
 	RlmsLiftCustomerMap getLiftCustomerMapById(Integer liftCustomerMapId);
 	
 	public List<RlmsLiftCustomerMap> getAllLiftsForBranchsOrCustomer(LiftDtlsDto dto);
+	
+	public List<RlmsLiftCustomerMap> getAllLiftsForCustomres(List<Integer> branchCustoMapId);
 
 }

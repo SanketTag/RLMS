@@ -16,6 +16,7 @@ import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.ResponseDto;
+import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
 import com.rlms.service.ComplaintsService;
@@ -95,6 +96,21 @@ public class ComplaintController extends BaseController{
         	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
         }
 		return listOfLifts;
+	}
+	
+	@RequestMapping(value = "/getAllTechniciansToAssignComplaint", method = RequestMethod.POST)
+	public @ResponseBody List<UserRoleDtlsDTO> getAllTechniciansToAssignComplaint(@RequestBody ComplaintsDtlsDto complaintsDtlsDto){
+		List<UserRoleDtlsDTO> listOftechnicians = null;
+		try{
+        	logger.info("Method :: assignComplaint");
+        	listOftechnicians = this.complaintsService.getAllTechniciansToAssignComplaint(complaintsDtlsDto);
+        	
+        }
+        catch(Exception e){
+        	logger.error(ExceptionUtils.getFullStackTrace(e));
+        	//throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        }
+		return listOftechnicians;
 	}
 	
 }

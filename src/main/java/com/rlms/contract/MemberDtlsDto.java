@@ -22,6 +22,7 @@ public class MemberDtlsDto {
 	private String city;
 	private String area;
 	private Integer pinCode;
+	private Integer memberId;
 	
 	
 	private List<CustomerDtlsDto> listOfCustomerDtls;
@@ -130,6 +131,12 @@ public class MemberDtlsDto {
 	}
 	public void setPinCode(Integer pinCode) {
 		this.pinCode = pinCode;
+	}
+	public Integer getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
 	}
 	
 	

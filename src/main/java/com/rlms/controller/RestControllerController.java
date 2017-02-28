@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,7 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
+import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.LoginDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.ResponseDto;
@@ -209,4 +212,39 @@ public class RestControllerController  extends BaseController {
  
         return useDtls;
     }
+    
+    @RequestMapping(value = "/lift/getAllLiftsForMember", method = RequestMethod.POST)
+    public @ResponseBody List<LiftDtlsDto> getAllLiftsForMember(@RequestBody MemberDtlsDto memberDtlsDto){
+    	List<LiftDtlsDto> listOfLiftdtls = null;
+    	   	 
+         try{
+         	log.info("Method :: getAllLiftsForMember");
+         	 listOfLiftdtls =  this.customerService.getAllLiftsForMember(memberDtlsDto.getMemberId());
+         	
+         }
+         catch(Exception e){
+         	log.error(ExceptionUtils.getFullStackTrace(e));
+         	//throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+         }
+         
+         return listOfLiftdtls;
+    }
+    
+    @RequestMapping(value = "/complaints/getAllComplaintsByMember", method = RequestMethod.POST)
+    public @ResponseBody List<ComplaintsDto> getAllComplaintsByMember(@RequestBody MemberDtlsDto memberDtlsDto){
+    	List<ComplaintsDto> listOfAllComplaints = null;
+	   	 
+        try{
+        	log.info("Method :: getAllComplaintsByMembers");
+        	listOfAllComplaints =  this.ComplaintsService.getAllComplaintsByMember(memberDtlsDto.getMemberId());
+        	
+        }
+        catch(Exception e){
+        	log.error(ExceptionUtils.getFullStackTrace(e));
+        	//throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        }
+        
+        return listOfAllComplaints;
+    }
+    
 }

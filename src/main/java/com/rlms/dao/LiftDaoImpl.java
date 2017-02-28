@@ -119,4 +119,15 @@ public class LiftDaoImpl implements LiftDao{
 			 return listOfAllLifts;
 		
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsLiftCustomerMap> getAllLiftsForCustomres(List<Integer> branchCustoMapId){		
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class);				 
+					  criteria.add(Restrictions.in("branchCustomerMap.branchCustoMapId", branchCustoMapId));					
+					 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+			 List<RlmsLiftCustomerMap> listOfAllLifts = criteria.list();
+			 return listOfAllLifts;
+		
+	}
 }

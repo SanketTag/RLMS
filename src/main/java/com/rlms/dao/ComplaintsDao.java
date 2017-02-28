@@ -14,4 +14,5 @@ public interface ComplaintsDao {
 	public RlmsComplaintTechMapDtls getComplTechMapObjByComplaintId(Integer complaintId);
 	public RlmsComplaintMaster getComplaintMasterObj(Integer complaintId);
 	public void saveComplaintTechMapDtls(RlmsComplaintTechMapDtls complaintTechMapDtls);
+	public List<RlmsComplaintMaster> getAllComplaintsByMemberId(Integer memberId);
 }

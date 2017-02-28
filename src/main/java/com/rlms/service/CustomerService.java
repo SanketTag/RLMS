@@ -3,6 +3,7 @@ package com.rlms.service;
 import java.util.List;
 
 import com.rlms.contract.CustomerDtlsDto;
+import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserMetaInfo;
@@ -21,4 +22,5 @@ public interface CustomerService {
 	public UserAppDtls getUserAppDtls(Integer userId, Integer userType);
 	public List<RlmsCustomerMemberMap> getAllMembersForCustomer(
 			Integer branchCustomerMapId);
+	public List<LiftDtlsDto> getAllLiftsForMember(Integer memberId);
 }
