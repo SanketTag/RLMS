@@ -27,10 +27,11 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 	@SuppressWarnings("unchecked")
 	public List<RlmsComplaintTechMapDtls> getAllComplaintsAssigned(Integer userRoleId, List<Integer> statusList){
 		 Session session = this.sessionFactory.getCurrentSession();
-		 Criteria criteria = session.createCriteria(RlmsComplaintTechMapDtls.class)
-				 .add(Restrictions.eq("userRoles.userRoleId", userRoleId))
-				 .add(Restrictions.in("status", statusList))
-				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 Criteria criteria = session.createCriteria(RlmsComplaintTechMapDtls.class);
+				 criteria.createAlias("complaintMaster", "cbm");
+		 	criteria.add(Restrictions.eq("userRoles.userRoleId", userRoleId));
+				 criteria.add(Restrictions.in("cbm.status", statusList));
+				 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 		 List<RlmsComplaintTechMapDtls> listOfAllcomplaints = criteria.list();
 		 return listOfAllcomplaints;
 	}
