@@ -505,7 +505,7 @@
 								$scope.submitAssign = function() {
 									var dataToSend ={
 											complaintId:$scope.selectedComplaintId,
-											userRoleId:$scope.selectedTechnician.selected.userId
+											userRoleId:$scope.selectedTechnician.selected.userRoleId
 									}
 									serviceApi.doPostWithData('/RLMS/complaint/assignComplaint',dataToSend)
 									.then(function(data) {

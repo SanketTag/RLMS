@@ -28,7 +28,7 @@ public class RlmsComplaintTechMapDtls implements Serializable{
 	private RlmsUserRoles userRoles;
 	private Date assignedDate;
 	private Date plannedEndDate;
-	private String remark;
+	
 	private Integer activeFlag;
 	private Integer status;
 	private Date createdDate;
@@ -74,20 +74,12 @@ public class RlmsComplaintTechMapDtls implements Serializable{
 		this.assignedDate = assignedDate;
 	}
 	
-	@Column(name = "planned_end_date", unique = true, nullable = false)	
+	@Column(name = "planned_end_date", unique = true, nullable = true)	
 	public Date getPlannedEndDate() {
 		return plannedEndDate;
 	}
 	public void setPlannedEndDate(Date plannedEndDate) {
 		this.plannedEndDate = plannedEndDate;
-	}
-	
-	@Column(name = "remark", unique = true, nullable = false)
-	public String getRemark() {
-		return remark;
-	}
-	public void setRemark(String remark) {
-		this.remark = remark;
 	}
 	
 	@Column(name = "status", unique = true, nullable = false)

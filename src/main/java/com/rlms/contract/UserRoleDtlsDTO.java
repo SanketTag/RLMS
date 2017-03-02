@@ -10,6 +10,7 @@ public class UserRoleDtlsDTO {
 	private String contactNumber;
 	private Integer countOfComplaintsAssigned;
 	private String currentAddress;
+	private Integer userRoleId;
 	
 	public Integer getUserId() {
 		return userId;
@@ -58,6 +59,12 @@ public class UserRoleDtlsDTO {
 	}
 	public void setCurrentAddress(String currentAddress) {
 		this.currentAddress = currentAddress;
+	}
+	public Integer getUserRoleId() {
+		return userRoleId;
+	}
+	public void setUserRoleId(Integer userRoleId) {
+		this.userRoleId = userRoleId;
 	}
 	
 	

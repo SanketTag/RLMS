@@ -232,7 +232,6 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		complaintTechMapDtls.setComplaintMaster(complaintMaster);
 		complaintTechMapDtls.setCreatedBy(metaInfo.getUserId());
 		complaintTechMapDtls.setCreatedDate(new Date());
-		complaintTechMapDtls.setRemark(complaintsDto.getRemark());
 		complaintTechMapDtls.setStatus(Status.PENDING_FOR_APPROVAL.getStatusId());
 		complaintTechMapDtls.setUpdatedBy(metaInfo.getUserId());
 		complaintTechMapDtls.setUpdatedDate(new Date());
@@ -368,7 +367,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			dto.setCompanyBranchMapId(rlmsUserRoles.getRlmsCompanyBranchMapDtls().getCompanyBranchMapId());
 			dto.setName(rlmsUserRoles.getRlmsUserMaster().getFirstName() + " " + rlmsUserRoles.getRlmsUserMaster().getLastName());
 			dto.setContactNumber(rlmsUserRoles.getRlmsUserMaster().getContactNumber());
-			
+			dto.setUserRoleId(rlmsUserRoles.getUserRoleId());
 			
 			 List<Integer> statusList = new ArrayList<Integer>();
 		   	 statusList.add(Status.ASSIGNED.getStatusId());
