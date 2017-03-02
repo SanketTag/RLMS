@@ -36,6 +36,7 @@
 									$scope.selectedStatus = {};
 									$scope.selectedTechnician = {};
 									$scope.dateRange={};
+									$scope.isAssigned=true;
 									var today = new Date().toISOString().slice(0, 10);
 									$scope.dateRange.date = {"startDate": today, "endDate": today};
 									$scope.status = [ {
@@ -431,6 +432,15 @@
 									multiSelect : false,
 									gridFooterHeight : 35,
 									selectedItems: [],
+									afterSelectionChange:function(rowItem, event){
+										$scope.showAlert = false;
+										var selected = $filter('filter')($scope.complaints,{complaintId:$scope.gridOptions.selectedItems[0].complaintId});
+										if(selected[0].Status == "Assigned"){
+											$scope.isAssigned = true;
+										}else{
+											$scope.isAssigned = false;
+										}
+									},
 									columnDefs : [ {
 										field : "Number",
 										displayName:"Number",
@@ -486,7 +496,6 @@
 									}
 									]
 								};
-								
 								$scope.assignComplaint =function(){
 									var selected = $filter('filter')($scope.complaints,{complaintId:$scope.gridOptions.selectedItems[0].complaintId});
 									var dataToSend ={
@@ -497,30 +506,32 @@
 									.then(function(data) {
 										$scope.technicians = data;
 									})
-									var modalInstance = $modal.open({
+									$scope.modalInstance = $modal.open({
 								        templateUrl: 'assignComplaintTemplate',
 								        scope:$scope
-									})
+								     })
 							}
+				
+									
 								$scope.submitAssign = function() {
 									var dataToSend ={
 											complaintId:$scope.selectedComplaintId,
 											userRoleId:$scope.selectedTechnician.selected.userRoleId
 									}
 									serviceApi.doPostWithData('/RLMS/complaint/assignComplaint',dataToSend)
-									.then(function(data) {
-										$scope.showAlert = false;
+									.then(function(response) {
+										$scope.showAlert = true;
 										var key = Object.keys(response);
-										var successMessage = response[key[0]];
+										var successMessage = response.response;
 										$scope.alert.msg = successMessage;
 										$scope.alert.type = "success";
 									})
-									setTimeout(function(){ $modalInstance.close($scope.selected.item); }, 1000);
+									setTimeout(function(){ $scope.modalInstance.dismiss(); }, 1000);
 									
 						            
 						          };
 						          $scope.cancelAssign = function(){
-						        	  $modalInstance.close($scope.selected.item);
+						        	  $scope.modalInstance.dismiss('cancel');
 						          }
 							}]);
 	
