@@ -25,6 +25,10 @@
 								};
 								
 								function initCustomerList() {
+									$scope.date = {
+								        startDate: moment().subtract(1, "days"),
+								        endDate: moment()
+								    };
 									$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Complaint.',close:true };
 									$scope.showAlert = false;
 									$scope.selectedCompany = {};
@@ -377,9 +381,9 @@
 											$scope.pagingOptions.pageSize,
 											$scope.pagingOptions.currentPage);
 								}
-								$scope.resetCustomerList = function() {
+								$scope.resetComplaintList = function() {
 									initCustomerList();
-								}
+								};
 								// showCompnay Flag
 								if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1) {
 									$scope.showCompany = true;
