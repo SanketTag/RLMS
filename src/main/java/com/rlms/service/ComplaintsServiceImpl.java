@@ -86,6 +86,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			dto.setRegistrationDate(complaintTechMapDtls.getComplaintMaster().getRegistrationDate());
 			dto.setRemark(complaintTechMapDtls.getComplaintMaster().getRemark());
 			dto.setServiceStartDate(complaintTechMapDtls.getComplaintMaster().getServiceStartDate());
+			dto.setComplaintId(complaintTechMapDtls.getComplaintMaster().getComplaintId());
 			if(Status.PENDING.getStatusId().equals(complaintTechMapDtls.getComplaintMaster().getStatus())){
 				dto.setStatus(Status.PENDING.getStatusMsg());
 			}else if(Status.ASSIGNED.getStatusId().equals(complaintTechMapDtls.getComplaintMaster().getStatus())){
@@ -216,6 +217,9 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	public String assignComplaint(ComplaintsDto complaintsDto, UserMetaInfo metaInfo){
 		RlmsComplaintTechMapDtls complaintTechMapDtls = this.constructComplaintTechMapDtlsDto(complaintsDto, metaInfo);
 		this.complaintsDao.saveComplaintTechMapDtls(complaintTechMapDtls);
+		RlmsComplaintMaster complaintMaster = complaintTechMapDtls.getComplaintMaster();
+		complaintMaster.setStatus(Status.ASSIGNED.getStatusId());
+		this.complaintsDao.mergeComplaintM(complaintMaster);
 		String techName = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() +  " " +complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";
 		String statusMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_ASSIGNED_SUUCESSFULLY.getMessage()) + " " + techName;
 		this.sendNotificationsAboutComplaintAssign(complaintTechMapDtls);
@@ -387,5 +391,23 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		return listOFUserAdtls;
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String updateComplaintStatus(ComplaintsDto dto){
+		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(dto.getComplaintId());
+		Integer statusId = 0;
+		if(Status.PENDING.getStatusMsg().equalsIgnoreCase(dto.getStatus())){
+			statusId = Status.PENDING.getStatusId();
+		}else if(Status.ASSIGNED.getStatusMsg().equalsIgnoreCase(dto.getStatus())){
+			statusId = Status.ASSIGNED.getStatusId();
+		}else if(Status.COMPLETED.getStatusMsg().equalsIgnoreCase(dto.getStatus())){
+			statusId = Status.COMPLETED.getStatusId();
+			complaintMaster.setActualServiceEndDate(new Date());
+		}
+		complaintMaster.setStatus(statusId);
+		this.complaintsDao.mergeComplaintM(complaintMaster);
+		String resultMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.STATUS_UPDATED.getMessage()) + " " + dto.getStatus() + " " + PropertyUtils.getPrpertyFromContext(RlmsErrorType.SUCCESSFULLY.getMessage());
+		return resultMessage;
+		
+	}
 	
 }

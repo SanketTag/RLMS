@@ -22,4 +22,5 @@ public interface ComplaintsService {
 	public List<UserAppDtls> getRegIdsOfAllApplicableUsers(Integer complaintId);
 	public List<ComplaintsDto> getAllComplaintsByMember(Integer memberId);
 	public List<UserRoleDtlsDTO> getAllTechniciansToAssignComplaint(ComplaintsDtlsDto complaintsDtlsDto);
+	public String updateComplaintStatus(ComplaintsDto dto);
 }

@@ -84,7 +84,9 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 					 criteria.add(Restrictions.ge("registrationDate", fromDate));
 					 criteria.add(Restrictions.le("registrationDate", toDate));
 				 }
-				 criteria.add(Restrictions.in("status", statusList));
+				 if(null != statusList && !statusList.isEmpty()){
+					 criteria.add(Restrictions.in("status", statusList));
+				 }
 				 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 		 List<RlmsComplaintMaster> listOfAllcomplaints = criteria.list();
 		 return listOfAllcomplaints;

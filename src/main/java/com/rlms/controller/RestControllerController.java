@@ -147,7 +147,7 @@ public class RestControllerController  extends BaseController {
     
     @RequestMapping(value = "/getAllComplaintsAssigned", method = RequestMethod.POST)
     public @ResponseBody List<ComplaintsDto> getAllComplaintsAssigned(@RequestBody LoginDtlsDto loginDtlsDto) {
-    
+    //17
     	List<ComplaintsDto> listOfAllAssignedComplaints = null;
     	 List<Integer> statusList = new ArrayList<Integer>();
     	 statusList.add(Status.ASSIGNED.getStatusId());
@@ -161,6 +161,24 @@ public class RestControllerController  extends BaseController {
     	 }
     	 
     	 return listOfAllAssignedComplaints;
+        
+    }
+    
+    @RequestMapping(value = "/updateComplaintStatus", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto updateComplaintStatus(@RequestBody ComplaintsDto complaintsDto) {
+    
+    	ResponseDto dto = new ResponseDto();
+    	
+    	 try {
+    		 dto.setResponse(this.ComplaintsService.updateComplaintStatus(complaintsDto));
+    		 dto.setStatus(true);
+    	 }catch(Exception e){
+    		 dto.setStatus(false);
+    		 log.error("some Unknown exception occurs.");
+    		 dto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+    	 }
+    	 
+    	 return dto;
         
     }
     	

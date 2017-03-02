@@ -15,8 +15,8 @@ public class ConsumeRestFul {
 
 		  try {
 
-			// 1. URL url = new URL("http://localhost:8000/RLMS/API/getAllComplaintsAssigned"); (userRoleId 2)
-			//2. URL url = new URL("http://localhost:8000/RLMS/API/register/registerMemeberDeviceByMblNo");
+			// 1. URL url = new URL("http://localhost:8000/RLMS/API/getAllComplaintsAssigned"); (userRoleId 17)
+			//2. URL url = new URL("http://localhost:8000/RLMS/API/register/registerMemeberDeviceByMblNo"); 
 			//3.  URL url = new URL("http://localhost:8000/RLMS/API/register/registerTechnicianDeviceByMblNo");
 			 // 4.URL url = new URL("http://localhost:8000/RLMS/API/lift/getAllLiftsForMember");
 			 ///5.  URL url = new URL("http://localhost:8000/RLMS/API/complaints/getAllComplaintsByMember");
