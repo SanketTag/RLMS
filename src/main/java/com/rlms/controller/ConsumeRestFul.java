@@ -15,15 +15,21 @@ public class ConsumeRestFul {
 
 		  try {
 
-			URL url = new URL("http://localhost:8000/RLMS/API/register/getMemberDtlsByMblNumber");
-			//URL url = new URL("http://localhost:8000/RLMS/API/loginIntoApp");
+			// 1. URL url = new URL("http://localhost:8000/RLMS/API/getAllComplaintsAssigned"); (userRoleId 2)
+			//2. URL url = new URL("http://localhost:8000/RLMS/API/register/registerMemeberDeviceByMblNo");
+			//3.  URL url = new URL("http://localhost:8000/RLMS/API/register/registerTechnicianDeviceByMblNo");
+			 // 4.URL url = new URL("http://localhost:8000/RLMS/API/lift/getAllLiftsForMember");
+			 ///5.  URL url = new URL("http://localhost:8000/RLMS/API/complaints/getAllComplaintsByMember");
+			URL url = new URL("http://localhost:8000/RLMS/API/loginIntoApp");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Content-Type", "application/json");
 
-			String input = "{\"contactNumber\":\"8983564574\"}";
-			//String input = "{\"userName\":\"admin\",\"password\":\"rlms1234\"}";
+		//	2.String input = "{\"contactNumber\":\"8983564578\", \"latitude\":\"18.12457898\", \"longitude\":\"72.12457896\", \"appRegId\":\"AAAAGqJGmak:APA91bH5wu5DXT01MIyN2LF0n46WqR0ZXtuTCaV8qHGEe738r-fAfoIGG1ytz_k6oHiFEgo6nX9VSopGXi2qhylnjpXKdh4U-tzGoMIA78QDDqnxIVJQFo56AN1uKrmz0UiLo6_-lb3b\", \"address\":\"WAKAD\"}";
+			//3.String input = "{\"contactNumber\":\"9096136234\", \"latitude\":\"18.12457898\", \"longitude\":\"72.12457896\", \"appRegId\":\"AAAAGqJGmak:APA91bH5wu5DXT01MIyN2LF0n46WqR0ZXtuTCaV8qHGEe738r-fAfoIGG1ytz_k6oHiFEgo6nX9VSopGXi2qhylnjpXKdh4U-tzGoMIA78QDDqnxIVJQFo56AN1uKrmz0UiLo6_-lb3b\", \"address\":\"WAKAD\"}";
+			 String input = "{\"userName\":\"admin\",\"password\":\"rlms1234\"}";
+			//4 and 5. String input = "{\"memberId\":\"3\"}";
 
 			OutputStream os = conn.getOutputStream();
 			os.write(input.getBytes());

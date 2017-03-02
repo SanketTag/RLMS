@@ -307,6 +307,7 @@ public class CustomerServiceImpl implements CustomerService{
 		userApplicationMapDtls.setAppRegId(dto.getAppRegId());
 		userApplicationMapDtls.setLatitude(dto.getLatitude());
 		userApplicationMapDtls.setLongitude(dto.getLongitude());
+		userApplicationMapDtls.setAddress(dto.getAddress());
 		userApplicationMapDtls.setUserId(memberMaster.getMemberId());
 		userApplicationMapDtls.setUserRefType(RLMSConstants.MEMBER_TYPE.getId());
 		userApplicationMapDtls.setCreatedBy(metaInfo.getUserId());

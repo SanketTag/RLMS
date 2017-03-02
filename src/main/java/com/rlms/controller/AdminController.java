@@ -69,7 +69,7 @@ public class AdminController extends BaseController{
 	        ResponseDto reponseDto = new ResponseDto();
 	        try{
 	        	logger.info("In addNewCompany method");
-	        	reponseDto.setResponseMessage(this.companyService.validateAndSaveCompanyObj(companyDtlsDTO, this.getMetaInfo()));
+	        	reponseDto.setResponse(this.companyService.validateAndSaveCompanyObj(companyDtlsDTO, this.getMetaInfo()));
 	        	
 	        }catch(ValidationException vex){
 	        	logger.error(ExceptionUtils.getFullStackTrace(vex));	        	
@@ -169,7 +169,7 @@ public class AdminController extends BaseController{
 		 	ResponseDto reponseDto = new ResponseDto();
 	        try{
 	        	logger.info("Method :: assignRole");
-	        	reponseDto.setResponseMessage(this.userService.validateAndAssignRole(userRoleDtlsDTO, this.getMetaInfo()));
+	        	reponseDto.setResponse(this.userService.validateAndAssignRole(userRoleDtlsDTO, this.getMetaInfo()));
 	        	
 	        }catch(ValidationException vex){
 	        	logger.error(ExceptionUtils.getFullStackTrace(vex));
@@ -205,7 +205,7 @@ public class AdminController extends BaseController{
 	        
 	        try{
 	        	logger.info("Method :: registerUser");
-	        	reponseDto.setResponseMessage(this.userService.registerUser(registerDto));
+	        	reponseDto.setResponse(this.userService.registerUser(registerDto));
 	        	
 	        }catch(Exception e){
 	        	logger.error(ExceptionUtils.getFullStackTrace(e));
@@ -221,7 +221,7 @@ public class AdminController extends BaseController{
 	        
 	        try{
 	        	logger.info("Method :: validateAndRegisterNewUser");
-	        	reponseDto.setResponseMessage(this.userService.validateAndRegisterNewUser(dto, this.getMetaInfo()));
+	        	reponseDto.setResponse(this.userService.validateAndRegisterNewUser(dto, this.getMetaInfo()));
 	        	
 	        }catch(ValidationException vex){
 	        	logger.error(ExceptionUtils.getFullStackTrace(vex));
@@ -242,7 +242,7 @@ public class AdminController extends BaseController{
 	        
 	        try{
 	        	logger.info("Method :: validateAndRegisterNewCustomer");
-	        	reponseDto.setResponseMessage(this.customerService.validateAndRegisterNewCustomer(dto, this.getMetaInfo()));
+	        	reponseDto.setResponse(this.customerService.validateAndRegisterNewCustomer(dto, this.getMetaInfo()));
 	        	
 	        }catch(ValidationException vex){
 	        	logger.error(ExceptionUtils.getFullStackTrace(vex));
@@ -263,7 +263,7 @@ public class AdminController extends BaseController{
 	        
 	        try{
 	        	logger.info("Method :: addNewBranchInCompany");
-	        	reponseDto.setResponseMessage(this.companyService.validateAndAddNewBranchInCompany(dto, this.getMetaInfo()));
+	        	reponseDto.setResponse(this.companyService.validateAndAddNewBranchInCompany(dto, this.getMetaInfo()));
 	        	
 	        }catch(Exception e){
 	        	logger.error(ExceptionUtils.getFullStackTrace(e));
@@ -330,7 +330,7 @@ public class AdminController extends BaseController{
 	        
 	        try{
 	        	logger.info("Method :: validateAndRegisterNewCustomer");
-	        	reponseDto.setResponseMessage(this.liftService.validateAndAddNewLiftDtls(dto, this.getMetaInfo()));
+	        	reponseDto.setResponse(this.liftService.validateAndAddNewLiftDtls(dto, this.getMetaInfo()));
 	        	
 	        }
 	        catch(Exception e){
@@ -364,7 +364,7 @@ public class AdminController extends BaseController{
 	        
 	        try{
 	        	logger.info("Method :: validateAndApproveLift");
-	        	reponseDto.setResponseMessage(this.liftService.approveLift(dto, this.getMetaInfo()));
+	        	reponseDto.setResponse(this.liftService.approveLift(dto, this.getMetaInfo()));
 	        	
 	        }
 	        catch(Exception e){
@@ -397,7 +397,7 @@ public class AdminController extends BaseController{
 	        
 	        try{
 	        	logger.info("Method :: validateAndRegisterNewMember");
-	        	reponseDto.setResponseMessage(this.customerService.validateAndRegisterNewMember(memberDtlsDto, this.getMetaInfo()));
+	        	reponseDto.setResponse(this.customerService.validateAndRegisterNewMember(memberDtlsDto, this.getMetaInfo()));
 	        	
 	        }
 	        catch(Exception e){

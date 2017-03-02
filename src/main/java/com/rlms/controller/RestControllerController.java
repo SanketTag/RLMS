@@ -27,6 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +63,10 @@ import com.rlms.contract.UserMetaInfo;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
 import com.rlms.exception.ValidationException;
+import com.rlms.model.RlmsUserRoles;
 import com.rlms.service.ComplaintsService;
 import com.rlms.service.CustomerService;
+import com.rlms.service.LiftService;
 import com.rlms.service.MessagingServiceImpl;
 import com.rlms.service.UserService;
 import com.rlms.utils.PropertyUtils;
@@ -83,6 +88,9 @@ public class RestControllerController  extends BaseController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private LiftService liftService;
 	
 	private static final Logger log = Logger.getLogger(RestControllerController.class);
 	   
@@ -161,15 +169,19 @@ public class RestControllerController  extends BaseController {
     	ResponseDto reponseDto = new ResponseDto();
         try{
         	log.info("Method :: validateAndRegisterNewComplaint");
-        	reponseDto.setResponseMessage(this.ComplaintsService.validateAndRegisterNewComplaint(dto, this.getMetaInfo()));
-        	
+        	reponseDto.setResponse(this.ComplaintsService.validateAndRegisterNewComplaint(dto, this.getMetaInfo()));
+        	reponseDto.setStatus(true);
         }catch(ValidationException vex){
         	log.error(ExceptionUtils.getFullStackTrace(vex));
-        	throw vex;
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(vex.getExceptionMessage());
+        	
         }
         catch(Exception e){
         	log.error(ExceptionUtils.getFullStackTrace(e));
-        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        	
         }
  
         return reponseDto;
@@ -180,7 +192,12 @@ public class RestControllerController  extends BaseController {
     	MemberDtlsDto memberDtls = null;
         try{
         	log.info("Method :: registerMemeberDeviceByMblNo");
-        	memberDtls = this.customerService.registerMemeberDeviceByMblNo(memberDtlsDto, this.getMetaInfo());
+        	RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(1);
+        	UserMetaInfo metaInfo = new UserMetaInfo();
+        	metaInfo.setUserId(userRoles.getRlmsUserMaster().getUserId());
+        	metaInfo.setUserName(userRoles.getRlmsUserMaster().getFirstName());
+        	metaInfo.setUserRole(userRoles);
+        	memberDtls = this.customerService.registerMemeberDeviceByMblNo(memberDtlsDto, metaInfo);
         	
         }catch(ValidationException vex){
         	log.error(ExceptionUtils.getFullStackTrace(vex));
@@ -199,7 +216,12 @@ public class RestControllerController  extends BaseController {
     	UserDtlsDto useDtls = null;
         try{
         	log.info("Method :: registerTechnicianDeviceByMblNo");
-        	useDtls = this.userService.registerTechnicianDeviceByMblNo(userDtlsDto, this.getMetaInfo());
+        	RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(1);
+        	UserMetaInfo metaInfo = new UserMetaInfo();
+        	metaInfo.setUserId(userRoles.getRlmsUserMaster().getUserId());
+        	metaInfo.setUserName(userRoles.getRlmsUserMaster().getFirstName());
+        	metaInfo.setUserRole(userRoles);
+        	useDtls = this.userService.registerTechnicianDeviceByMblNo(userDtlsDto, metaInfo);
         	
         }catch(ValidationException vex){
         	log.error(ExceptionUtils.getFullStackTrace(vex));
@@ -245,6 +267,23 @@ public class RestControllerController  extends BaseController {
         }
         
         return listOfAllComplaints;
+    }
+    
+    @RequestMapping(value = "/lift/uploadPhoto", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto uploadPhoto(@RequestBody LiftDtlsDto dto){
+    	ResponseDto reponseDto = new ResponseDto();
+        try{
+        	log.info("Method :: uploadPhoto");
+        	reponseDto.setResponse(this.liftService.uploadPhoto(dto));        	
+       
+        }catch(Exception e){
+        	log.error(ExceptionUtils.getFullStackTrace(e));
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        
+        }
+ 
+        return reponseDto;
     }
     
 }

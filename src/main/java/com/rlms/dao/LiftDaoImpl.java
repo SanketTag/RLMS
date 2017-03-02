@@ -67,6 +67,11 @@ public class LiftDaoImpl implements LiftDao{
 	}
 	
 	@Override
+	public Integer mergeLiftM(RlmsLiftMaster liftMaster){
+		return (Integer)this.sessionFactory.getCurrentSession().merge(liftMaster);		
+	}
+	
+	@Override
 	public Integer saveLiftCustomerMap(RlmsLiftCustomerMap liftCustomerMap){
 		return (Integer) this.sessionFactory.getCurrentSession().save(liftCustomerMap);
 	}
@@ -130,4 +135,8 @@ public class LiftDaoImpl implements LiftDao{
 			 return listOfAllLifts;
 		
 	}
+	
+	
+	
+	
 }

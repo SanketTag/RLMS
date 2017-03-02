@@ -396,6 +396,7 @@ public class UserServiceImpl implements UserService{
 		userApplicationMapDtls.setAppRegId(dto.getAppRegId());
 		userApplicationMapDtls.setLatitude(dto.getLatitude());
 		userApplicationMapDtls.setLongitude(dto.getLongitude());
+		userApplicationMapDtls.setAddress(dto.getAddress());
 		userApplicationMapDtls.setUserId(userRole.getUserRoleId());
 		userApplicationMapDtls.setUserRefType(RLMSConstants.USER_ROLE_TYPE.getId());
 		userApplicationMapDtls.setCreatedBy(metaInfo.getUserId());

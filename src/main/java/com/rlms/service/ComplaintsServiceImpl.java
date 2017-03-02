@@ -328,7 +328,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<ComplaintsDto> getAllComplaintsByMember(Integer memberId){
 		List<ComplaintsDto> listOfComplDtls = new ArrayList<ComplaintsDto>();
-		List<RlmsComplaintMaster> listOfAllComplByMember = new ArrayList<RlmsComplaintMaster>();
+		List<RlmsComplaintMaster> listOfAllComplByMember = this.complaintsDao.getAllComplaintsByMemberId(memberId);
 		
 		for (RlmsComplaintMaster rlmsComplaintMaster : listOfAllComplByMember) {
 			ComplaintsDto dto = new ComplaintsDto();

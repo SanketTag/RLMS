@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rlms.constants.PhotoType;
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
@@ -252,6 +253,43 @@ public class LiftServiceImpl implements LiftService{
 		}
 		
 		return listOfAllDtos;
+		
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String uploadPhoto(LiftDtlsDto dto){
+		
+		RlmsLiftCustomerMap liftCustomerMap = this.liftDao.getLiftCustomerMapById(dto.getLiftCustomerMapId());
+		RlmsLiftMaster liftMaster = liftCustomerMap.getLiftMaster();
+		if(PhotoType.MACHINE_PHOTO.getId() == dto.getPhotoType()){
+			liftMaster.setMachinePhoto(dto.getMachinePhoto());
+		}else if(PhotoType.ARD_PHOTO.getId() == dto.getPhotoType()){
+			liftMaster.setARDPhoto(dto.getArdPhoto());
+		}else if(PhotoType.AUTO_DOOR_HEADER_PHOTO.getId() == dto.getPhotoType()){
+			liftMaster.setAutoDoorHeaderPhoto(dto.getAutoDoorHeaderPhoto());
+		}else if(PhotoType.CARTOP_PHOTO.getId() == dto.getPhotoType()){
+			
+			liftMaster.setCartopPhoto(dto.getCartopPhoto());
+		}else if(PhotoType.COP_PHOTO.getId() == dto.getPhotoType()){		
+			
+			liftMaster.setCOPPhoto(dto.getCopPhoto());
+		}else if(PhotoType.LOBBY_PHOTO.getId() == dto.getPhotoType()){
+			
+			liftMaster.setLobbyPhoto(dto.getLobbyPhoto());
+		}else if(PhotoType.LOP_PHOTO.getId() == dto.getPhotoType()){
+			
+			liftMaster.setLOPPhoto(dto.getLopPhoto());
+		}else if(PhotoType.PANEL_PHOTO.getId() == dto.getPhotoType()){
+			
+			liftMaster.setPanelPhoto(dto.getPanelPhoto());
+		}else if(PhotoType.WIRING_PHOTO.getId() == dto.getPhotoType()){
+			
+			liftMaster.setWiringPhoto(dto.getWiringPhoto());
+			
+		}
+		
+		this.liftDao.mergeLiftM(liftMaster);
+		return PropertyUtils.getPrpertyFromContext(RlmsErrorType.PHOTO_UPDATED.getMessage());	
 		
 	}
 	

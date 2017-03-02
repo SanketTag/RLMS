@@ -27,7 +27,8 @@ public enum RlmsErrorType {
 	MEMBER_WITH_SAME_CONTACT_NO(20,"member_with_same_contact_no"),
 	MEMBER_REG_SUCCESSFUL(30,"member_reg_successful"),
 	INVALID_CONTACT_NUMBER(31,"invalid_contact_number"),
-	COMPLAINT_ASSIGNED_SUUCESSFULLY(32,"complaint_assigned_suucessfully");
+	COMPLAINT_ASSIGNED_SUUCESSFULLY(32,"complaint_assigned_suucessfully"),
+	PHOTO_UPDATED(33,"photo_updated");
 	
 	private Integer code;
 	private String message;

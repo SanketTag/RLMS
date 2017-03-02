@@ -63,6 +63,7 @@ public class LiftDtlsDto {
 	private byte[] lobbyPhoto;
 	private Integer fyaTranId;
 	private Integer liftCustomerMapId;
+	private Integer photoType;
 	public String getLiftNumber() {
 		return liftNumber;
 	}
@@ -410,6 +411,12 @@ public class LiftDtlsDto {
 	}
 	public void setPinCode(Integer pinCode) {
 		this.pinCode = pinCode;
+	}
+	public Integer getPhotoType() {
+		return photoType;
+	}
+	public void setPhotoType(Integer photoType) {
+		this.photoType = photoType;
 	}
 	
 	

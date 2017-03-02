@@ -55,7 +55,7 @@ public class ComplaintController extends BaseController{
 		 
 		 try{
 	        	logger.info("Method :: validateAndRegisterNewComplaint");
-	        	reponseDto.setResponseMessage(this.complaintsService.validateAndRegisterNewComplaint(dto, this.getMetaInfo()));
+	        	reponseDto.setResponse(this.complaintsService.validateAndRegisterNewComplaint(dto, this.getMetaInfo()));
 	        	
 	        }
 	        catch(Exception e){
@@ -72,7 +72,7 @@ public class ComplaintController extends BaseController{
 		 
 		 try{
 	        	logger.info("Method :: assignComplaint");
-	        	reponseDto.setResponseMessage(this.complaintsService.assignComplaint(dto, this.getMetaInfo()));
+	        	reponseDto.setResponse(this.complaintsService.assignComplaint(dto, this.getMetaInfo()));
 	        	
 	        }
 	        catch(Exception e){

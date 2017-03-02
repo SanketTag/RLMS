@@ -30,4 +30,6 @@ public interface LiftDao {
 	
 	public List<RlmsLiftCustomerMap> getAllLiftsForCustomres(List<Integer> branchCustoMapId);
 
+	public Integer mergeLiftM(RlmsLiftMaster liftMaster);
+
 }
