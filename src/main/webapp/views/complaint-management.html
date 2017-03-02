@@ -47,7 +47,7 @@
 			<div class="select-container">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-					<input type="daterange" class="form-control" daterange ng-model="dateRange">
+					<input type="daterange" class="form-control" daterangepicker="" ng-model="dateRange.date">
 				</div>
 			</div>
 			<label class="control-label" >Select Lifts : </label>
@@ -96,18 +96,41 @@
 </div>
 <script type="text/ng-template" id="assignComplaintTemplate">
 	    <div class="modal-header">
-	        <h3 class="modal-title">This is a modal!</h3>
+	        <h3 class="modal-title">Assign Complaint To Technician</h3>
 	    </div>
 	    <div class="modal-body">
-	        <ul>
-	            <li ng-repeat="item in items">
-	                <a ng-click="selected.item = item">{{ item }}</a>
-	            </li>
-	        </ul>
-	        Selected: <b>{{ selected.item }}</b>
+			<alert ng-show="showAlert" type="{{alert.type}}">
+			<span ng-bind-html="alert.msg | safe_html"></alert>
+	        <div class="form-group">
+				<label class="control-label">Select Technician</label>
+				<div class="select-container">
+				  <ui-select ng-model="selectedTechnician.selected" title="Choose a Technician">
+				    <ui-select-match placeholder="Select Branch">{{$select.selected.name}}</ui-select-match>
+				    <ui-select-choices repeat="iterator in technicians| filter: $select.search">
+				      <span ng-bind-html="iterator.name| highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+				</div>
+			</div>
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Contact Number</th>
+        <th>Assigned Complaints</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{selectedTechnician.selected.name}}</td>
+        <td>{{selectedTechnician.selected.contactNumber}}</td>
+        <td>{{selectedTechnician.selected.countOfComplaintsAssigned}}</td>
+      </tr>
+	</tbody>
+<table>	
 	    </div>
 	    <div class="modal-footer">
-	        <button class="btn btn-primary" ng-click="ok()">OK</button>
-	        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	        <button class="btn btn-primary" ng-click="submitAssign()">Assign</button>
+	        <button class="btn btn-warning" ng-click="cancelAssign()">Cancel</button>
 	    </div>
 	</script>

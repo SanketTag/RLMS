@@ -25,6 +25,8 @@
 								};
 								
 								function initCustomerList() {
+									$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Complaint.',close:true };
+									$scope.showAlert = false;
 									$scope.selectedCompany = {};
 									$scope.selectedBranch = {};
 									$scope.selectedCustomer = {};
@@ -32,7 +34,10 @@
 									$scope.branches = [];
 									$scope.selectedlifts = {};
 									$scope.selectedStatus = {};
-									$scope.dateRange ='';
+									$scope.selectedTechnician = {};
+									$scope.dateRange={};
+									var today = new Date().toISOString().slice(0, 10);
+									$scope.dateRange.date = {"startDate": today, "endDate": today};
 									$scope.status = [ {
 										id : 2,
 										name : 'Pending'
@@ -215,6 +220,17 @@
 																			} else {
 																				userDetailsObj["Technician"] = " - ";
 																			}
+																			if (!!largeLoad[i].technicianDtls) {
+																				userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
+																			} else {
+																				userDetailsObj["Technician"] = " - ";
+																			}
+																			if (!!largeLoad[i].complaintId) {
+																				userDetailsObj["complaintId"] = largeLoad[i].complaintId;
+																			} else {
+																				userDetailsObj["complaintId"] = " - ";
+																			}
+																			
 																			userDetails
 																					.push(userDetailsObj);
 																		}
@@ -304,6 +320,11 @@
 																			} else {
 																				userDetailsObj["Technician"] = " - ";
 																			}
+																			if (!!largeLoad[i].complaintId) {
+																				userDetailsObj["complaintId"] = largeLoad[i].complaintId;
+																			} else {
+																				userDetailsObj["complaintId"] = " - ";
+																			}
 																			userDetails
 																					.push(userDetailsObj);
 																		}
@@ -345,8 +366,8 @@
 										}
 										dataToSend["listOfLiftCustoMapId"] = tempLiftIds;
 										dataToSend["statusList"] = tempStatus;
-										// dataToSend["fromDate"]=$scope.dateRange;
-										// dataToSend["toDate"]=$scope.dateRange;
+										//dataToSend["fromDate"]=$scope.dateRange.date.startDate;
+										//dataToSend["toDate"]=$scope.dateRange.date.endDate;
 									}
 									return dataToSend;
 								}
@@ -458,17 +479,49 @@
 										field : "Technician",
 										displayName:"Technician",
 										width : 120
+									},{
+										field : "complaintId",
+										displayName:"complaintId",
+										visible: false,
 									}
 									]
 								};
 								
 								$scope.assignComplaint =function(){
-									//var selected = $filter('filter')($scope.response,{complaintId:$scope.gridOptions.selectedItems[0].complaintId}); 
+									var selected = $filter('filter')($scope.complaints,{complaintId:$scope.gridOptions.selectedItems[0].complaintId});
+									var dataToSend ={
+											complaintId:selected[0].complaintId
+									}
+									$scope.selectedComplaintId = selected[0].complaintId;
+									serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
+									.then(function(data) {
+										$scope.technicians = data;
+									})
 									var modalInstance = $modal.open({
 								        templateUrl: 'assignComplaintTemplate',
 								        scope:$scope
-								})
+									})
 							}
+								$scope.submitAssign = function() {
+									var dataToSend ={
+											complaintId:$scope.selectedComplaintId,
+											userRoleId:$scope.selectedTechnician.selected.userId
+									}
+									serviceApi.doPostWithData('/RLMS/complaint/assignComplaint',dataToSend)
+									.then(function(data) {
+										$scope.showAlert = false;
+										var key = Object.keys(response);
+										var successMessage = response[key[0]];
+										$scope.alert.msg = successMessage;
+										$scope.alert.type = "success";
+									})
+									setTimeout(function(){ $modalInstance.close($scope.selected.item); }, 1000);
+									
+						            
+						          };
+						          $scope.cancelAssign = function(){
+						        	  $modalInstance.close($scope.selected.item);
+						          }
 							}]);
 	
 })();
