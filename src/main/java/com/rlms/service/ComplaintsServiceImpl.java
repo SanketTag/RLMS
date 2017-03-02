@@ -219,6 +219,8 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		this.complaintsDao.saveComplaintTechMapDtls(complaintTechMapDtls);
 		RlmsComplaintMaster complaintMaster = complaintTechMapDtls.getComplaintMaster();
 		complaintMaster.setStatus(Status.ASSIGNED.getStatusId());
+		complaintMaster.setUpdatedBy(metaInfo.getUserId());
+		complaintMaster.setUpdatedDate(new Date());
 		this.complaintsDao.mergeComplaintM(complaintMaster);
 		String techName = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() +  " " +complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";
 		String statusMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_ASSIGNED_SUUCESSFULLY.getMessage()) + " " + techName;
