@@ -34,6 +34,7 @@ public class RlmsComplaintMaster implements Serializable{
 	private Integer activeFlag;
 	private Date createdDate;
 	private Integer createdBy;
+	private Integer createdByRef;
 	private Date updatedDate;
 	private Integer updatedBy;
 	

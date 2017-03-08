@@ -24,4 +24,5 @@ public interface CustomerDao {
 	public List<RlmsCustomerMemberMap> getAllMembersForCustomer(
 			Integer branchCustomerMapId);
 	public RlmsUserApplicationMapDtls getUserAppDtls(Integer userId, Integer userType);
+	public RlmsMemberMaster getMemberById(Integer memeberId);
 }

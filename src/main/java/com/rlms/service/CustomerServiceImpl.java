@@ -419,5 +419,10 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		return listOfLiftDtls;
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public RlmsMemberMaster getMemberById(Integer memeberId){
+		return this.getMemberById(memeberId);
+	}
 }
 

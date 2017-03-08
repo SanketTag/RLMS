@@ -27,6 +27,7 @@ public class ComplaintsDto {
 	private Integer complaintId;
 	private Integer userRoleId;
 	private Integer liftCustoMapId;
+	private String complaintent;
 	public String getComplaintNumber() {
 		return complaintNumber;
 	}
@@ -152,6 +153,12 @@ public class ComplaintsDto {
 	}
 	public void setLiftCustoMapId(Integer liftCustoMapId) {
 		this.liftCustoMapId = liftCustoMapId;
+	}
+	public String getComplaintent() {
+		return complaintent;
+	}
+	public void setComplaintent(String complaintent) {
+		this.complaintent = complaintent;
 	}
 	
 	

@@ -147,10 +147,18 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		complaintMaster.setRemark(dto.getComplaintsRemark());
 		complaintMaster.setStatus(Status.PENDING.getStatusId());
 		complaintMaster.setTitle(dto.getComplaintsTitle());
-		complaintMaster.setCreatedBy(metaInfo.getUserId());
-		complaintMaster.setCreatedDate(new Date());
-		complaintMaster.setUpdatedBy(metaInfo.getUserId());
+		if(RLMSConstants.COMPLAINT_REG_TYPE_ADMIN.getId() == dto.getRegistrationType()){
+				complaintMaster.setCreatedBy(metaInfo.getUserId());				
+				complaintMaster.setUpdatedBy(metaInfo.getUserId());				
+		}else if(RLMSConstants.COMPLAINT_REG_TYPE_END_USER.getId() == dto.getRegistrationType()){
+			complaintMaster.setCreatedBy(dto.getMemberId());				
+			complaintMaster.setUpdatedBy(dto.getMemberId());		
+		}else if(RLMSConstants.COMPLAINT_REG_TYPE_LIFT_EVENT.getId() == dto.getRegistrationType()){
+			complaintMaster.setCreatedBy(RLMSConstants.MINUS_ONE.getId());				
+			complaintMaster.setUpdatedBy(RLMSConstants.MINUS_ONE.getId());
+		}
 		complaintMaster.setUpdatedDate(new Date());
+		complaintMaster.setCreatedDate(new Date());
 		return complaintMaster;
 	}
 	
@@ -198,6 +206,17 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		}else if(Status.COMPLETED.getStatusId().equals(complaintMaster.getStatus())){
 			dto.setStatus(Status.COMPLETED.getStatusMsg());
 		}
+		String complaintent = null;
+		if(RLMSConstants.COMPLAINT_REG_TYPE_ADMIN.getId() == complaintMaster.getRegistrationType()){
+			RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(complaintMaster.getCreatedBy());
+			complaintent = userRoles.getRlmsUserMaster().getFirstName() + " " + userRoles.getRlmsUserMaster().getLastName() + " (" + userRoles.getRlmsUserMaster().getContactNumber() + ")";
+		}else if(RLMSConstants.COMPLAINT_REG_TYPE_END_USER.getId() == complaintMaster.getRegistrationType()){
+			RlmsMemberMaster memberMaster = this.customerService.getMemberById(complaintMaster.getCreatedBy());
+			complaintent = memberMaster.getFirstName() + " " + memberMaster.getLastName() + " (" + memberMaster.getContactNumber() + ")";
+		}else if(RLMSConstants.COMPLAINT_REG_TYPE_LIFT_EVENT.getId() == complaintMaster.getRegistrationType()){
+			complaintent = RLMSConstants.COMPLAINT_REG_TYPE_LIFT_EVENT.getName();
+		}
+		dto.setComplaintent(complaintent);
 		return dto;
 	}
 	

@@ -17,6 +17,7 @@ public class ComplaintsDtlsDto {
 	private Integer complaintId;
 	private Date fromDate;
 	private Date toDate;
+	private Integer memberId;
 	
 	public Integer getLiftCustomerMapId() {
 		return liftCustomerMapId;
@@ -90,6 +91,12 @@ public class ComplaintsDtlsDto {
 	}
 	public void setListOfLiftCustoMapId(List<Integer> listOfLiftCustoMapId) {
 		this.listOfLiftCustoMapId = listOfLiftCustoMapId;
+	}
+	public Integer getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
 	}
 	
 	

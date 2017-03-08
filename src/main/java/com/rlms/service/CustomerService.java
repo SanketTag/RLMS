@@ -10,6 +10,7 @@ import com.rlms.contract.UserMetaInfo;
 import com.rlms.exception.ValidationException;
 import com.rlms.model.RlmsCustomerMaster;
 import com.rlms.model.RlmsCustomerMemberMap;
+import com.rlms.model.RlmsMemberMaster;
 
 public interface CustomerService {
 	public RlmsCustomerMaster getCustomerByEmailId(String emailId);
@@ -23,4 +24,5 @@ public interface CustomerService {
 	public List<RlmsCustomerMemberMap> getAllMembersForCustomer(
 			Integer branchCustomerMapId);
 	public List<LiftDtlsDto> getAllLiftsForMember(Integer memberId);
+	public RlmsMemberMaster getMemberById(Integer memeberId);
 }

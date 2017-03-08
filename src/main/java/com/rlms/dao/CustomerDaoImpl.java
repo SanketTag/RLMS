@@ -91,6 +91,16 @@ public class CustomerDaoImpl implements CustomerDao{
 	}
 	
 	@Override
+	public RlmsMemberMaster getMemberById(Integer memeberId) {
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsMemberMaster.class)
+				 .add(Restrictions.eq("memberId", memeberId))
+				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 
+		 return (RlmsMemberMaster)criteria.uniqueResult();
+	}
+	
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<RlmsCustomerMemberMap> getAllCustomersForMember(Integer memberId){
 		Session session = this.sessionFactory.getCurrentSession();
