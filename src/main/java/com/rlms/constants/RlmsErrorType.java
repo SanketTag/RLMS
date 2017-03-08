@@ -30,7 +30,8 @@ public enum RlmsErrorType {
 	COMPLAINT_ASSIGNED_SUUCESSFULLY(32,"complaint_assigned_suucessfully"),
 	PHOTO_UPDATED(33,"photo_updated"),
 	STATUS_UPDATED(34,"status_updated"),
-	SUCCESSFULLY(35,"successfully");
+	SUCCESSFULLY(35,"successfully"),
+	NO_COMPLAINT_ASSIGNED(36,"no_complaints_assigned");
 	
 	private Integer code;
 	private String message;

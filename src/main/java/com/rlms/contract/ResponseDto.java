@@ -1,10 +1,20 @@
 package com.rlms.contract;
 
+import java.util.List;
+
+import org.json.JSONArray;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+
+
+
 public class ResponseDto {
 
 	private boolean status;
-	private String response;
-
+	private Object response;
+	private JsonElement jsonElement;
+	private JsonArray jsonArray;
 	
 
 	public boolean isStatus() {
@@ -15,13 +25,33 @@ public class ResponseDto {
 		this.status = status;
 	}
 
-	public String getResponse() {
+	public Object getResponse() {
 		return response;
 	}
 
-	public void setResponse(String response) {
+	public void setResponse(Object response) {
 		this.response = response;
 	}
+
+	public JsonElement getJsonElement() {
+		return jsonElement;
+	}
+
+	public void setJsonElement(JsonElement jsonElement) {
+		this.jsonElement = jsonElement;
+	}
+
+	public JsonArray getJsonArray() {
+		return jsonArray;
+	}
+
+	public void setJsonArray(JsonArray jsonArray) {
+		this.jsonArray = jsonArray;
+	}
+
+	
+
+	
 	
 	
 	

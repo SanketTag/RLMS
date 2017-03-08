@@ -14,9 +14,11 @@ import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
 import com.rlms.constants.Status;
+import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.dao.BranchDao;
+import com.rlms.dao.CustomerDao;
 import com.rlms.dao.FyaDao;
 import com.rlms.dao.LiftDao;
 import com.rlms.dao.UserRoleDao;
@@ -45,6 +47,9 @@ public class LiftServiceImpl implements LiftService{
 	
 	@Autowired
 	private FyaDao fyaDao;
+	
+	@Autowired
+	private CustomerDao customerDao;
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<RlmsLiftCustomerMap> getAllLiftsForBranch(Integer companyBranchMapId){
@@ -159,7 +164,7 @@ public class LiftServiceImpl implements LiftService{
 		liftM.setUpdatedBy(metaInfo.getUserId());		
 		liftM.setWiringShceme(dto.getWiringShceme());
 		liftM.setStatus(Status.PENDING_FOR_APPROVAL.getStatusId());
-		
+		liftM.setLiftType(dto.getLiftType());
 		liftM.setUpdatedDate(new Date());
 		liftM.setWiringPhoto(dto.getWiringPhoto());
 		liftM.setCreatedBy(metaInfo.getUserId());
@@ -291,6 +296,88 @@ public class LiftServiceImpl implements LiftService{
 		this.liftDao.mergeLiftM(liftMaster);
 		return PropertyUtils.getPrpertyFromContext(RlmsErrorType.PHOTO_UPDATED.getMessage());	
 		
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public LiftDtlsDto getLiftMasterForType(LiftDtlsDto loftDtlsDto){
+		LiftDtlsDto dto = new LiftDtlsDto();
+		RlmsLiftMaster liftM =  this.liftDao.getLiftMasterForType(loftDtlsDto.getBranchCustomerMapId(), loftDtlsDto.getLiftType());
+		if(null != liftM){
+			
+			dto.setAccessControl(liftM.getAccessControl());
+			dto.setAddress(liftM.getAddress());
+			dto.setArea(liftM.getArea());
+			dto.setPinCode(liftM.getPincode());
+			dto.setCity(liftM.getCity());
+			dto.setAlarm(liftM.getAlarm());
+			dto.setAlarmBattery(liftM.getAlarmBattery());
+			dto.setAmcAmount(liftM.getAmcAmount());
+			dto.setAmcStartDate(liftM.getAmcStartDate());
+			dto.setDoorType(liftM.getDoorType());
+			dto.setNoOfStops(liftM.getNoOfStops());
+			dto.setEngineType(liftM.getEngineType());
+			dto.setMachineMake(liftM.getMachineMake());
+			dto.setMachineCapacity(liftM.getMachineCapacity());
+			dto.setMachineCurrent(liftM.getMachineCurrent());
+			dto.setMachinePhoto(liftM.getMachinePhoto());
+			dto.setBreakVoltage(liftM.getBreakVoltage());
+			dto.setPanelMake(liftM.getPanelMake());
+			dto.setPanelPhoto(liftM.getPanelPhoto());
+			dto.setNoOfBatteries(liftM.getNoOfBatteries());
+			dto.setCopMake(liftM.getCOPMake());
+			dto.setCopPhoto(liftM.getCOPPhoto());
+			dto.setLopMake(liftM.getLOPMake());
+			dto.setLopPhoto(liftM.getLOPPhoto());
+			dto.setCollectiveType(liftM.getCollectiveType());
+			dto.setSimplexDuplex(liftM.getSimplexDuplex());
+			dto.setCartopPhoto(liftM.getCartopPhoto());
+			dto.setAutoDoorMake(liftM.getAutoDoorMake());
+			dto.setWiringPhoto(liftM.getWiringPhoto());
+			dto.setWiringShceme(liftM.getWiringShceme());
+			dto.setFireMode(liftM.getFireMode());
+			dto.setIntercomm(liftM.getIntercomm());
+			dto.setAlarm(liftM.getAlarm());
+			dto.setAlarmBattery(liftM.getAlarmBattery());
+			dto.setAccessControl(liftM.getAccessControl());
+			dto.setLobbyPhoto(liftM.getLobbyPhoto());
+			if(null != liftM.getAmcStartDate()){
+				dto.setAmcStartDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getAmcStartDate()));
+			}
+			dto.setAmcType(liftM.getAmcType());
+			dto.setArd(liftM.getARD());
+			dto.setArdPhoto(liftM.getARDPhoto());
+			dto.setAutoDoorHeaderPhoto(liftM.getAutoDoorHeaderPhoto());
+			dto.setBatteryCapacity(liftM.getBatteryCapacity());
+			dto.setBatteryMake(liftM.getBatteryMake());
+			dto.setDateOfInstallation(liftM.getDateOfInstallation());
+			if(null != liftM.getDateOfInstallation()){
+				dto.setDateOfInstallationStr(DateUtils.convertDateToStringWithoutTime(liftM.getDateOfInstallation()));
+			}
+			dto.setLiftNumber(liftM.getLiftNumber());
+			dto.setServiceStartDate(liftM.getServiceStartDate());
+			if(null != liftM.getServiceStartDate()){
+				dto.setServiceStartDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getServiceStartDate()));
+			}
+			dto.setServiceEndDate(liftM.getServiceEndDate());
+			if(null != liftM.getServiceEndDate()){
+				dto.setServiceEndDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getServiceEndDate()));
+			}
+		}
+		
+		return dto;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public CustomerDtlsDto getAddressDetailsOfLift(Integer branchCustoMapId){
+		CustomerDtlsDto dto = new CustomerDtlsDto();
+		RlmsBranchCustomerMap branchCustomerMap = this.branchDao.getBranchCustomerMapDtls(branchCustoMapId);
+		if(null != branchCustomerMap){
+			dto.setAddress(branchCustomerMap.getCustomerMaster().getAddress());
+			dto.setArea(branchCustomerMap.getCustomerMaster().getArea());
+			dto.setCity(branchCustomerMap.getCustomerMaster().getCity());
+			dto.setPinCode(branchCustomerMap.getCustomerMaster().getPincode());
+		}
+		return dto;
 	}
 	
 }

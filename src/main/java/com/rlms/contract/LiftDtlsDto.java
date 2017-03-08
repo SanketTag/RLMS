@@ -64,6 +64,9 @@ public class LiftDtlsDto {
 	private Integer fyaTranId;
 	private Integer liftCustomerMapId;
 	private Integer photoType;
+	private Integer liftType;
+	
+	
 	public String getLiftNumber() {
 		return liftNumber;
 	}
@@ -417,6 +420,12 @@ public class LiftDtlsDto {
 	}
 	public void setPhotoType(Integer photoType) {
 		this.photoType = photoType;
+	}
+	public Integer getLiftType() {
+		return liftType;
+	}
+	public void setLiftType(Integer liftType) {
+		this.liftType = liftType;
 	}
 	
 	

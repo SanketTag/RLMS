@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -135,6 +136,25 @@ public class LiftDaoImpl implements LiftDao{
 			 return listOfAllLifts;
 		
 	}
+	
+	@SuppressWarnings("unchecked")
+	public RlmsLiftMaster getLiftMasterForType(Integer branchCustoMapId, Integer liftType){		
+			 RlmsLiftMaster liftMaster = null;
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class);				 
+					  criteria.add(Restrictions.eq("branchCustomerMap.branchCustoMapId", branchCustoMapId));
+					  criteria.add(Restrictions.eq("liftMaster.liftType", liftType));
+					  criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+					  criteria.addOrder(Order.desc("liftMaster.createdDate"));
+			 List<RlmsLiftCustomerMap> listOfAllLifts = criteria.list();
+			 if(null != listOfAllLifts && !listOfAllLifts.isEmpty()){
+				 liftMaster = (RlmsLiftMaster) listOfAllLifts.get(RLMSConstants.ZERO.getId()).getLiftMaster();
+			 }
+			 return liftMaster;
+		
+	}
+	
+	
 	
 	
 	

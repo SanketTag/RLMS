@@ -30,8 +30,16 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
+
+
+
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -50,6 +58,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.reflect.TypeToken;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
 import com.rlms.contract.ComplaintsDtlsDto;
@@ -145,9 +156,12 @@ public class RestControllerController  extends BaseController {
     	 }
     }   
     
-    @RequestMapping(value = "/getAllComplaintsAssigned", method = RequestMethod.POST)
-    public @ResponseBody List<ComplaintsDto> getAllComplaintsAssigned(@RequestBody LoginDtlsDto loginDtlsDto) {
+    @RequestMapping(value = "/getAllComplaintsAssigned", method = RequestMethod.POST, produces="application/json")
+    public @ResponseBody ResponseDto getAllComplaintsAssigned(@RequestBody LoginDtlsDto loginDtlsDto) {
     //17
+    	ObjectMapper mapper = new ObjectMapper();
+    	ResponseDto dto = new ResponseDto();
+    	
     	List<ComplaintsDto> listOfAllAssignedComplaints = null;
     	 List<Integer> statusList = new ArrayList<Integer>();
     	 statusList.add(Status.ASSIGNED.getStatusId());
@@ -156,21 +170,36 @@ public class RestControllerController  extends BaseController {
     	 
     	 try {
     		 listOfAllAssignedComplaints =  this.ComplaintsService.getAllComplaintsAssigned(Integer.valueOf(loginDtlsDto.getUserRoleId()), statusList);
+    		 if(null != listOfAllAssignedComplaints && !listOfAllAssignedComplaints.isEmpty()){
+	    		 dto.setStatus(true);    
+	    		 Gson gson = new Gson();
+	    		 dto.setResponse(gson.toJson(listOfAllAssignedComplaints));
+	    		 JSONArray arr = new JSONArray();
+	    		// dto.setJsonArray(gson.toJsonTree(listOfAllAssignedComplaints).getAsJsonArray());
+	    		// dto.setJsonElement(gson.toJsonTree(listOfAllAssignedComplaints));
+    		 }else{
+    			 dto.setStatus(false);
+    			 dto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.NO_COMPLAINT_ASSIGNED.getMessage()));
+    		 }
     	 }catch(Exception e){
+    		 dto.setStatus(false);
+    		 dto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
     		 log.error("some Unknown exception occurs.");
     	 }
     	 
-    	 return listOfAllAssignedComplaints;
+    	 return dto;
         
     }
     
     @RequestMapping(value = "/updateComplaintStatus", method = RequestMethod.POST)
     public @ResponseBody ResponseDto updateComplaintStatus(@RequestBody ComplaintsDto complaintsDto) {
     
+    	ObjectMapper mapper = new ObjectMapper();
     	ResponseDto dto = new ResponseDto();
     	
     	 try {
-    		 dto.setResponse(this.ComplaintsService.updateComplaintStatus(complaintsDto));
+    		 
+    		 dto.setResponse(mapper.writeValueAsString(this.ComplaintsService.updateComplaintStatus(complaintsDto)));
     		 dto.setStatus(true);
     	 }catch(Exception e){
     		 dto.setStatus(false);
@@ -206,8 +235,9 @@ public class RestControllerController  extends BaseController {
     }
     
     @RequestMapping(value = "/register/registerMemeberDeviceByMblNo", method = RequestMethod.POST)
-    public @ResponseBody MemberDtlsDto registerMemeberDeviceByMblNo(@RequestBody MemberDtlsDto memberDtlsDto) throws ValidationException, RunTimeException{
-    	MemberDtlsDto memberDtls = null;
+    public @ResponseBody ResponseDto registerMemeberDeviceByMblNo(@RequestBody MemberDtlsDto memberDtlsDto) throws ValidationException, RunTimeException{
+    	ResponseDto reponseDto = new ResponseDto();
+    	ObjectMapper mapper = new ObjectMapper();
         try{
         	log.info("Method :: registerMemeberDeviceByMblNo");
         	RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(1);
@@ -215,23 +245,32 @@ public class RestControllerController  extends BaseController {
         	metaInfo.setUserId(userRoles.getRlmsUserMaster().getUserId());
         	metaInfo.setUserName(userRoles.getRlmsUserMaster().getFirstName());
         	metaInfo.setUserRole(userRoles);
-        	memberDtls = this.customerService.registerMemeberDeviceByMblNo(memberDtlsDto, metaInfo);
+        	MemberDtlsDto dto = this.customerService.registerMemeberDeviceByMblNo(memberDtlsDto, metaInfo);
+        	Gson gSon = new Gson();
+        	reponseDto.setJsonElement(gSon.toJsonTree(dto, new TypeToken<MemberDtlsDto>() {}.getType()));
+        	
+        	reponseDto.setStatus(true);
         	
         }catch(ValidationException vex){
         	log.error(ExceptionUtils.getFullStackTrace(vex));
-        	throw vex;
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(vex.getExceptionMessage());
+        	
         }
         catch(Exception e){
         	log.error(ExceptionUtils.getFullStackTrace(e));
-        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        	//throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
         }
  
-        return memberDtls;
+        return reponseDto;
     }
     
     @RequestMapping(value = "/register/registerTechnicianDeviceByMblNo", method = RequestMethod.POST)
-    public @ResponseBody UserDtlsDto registerTechnicianDeviceByMblNo(@RequestBody UserDtlsDto userDtlsDto) throws ValidationException, RunTimeException{
-    	UserDtlsDto useDtls = null;
+    public @ResponseBody ResponseDto registerTechnicianDeviceByMblNo(@RequestBody UserDtlsDto userDtlsDto) throws ValidationException, RunTimeException{
+    	ResponseDto reponseDto = new ResponseDto();
+    	ObjectMapper mapper = new ObjectMapper();
         try{
         	log.info("Method :: registerTechnicianDeviceByMblNo");
         	RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(1);
@@ -239,52 +278,64 @@ public class RestControllerController  extends BaseController {
         	metaInfo.setUserId(userRoles.getRlmsUserMaster().getUserId());
         	metaInfo.setUserName(userRoles.getRlmsUserMaster().getFirstName());
         	metaInfo.setUserRole(userRoles);
-        	useDtls = this.userService.registerTechnicianDeviceByMblNo(userDtlsDto, metaInfo);
+        	reponseDto.setResponse(mapper.writeValueAsString(this.userService.registerTechnicianDeviceByMblNo(userDtlsDto, metaInfo)));
+        	reponseDto.setStatus(true);
         	
         }catch(ValidationException vex){
         	log.error(ExceptionUtils.getFullStackTrace(vex));
-        	throw vex;
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(vex.getExceptionMessage());
         }
         catch(Exception e){
-        	log.error(ExceptionUtils.getFullStackTrace(e));
-        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
-        }
- 
-        return useDtls;
-    }
-    
-    @RequestMapping(value = "/lift/getAllLiftsForMember", method = RequestMethod.POST)
-    public @ResponseBody List<LiftDtlsDto> getAllLiftsForMember(@RequestBody MemberDtlsDto memberDtlsDto){
-    	List<LiftDtlsDto> listOfLiftdtls = null;
-    	   	 
-         try{
-         	log.info("Method :: getAllLiftsForMember");
-         	 listOfLiftdtls =  this.customerService.getAllLiftsForMember(memberDtlsDto.getMemberId());
-         	
-         }
-         catch(Exception e){
-         	log.error(ExceptionUtils.getFullStackTrace(e));
-         	//throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
-         }
-         
-         return listOfLiftdtls;
-    }
-    
-    @RequestMapping(value = "/complaints/getAllComplaintsByMember", method = RequestMethod.POST)
-    public @ResponseBody List<ComplaintsDto> getAllComplaintsByMember(@RequestBody MemberDtlsDto memberDtlsDto){
-    	List<ComplaintsDto> listOfAllComplaints = null;
-	   	 
-        try{
-        	log.info("Method :: getAllComplaintsByMembers");
-        	listOfAllComplaints =  this.ComplaintsService.getAllComplaintsByMember(memberDtlsDto.getMemberId());
-        	
-        }
-        catch(Exception e){
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
         	log.error(ExceptionUtils.getFullStackTrace(e));
         	//throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
         }
+ 
+        return reponseDto;
+    }
+    
+    @RequestMapping(value = "/lift/getAllLiftsForMember", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto getAllLiftsForMember(@RequestBody MemberDtlsDto memberDtlsDto){
+    	List<LiftDtlsDto> listOfLiftdtls = null;
+    	ObjectMapper mapper = new ObjectMapper();
+    	ResponseDto reponseDto = new ResponseDto();
+         try{
+         	log.info("Method :: getAllLiftsForMember");
+         	 listOfLiftdtls =  this.customerService.getAllLiftsForMember(memberDtlsDto.getMemberId());
+         	reponseDto.setResponse(mapper.writeValueAsString(listOfLiftdtls));
+         	reponseDto.setStatus(true);
+         }
+         catch(Exception e){
+         	log.error(ExceptionUtils.getFullStackTrace(e));
+         	reponseDto.setStatus(false);
+         	reponseDto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+         	//throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+         }
+         
+         return reponseDto;
+    }
+    
+    @RequestMapping(value = "/complaints/getAllComplaintsByMember", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto getAllComplaintsByMember(@RequestBody MemberDtlsDto memberDtlsDto){
+    	List<ComplaintsDto> listOfAllComplaints = null;
+    	ResponseDto reponseDto = new ResponseDto();
+    	ObjectMapper mapper = new ObjectMapper();
+        try{
+        	log.info("Method :: getAllComplaintsByMembers");
+        	listOfAllComplaints =  this.ComplaintsService.getAllComplaintsByMember(memberDtlsDto.getMemberId());
+        	reponseDto.setResponse(mapper.writeValueAsString(listOfAllComplaints));
+        	reponseDto.setStatus(true);
+        }
+        catch(Exception e){
+        	log.error(ExceptionUtils.getFullStackTrace(e));
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        	//throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        }
         
-        return listOfAllComplaints;
+        return reponseDto;
     }
     
     @RequestMapping(value = "/lift/uploadPhoto", method = RequestMethod.POST)

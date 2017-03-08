@@ -424,5 +424,39 @@ public class AdminController extends BaseController{
 	 
 	        return listOFMembers;
 	 }
+	 
+	 @RequestMapping(value = "/getAddressDetailsOfLift", method = RequestMethod.POST)
+	 public @ResponseBody CustomerDtlsDto getAddressDetailsOfLift(@RequestBody CustomerDtlsDto customerDtlsDto) throws RunTimeException{
+		 CustomerDtlsDto dto = null;
+		 
+		 try{
+	        	logger.info("Method :: getAddressDetailsOfLift");
+	        	dto = this.liftService.getAddressDetailsOfLift(customerDtlsDto.getBranchCustomerMapId());
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return dto;
+	 }
+	 
+	 @RequestMapping(value = "/getLiftMasterForType", method = RequestMethod.POST)
+	 public @ResponseBody LiftDtlsDto getLiftMasterForType(@RequestBody LiftDtlsDto liftDtlsDto) throws RunTimeException{
+		 LiftDtlsDto dto = null;
+		 
+		 try{
+	        	logger.info("Method :: getAddressDetailsOfLift");
+	        	dto = this.liftService.getLiftMasterForType(liftDtlsDto);
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return dto;
+	 }
 	
 }

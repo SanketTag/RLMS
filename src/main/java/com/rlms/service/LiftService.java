@@ -2,6 +2,7 @@ package com.rlms.service;
 
 import java.util.List;
 
+import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.model.RlmsLiftCustomerMap;
@@ -19,4 +20,8 @@ public interface LiftService {
 	public List<LiftDtlsDto> getLiftDetailsForBranch(LiftDtlsDto liftDtlsDto, UserMetaInfo metaInfo);
 	
 	public String uploadPhoto(LiftDtlsDto dto);
+	
+	public LiftDtlsDto getLiftMasterForType(LiftDtlsDto loftDtlsDto);
+	
+	public CustomerDtlsDto getAddressDetailsOfLift(Integer branchCustoMapId);
 }

@@ -67,7 +67,7 @@ public class RlmsLiftMaster implements Serializable{
 	private String alarmBattery;
 	private String accessControl;
 	private byte[] lobbyPhoto;
-	
+	private Integer liftType;
 	private Integer status;
 	private Integer activeFlag;
 	private Date createdDate;
@@ -495,6 +495,15 @@ public class RlmsLiftMaster implements Serializable{
 
 	public void setPincode(Integer pincode) {
 		this.pincode = pincode;
+	}
+	
+	
+	@Column(name = "lift_type", unique = true, nullable = true)
+	public Integer getLiftType() {
+		return liftType;
+	}
+	public void setLiftType(Integer liftType) {
+		this.liftType = liftType;
 	}
 	
 

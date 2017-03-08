@@ -28,4 +28,5 @@ public interface UserRoleDao{
 	public RlmsUserRoles getTechnicianRoleObjByMblNo(String mblNumber,
 			Integer spocRoleId);
 	public void saveUserAppDlts(RlmsUserApplicationMapDtls userApplicationMapDtls);
+	public void mergeUserAppDlts(RlmsUserApplicationMapDtls userApplicationMapDtls);
 }

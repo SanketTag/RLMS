@@ -12,7 +12,8 @@ public enum RLMSConstants {
 	USER_ROLE_TYPE(8,"user_role_type"),
 	MEMBER_TYPE(9,"Member Type"),
 	MINUS_ONE(-1, "Minus One"),
-	NA(10, "NA");
+	NA(10, "NA"),
+	ZERO(0,"Zero");
 	private Integer id;
 	private String name;
 	

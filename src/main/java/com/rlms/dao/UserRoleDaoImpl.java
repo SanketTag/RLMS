@@ -166,4 +166,9 @@ UserRoleDao{
 		 this.sessionFactory.getCurrentSession().save(userApplicationMapDtls);
 	}
 	
+	@Override
+	public void mergeUserAppDlts(RlmsUserApplicationMapDtls userApplicationMapDtls){
+		 this.sessionFactory.getCurrentSession().merge(userApplicationMapDtls);
+	}
+	
 }

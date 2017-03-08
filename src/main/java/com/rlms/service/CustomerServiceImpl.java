@@ -297,8 +297,18 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	
 	private void registerUserDevice(MemberDtlsDto dto, RlmsMemberMaster memberMaster, UserMetaInfo metaInfo){
-		RlmsUserApplicationMapDtls userApplicationMapDtls = this.constructUserAppMapDtls(dto, memberMaster, metaInfo);
-		this.userRoleDao.saveUserAppDlts(userApplicationMapDtls);
+		
+		RlmsUserApplicationMapDtls esistAppDtls = this.customerDao.getUserAppDtls(memberMaster.getMemberId(), RLMSConstants.MEMBER_TYPE.getId());
+		if(null != esistAppDtls){
+			if(!esistAppDtls.getAppRegId().equalsIgnoreCase(dto.getAppRegId())){
+				esistAppDtls.setAppRegId(dto.getAppRegId());
+				this.userRoleDao.mergeUserAppDlts(esistAppDtls);
+			}
+		}else{
+			RlmsUserApplicationMapDtls userApplicationMapDtls = this.constructUserAppMapDtls(dto, memberMaster, metaInfo);
+			this.userRoleDao.saveUserAppDlts(userApplicationMapDtls);
+		}
+		
 	}
 	
 	private RlmsUserApplicationMapDtls constructUserAppMapDtls(MemberDtlsDto dto, RlmsMemberMaster memberMaster, UserMetaInfo metaInfo){

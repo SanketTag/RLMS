@@ -22,6 +22,7 @@ import com.rlms.contract.RegisterDto;
 import com.rlms.contract.UserDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.contract.UserRoleDtlsDTO;
+import com.rlms.dao.CustomerDao;
 import com.rlms.dao.UserMasterDao;
 import com.rlms.dao.UserRoleDao;
 import com.rlms.exception.ExceptionCode;
@@ -57,6 +58,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private MessagingService messagingService;
+	
+	@Autowired
+	private CustomerDao customerDao;
 	
 	static{
 		users= populateDummyUsers();
@@ -386,8 +390,16 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	private void registerUserDevice(UserDtlsDto dto, RlmsUserRoles userRole, UserMetaInfo metaInfo){
-		RlmsUserApplicationMapDtls userApplicationMapDtls = this.constructUserAppMapDtls(dto, userRole, metaInfo);
-		this.userRoleDao.saveUserAppDlts(userApplicationMapDtls);
+		RlmsUserApplicationMapDtls existingAppDtl = this.customerDao.getUserAppDtls(userRole.getUserRoleId(), RLMSConstants.USER_ROLE_TYPE.getId());
+		if(null != existingAppDtl){
+			if(!existingAppDtl.getAppRegId().equalsIgnoreCase(dto.getAppRegId())){
+				existingAppDtl.setAppRegId(dto.getAppRegId());
+				this.userRoleDao.mergeUserAppDlts(existingAppDtl);
+			}
+		}else{
+			RlmsUserApplicationMapDtls userApplicationMapDtls = this.constructUserAppMapDtls(dto, userRole, metaInfo);
+			this.userRoleDao.saveUserAppDlts(userApplicationMapDtls);
+		}
 	}
 	
 	private RlmsUserApplicationMapDtls constructUserAppMapDtls(UserDtlsDto dto, RlmsUserRoles userRole, UserMetaInfo metaInfo){
