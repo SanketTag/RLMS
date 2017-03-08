@@ -138,8 +138,8 @@ public class LiftDaoImpl implements LiftDao{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public RlmsLiftMaster getLiftMasterForType(Integer branchCustoMapId, Integer liftType){		
-			 RlmsLiftMaster liftMaster = null;
+	public RlmsLiftCustomerMap getLiftMasterForType(Integer branchCustoMapId, Integer liftType){		
+		RlmsLiftCustomerMap liftCustomerMap = null;
 			 Session session = this.sessionFactory.getCurrentSession();
 			 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class);			
 			 		  criteria.createAlias("liftMaster", "lm");
@@ -149,9 +149,9 @@ public class LiftDaoImpl implements LiftDao{
 					  criteria.addOrder(Order.desc("lm.createdDate"));
 			 List<RlmsLiftCustomerMap> listOfAllLifts = criteria.list();
 			 if(null != listOfAllLifts && !listOfAllLifts.isEmpty()){
-				 liftMaster = (RlmsLiftMaster) listOfAllLifts.get(RLMSConstants.ZERO.getId()).getLiftMaster();
+				 liftCustomerMap = (RlmsLiftCustomerMap) listOfAllLifts.get(RLMSConstants.ZERO.getId());
 			 }
-			 return liftMaster;
+			 return liftCustomerMap;
 		
 	}
 	

@@ -302,66 +302,66 @@ public class LiftServiceImpl implements LiftService{
 	public LiftDtlsDto getLiftMasterForType(LiftDtlsDto loftDtlsDto){
 		LiftDtlsDto dto = new LiftDtlsDto();
 		
-		RlmsLiftMaster liftM =  this.liftDao.getLiftMasterForType(loftDtlsDto.getBranchCustomerMapId(), loftDtlsDto.getLiftType());
-		if(null != liftM){
+		RlmsLiftCustomerMap luftCustomerMap =  this.liftDao.getLiftMasterForType(loftDtlsDto.getBranchCustomerMapId(), loftDtlsDto.getLiftType());
+		if(null != luftCustomerMap){
 			dto.setBlank(false);
-			dto.setAccessControl(liftM.getAccessControl());
-			dto.setAddress(liftM.getAddress());
-			dto.setArea(liftM.getArea());
-			dto.setPinCode(liftM.getPincode());
-			dto.setCity(liftM.getCity());
-			dto.setAlarm(liftM.getAlarm());
-			dto.setAlarmBattery(liftM.getAlarmBattery());
-			dto.setAmcAmount(liftM.getAmcAmount());
-			dto.setAmcStartDate(liftM.getAmcStartDate());
-			dto.setDoorType(liftM.getDoorType());
-			dto.setNoOfStops(liftM.getNoOfStops());
-			dto.setEngineType(liftM.getEngineType());
-			dto.setMachineMake(liftM.getMachineMake());
-			dto.setMachineCapacity(liftM.getMachineCapacity());
-			dto.setMachineCurrent(liftM.getMachineCurrent());
-			dto.setMachinePhoto(liftM.getMachinePhoto());
-			dto.setBreakVoltage(liftM.getBreakVoltage());
-			dto.setPanelMake(liftM.getPanelMake());
-			dto.setPanelPhoto(liftM.getPanelPhoto());
-			dto.setNoOfBatteries(liftM.getNoOfBatteries());
-			dto.setCopMake(liftM.getCOPMake());
-			dto.setCopPhoto(liftM.getCOPPhoto());
-			dto.setLopMake(liftM.getLOPMake());
-			dto.setLopPhoto(liftM.getLOPPhoto());
-			dto.setCollectiveType(liftM.getCollectiveType());
-			dto.setSimplexDuplex(liftM.getSimplexDuplex());
-			dto.setCartopPhoto(liftM.getCartopPhoto());
-			dto.setAutoDoorMake(liftM.getAutoDoorMake());
-			dto.setWiringPhoto(liftM.getWiringPhoto());
-			dto.setWiringShceme(liftM.getWiringShceme());
-			dto.setFireMode(liftM.getFireMode());
-			dto.setIntercomm(liftM.getIntercomm());
-			dto.setAlarm(liftM.getAlarm());
-			dto.setAlarmBattery(liftM.getAlarmBattery());
-			dto.setAccessControl(liftM.getAccessControl());
-			dto.setLobbyPhoto(liftM.getLobbyPhoto());
-			if(null != liftM.getAmcStartDate()){
-				dto.setAmcStartDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getAmcStartDate()));
+			dto.setAccessControl(luftCustomerMap.getLiftMaster().getAccessControl());
+			dto.setAddress(luftCustomerMap.getBranchCustomerMap().getCustomerMaster().getAddress());
+			dto.setArea(luftCustomerMap.getBranchCustomerMap().getCustomerMaster().getArea());
+			dto.setPinCode(luftCustomerMap.getBranchCustomerMap().getCustomerMaster().getPincode());
+			dto.setCity(luftCustomerMap.getBranchCustomerMap().getCustomerMaster().getCity());
+			dto.setAlarm(luftCustomerMap.getLiftMaster().getAlarm());
+			dto.setAlarmBattery(luftCustomerMap.getLiftMaster().getAlarmBattery());
+			dto.setAmcAmount(luftCustomerMap.getLiftMaster().getAmcAmount());
+			dto.setAmcStartDate(luftCustomerMap.getLiftMaster().getAmcStartDate());
+			dto.setDoorType(luftCustomerMap.getLiftMaster().getDoorType());
+			dto.setNoOfStops(luftCustomerMap.getLiftMaster().getNoOfStops());
+			dto.setEngineType(luftCustomerMap.getLiftMaster().getEngineType());
+			dto.setMachineMake(luftCustomerMap.getLiftMaster().getMachineMake());
+			dto.setMachineCapacity(luftCustomerMap.getLiftMaster().getMachineCapacity());
+			dto.setMachineCurrent(luftCustomerMap.getLiftMaster().getMachineCurrent());
+			dto.setMachinePhoto(luftCustomerMap.getLiftMaster().getMachinePhoto());
+			dto.setBreakVoltage(luftCustomerMap.getLiftMaster().getBreakVoltage());
+			dto.setPanelMake(luftCustomerMap.getLiftMaster().getPanelMake());
+			dto.setPanelPhoto(luftCustomerMap.getLiftMaster().getPanelPhoto());
+			dto.setNoOfBatteries(luftCustomerMap.getLiftMaster().getNoOfBatteries());
+			dto.setCopMake(luftCustomerMap.getLiftMaster().getCOPMake());
+			dto.setCopPhoto(luftCustomerMap.getLiftMaster().getCOPPhoto());
+			dto.setLopMake(luftCustomerMap.getLiftMaster().getLOPMake());
+			dto.setLopPhoto(luftCustomerMap.getLiftMaster().getLOPPhoto());
+			dto.setCollectiveType(luftCustomerMap.getLiftMaster().getCollectiveType());
+			dto.setSimplexDuplex(luftCustomerMap.getLiftMaster().getSimplexDuplex());
+			dto.setCartopPhoto(luftCustomerMap.getLiftMaster().getCartopPhoto());
+			dto.setAutoDoorMake(luftCustomerMap.getLiftMaster().getAutoDoorMake());
+			dto.setWiringPhoto(luftCustomerMap.getLiftMaster().getWiringPhoto());
+			dto.setWiringShceme(luftCustomerMap.getLiftMaster().getWiringShceme());
+			dto.setFireMode(luftCustomerMap.getLiftMaster().getFireMode());
+			dto.setIntercomm(luftCustomerMap.getLiftMaster().getIntercomm());
+			dto.setAlarm(luftCustomerMap.getLiftMaster().getAlarm());
+			dto.setAlarmBattery(luftCustomerMap.getLiftMaster().getAlarmBattery());
+			dto.setAccessControl(luftCustomerMap.getLiftMaster().getAccessControl());
+			dto.setLobbyPhoto(luftCustomerMap.getLiftMaster().getLobbyPhoto());
+			if(null != luftCustomerMap.getLiftMaster().getAmcStartDate()){
+				dto.setAmcStartDateStr(DateUtils.convertDateToStringWithoutTime(luftCustomerMap.getLiftMaster().getAmcStartDate()));
 			}
-			dto.setAmcType(liftM.getAmcType());
-			dto.setArd(liftM.getARD());
-			dto.setArdPhoto(liftM.getARDPhoto());
-			dto.setAutoDoorHeaderPhoto(liftM.getAutoDoorHeaderPhoto());
-			dto.setBatteryCapacity(liftM.getBatteryCapacity());
-			dto.setBatteryMake(liftM.getBatteryMake());
-			dto.setDateOfInstallation(liftM.getDateOfInstallation());
-			if(null != liftM.getDateOfInstallation()){
-				dto.setDateOfInstallationStr(DateUtils.convertDateToStringWithoutTime(liftM.getDateOfInstallation()));
+			dto.setAmcType(luftCustomerMap.getLiftMaster().getAmcType());
+			dto.setArd(luftCustomerMap.getLiftMaster().getARD());
+			dto.setArdPhoto(luftCustomerMap.getLiftMaster().getARDPhoto());
+			dto.setAutoDoorHeaderPhoto(luftCustomerMap.getLiftMaster().getAutoDoorHeaderPhoto());
+			dto.setBatteryCapacity(luftCustomerMap.getLiftMaster().getBatteryCapacity());
+			dto.setBatteryMake(luftCustomerMap.getLiftMaster().getBatteryMake());
+			dto.setDateOfInstallation(luftCustomerMap.getLiftMaster().getDateOfInstallation());
+			if(null != luftCustomerMap.getLiftMaster().getDateOfInstallation()){
+				dto.setDateOfInstallationStr(DateUtils.convertDateToStringWithoutTime(luftCustomerMap.getLiftMaster().getDateOfInstallation()));
 			}
-			dto.setLiftNumber(liftM.getLiftNumber());
-			dto.setServiceStartDate(liftM.getServiceStartDate());
-			if(null != liftM.getServiceStartDate()){
-				dto.setServiceStartDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getServiceStartDate()));
+			dto.setLiftNumber(luftCustomerMap.getLiftMaster().getLiftNumber());
+			dto.setServiceStartDate(luftCustomerMap.getLiftMaster().getServiceStartDate());
+			if(null != luftCustomerMap.getLiftMaster().getServiceStartDate()){
+				dto.setServiceStartDateStr(DateUtils.convertDateToStringWithoutTime(luftCustomerMap.getLiftMaster().getServiceStartDate()));
 			}
-			dto.setServiceEndDate(liftM.getServiceEndDate());
-			if(null != liftM.getServiceEndDate()){
-				dto.setServiceEndDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getServiceEndDate()));
+			dto.setServiceEndDate(luftCustomerMap.getLiftMaster().getServiceEndDate());
+			if(null != luftCustomerMap.getLiftMaster().getServiceEndDate()){
+				dto.setServiceEndDateStr(DateUtils.convertDateToStringWithoutTime(luftCustomerMap.getLiftMaster().getServiceEndDate()));
 			}
 		}else{
 			dto.setBlank(true);

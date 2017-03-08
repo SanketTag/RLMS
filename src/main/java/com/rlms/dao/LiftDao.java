@@ -32,6 +32,6 @@ public interface LiftDao {
 
 	public Integer mergeLiftM(RlmsLiftMaster liftMaster);
 	
-	public RlmsLiftMaster getLiftMasterForType(Integer branchCustoMapId, Integer liftType);
+	public RlmsLiftCustomerMap getLiftMasterForType(Integer branchCustoMapId, Integer liftType);
 
 }
