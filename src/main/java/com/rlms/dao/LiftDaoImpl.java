@@ -146,7 +146,7 @@ public class LiftDaoImpl implements LiftDao{
 					  criteria.add(Restrictions.eq("branchCustomerMap.branchCustoMapId", branchCustoMapId));
 					  criteria.add(Restrictions.eq("lm.liftType", liftType));
 					  criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
-					  criteria.addOrder(Order.desc("liftMaster.createdDate"));
+					  criteria.addOrder(Order.desc("lm.createdDate"));
 			 List<RlmsLiftCustomerMap> listOfAllLifts = criteria.list();
 			 if(null != listOfAllLifts && !listOfAllLifts.isEmpty()){
 				 liftMaster = (RlmsLiftMaster) listOfAllLifts.get(RLMSConstants.ZERO.getId()).getLiftMaster();
