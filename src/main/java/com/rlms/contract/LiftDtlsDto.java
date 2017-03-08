@@ -65,6 +65,7 @@ public class LiftDtlsDto {
 	private Integer liftCustomerMapId;
 	private Integer photoType;
 	private Integer liftType;
+	private boolean isBlank;
 	
 	
 	public String getLiftNumber() {
@@ -426,6 +427,12 @@ public class LiftDtlsDto {
 	}
 	public void setLiftType(Integer liftType) {
 		this.liftType = liftType;
+	}
+	public boolean isBlank() {
+		return isBlank;
+	}
+	public void setBlank(boolean isBlank) {
+		this.isBlank = isBlank;
 	}
 	
 	

@@ -301,9 +301,10 @@ public class LiftServiceImpl implements LiftService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public LiftDtlsDto getLiftMasterForType(LiftDtlsDto loftDtlsDto){
 		LiftDtlsDto dto = new LiftDtlsDto();
+		
 		RlmsLiftMaster liftM =  this.liftDao.getLiftMasterForType(loftDtlsDto.getBranchCustomerMapId(), loftDtlsDto.getLiftType());
 		if(null != liftM){
-			
+			dto.setBlank(false);
 			dto.setAccessControl(liftM.getAccessControl());
 			dto.setAddress(liftM.getAddress());
 			dto.setArea(liftM.getArea());
@@ -362,6 +363,8 @@ public class LiftServiceImpl implements LiftService{
 			if(null != liftM.getServiceEndDate()){
 				dto.setServiceEndDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getServiceEndDate()));
 			}
+		}else{
+			dto.setBlank(true);
 		}
 		
 		return dto;
