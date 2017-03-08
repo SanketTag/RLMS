@@ -141,9 +141,10 @@ public class LiftDaoImpl implements LiftDao{
 	public RlmsLiftMaster getLiftMasterForType(Integer branchCustoMapId, Integer liftType){		
 			 RlmsLiftMaster liftMaster = null;
 			 Session session = this.sessionFactory.getCurrentSession();
-			 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class);				 
+			 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class);			
+			 		  criteria.createAlias("liftMaster", "lm");
 					  criteria.add(Restrictions.eq("branchCustomerMap.branchCustoMapId", branchCustoMapId));
-					  criteria.add(Restrictions.eq("liftMaster.liftType", liftType));
+					  criteria.add(Restrictions.eq("lm.liftType", liftType));
 					  criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 					  criteria.addOrder(Order.desc("liftMaster.createdDate"));
 			 List<RlmsLiftCustomerMap> listOfAllLifts = criteria.list();
