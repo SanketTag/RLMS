@@ -51,19 +51,19 @@
 			<div class="col-md-6"><input ng-model="addLift.address" class="form-control" type="text" name="address" ></div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-3 control-label">Area : </label>
+			<label class="col-sm-3 control-label">Area<sup class="red font-12">*</sup></label>
 			<div class="col-sm-6">
 				<input name="area" type="text"
 					placeholder=""
-					ng-model="addLift.area" class="form-control">
+					ng-model="addLift.area" class="form-control" required>
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="col-sm-3 control-label">City : </label>
+			<label class="col-sm-3 control-label">City<sup class="red font-12">*</sup></label>
 			<div class="col-sm-6">
 				<input name="city" type="text"
 					placeholder=""
-					ng-model="addLift.city" class="form-control">
+					ng-model="addLift.city" class="form-control" required>
 			</div>
 		</div>
 		<div class="form-group">
@@ -448,3 +448,22 @@
 	</div>
 </div>
 </div>
+<script type="text/ng-template" id="selectLiftType">
+	    <div class="modal-header">
+	        <h3 class="modal-title">Select Lift Type</h3>
+	    </div>
+	    <div class="modal-body">
+	        <div class="form-group">
+				<div ng-click="loadSelectedLiftTypeInfo(35)">
+					<span class="lift-type">Type 1</span>
+				</div>
+				<div ng-click="loadSelectedLiftTypeInfo(36)">
+					<span class="lift-type">Type 2</span>
+				</div>
+				<div ng-click="loadSelectedLiftTypeInfo(37)">
+					<span class="lift-type">Type 3</span>
+				</div>				
+			</div>
+			</div>	
+	    </div>
+	</script>

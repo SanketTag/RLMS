@@ -1,9 +1,45 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('addUserCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$window','pinesNotifications','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$window,pinesNotifications,$rootScope) {
+	.controller('addUserCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$window','pinesNotifications','$rootScope','$modal', function($scope, $filter,serviceApi,$route,$http,utility,$window,pinesNotifications,$rootScope,$modal) {
 		//initialize add Branch
 		initAddLift();
+		//show popup for selecting lift
+		
+		$scope.loadSelectedLiftTypeInfo = function(liftTypeId){
+			var datoToSend ={
+					liftType:liftTypeId,
+					branchCustomerMapId:$scope.selectedCustomer.selected.branchCustomerMapId
+			}
+			$scope.addLift.liftType=liftTypeId;
+			$scope.modalInstance.dismiss('cancel');
+			serviceApi.doPostWithData('/RLMS/admin/getLiftMasterForType',datoToSend)
+	         .then(function(liftdata) {
+	        	 if(liftdata.isBlank != true){
+	        		 for(var key in liftdata) {
+	        		        if(typeof liftdata[key] !== 'undefined' && typeof liftdata[key] !== 'null') {
+	        		        	if(key == "amcType"){
+	        		        		$scope.selectedAMCType.id = liftdata[key];
+	        		        	}else if(key == "doorType"){
+	        		        		$scope.selectedAMCType.id =liftdata[key];
+	        		        	}else if(key == "engineType"){
+	        		        		$scope.selectedEngineMachineType.id =liftdata[key];
+	        		        	}else if(key == "collectiveType"){
+	        		        		$scope.selectedCollectiveType.id = liftdata[key];
+	        		        	}else if(key = "simplexDuplex"){
+	        		        		$scope.selectedSimplexDuplex.id = liftdata[key];
+	        		        	}else if(key == "wiringShceme"){
+	        		        		$scope.selectedWiringScheme.id = liftdata[key];
+	        		        	}else{
+	        		        		$scope.addLift[key] = liftdata[key];
+	        		        	}
+	        		            
+	        		        }
+	        		    }
+	        	 }
+	        		 $scope.addLift = liftdata;
+	         })
+		}
 		// Date Picker
 		$scope.today = function() {
 		      $scope.dt = new Date();
@@ -207,6 +243,7 @@
 				}
 			];
 			$scope.addLift={
+					liftType:'',
 					branchCustomerMapId :'',
 					liftNumber : '',
 					address : '',
@@ -343,6 +380,21 @@
 			});
 		}
 		$scope.showWizardFun = function(){
+			$scope.modalInstance = $modal.open({
+		        templateUrl: 'selectLiftType',
+		        scope:$scope,
+		        size:"sm"
+		     });
+//			var dataToSend = {
+//					branchCustomerMapId:$scope.selectedCustomer.selected.branchCustomerMapId
+//			}
+//			serviceApi.doPostWithData('/RLMS/admin/getAddressDetailsOfLift',dataToSend)
+//	         .then(function(liftdata) {
+//	        	 $scope.addLift.address = liftdata.address;
+//	        	 $scope.addLift.area = liftdata.area;
+//	        	 $scope.addLift.city = liftdata.city;
+//	        	 $scope.addLift.pinCode = liftdata.pinCode;
+//	         })
 			$scope.showWizard = true;
 		}
 		//rese add branch
