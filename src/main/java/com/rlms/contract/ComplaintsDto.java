@@ -28,6 +28,7 @@ public class ComplaintsDto {
 	private Integer userRoleId;
 	private Integer liftCustoMapId;
 	private String complaintent;
+	private String regType;
 	public String getComplaintNumber() {
 		return complaintNumber;
 	}
@@ -159,6 +160,12 @@ public class ComplaintsDto {
 	}
 	public void setComplaintent(String complaintent) {
 		this.complaintent = complaintent;
+	}
+	public String getRegType() {
+		return regType;
+	}
+	public void setRegType(String regType) {
+		this.regType = regType;
 	}
 	
 	

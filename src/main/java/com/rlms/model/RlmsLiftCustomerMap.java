@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.envers.Audited;
+
 @Entity
 @Table(name = "rlms_lift_customer_map")
 public class RlmsLiftCustomerMap implements Serializable{

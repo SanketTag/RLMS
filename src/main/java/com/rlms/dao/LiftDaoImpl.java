@@ -12,8 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.Status;
+import com.rlms.contract.AMCDetailsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.UserMetaInfo;
+import com.rlms.model.RlmsLiftAmcDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsLiftMaster;
 import com.rlms.model.RlmsSpocRoleMaster;
@@ -155,7 +157,24 @@ public class LiftDaoImpl implements LiftDao{
 		
 	}
 	
-	
+	@SuppressWarnings("unchecked")
+	public List<RlmsLiftAmcDtls> getAMCDetilsForLifts(List<Integer> listOfLiftsForAMCDtls, AMCDetailsDto dto){		
+		
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftAmcDtls.class);			
+			 		  criteria.createAlias("liftCustomerMap", "lcm");
+					  criteria.add(Restrictions.in("lcm.liftCustomerMapId", listOfLiftsForAMCDtls));
+					  if(null != dto.getListOFStatusIds() && !dto.getListOFStatusIds().isEmpty()){
+						  criteria.add(Restrictions.in("status", dto.getListOFStatusIds()));
+					  }
+					  
+					  criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+					  criteria.addOrder(Order.asc("lm.createdDate"));
+			 List<RlmsLiftAmcDtls> listOFAMCdtlsForAllLifts = criteria.list();
+			 
+			 return listOFAMCdtlsForAllLifts;
+		
+	}
 	
 	
 	

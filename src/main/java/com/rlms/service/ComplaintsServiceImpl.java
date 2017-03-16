@@ -192,8 +192,10 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		}
 		if(!Status.PENDING.getStatusId().equals(complaintMaster.getStatus())){
 			RlmsComplaintTechMapDtls complaintTechMapDtls = this.complaintsDao.getComplTechMapObjByComplaintId(complaintMaster.getComplaintId());
-			String techDtls = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";			
-			dto.setTechnicianDtls(techDtls);
+			if(null != complaintTechMapDtls){
+				String techDtls = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";			
+				dto.setTechnicianDtls(techDtls);
+			}
 		}else{
 			dto.setTechnicianDtls("-");
 		}
@@ -208,15 +210,20 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		}
 		String complaintent = null;
 		if(RLMSConstants.COMPLAINT_REG_TYPE_ADMIN.getId() == complaintMaster.getRegistrationType()){
+			dto.setRegType(RLMSConstants.COMPLAINT_REG_TYPE_ADMIN.getName());
 			RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(complaintMaster.getCreatedBy());
 			complaintent = userRoles.getRlmsUserMaster().getFirstName() + " " + userRoles.getRlmsUserMaster().getLastName() + " (" + userRoles.getRlmsUserMaster().getContactNumber() + ")";
 		}else if(RLMSConstants.COMPLAINT_REG_TYPE_END_USER.getId() == complaintMaster.getRegistrationType()){
+			dto.setRegType(RLMSConstants.COMPLAINT_REG_TYPE_END_USER.getName());
 			RlmsMemberMaster memberMaster = this.customerService.getMemberById(complaintMaster.getCreatedBy());
 			complaintent = memberMaster.getFirstName() + " " + memberMaster.getLastName() + " (" + memberMaster.getContactNumber() + ")";
 		}else if(RLMSConstants.COMPLAINT_REG_TYPE_LIFT_EVENT.getId() == complaintMaster.getRegistrationType()){
+			dto.setRegType(RLMSConstants.COMPLAINT_REG_TYPE_LIFT_EVENT.getName());
 			complaintent = RLMSConstants.COMPLAINT_REG_TYPE_LIFT_EVENT.getName();
 		}
 		dto.setComplaintent(complaintent);
+		
+		
 		return dto;
 	}
 	
@@ -230,6 +237,11 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		}
 		
 		return listOfAllComplaints;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(ComplaintsDtlsDto dto){
+		return this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate());
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)

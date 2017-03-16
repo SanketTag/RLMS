@@ -11,6 +11,7 @@ import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.exception.ValidationException;
+import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 
 public interface ComplaintsService {
@@ -23,4 +24,5 @@ public interface ComplaintsService {
 	public List<ComplaintsDto> getAllComplaintsByMember(Integer memberId);
 	public List<UserRoleDtlsDTO> getAllTechniciansToAssignComplaint(ComplaintsDtlsDto complaintsDtlsDto);
 	public String updateComplaintStatus(ComplaintsDto dto);
+	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(ComplaintsDtlsDto dto);
 }

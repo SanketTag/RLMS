@@ -32,6 +32,7 @@ public class RlmsLiftMaster implements Serializable{
 	private Date dateOfInstallation; 
 	
 	private Date amcStartDate;
+	private Date amcEndDate;
 	private Integer amcType;
 	private String amcAmount;
 	
@@ -506,5 +507,14 @@ public class RlmsLiftMaster implements Serializable{
 		this.liftType = liftType;
 	}
 	
+	@Column(name = "amc_end_date", unique = true, nullable = true)
+	public Date getAmcEndDate() {
+		return amcEndDate;
+	}
+	public void setAmcEndDate(Date amcEndDate) {
+		this.amcEndDate = amcEndDate;
+	}
+	
 
+	
 }

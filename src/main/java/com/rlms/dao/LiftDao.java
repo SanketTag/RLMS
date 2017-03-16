@@ -2,7 +2,9 @@ package com.rlms.dao;
 
 import java.util.List;
 
+import com.rlms.contract.AMCDetailsDto;
 import com.rlms.contract.LiftDtlsDto;
+import com.rlms.model.RlmsLiftAmcDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsLiftMaster;
 
@@ -33,5 +35,7 @@ public interface LiftDao {
 	public Integer mergeLiftM(RlmsLiftMaster liftMaster);
 	
 	public RlmsLiftCustomerMap getLiftMasterForType(Integer branchCustoMapId, Integer liftType);
+	
+	public List<RlmsLiftAmcDtls> getAMCDetilsForLifts(List<Integer> listOfLiftsForAMCDtls, AMCDetailsDto dto);
 
 }

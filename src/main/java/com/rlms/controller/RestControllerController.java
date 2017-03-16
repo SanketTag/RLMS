@@ -166,17 +166,14 @@ public class RestControllerController  extends BaseController {
     	 List<Integer> statusList = new ArrayList<Integer>();
     	 statusList.add(Status.ASSIGNED.getStatusId());
     	 statusList.add(Status.INPROGESS.getStatusId());
-    	 statusList.add(Status.RESOLVED.getStatusId());
+    	 statusList.add(Status.COMPLETED.getStatusId());
     	 
     	 try {
     		 listOfAllAssignedComplaints =  this.ComplaintsService.getAllComplaintsAssigned(Integer.valueOf(loginDtlsDto.getUserRoleId()), statusList);
     		 if(null != listOfAllAssignedComplaints && !listOfAllAssignedComplaints.isEmpty()){
 	    		 dto.setStatus(true);    
-	    		 Gson gson = new Gson();
-	    		 dto.setResponse(gson.toJson(listOfAllAssignedComplaints));
-	    		 JSONArray arr = new JSONArray();
-	    		// dto.setJsonArray(gson.toJsonTree(listOfAllAssignedComplaints).getAsJsonArray());
-	    		// dto.setJsonElement(gson.toJsonTree(listOfAllAssignedComplaints));
+	    		
+	    		 dto.setResponse(mapper.writeValueAsString(listOfAllAssignedComplaints));
     		 }else{
     			 dto.setStatus(false);
     			 dto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.NO_COMPLAINT_ASSIGNED.getMessage()));

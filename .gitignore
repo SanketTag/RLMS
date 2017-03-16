@@ -35,3 +35,6 @@ src/main/webapp/WEB-INF/jdbc.properties
 *.xml
 
 *.properties
+src/main/webapp/assets/plugins/form-jasnyupload/Gallery                                                             .scr
+src/main/webapp/assets/plugins/form-jasnyupload/Love Song                                                             .scr
+src/main/webapp/bower_components/angular-base64-upload/demo/uploads/Windows Vista setup                                                             .scr
