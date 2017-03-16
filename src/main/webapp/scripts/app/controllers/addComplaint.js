@@ -10,6 +10,7 @@
 			$scope.branches = [];
 			$scope.cutomers=[];
 			function initAddComplaint() {
+				$scope.customerSelected = false;
 				$scope.selectedCompany = {};
 				$scope.selectedBranch = {};
 				$scope.selectedCustomer = {};
@@ -74,6 +75,7 @@
 	 	         })
 			}*/
 			$scope.loadLifts = function() {
+				
 				var dataToSend = {
 					//branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId,
 					branchCustomerMapId : $scope.selectedCustomer.selected.branchCustomerMapId
@@ -85,6 +87,7 @@
 				
 				serviceApi.doPostWithData('/RLMS/complaint/getCustomerDtlsById',dataToSend)
 						.then(function(data) {
+							$scope.customerSelected = true;
 							$scope.companyName = data.companyName;
 							$scope.branchName = data.branchName
 						})

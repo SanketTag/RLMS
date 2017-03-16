@@ -307,3 +307,7 @@ ul.stepy-header{
 	margin: 10px 0px;
     display: block;
 }
+.seprator{
+	border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 10px;
+}
