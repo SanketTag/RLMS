@@ -25,4 +25,5 @@ public interface CustomerService {
 			Integer branchCustomerMapId);
 	public List<LiftDtlsDto> getAllLiftsForMember(Integer memberId);
 	public RlmsMemberMaster getMemberById(Integer memeberId);
+	public List<CustomerDtlsDto> getCustomerByName(String custoName, UserMetaInfo metaInfo);
 }

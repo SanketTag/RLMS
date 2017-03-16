@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
+import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.ResponseDto;
 import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
 import com.rlms.service.ComplaintsService;
+import com.rlms.service.CustomerService;
 import com.rlms.utils.PropertyUtils;
 
 @Controller
@@ -28,6 +30,9 @@ public class ComplaintController extends BaseController{
 
 	@Autowired
 	private ComplaintsService complaintsService;
+	
+	@Autowired
+	private CustomerService customerService;
 	
 	
 	private static final Logger logger = Logger.getLogger(ComplaintController.class);
@@ -111,6 +116,21 @@ public class ComplaintController extends BaseController{
         	//throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
         }
 		return listOftechnicians;
+	}
+	
+	@RequestMapping(value = "/getCustomerByName", method = RequestMethod.POST)
+	public @ResponseBody List<CustomerDtlsDto> getCustomerByName(@RequestBody CustomerDtlsDto customerDtlsDto){
+		List<CustomerDtlsDto> listOFAllCustomers = null;
+		try{
+        	logger.info("Method :: getCustomerByName");
+        	listOFAllCustomers = this.customerService.getCustomerByName(customerDtlsDto.getCustomerName(), this.getMetaInfo());
+        	
+        }
+        catch(Exception e){
+        	logger.error(ExceptionUtils.getFullStackTrace(e));
+        	//throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        }
+		return listOFAllCustomers;
 	}
 	
 }

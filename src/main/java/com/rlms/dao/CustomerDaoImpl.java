@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -143,6 +144,26 @@ public class CustomerDaoImpl implements CustomerDao{
 				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 		 
 		 return (RlmsUserApplicationMapDtls) criteria.uniqueResult();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsBranchCustomerMap> getCustomerByName(String custoName, Integer companyBranchMapId, Integer companyId){
+		Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsBranchCustomerMap.class);
+		 criteria.createAlias("customerMaster", "cm");
+		 criteria.createAlias("companyBranchMapDtls", "cbm");
+		 criteria.createAlias("cbm.rlmsCompanyMaster", "cpm");
+		 if(null != companyBranchMapId){
+			 criteria.add(Restrictions.eq("cbm.companyBranchMapId", companyBranchMapId));
+		 }
+		 if(null != companyId){
+			 criteria.add(Restrictions.eq("cpm.companyId", companyId));
+		 }
+		 criteria.add(Restrictions.like("cm.customerName", custoName, MatchMode.ANYWHERE));
+				 
+		 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 
+		 return criteria.list();
 	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mysql.fabric.xmlrpc.base.Array;
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RlmsErrorType;
+import com.rlms.constants.SpocRoleConstants;
 import com.rlms.contract.AddNewUserDto;
 import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.CustomerDtlsDto;
@@ -423,6 +424,33 @@ public class CustomerServiceImpl implements CustomerService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public RlmsMemberMaster getMemberById(Integer memeberId){
 		return this.getMemberById(memeberId);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<CustomerDtlsDto> getCustomerByName(String custoName, UserMetaInfo metaInfo){
+		Integer companyBranchMapId = null;
+		List<RlmsBranchCustomerMap> listOFAllCustomers = null;
+		List<CustomerDtlsDto> listOFCustomerDtls = new ArrayList<CustomerDtlsDto>();
+		if(null != metaInfo){
+			if(SpocRoleConstants.INDITECH_ADMIN.getRoleLevel().equals(metaInfo.getUserRole().getRlmsSpocRoleMaster().getRoleLevel())){
+				listOFAllCustomers = this.customerDao.getCustomerByName(custoName, null, null);
+			}else {
+				if(null != metaInfo.getUserRole().getRlmsCompanyBranchMapDtls()){
+					companyBranchMapId = metaInfo.getUserRole().getRlmsCompanyBranchMapDtls().getCompanyBranchMapId();
+				}
+				listOFAllCustomers = this.customerDao.getCustomerByName(custoName, companyBranchMapId, metaInfo.getUserRole().getRlmsCompanyMaster().getCompanyId());
+			}
+		}
+		
+		if(null != listOFAllCustomers){
+			for (RlmsBranchCustomerMap rlmsBranchCustomerMap : listOFAllCustomers) {
+				CustomerDtlsDto dto = new CustomerDtlsDto();
+				dto.setCustomerName(rlmsBranchCustomerMap.getCustomerMaster().getCustomerName());
+				dto.setBranchCustomerMapId(rlmsBranchCustomerMap.getBranchCustoMapId());
+				listOFCustomerDtls.add(dto);
+			}
+		}
+		return listOFCustomerDtls;
 	}
 }
 
