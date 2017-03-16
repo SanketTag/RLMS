@@ -33,6 +33,8 @@ public class CustomerDtlsDto {
 	private String watchmenEmail;
 	
 	private Integer branchCustomerMapId;
+	private Integer companyId;
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -212,6 +214,12 @@ public class CustomerDtlsDto {
 	}
 	public void setWatchmenEmail(String watchmenEmail) {
 		this.watchmenEmail = watchmenEmail;
+	}
+	public Integer getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
 	}
 	
 	

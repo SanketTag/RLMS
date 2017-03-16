@@ -133,4 +133,19 @@ public class ComplaintController extends BaseController{
 		return listOFAllCustomers;
 	}
 	
+	@RequestMapping(value = "/getCustomerDtlsById", method = RequestMethod.POST)
+	public @ResponseBody CustomerDtlsDto getCustomerDtlsById(@RequestBody CustomerDtlsDto dto){
+		CustomerDtlsDto customerDtlsDto = null;
+		try{
+        	logger.info("Method :: getCustomerDtlsById");
+        	customerDtlsDto = this.customerService.getCustomerDtlsById(dto.getBranchCustomerMapId());
+        	
+        }
+        catch(Exception e){
+        	logger.error(ExceptionUtils.getFullStackTrace(e));
+        	//throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        }
+		return customerDtlsDto;
+	}
+	
 }

@@ -286,6 +286,19 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
+	public CustomerDtlsDto getCustomerDtlsById(Integer branchCustomerMapId){
+		RlmsBranchCustomerMap branchCustomerMap = this.branchDao.getBranchCustomerMapDtls(branchCustomerMapId);
+		CustomerDtlsDto dto = new CustomerDtlsDto();
+		if(null != branchCustomerMap){
+			dto.setCompanyId(branchCustomerMap.getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyId());
+			dto.setCompanyName(branchCustomerMap.getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyName());
+			dto.setBranchCompanyMapId(branchCustomerMap.getCompanyBranchMapDtls().getCompanyBranchMapId());
+			dto.setBranchName(branchCustomerMap.getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());
+		}
+		return dto;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
 	public MemberDtlsDto registerMemeberDeviceByMblNo(MemberDtlsDto dto, UserMetaInfo metaInfo) throws ValidationException{
 		RlmsMemberMaster memberMaster = this.customerDao.getMemberByCntNo(dto.getContactNumber());
 		if(null == memberMaster){
