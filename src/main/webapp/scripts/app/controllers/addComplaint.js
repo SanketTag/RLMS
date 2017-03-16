@@ -3,17 +3,19 @@
 	angular.module('rlmsApp')
 	.controller('addComplaintCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window','$rootScope','$modal', function($scope, $filter,serviceApi,$route,utility,$window,$rootScope,$modal) {
 		initAddComplaint();
-			loadCompayInfo();
+			//loadCompayInfo();
 			$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Complaint.',close:true };
 			$scope.showAlert = false;
 			$scope.companies = [];
 			$scope.branches = [];
+			$scope.cutomers=[];
 			function initAddComplaint() {
 				$scope.selectedCompany = {};
 				$scope.selectedBranch = {};
 				$scope.selectedCustomer = {};
 				$scope.selectedLift = {};
-				
+				$scope.companyName='';
+				$scope.branchName='';
 				$scope.addComplaint={
 						branchCompanyMapId:0,
 						liftCustomerMapId:0,
@@ -39,7 +41,7 @@
 			    	  $scope.openFlag[which] = false;
 			  }
 			//load compay dropdown data
-			function loadCompayInfo(){
+			/*function loadCompayInfo(){
 				serviceApi.doPostWithoutData('/RLMS/admin/getAllApplicableCompanies')
 			    .then(function(response){
 			    		$scope.companies = response;
@@ -70,25 +72,25 @@
 	 	         .then(function(customerData) {
 	 	        	 $scope.cutomers = customerData;
 	 	         })
-			}
+			}*/
 			$scope.loadLifts = function() {
 				var dataToSend = {
-					branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId,
+					//branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId,
 					branchCustomerMapId : $scope.selectedCustomer.selected.branchCustomerMapId
 				}
-				serviceApi
-						.doPostWithData(
-								'/RLMS/complaint/getAllApplicableLifts',
-								dataToSend)
+				serviceApi.doPostWithData('/RLMS/complaint/getAllApplicableLifts',dataToSend)
 						.then(function(liftData) {
 							$scope.lifts = liftData;
+						})
+				
+				serviceApi.doPostWithData('/RLMS/complaint/getCustomerDtlsById',dataToSend)
+						.then(function(data) {
+							$scope.companyName = data.companyName;
+							$scope.branchName = data.branchName
 						})
 			}
 			//Post call add customer
 			$scope.submitAddComplaint = function(){
-				$scope.addComplaint.companyId = $scope.selectedCompany.selected.companyId;
-				$scope.addComplaint.branchCompanyMapId = $scope.selectedBranch.selected.companyBranchMapId;
-				$scope.addComplaint.branchCustomerMapId = $scope.selectedCustomer.selected.branchCustomerMapId;
 				$scope.addComplaint.liftCustomerMapId = $scope.selectedLift.selected.liftId;
 				serviceApi.doPostWithData("/RLMS/complaint/validateAndRegisterNewComplaint",$scope.addComplaint)
 				.then(function(response){
@@ -109,10 +111,10 @@
 			 //showCompnay Flag
 		  	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
 				$scope.showCompany= true;
-				loadCompayInfo();
+				//loadCompayInfo();
 			}else{
 				$scope.showCompany= false;
-				$scope.loadBranchData();
+				//$scope.loadBranchData();
 			}
 		  	
 		  	//showBranch Flag
@@ -127,6 +129,22 @@
 			}
 			$scope.backPage =function(){
 				 $window.history.back();
+			}
+			$scope.searchCustomer = function(query){
+				//console.log(query);
+				if(query && query.length > 1){
+				 var dataToSend = {
+				 	'customerName':query
+				 }
+					serviceApi.doPostWithData("/RLMS/complaint/getCustomerByName",dataToSend)
+					.then(function(customerData){
+						//console.log(customerData);
+						 $scope.cutomers = customerData;
+					},function(error){
+						
+					});
+				} 
+				
 			}
 	}]);
 })();

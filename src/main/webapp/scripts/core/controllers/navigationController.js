@@ -50,9 +50,15 @@ angular
        	          url: '#/complaint-management'
        	      }
        	      ]
+       	    },{
+       	    	label: 'AMC',
+       	   	    iconClasses: 'glyphicon glyphicon-user ',
+       	   	    children: [{
+       	   	        label: 'Manage AMC',
+       	   	        url: '#/amc-management'
+       	      }
+       	      ]
        	    }];
-    
-   
 
 
     var setParent = function(children, parent) {

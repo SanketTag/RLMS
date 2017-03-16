@@ -1,0 +1,57 @@
+<div class="rlms-wrapper">
+<div class="rlms-container member-management" ng-controller="amcManagementCtrl">
+	<h1 class="rlms-heading">AMC Management</h1>
+	<div class="filter-section">
+		<div class="form-group">
+			<label class="control-label" ng-show="showCompany">AMC Status : </label>
+			<div class="select-container" ng-show="showCompany">
+				  <ui-select ng-model="selectedCompany.selected" title="Choose a Company" on-select="loadBranchData();">
+				    <ui-select-match placeholder="Select company">{{$select.selected.companyName}}</ui-select-match>
+				    <ui-select-choices repeat="companyIterator in companies| filter: $select.search">
+				      <span ng-bind-html="companyIterator.companyName | highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+			</div>
+			<label class="control-label" ng-show="showBranch">Select Date Range</label>
+			<div class="select-container">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+					<input type="daterange" class="form-control" daterangepicker="" ng-model="dateRange.date">
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+		<label class="control-label">Select Customer</label>
+			<div class="select-container">
+				  <ui-select ng-model="selectedCustomer.selected" title="Choose a Customer" on-select="showMemberList()">
+				    <ui-select-match placeholder="Select Customer">{{$select.selected.firstName}}</ui-select-match>
+				    <ui-select-choices repeat="customerIterator in cutomers| filter: $select.search">
+				      <span ng-bind-html="customerIterator.firstName | highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+			</div>
+				<label class="control-label" >Select Lifts : </label>
+			<div class="select-container">
+			   <ui-select multiple ng-model="selectedlifts.selected" close-on-select="false" title="Choose lifts">
+			    <ui-select-match placeholder="Select lifts in the list...">{{$select.selected[$index].liftNumber}}</ui-select-match>
+			    <ui-select-choices repeat="iterator in lifts | filter: $select.search">
+			      <span ng-bind-html="iterator.liftNumber | highlight: $select.search"></span>
+			    </ui-select-choices>
+			  </ui-select>
+  			</div>
+		</div>
+	</div>
+	<div class="container-fluid" ng-show="showMembers">
+	<h5 class="rlms-info"><span class="fa fa-info-circle"></span>Following is the list of AMC</h5>
+		<div class="row">
+	      <div class="col-md-12">		
+               <div class="input-icon right mb10">
+                   <i class="fa fa-search"></i>
+                   <input type="text" ng-model="filterOptions.filterText" class="form-control" placeholder="Search Filter">
+               </div>
+               <div class ="data-table" style="min-height:300px;max-height:500px" ng-grid="gridOptions"></div>
+	        </div>
+	    </div>
+	</div>
+</div>
+</div>
