@@ -1,33 +1,42 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('addComplaintCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window','$rootScope','$modal', function($scope, $filter,serviceApi,$route,utility,$window,$rootScope,$modal) {
-		initAddComplaint();
+	.controller('addAMCCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window','$rootScope','$modal', function($scope, $filter,serviceApi,$route,utility,$window,$rootScope,$modal) {
+		initAddAMC();
 			//loadCompayInfo();
 			$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Complaint.',close:true };
 			$scope.showAlert = false;
 			$scope.companies = [];
-			$scope.branches = [];
-			$scope.cutomers=[];
-			function initAddComplaint() {
+			function initAddAMC() {
 				$scope.customerSelected = false;
-				$scope.selectedCompany = {};
-				$scope.selectedBranch = {};
 				$scope.selectedCustomer = {};
 				$scope.selectedLift = {};
-				$scope.companyName='';
-				$scope.branchName='';
-				$scope.addComplaint={
-						branchCompanyMapId:0,
-						liftCustomerMapId:0,
-						branchCustomerMapId:0,
-						companyId:0,
-						complaintsTitle:'',
-						complaintsRemark:'',
-						registrationType:2,
-						fromDate:'',
-						toDate:''
+				$scope.selectedAmc = {};
+				$scope.addAMC={
+						liftCustoMapId:'',
+						amcEndDate:'',
+						amcStartDate:'',
+						amcType:'',
+						amcAmount:''
 				};
+				$scope.amcStatuses=[
+					 {
+						 name:"Under Warranty",
+						 id:38
+					 },
+					 {
+						 name:"Renewal Due",
+						 id:39
+					 },
+					 {
+						 name:"AMC Pending",
+						 id:40
+					 },
+					 {
+						 name:"Under AMC",
+						 id:41
+					 }
+				 ]
 			}
 			$scope.openFlag={
 					fromDate:false,
@@ -40,44 +49,10 @@
 			    	  $scope.openFlag[which] = true;
 			      else
 			    	  $scope.openFlag[which] = false;
-			  }
-			//load compay dropdown data
-			/*function loadCompayInfo(){
-				serviceApi.doPostWithoutData('/RLMS/admin/getAllApplicableCompanies')
-			    .then(function(response){
-			    		$scope.companies = response;
-			    });
-			};
-			$scope.loadBranchData = function(){
-				var data = {
-					companyId : $scope.selectedCompany.selected.companyId
-				}
-			    serviceApi.doPostWithData('/RLMS/admin/getAllBranchesForCompany',data)
-			    .then(function(response){
-			    	$scope.branches = response;
-			    	
-			    });
 			}
-			$scope.loadCustomerData = function(){
-				var branchData ={};
-	  	    	if($scope.showBranch == true){
-	  	    		branchData = {
-	  	    			branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId
-						}
-	  	    	}else{
-	  	    		branchData = {
-	  	    			branchCompanyMapId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId
-						}
-	  	    	}
-	  	    	serviceApi.doPostWithData('/RLMS/admin/getAllCustomersForBranch',branchData)
-	 	         .then(function(customerData) {
-	 	        	 $scope.cutomers = customerData;
-	 	         })
-			}*/
 			$scope.loadLifts = function() {
 				
 				var dataToSend = {
-					//branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId,
 					branchCustomerMapId : $scope.selectedCustomer.selected.branchCustomerMapId
 				}
 				serviceApi.doPostWithData('/RLMS/complaint/getAllApplicableLifts',dataToSend)
@@ -93,41 +68,30 @@
 						})
 			}
 			//Post call add customer
-			$scope.submitAddComplaint = function(){
-				$scope.addComplaint.liftCustomerMapId = $scope.selectedLift.selected.liftId;
-				serviceApi.doPostWithData("/RLMS/complaint/validateAndRegisterNewComplaint",$scope.addComplaint)
+			$scope.submitaddAMC = function(){
+				$scope.addAMC.liftCustomerMapId =  $scope.selectedCustomer.selected.branchCustomerMapId
+				$scope.addAMC.liftCustoMapId=$scope.selectedLift.selected.liftId,
+				$scope.addAMC.amcType=$scope.selectedAmc.selected.id,
+				serviceApi.doPostWithData("/RLMS/report/addAMCDetailsForLift",$scope.addAMC)
 				.then(function(response){
 					$scope.showAlert = true;
 					var key = Object.keys(response);
 					var successMessage = response[key[0]];
 					$scope.alert.msg = successMessage;
 					$scope.alert.type = "success";
-					initAddComplaint();
-					$scope.addComplaintForm.$setPristine();
-					$scope.addComplaintForm.$setUntouched();
+					initAddAMC();
+					$scope.addAMCForm.$setPristine();
+					$scope.addAMCForm.$setUntouched();
 				},function(error){
 					$scope.showAlert = true;
 					$scope.alert.msg = error.exceptionMessage;
 					$scope.alert.type = "danger";
 				});
 			}
-			 //showCompnay Flag
-		  	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
-				$scope.showCompany= true;
-				//loadCompayInfo();
-			}else{
-				$scope.showCompany= false;
-				//$scope.loadBranchData();
-			}
-		  	
-		  	//showBranch Flag
-		  	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel < 3){
-				$scope.showBranch= true;
-			}else{
-				$scope.showBranch=false;
-			}
+			
+		  
 			//rese add branch
-			$scope.resetaddComplaint = function(){
+			$scope.resetaddAmc = function(){
 				initAddComplaint();
 			}
 			$scope.backPage =function(){

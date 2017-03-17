@@ -187,7 +187,8 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 .add_branch form,
 .assign_role form,
 .add_lift form,
-.add_customer form{
+.add_customer form,
+.add_AMC form{
 	width: 70%;
     margin: 0 auto;
 }
@@ -196,7 +197,8 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 .add_branch form fieldset,
 .assign_role form fieldset,
 .add_lift form fieldset,
-.add_customer fieldset{
+.add_customer fieldset,
+.add_AMC fieldset{
 	margin: 10px;
 	margin-bottom:15px;
 }
