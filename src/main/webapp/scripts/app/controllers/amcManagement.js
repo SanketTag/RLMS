@@ -6,7 +6,7 @@
 		$scope.cutomers=[];
 		function initAMCList(){
 			 $scope.selectedCustomer = {};	
-			 $scope.branches=[];
+			 $scope.lifts=[];
 			 $scope.selectedCustomer = {};
 			 $scope.selectedLift = {};
 			 $scope.selectedAmc = {};
@@ -48,7 +48,7 @@
  	         })
 		}
 		//Show Member List
-		$scope.showMemberList = function(){
+		$scope.loadAMCList = function(){
 			$scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
 			$scope.showMembers = true;
 		}
@@ -71,15 +71,13 @@
 	  	      }
 	  	    };
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
-	  	    	var dataToSend = {
-	  	    			branchCustoMapId:0
-	  	    	}
-	  	    	dataToSend.branchCustoMapId= $scope.selectedCustomer.selected.branchCustomerMapId
+	  	    	
 	  	      setTimeout(function() {
 	  	        var data;
 	  	        if (searchText) {
 	  	          var ft = searchText.toLowerCase();
-	  	        serviceApi.doPostWithData('/RLMS/admin/getListOfAllMemberDtls',dataToSend)
+	  	        var dataToSend = constructDataToSend();
+	  	        serviceApi.doPostWithData('/RLMS/report/getAMCDetailsForLifts',dataToSend)
 	  	         .then(function(largeLoad) {
 	  	        	  var details=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
@@ -122,11 +120,10 @@
 	  	            $scope.setPagingData(data, page, pageSize);
 	  	          });
 	  	        } else {
-	  	        	var dataToSend = {
-	  	        			branchCustoMapId:0
-		  	    	}
-		  	    	dataToSend.branchCustoMapId= $scope.selectedCustomer.selected.branchCustomerMapId
-	  	        	serviceApi.doPostWithData('/RLMS/admin/getListOfAllMemberDtls',dataToSend).then(function(largeLoad) {
+	  	        	
+	  	        	var dataToSend = constructDataToSend();
+		  	    	
+	  	        	serviceApi.doPostWithData('/RLMS/report/getAMCDetailsForLifts',dataToSend).then(function(largeLoad) {
 	  	        	  var details=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var detailsObj={};
@@ -218,5 +215,22 @@
 				} 
 				
 			}
+	  	  function constructDataToSend(){
+	  		var tempLiftIds = [];
+			for (var i = 0; i < $scope.selectedLift.selected.length; i++) {
+				tempLiftIds
+						.push($scope.selectedLift.selected[i].liftId);
+			}
+			var tempCusto = [];
+			for (var j = 0; j < $scope.selectedCustomer.selected.length; j++) {
+				tempCusto
+						.push($scope.selectedCustomer.selected[j].branchCustomerMapId);
+			}
+			var data = {
+	        			liftCustomerMapId:tempLiftIds,
+	        			listOfBranchCustomerMapId:tempCusto
+  	    	}
+			return data;
+	  	  }
 	}]);
 })();

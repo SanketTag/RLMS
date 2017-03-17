@@ -241,7 +241,8 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 /*customer management*/
 .customer-management .select-container,
 .add_lift .select-container,
-.member-management .select-container{
+.member-management .select-container,
+.amc-management .select-container{
 	display:inline-block;
 	width:20%;
 	margin: 0 10px;
@@ -310,4 +311,11 @@ ul.stepy-header{
 .seprator{
 	border-bottom: 1px solid #e5e5e5;
     margin-bottom: 10px;
+}
+.filter-section div.seprator{
+	 margin-bottom: 10px;
+	 padding-bottom:10px;
+}
+.amc-management .filter-section .form-group label{
+	    min-width: 15%;
 }
