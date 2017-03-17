@@ -2,9 +2,9 @@
 <div class="rlms-container member-management" ng-controller="amcManagementCtrl">
 	<h1 class="rlms-heading">AMC Management</h1>
 	<div class="filter-section">
-		<div class="form-group">
-			<label class="control-label" ng-show="showCompany">AMC Status : </label>
-			<div class="select-container" ng-show="showCompany">
+		<div class="form-group seprator">
+			<label class="control-label">  AMC Status : </label>
+			<div class="select-container">
 				  <ui-select ng-model="selectedAmc.selected" title="Choose a AMC status">
 				    <ui-select-match placeholder="Select Amc Status">{{$select.selected.name}}</ui-select-match>
 				    <ui-select-choices repeat="iterator in amcStatuses | filter: $select.search">
@@ -12,7 +12,7 @@
 				    </ui-select-choices>
 				  </ui-select>
 			</div>
-			<label class="control-label" ng-show="showBranch">Select Date Range</label>
+			<label class="control-label">Select Date Range</label>
 			<div class="select-container">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -21,27 +21,25 @@
 			</div>
 		</div>
 		<div class="form-group">
-		<label class="control-label">Select Customer</label>
-			<div class="col-sm-7">
-						  <ui-select ng-model="selectedCustomer.selected" title="Choose a Customer" on-select="loadLifts();">
-						    <ui-select-match placeholder="Select Customer">{{$select.selected.customerName}}</ui-select-match>
-						    <ui-select-choices refresh="searchCustomer($select.search)" refresh-delay="10" repeat="customerIterator in cutomers| filter: $select.search">
-						      <span ng-bind-html="customerIterator.customerName | highlight: $select.search"></span>
-						    </ui-select-choices>
-						  </ui-select>
-					</div>
-				<div class="form-group col-sm-6">
-					<label class="col-sm-5 control-label">Select Lift</label>
-					<div class="col-sm-7">
-						  <ui-select ng-model="selectedLift.selected" title="Choose a Lift">
-						    <ui-select-match placeholder="Select Lift">{{$select.selected.liftNumber}}</ui-select-match>
-						    <ui-select-choices repeat="iterator in lifts | filter: $select.search">
-						      <span ng-bind-html="iterator.liftNumber | highlight: $select.search"></span>
-						    </ui-select-choices>
-						  </ui-select>
-					</div>
-				</div>
-		</div>
+			<label class="control-label">Select Customer</label>
+			<div class="select-container">
+				  <ui-select ng-model="selectedCustomer.selected" title="Choose a Customer" on-select="loadLifts();">
+				    <ui-select-match placeholder="Select Customer">{{$select.selected.customerName}}</ui-select-match>
+				    <ui-select-choices refresh="searchCustomer($select.search)" refresh-delay="10" repeat="customerIterator in cutomers| filter: $select.search">
+				      <span ng-bind-html="customerIterator.customerName | highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+			</div>
+			<label class="control-label">Select Lift</label>
+			<div class="select-container">
+				  <ui-select ng-model="selectedLift.selected" title="Choose a Lift">
+				    <ui-select-match placeholder="Select Lift">{{$select.selected.liftNumber}}</ui-select-match>
+				    <ui-select-choices repeat="iterator in lifts | filter: $select.search">
+				      <span ng-bind-html="iterator.liftNumber | highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+			</div>
+				
 	</div>
 	<div class="container-fluid" ng-show="showMembers">
 	<h5 class="rlms-info"><span class="fa fa-info-circle"></span>Following is the list of AMC</h5>

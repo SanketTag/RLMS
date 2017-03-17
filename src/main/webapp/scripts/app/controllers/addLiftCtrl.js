@@ -37,6 +37,10 @@
 	        		        }
 	        		    }
 	        	 }
+	        	$scope.addLift["address"] = liftdata['address'];
+	        	$scope.addLift["city"] = liftdata['city'];
+	        	$scope.addLift["area"] = liftdata['area'];
+	        	$scope.addLift["pinCode"] = liftdata['pinCode'];
 	        		 //$scope.addLift = liftdata;
 	         })
 		}
@@ -167,19 +171,19 @@
 			//AMC Type
 			$scope.AMCType=[
 				{
-					id:0,
+					id:42,
 					name:'Comprehensive'
 				},
 				{
-					id:1,
+					id:43,
 					name:'Non-Comprehensive'
 				},
 				{
-					id:2,
+					id:44,
 					name:'On Demand'
 				},
 				{
-					id:3,
+					id:45,
 					name:'Other'
 				},
 			];
@@ -256,6 +260,7 @@
 					serviceEndDate : '',
 					dateOfInstallation : '',
 					amcStartDate : '',
+					amcEndDate:'',
 					amcType : 0,
 					amcAmount : 0,
 
@@ -301,6 +306,7 @@
 				serviceEndDate:false,
 				dateOfInstallation :false,
 				amcStartDate :false,
+				amcEndDate:false,
 		}
 		$scope.open = function($event,which) {
 		      $event.preventDefault();
