@@ -3,11 +3,33 @@
 	angular.module('rlmsApp')
 	.controller('amcManagementCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
 		initAMCList();
-
+		$scope.cutomers=[];
 		function initAMCList(){
 			 $scope.selectedCustomer = {};	
 			 $scope.branches=[];
+			 $scope.selectedCustomer = {};
+			 $scope.selectedLift = {};
+			 $scope.selectedAmc = {};
 			 $scope.showMembers = false;
+			 $scope.amcStatuses=[
+				 {
+					 name:"Under Warranty",
+					 id:38
+				 },
+				 {
+					 name:"Renewal Due",
+					 id:39
+				 },
+				 {
+					 name:"AMC Pending",
+					 id:40
+				 },
+				 {
+					 name:"Under AMC",
+					 id:41
+				 }
+			 ]
+			 
 		} 
 		$scope.loadCustomerData = function(){
 			var branchData ={};
@@ -169,6 +191,32 @@
 	  	      multiSelect: false,
 	  	      gridFooterHeight:35
 	  	    };
-		
+	  	  $scope.loadLifts = function() {
+				
+				var dataToSend = {
+					//branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId,
+					branchCustomerMapId : $scope.selectedCustomer.selected.branchCustomerMapId
+				}
+				serviceApi.doPostWithData('/RLMS/complaint/getAllApplicableLifts',dataToSend)
+						.then(function(liftData) {
+							$scope.lifts = liftData;
+						})
+			}
+	  	  $scope.searchCustomer = function(query){
+				//console.log(query);
+				if(query && query.length > 1){
+				 var dataToSend = {
+				 	'customerName':query
+				 }
+					serviceApi.doPostWithData("/RLMS/complaint/getCustomerByName",dataToSend)
+					.then(function(customerData){
+						//console.log(customerData);
+						 $scope.cutomers = customerData;
+					},function(error){
+						
+					});
+				} 
+				
+			}
 	}]);
 })();

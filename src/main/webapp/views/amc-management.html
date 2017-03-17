@@ -5,10 +5,10 @@
 		<div class="form-group">
 			<label class="control-label" ng-show="showCompany">AMC Status : </label>
 			<div class="select-container" ng-show="showCompany">
-				  <ui-select ng-model="selectedCompany.selected" title="Choose a Company" on-select="loadBranchData();">
-				    <ui-select-match placeholder="Select company">{{$select.selected.companyName}}</ui-select-match>
-				    <ui-select-choices repeat="companyIterator in companies| filter: $select.search">
-				      <span ng-bind-html="companyIterator.companyName | highlight: $select.search"></span>
+				  <ui-select ng-model="selectedAmc.selected" title="Choose a AMC status">
+				    <ui-select-match placeholder="Select Amc Status">{{$select.selected.name}}</ui-select-match>
+				    <ui-select-choices repeat="iterator in amcStatuses | filter: $select.search">
+				      <span ng-bind-html="iterator.name | highlight: $select.search"></span>
 				    </ui-select-choices>
 				  </ui-select>
 			</div>
@@ -22,23 +22,25 @@
 		</div>
 		<div class="form-group">
 		<label class="control-label">Select Customer</label>
-			<div class="select-container">
-				  <ui-select ng-model="selectedCustomer.selected" title="Choose a Customer" on-select="showMemberList()">
-				    <ui-select-match placeholder="Select Customer">{{$select.selected.firstName}}</ui-select-match>
-				    <ui-select-choices repeat="customerIterator in cutomers| filter: $select.search">
-				      <span ng-bind-html="customerIterator.firstName | highlight: $select.search"></span>
-				    </ui-select-choices>
-				  </ui-select>
-			</div>
-				<label class="control-label" >Select Lifts : </label>
-			<div class="select-container">
-			   <ui-select multiple ng-model="selectedlifts.selected" close-on-select="false" title="Choose lifts">
-			    <ui-select-match placeholder="Select lifts in the list...">{{$select.selected[$index].liftNumber}}</ui-select-match>
-			    <ui-select-choices repeat="iterator in lifts | filter: $select.search">
-			      <span ng-bind-html="iterator.liftNumber | highlight: $select.search"></span>
-			    </ui-select-choices>
-			  </ui-select>
-  			</div>
+			<div class="col-sm-7">
+						  <ui-select ng-model="selectedCustomer.selected" title="Choose a Customer" on-select="loadLifts();">
+						    <ui-select-match placeholder="Select Customer">{{$select.selected.customerName}}</ui-select-match>
+						    <ui-select-choices refresh="searchCustomer($select.search)" refresh-delay="10" repeat="customerIterator in cutomers| filter: $select.search">
+						      <span ng-bind-html="customerIterator.customerName | highlight: $select.search"></span>
+						    </ui-select-choices>
+						  </ui-select>
+					</div>
+				<div class="form-group col-sm-6">
+					<label class="col-sm-5 control-label">Select Lift</label>
+					<div class="col-sm-7">
+						  <ui-select ng-model="selectedLift.selected" title="Choose a Lift">
+						    <ui-select-match placeholder="Select Lift">{{$select.selected.liftNumber}}</ui-select-match>
+						    <ui-select-choices repeat="iterator in lifts | filter: $select.search">
+						      <span ng-bind-html="iterator.liftNumber | highlight: $select.search"></span>
+						    </ui-select-choices>
+						  </ui-select>
+					</div>
+				</div>
 		</div>
 	</div>
 	<div class="container-fluid" ng-show="showMembers">
