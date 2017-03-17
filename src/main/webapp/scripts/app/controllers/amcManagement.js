@@ -215,6 +215,9 @@
 				} 
 				
 			}
+	  	  $scope.resetAMCList = function(){
+	  		initAMCList();
+	  	  }
 	  	  function constructDataToSend(){
 	  		var tempLiftIds = [];
 			for (var i = 0; i < $scope.selectedLift.selected.length; i++) {
