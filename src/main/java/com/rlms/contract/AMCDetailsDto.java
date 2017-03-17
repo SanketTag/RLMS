@@ -22,6 +22,10 @@ public class AMCDetailsDto {
 	private String slackEndDate;
 	private Integer slackperiod;
 	private Integer liftCustoMapId;
+	private Integer amcType;
+	private String amcTypeStr;
+	private String city;
+	private String area;
 	
 	public Integer getCompanyId() {
 		return companyId;
@@ -130,6 +134,30 @@ public class AMCDetailsDto {
 	}
 	public void setLiftCustoMapId(Integer liftCustoMapId) {
 		this.liftCustoMapId = liftCustoMapId;
+	}
+	public Integer getAmcType() {
+		return amcType;
+	}
+	public void setAmcType(Integer amcType) {
+		this.amcType = amcType;
+	}
+	public String getAmcTypeStr() {
+		return amcTypeStr;
+	}
+	public void setAmcTypeStr(String amcTypeStr) {
+		this.amcTypeStr = amcTypeStr;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
 	}
 	
 	

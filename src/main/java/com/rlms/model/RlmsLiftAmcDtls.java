@@ -19,7 +19,6 @@ import org.hibernate.envers.NotAudited;
 
 
 @Entity
-@Audited
 @Table(name="rlms_lift_amc_dtls")
 public class RlmsLiftAmcDtls {
 
@@ -30,6 +29,8 @@ public class RlmsLiftAmcDtls {
 	private Date amcSlackStartDate;
 	private Date amcSlackEndDate;
 	private Integer status;
+	private Integer amcType;
+	private String amcAmount;
 	private Integer activeFlag;
 	private Integer createdBy;
 	private Date craetedDate;
@@ -49,7 +50,6 @@ public class RlmsLiftAmcDtls {
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "lift_customer_map_id")
-	@NotAudited
 	public RlmsLiftCustomerMap getLiftCustomerMap() {
 		return liftCustomerMap;
 	}
@@ -144,6 +144,22 @@ public class RlmsLiftAmcDtls {
 	}
 	public void setAmcDueDate(Date amcDueDate) {
 		this.amcDueDate = amcDueDate;
+	}
+	
+	@Column(name = "amc_type", unique = true, nullable = true)
+	public Integer getAmcType() {
+		return amcType;
+	}
+	public void setAmcType(Integer amcType) {
+		this.amcType = amcType;
+	}
+	
+	@Column(name = "amc_amount", unique = true, nullable = true)
+	public String getAmcAmount() {
+		return amcAmount;
+	}
+	public void setAmcAmount(String amcAmount) {
+		this.amcAmount = amcAmount;
 	}
 	
 	

@@ -83,7 +83,7 @@ public class LiftServiceImpl implements LiftService{
 		liftCustomerMap.setLiftCustomerMapId(liftCustomerMapID);
 		
 		AMCDetailsDto amcDetailsDto = this.constructAMCDtlsDto(liftCustomerMap);
-		this.reportService.addAMCDetailsForLift(amcDetailsDto, Status.UNDER_WARRANTY.getStatusId(), metaInfo);
+		this.reportService.addAMCDetailsForLift(amcDetailsDto, metaInfo);
 		
 		RlmsFyaTranDtls fyaTranDtls = this.constructFyaTranDtls(liftCustomerMap, metaInfo);
 		this.fyaDao.saveFyaTranDtls(fyaTranDtls);
@@ -98,6 +98,7 @@ public class LiftServiceImpl implements LiftService{
 		dto.setAmcEndDate(DateUtils.convertDateToStringWithoutTime(liftCustomerMap.getLiftMaster().getAmcEndDate()));
 		dto.setLiftCustoMapId(liftCustomerMap.getLiftCustomerMapId());
 		dto.setLiftNumber(liftCustomerMap.getLiftMaster().getLiftNumber());
+		dto.setAmcType(liftCustomerMap.getLiftMaster().getAmcType());
 		return dto;
 		
 	}
@@ -186,7 +187,8 @@ public class LiftServiceImpl implements LiftService{
 		liftM.setWiringPhoto(dto.getWiringPhoto());
 		liftM.setCreatedBy(metaInfo.getUserId());
 		liftM.setCreatedDate(new Date());
-		
+		liftM.setAmcEndDate(dto.getAmcEndDate());
+		liftM.setAmcType(dto.getAmcType());
 		return liftM;
 		
 	}
@@ -318,15 +320,18 @@ public class LiftServiceImpl implements LiftService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public LiftDtlsDto getLiftMasterForType(LiftDtlsDto loftDtlsDto){
 		LiftDtlsDto dto = new LiftDtlsDto();
-		
+		RlmsBranchCustomerMap branchCustomerMap = this.branchDao.getBranchCustomerMapDtls(loftDtlsDto.getBranchCustomerMapId());
+		if(null != branchCustomerMap){
+			dto.setAddress(branchCustomerMap.getCustomerMaster().getAddress());
+			dto.setArea(branchCustomerMap.getCustomerMaster().getArea());
+			dto.setPinCode(branchCustomerMap.getCustomerMaster().getPincode());
+			dto.setCity(branchCustomerMap.getCustomerMaster().getCity());
+		}
 		RlmsLiftCustomerMap luftCustomerMap =  this.liftDao.getLiftMasterForType(loftDtlsDto.getBranchCustomerMapId(), loftDtlsDto.getLiftType());
 		if(null != luftCustomerMap){
 			dto.setBlank(false);
 			dto.setAccessControl(luftCustomerMap.getLiftMaster().getAccessControl());
-			dto.setAddress(luftCustomerMap.getBranchCustomerMap().getCustomerMaster().getAddress());
-			dto.setArea(luftCustomerMap.getBranchCustomerMap().getCustomerMaster().getArea());
-			dto.setPinCode(luftCustomerMap.getBranchCustomerMap().getCustomerMaster().getPincode());
-			dto.setCity(luftCustomerMap.getBranchCustomerMap().getCustomerMaster().getCity());
+			
 			dto.setAlarm(luftCustomerMap.getLiftMaster().getAlarm());
 			dto.setAlarmBattery(luftCustomerMap.getLiftMaster().getAlarmBattery());
 			dto.setAmcAmount(luftCustomerMap.getLiftMaster().getAmcAmount());

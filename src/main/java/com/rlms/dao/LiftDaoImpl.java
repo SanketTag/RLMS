@@ -145,6 +145,17 @@ public class LiftDaoImpl implements LiftDao{
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<RlmsLiftCustomerMap> getAllLiftsByIds(List<Integer> liftCustomerMapIds){		
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class);				 
+					  criteria.add(Restrictions.in("liftCustomerMapId", liftCustomerMapIds));					
+					 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+			 List<RlmsLiftCustomerMap> listOfAllLifts = criteria.list();
+			 return listOfAllLifts;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
 	public RlmsLiftCustomerMap getLiftMasterForType(Integer branchCustoMapId, Integer liftType){		
 		RlmsLiftCustomerMap liftCustomerMap = null;
 			 Session session = this.sessionFactory.getCurrentSession();
@@ -174,7 +185,7 @@ public class LiftDaoImpl implements LiftDao{
 					  }
 					  
 					  criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
-					  criteria.addOrder(Order.asc("lm.createdDate"));
+					  criteria.addOrder(Order.asc("craetedDate"));
 			 List<RlmsLiftAmcDtls> listOFAMCdtlsForAllLifts = criteria.list();
 			 
 			 return listOFAMCdtlsForAllLifts;

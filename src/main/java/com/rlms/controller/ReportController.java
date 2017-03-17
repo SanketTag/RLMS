@@ -55,7 +55,7 @@ public class ReportController extends BaseController{
 		 ResponseDto responseDto = new ResponseDto();
 	        try{
 	        	logger.info("In addAMCDetailsForLift method");
-	        	responseDto.setResponse(this.reportService.addAMCDetailsForLift(dto, Status.UNDER_AMC.getStatusId(), this.getMetaInfo()));
+	        	responseDto.setResponse(this.reportService.addAMCDetailsForLift(dto, this.getMetaInfo()));
 	        	
 	        }catch(Exception e){
 	        	logger.error(ExceptionUtils.getFullStackTrace(e));	       	

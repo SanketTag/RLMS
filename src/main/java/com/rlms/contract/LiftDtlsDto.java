@@ -26,7 +26,9 @@ public class LiftDtlsDto {
 	private Date dateOfInstallation;
 	private String dateOfInstallationStr;
 	private Date amcStartDate;
+	private Date amcEndDate;
 	private String amcStartDateStr;
+	private String amcEndDateStr;
 	private Integer amcType;
 	private String amcAmount;
 	private Integer doorType;
@@ -433,6 +435,18 @@ public class LiftDtlsDto {
 	}
 	public void setBlank(boolean isBlank) {
 		this.isBlank = isBlank;
+	}
+	public Date getAmcEndDate() {
+		return amcEndDate;
+	}
+	public void setAmcEndDate(Date amcEndDate) {
+		this.amcEndDate = amcEndDate;
+	}
+	public String getAmcEndDateStr() {
+		return amcEndDateStr;
+	}
+	public void setAmcEndDateStr(String amcEndDateStr) {
+		this.amcEndDateStr = amcEndDateStr;
 	}
 	
 	

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rlms.constants.AMCType;
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
@@ -36,10 +37,10 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired
 	private BranchDao branchDao;
 	
-	@Audited
+	@Autowired
 	private LiftDao liftDao;
 	
-	@Audited
+	@Autowired
 	private ComplaintsService complaintService;
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -55,12 +56,15 @@ public class ReportServiceImpl implements ReportService {
 			}			
 		}
 		
-		if(null != dto.getListOfBranchCustomerMapId() && !dto.getListOfBranchCustomerMapId().isEmpty()){
-			listOFApplicableLifts = this.liftDao.getAllLiftsForCustomres(dto.getListOfBranchCustomerMapId());
+		if(null != dto.getLiftCustomerMapId() && !dto.getLiftCustomerMapId().isEmpty()){
+			listOFApplicableLifts = this.liftDao.getAllLiftsByIds(dto.getLiftCustomerMapId());
 		}else{
-			 listOFApplicableLifts = this.liftDao.getAllLiftsForCustomres(listOFAllCustomersForBranch);
+			if(null != dto.getListOfBranchCustomerMapId() && !dto.getListOfBranchCustomerMapId().isEmpty()){
+				listOFApplicableLifts = this.liftDao.getAllLiftsForCustomres(dto.getListOfBranchCustomerMapId());
+			}else{
+				 listOFApplicableLifts = this.liftDao.getAllLiftsForCustomres(listOFAllCustomersForBranch);
+			}
 		}
-		
 		for (RlmsLiftCustomerMap rlmsLiftCustomerMap : listOFApplicableLifts) {
 			listOfLiftsForAMCDtls.add(rlmsLiftCustomerMap.getLiftCustomerMapId());
 		}
@@ -108,7 +112,12 @@ public class ReportServiceImpl implements ReportService {
 			}
 			
 			dto.setLiftNumber(liftAmcDtls.getLiftCustomerMap().getLiftMaster().getLiftNumber());
-			dto.setStatus(this.calculateAMCStatus(liftAmcDtls.getLiftCustomerMap().getLiftMaster().getAmcStartDate(), liftAmcDtls.getLiftCustomerMap().getLiftMaster().getAmcEndDate(), liftAmcDtls.getLiftCustomerMap().getLiftMaster().getDateOfInstallation()).getStatusMsg());
+			dto.setCity(liftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getCity());
+			dto.setArea(liftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getArea());
+			Date tempStartDate = listOFAMCs.get(listOFAMCs.size() - 1).getLiftCustomerMap().getLiftMaster().getAmcStartDate();
+			Date tempEndDate = listOFAMCs.get(listOFAMCs.size() - 1).getLiftCustomerMap().getLiftMaster().getAmcEndDate();
+			Date tempDateOfInstallation = listOFAMCs.get(listOFAMCs.size() - 1).getLiftCustomerMap().getLiftMaster().getDateOfInstallation();
+			dto.setStatus(this.calculateAMCStatus(tempStartDate, tempEndDate, tempDateOfInstallation).getStatusMsg());
 			dto.setAmcAmount(liftAmcDtls.getLiftCustomerMap().getLiftMaster().getAmcAmount());
 			
 			if(i > 0 ){
@@ -127,6 +136,15 @@ public class ReportServiceImpl implements ReportService {
 				}
 			}
 			
+			if(AMCType.COMPREHENSIVE.getId() == liftAmcDtls.getAmcType()){
+				dto.setAmcTypeStr(AMCType.COMPREHENSIVE.getType());
+			}else if(AMCType.NON_COMPREHENSIVE.getId() == liftAmcDtls.getAmcType()){
+				dto.setAmcTypeStr(AMCType.NON_COMPREHENSIVE.getType());
+			}else if(AMCType.ON_DEMAND.getId() == liftAmcDtls.getAmcType()){
+				dto.setAmcTypeStr(AMCType.ON_DEMAND.getType());
+			}else if(AMCType.OTHER.getId() == liftAmcDtls.getAmcType()){
+				dto.setAmcTypeStr(AMCType.OTHER.getType());
+			}
 			listOFDtos.add(dto);
 			i++;
 		}
@@ -158,7 +176,7 @@ public class ReportServiceImpl implements ReportService {
 		return PropertyUtils.getPrpertyFromContext(RlmsErrorType.ADDED_AMC_DTLS_SUCCESSFULLY.getMessage());
 	}
 	
-	private RlmsLiftAmcDtls constructLiftAMCDtls(AMCDetailsDto dto, UserMetaInfo metaInfo) throws ParseException{
+	public RlmsLiftAmcDtls constructLiftAMCDtls(AMCDetailsDto dto, UserMetaInfo metaInfo) throws ParseException{
 		RlmsLiftAmcDtls liftAMCDtls = new RlmsLiftAmcDtls();
 		RlmsLiftCustomerMap liftCustomerMap = this.liftDao.getLiftCustomerMapById(dto.getLiftCustoMapId());
 		
@@ -171,7 +189,7 @@ public class ReportServiceImpl implements ReportService {
 		}
 		
 		if(null != dto.getAmcStartDate()){
-			liftAMCDtls.setAmcStartDate(DateUtils.convertStringToDateWithoutTime(dto.getAmcEndDate()));
+			liftAMCDtls.setAmcStartDate(DateUtils.convertStringToDateWithoutTime(dto.getAmcStartDate()));
 		}
 		
 		if(null != liftCustomerMap){
@@ -183,6 +201,8 @@ public class ReportServiceImpl implements ReportService {
 			liftAMCDtls.setStatus(amcStatus.getStatusId());
 			
 		}
+		liftAMCDtls.setAmcAmount(dto.getAmcAmount());
+		liftAMCDtls.setAmcType(dto.getAmcType());
 		liftAMCDtls.setUpdatedBy(metaInfo.getUserId());
 		liftAMCDtls.setUpdatedDate(new Date());
 		liftAMCDtls.setCreatedBy(metaInfo.getUserId());
