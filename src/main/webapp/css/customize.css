@@ -312,10 +312,6 @@ ul.stepy-header{
 	border-bottom: 1px solid #e5e5e5;
     margin-bottom: 10px;
 }
-.filter-section div.seprator{
-	 margin-bottom: 10px;
-	 padding-bottom:10px;
-}
-.amc-management .filter-section .form-group label{
-	    min-width: 15%;
+.margin-b10{
+	margin-bottom:10px !important;
 }

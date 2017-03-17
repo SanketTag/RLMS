@@ -4,6 +4,9 @@
 	.controller('amcManagementCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
 		initAMCList();
 		$scope.cutomers=[];
+		$scope.goToAddAMC = function(){
+			window.location.hash = "#/add-amc";
+		}
 		function initAMCList(){
 			 $scope.selectedCustomer = {};	
 			 $scope.lifts=[];
@@ -82,35 +85,50 @@
 	  	        	  var details=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var detailsObj={};
-	  	        		if(!!largeLoad[i].firstName){
-	  	        			detailsObj["Name"] =largeLoad[i].firstName + " " +largeLoad[i].lastName;
+	  	        		if(!!largeLoad[i].customerName){
+	  	        			detailsObj["customerName"] =largeLoad[i].customerName;
 	  	        		}else{
-	  	        			detailsObj["Name"] =" - ";
+	  	        			detailsObj["customerName"] =" - ";
 	  	        		}
-	  	        		if(!!largeLoad[i].contactNumber){
-	  	        			detailsObj["Contact_Number"] =largeLoad[i].contactNumber;
+	  	        		if(!!largeLoad[i].liftNumber){
+	  	        			detailsObj["liftNumber"] =largeLoad[i].liftNumber;
 	  	        		}else{
-	  	        			detailsObj["Contact_Number"] =" - ";
+	  	        			detailsObj["liftNumber"] =" - ";
 	  	        		}
-	  	        		if(!!largeLoad[i].emailId){
-	  	        			detailsObj["Email_Id"] =largeLoad[i].emailId;
+	  	        		if(!!largeLoad[i].status){
+	  	        			detailsObj["status"] =largeLoad[i].status;
 	  	        		}else{
-	  	        			detailsObj["Email_Id"] =" - ";
+	  	        			detailsObj["status"] =" - ";
 	  	        		}
-	  	        		if(!!largeLoad[i].address){
-	  	        			detailsObj["Address"] =largeLoad[i].address;
+	  	        		if(!!largeLoad[i].amcAmount){
+	  	        			detailsObj["amcAmount"] =largeLoad[i].amcAmount;
 	  	        		}else{
-	  	        			detailsObj["Address"] =" - ";
+	  	        			detailsObj["amcAmount"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].amcTypeStr){
+	  	        			detailsObj["amcTypeStr"] =largeLoad[i].amcTypeStr;
+	  	        		}else{
+	  	        			detailsObj["amcTypeStr"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].amcStartDate){
+	  	        			detailsObj["amcStartDate"] =largeLoad[i].amcStartDate;
+	  	        		}else{
+	  	        			detailsObj["amcStartDate"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].dueDate){
+	  	        			detailsObj["dueDate"] =largeLoad[i].dueDate;
+	  	        		}else{
+	  	        			detailsObj["dueDate"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].area){
+	  	        			detailsObj["area"] =largeLoad[i].area;
+	  	        		}else{
+	  	        			detailsObj["area"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].city){
-	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        			detailsObj["city"] =largeLoad[i].city;
 	  	        		}else{
-	  	        			userDetailsObj["City"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].branchName){
-	  	        			detailsObj["Branch"] =largeLoad[i].branchName;
-	  	        		}else{
-	  	        			detailsObj["Branch"] =" - ";
+	  	        			detailsObj["city"] =" - ";
 	  	        		}
 	  	        		details.push(detailsObj);
 	  	        	  }
@@ -127,35 +145,50 @@
 	  	        	  var details=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var detailsObj={};
-	  	        		if(!!largeLoad[i].firstName){
-	  	        			detailsObj["Name"] =largeLoad[i].firstName + " " + largeLoad[i].lastName;
+	  	        		if(!!largeLoad[i].customerName){
+	  	        			detailsObj["customerName"] =largeLoad[i].customerName;
 	  	        		}else{
-	  	        			detailsObj["Name"] =" - ";
+	  	        			detailsObj["customerName"] =" - ";
 	  	        		}
-	  	        		if(!!largeLoad[i].contactNumber){
-	  	        			detailsObj["Contact_Number"] =largeLoad[i].contactNumber;
+	  	        		if(!!largeLoad[i].liftNumber){
+	  	        			detailsObj["liftNumber"] =largeLoad[i].liftNumber;
 	  	        		}else{
-	  	        			detailsObj["Contact_Number"] =" - ";
+	  	        			detailsObj["liftNumber"] =" - ";
 	  	        		}
-	  	        		if(!!largeLoad[i].emailId){
-	  	        			detailsObj["Email_Id"] =largeLoad[i].emailId;
+	  	        		if(!!largeLoad[i].status){
+	  	        			detailsObj["status"] =largeLoad[i].status;
 	  	        		}else{
-	  	        			detailsObj["Email_Id"] =" - ";
+	  	        			detailsObj["status"] =" - ";
 	  	        		}
-	  	        		if(!!largeLoad[i].address){
-	  	        			detailsObj["Address"] =largeLoad[i].address;
+	  	        		if(!!largeLoad[i].amcAmount){
+	  	        			detailsObj["amcAmount"] =largeLoad[i].amcAmount;
 	  	        		}else{
-	  	        			detailsObj["Address"] =" - ";
+	  	        			detailsObj["amcAmount"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].amcTypeStr){
+	  	        			detailsObj["amcTypeStr"] =largeLoad[i].amcTypeStr;
+	  	        		}else{
+	  	        			detailsObj["amcTypeStr"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].amcStartDate){
+	  	        			detailsObj["amcStartDate"] =largeLoad[i].amcStartDate;
+	  	        		}else{
+	  	        			detailsObj["amcStartDate"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].dueDate){
+	  	        			detailsObj["dueDate"] =largeLoad[i].dueDate;
+	  	        		}else{
+	  	        			detailsObj["dueDate"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].area){
+	  	        			detailsObj["area"] =largeLoad[i].area;
+	  	        		}else{
+	  	        			detailsObj["area"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].city){
-	  	        			detailsObj["City"] =largeLoad[i].city;
+	  	        			detailsObj["city"] =largeLoad[i].city;
 	  	        		}else{
-	  	        			detailsObj["City"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].branchName){
-	  	        			detailsObj["Branch"] =largeLoad[i].branchName;
-	  	        		}else{
-	  	        			detailsObj["Branch"] =" - ";
+	  	        			detailsObj["city"] =" - ";
 	  	        		}
 	  	        		details.push(detailsObj);
 	  	        	  }
@@ -186,7 +219,45 @@
 	  	      pagingOptions: $scope.pagingOptions,
 	  	      filterOptions: $scope.filterOptions,
 	  	      multiSelect: false,
-	  	      gridFooterHeight:35
+	  	      gridFooterHeight:35,
+	  	      columnDefs : [ {
+				field : "amcAmount",
+				displayName:"AMC Amount",
+				width : 120
+	  	      },{
+					field : "amcStartDate",
+					displayName:"AMC Start Date",
+					width : 120
+		  	  },{
+					field : "amcTypeStr",
+					displayName:"AMC Type",
+					width : 120
+		  	  },{
+					field : "area",
+					displayName:"Area",
+					width : 120
+		  	  },{
+					field : "city",
+					displayName:"City",
+					width : 120
+		  	  },{
+					field : "customerName",
+					displayName:"Customer Name",
+					width : 120
+		  	  },{
+					field : "dueDate",
+					displayName:"Due Date",
+					width : 120
+		  	  },{
+					field : "liftNumber",
+					displayName:"Lift Number",
+					width : 120
+		  	  },{
+					field : "status",
+					displayName:"Status",
+					width : 120
+		  	  }
+	  	      ]
 	  	    };
 	  	  $scope.loadLifts = function() {
 				
@@ -221,18 +292,22 @@
 	  	  function constructDataToSend(){
 	  		var tempLiftIds = [];
 			for (var i = 0; i < $scope.selectedLift.selected.length; i++) {
-				tempLiftIds
-						.push($scope.selectedLift.selected[i].liftId);
+				tempLiftIds.push($scope.selectedLift.selected[i].liftId);
 			}
 			var tempCusto = [];
 			for (var j = 0; j < $scope.selectedCustomer.selected.length; j++) {
-				tempCusto
-						.push($scope.selectedCustomer.selected[j].branchCustomerMapId);
+				tempCusto.push($scope.selectedCustomer.selected[j].branchCustomerMapId);
+			}
+			var tempStatus =[];
+			for (var j = 0; j < $scope.selectedAmc.selected.length; j++) {
+				tempStatus.push($scope.selectedAmc.selected[j].id);
 			}
 			var data = {
 	        			liftCustomerMapId:tempLiftIds,
-	        			listOfBranchCustomerMapId:tempCusto
+	        			listOfBranchCustomerMapId:tempCusto,
+	        			listOFStatusIds:tempStatus
   	    	}
+			var tempStatus =[]
 			return data;
 	  	  }
 	}]);
