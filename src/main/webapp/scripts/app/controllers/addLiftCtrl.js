@@ -15,7 +15,7 @@
 			$scope.modalInstance.dismiss('cancel');
 			serviceApi.doPostWithData('/RLMS/admin/getLiftMasterForType',datoToSend)
 	         .then(function(liftdata) {
-	        	 if(liftdata.isBlank != true){
+	        	 if(liftdata.blank != true){
 	        		 for(var key in liftdata) {
 	        		        if(typeof liftdata[key] !== 'undefined' && typeof liftdata[key] !== 'null') {
 	        		        	if(key == "amcType"){
@@ -37,7 +37,7 @@
 	        		        }
 	        		    }
 	        	 }
-	        		 $scope.addLift = liftdata;
+	        		 //$scope.addLift = liftdata;
 	         })
 		}
 		// Date Picker
