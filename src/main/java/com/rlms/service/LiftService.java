@@ -1,5 +1,6 @@
 package com.rlms.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.rlms.contract.CustomerDtlsDto;
@@ -11,7 +12,7 @@ public interface LiftService {
 
 	public List<RlmsLiftCustomerMap> getAllLiftsForBranch(Integer companyBranchMapId);
 
-	String validateAndAddNewLiftDtls(LiftDtlsDto dto, UserMetaInfo metaInfo);
+	String validateAndAddNewLiftDtls(LiftDtlsDto dto, UserMetaInfo metaInfo) throws ParseException;
 	
 	public String approveLift(LiftDtlsDto liftDtlsDto, UserMetaInfo metaInfo);
 

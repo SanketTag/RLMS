@@ -80,6 +80,11 @@ public class LiftDaoImpl implements LiftDao{
 	}
 	
 	@Override
+	public Integer saveLiftAMCDtls(RlmsLiftAmcDtls liftAmcDtls){
+		return (Integer) this.sessionFactory.getCurrentSession().save(liftAmcDtls);
+	}
+	
+	@Override
 	public void updateLiftM(RlmsLiftMaster liftMaster){
 		this.sessionFactory.getCurrentSession().update(liftMaster);		
 	}

@@ -21,6 +21,7 @@ public class AMCDetailsDto {
 	private String slackStartDate;
 	private String slackEndDate;
 	private Integer slackperiod;
+	private Integer liftCustoMapId;
 	
 	public Integer getCompanyId() {
 		return companyId;
@@ -123,6 +124,12 @@ public class AMCDetailsDto {
 	}
 	public void setSlackperiod(Integer slackperiod) {
 		this.slackperiod = slackperiod;
+	}
+	public Integer getLiftCustoMapId() {
+		return liftCustoMapId;
+	}
+	public void setLiftCustoMapId(Integer liftCustoMapId) {
+		this.liftCustoMapId = liftCustoMapId;
 	}
 	
 	

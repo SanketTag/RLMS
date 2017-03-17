@@ -38,4 +38,6 @@ public interface LiftDao {
 	
 	public List<RlmsLiftAmcDtls> getAMCDetilsForLifts(List<Integer> listOfLiftsForAMCDtls, AMCDetailsDto dto);
 
+	public Integer saveLiftAMCDtls(RlmsLiftAmcDtls liftAmcDtls);
+
 }

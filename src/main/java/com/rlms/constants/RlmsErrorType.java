@@ -31,7 +31,8 @@ public enum RlmsErrorType {
 	PHOTO_UPDATED(33,"photo_updated"),
 	STATUS_UPDATED(34,"status_updated"),
 	SUCCESSFULLY(35,"successfully"),
-	NO_COMPLAINT_ASSIGNED(36,"no_complaints_assigned");
+	NO_COMPLAINT_ASSIGNED(36,"no_complaints_assigned"),
+	ADDED_AMC_DTLS_SUCCESSFULLY(37,"added_amc_dtls_successfully");
 	
 	private Integer code;
 	private String message;

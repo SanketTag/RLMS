@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rlms.constants.RlmsErrorType;
+import com.rlms.constants.Status;
 import com.rlms.contract.AMCDetailsDto;
 import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.ResponseDto;
@@ -25,7 +26,7 @@ import com.rlms.utils.PropertyUtils;
 
 @Controller
 @RequestMapping("/report")
-public class ReportController {
+public class ReportController extends BaseController{
 
 	@Autowired
 	private ReportService reportService;
@@ -46,5 +47,21 @@ public class ReportController {
 	        }
 	 
 	        return listOFAmcDtls;
+	    }
+	 
+	 @RequestMapping(value = "/addAMCDetailsForLift", method = RequestMethod.POST)
+	    public @ResponseBody ResponseDto addAMCDetailsForLift(@RequestBody AMCDetailsDto dto) throws RunTimeException, ValidationException {
+	        
+		 ResponseDto responseDto = new ResponseDto();
+	        try{
+	        	logger.info("In addAMCDetailsForLift method");
+	        	responseDto.setResponse(this.reportService.addAMCDetailsForLift(dto, Status.UNDER_AMC.getStatusId(), this.getMetaInfo()));
+	        	
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));	       	
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return responseDto;
 	    }
 }

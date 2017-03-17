@@ -1,5 +1,6 @@
 package com.rlms.service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
 import com.rlms.constants.Status;
+import com.rlms.contract.AMCDetailsDto;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.UserMetaInfo;
@@ -51,6 +53,9 @@ public class LiftServiceImpl implements LiftService{
 	@Autowired
 	private CustomerDao customerDao;
 	
+	@Autowired
+	private ReportService reportService;
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<RlmsLiftCustomerMap> getAllLiftsForBranch(Integer companyBranchMapId){
 		List<RlmsLiftCustomerMap> liftsForBranch = new ArrayList<RlmsLiftCustomerMap>();
@@ -67,7 +72,7 @@ public class LiftServiceImpl implements LiftService{
 	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public String validateAndAddNewLiftDtls(LiftDtlsDto dto, UserMetaInfo metaInfo){
+	public String validateAndAddNewLiftDtls(LiftDtlsDto dto, UserMetaInfo metaInfo) throws ParseException{
 		RlmsLiftMaster liftM = this.constructLiftMaster(dto, metaInfo);
 		Integer liftId = this.liftDao.saveLiftM(liftM);
 		liftM.setLiftId(liftId);
@@ -77,13 +82,25 @@ public class LiftServiceImpl implements LiftService{
 		Integer liftCustomerMapID = this.liftDao.saveLiftCustomerMap(liftCustomerMap);
 		liftCustomerMap.setLiftCustomerMapId(liftCustomerMapID);
 		
+		AMCDetailsDto amcDetailsDto = this.constructAMCDtlsDto(liftCustomerMap);
+		this.reportService.addAMCDetailsForLift(amcDetailsDto, Status.UNDER_WARRANTY.getStatusId(), metaInfo);
+		
 		RlmsFyaTranDtls fyaTranDtls = this.constructFyaTranDtls(liftCustomerMap, metaInfo);
 		this.fyaDao.saveFyaTranDtls(fyaTranDtls);
 		return PropertyUtils.getPrpertyFromContext(RlmsErrorType.LIFT_ADDED_SUCCESSFULLY.getMessage());
 		
 	}
 	
-	
+	private AMCDetailsDto constructAMCDtlsDto(RlmsLiftCustomerMap liftCustomerMap){
+		AMCDetailsDto dto = new AMCDetailsDto();
+		dto.setAmcAmount(liftCustomerMap.getLiftMaster().getAmcAmount());
+		dto.setAmcStartDate(DateUtils.convertDateToStringWithoutTime(liftCustomerMap.getLiftMaster().getAmcStartDate()));
+		dto.setAmcEndDate(DateUtils.convertDateToStringWithoutTime(liftCustomerMap.getLiftMaster().getAmcEndDate()));
+		dto.setLiftCustoMapId(liftCustomerMap.getLiftCustomerMapId());
+		dto.setLiftNumber(liftCustomerMap.getLiftMaster().getLiftNumber());
+		return dto;
+		
+	}
 	private RlmsFyaTranDtls constructFyaTranDtls(RlmsLiftCustomerMap liftCustomerMap, UserMetaInfo metaInfo){
 		RlmsFyaTranDtls fyaTranDtls = new RlmsFyaTranDtls();
 		RlmsUserRoles userRole = this.userRoleDao.getUserRoleForCompany(RLMSConstants.INDITECH.getId(), SpocRoleConstants.INDITECH_ADMIN.getSpocRoleId());
