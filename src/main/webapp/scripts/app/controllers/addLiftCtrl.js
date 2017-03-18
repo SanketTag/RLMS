@@ -23,15 +23,15 @@
 	        		        	}else if(key == "doorType"){
 	        		        		$scope.selectedAMCType.id =liftdata[key];
 	        		        	}else if(key == "engineType"){
-	        		        		$scope.selectedEngineMachineType.id =liftdata[key];
+	        		        		$scope.selectedEngineMachineType.id =utility.parseInteger(liftdata[key]);
 	        		        	}else if(key == "collectiveType"){
-	        		        		$scope.selectedCollectiveType.id = liftdata[key];
-	        		        	}else if(key = "simplexDuplex"){
-	        		        		$scope.selectedSimplexDuplex.id = liftdata[key];
+	        		        		$scope.selectedCollectiveType.id = utility.parseInteger(liftdata[key]);
+	        		        	}else if(key == "simplexDuplex"){
+	        		        		$scope.selectedSimplexDuplex.id = utility.parseInteger(liftdata[key]);
 	        		        	}else if(key == "wiringShceme"){
-	        		        		$scope.selectedWiringScheme.id = liftdata[key];
+	        		        		$scope.selectedWiringScheme.id = utility.parseInteger(liftdata[key]);
 	        		        	}else{
-	        		        		$scope.addLift[key] = liftdata[key];
+	        		        		$scope.addLift[key] = utility.parseInteger(liftdata[key]);
 	        		        	}
 	        		            
 	        		        }
