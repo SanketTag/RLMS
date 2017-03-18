@@ -22,7 +22,7 @@ public class DateUtils {
 	
 	public static Date addDaysToDate(Date date, int days){
 		Calendar c = Calendar.getInstance();
-		c.setTime(new Date()); // Now use today date.
+		c.setTime(date); // Now use today date.
 		c.add(Calendar.DATE, days);
 		return c.getTime();
 	}

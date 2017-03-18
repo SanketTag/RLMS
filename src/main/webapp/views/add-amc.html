@@ -30,11 +30,11 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3  control-label">AMC Status  </label>
+					<label class="col-sm-3  control-label">AMC Type  </label>
 					<div class="col-sm-6 select-container">
 						  <ui-select ng-model="selectedAmc.selected" title="Choose a AMC status">
 						    <ui-select-match placeholder="Select Amc Status">{{$select.selected.name}}</ui-select-match>
-						    <ui-select-choices repeat="iterator in amcStatuses | filter: $select.search">
+						    <ui-select-choices repeat="iterator in amcTypes | filter: $select.search">
 						      <span ng-bind-html="iterator.name | highlight: $select.search"></span>
 						    </ui-select-choices>
 						  </ui-select>
@@ -46,11 +46,11 @@
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">From Date</label>
-					<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'fromDate')" is-open="openFlag.fromDate" ng-model="addAMC.amcStartDate"/></div>
+					<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'fromDate')" is-open="openFlag.fromDate" ng-model="addAMC.amcStDate"/></div>
 			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">To Date</label>
-					<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'toDate')" is-open="openFlag.toDate" ng-model="addAMC.amcEndDate"/></div>
+					<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'toDate')" is-open="openFlag.toDate" ng-model="addAMC.amcEdDate"/></div>
 			</div>
 		 </fieldset>
 		

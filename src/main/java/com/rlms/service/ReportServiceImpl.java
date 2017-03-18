@@ -182,14 +182,14 @@ public class ReportServiceImpl implements ReportService {
 		
 		liftAMCDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
 		if(null != dto.getAmcEndDate()){
-			liftAMCDtls.setAmcDueDate(DateUtils.addDaysToDate(DateUtils.convertStringToDateWithoutTime(dto.getAmcEndDate()), -30));
+			liftAMCDtls.setAmcDueDate(DateUtils.addDaysToDate(dto.getAmcEdDate(), -30));
 		}
 		if(null != dto.getAmcEndDate()){
-			liftAMCDtls.setAmcEndDate(DateUtils.convertStringToDateWithoutTime(dto.getAmcEndDate()));
+			liftAMCDtls.setAmcEndDate(dto.getAmcEdDate());
 		}
 		
 		if(null != dto.getAmcStartDate()){
-			liftAMCDtls.setAmcStartDate(DateUtils.convertStringToDateWithoutTime(dto.getAmcStartDate()));
+			liftAMCDtls.setAmcStartDate(dto.getAmcStDate());
 		}
 		
 		if(null != liftCustomerMap){
@@ -197,7 +197,7 @@ public class ReportServiceImpl implements ReportService {
 		}
 		
 		if(null != dto.getAmcStartDate() && null != dto.getAmcEndDate()){
-			Status amcStatus = this.calculateAMCStatus(DateUtils.convertStringToDateWithoutTime(dto.getAmcStartDate()), DateUtils.convertStringToDateWithoutTime(dto.getAmcEndDate()), liftCustomerMap.getLiftMaster().getDateOfInstallation());
+			Status amcStatus = this.calculateAMCStatus(dto.getAmcStDate(), dto.getAmcEdDate(), liftCustomerMap.getLiftMaster().getDateOfInstallation());
 			liftAMCDtls.setStatus(amcStatus.getStatusId());
 			
 		}

@@ -1,5 +1,6 @@
 package com.rlms.contract;
 
+import java.util.Date;
 import java.util.List;
 
 public class AMCDetailsDto {
@@ -26,6 +27,8 @@ public class AMCDetailsDto {
 	private String amcTypeStr;
 	private String city;
 	private String area;
+	private Date amcStDate;
+	private Date amcEdDate;
 	
 	public Integer getCompanyId() {
 		return companyId;
@@ -158,6 +161,18 @@ public class AMCDetailsDto {
 	}
 	public void setArea(String area) {
 		this.area = area;
+	}
+	public Date getAmcStDate() {
+		return amcStDate;
+	}
+	public void setAmcStDate(Date amcStDate) {
+		this.amcStDate = amcStDate;
+	}
+	public Date getAmcEdDate() {
+		return amcEdDate;
+	}
+	public void setAmcEdDate(Date amcEdDate) {
+		this.amcEdDate = amcEdDate;
 	}
 	
 	

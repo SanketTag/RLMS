@@ -37,6 +37,24 @@
 						 id:41
 					 }
 				 ]
+				$scope.amcTypes=[
+									 {
+										 name:"Comprehensive",
+										 id:42
+									 },
+									 {
+										 name:"Non Comprehensive",
+										 id:43
+									 },
+									 {
+										 name:"On Demand",
+										 id:44
+									 },
+									 {
+										 name:"Other",
+										 id:45
+									 }
+								 ]
 			}
 			$scope.openFlag={
 					fromDate:false,
@@ -69,9 +87,9 @@
 			}
 			//Post call add customer
 			$scope.submitaddAMC = function(){
-				$scope.addAMC.liftCustomerMapId =  $scope.selectedCustomer.selected.branchCustomerMapId
-				$scope.addAMC.liftCustoMapId=$scope.selectedLift.selected.liftId,
-				$scope.addAMC.amcType=$scope.selectedAmc.selected.id,
+			//	$scope.addAMC.liftCustomerMapId =  $scope.selectedCustomer.selected.branchCustomerMapId;
+				$scope.addAMC.liftCustoMapId=$scope.selectedLift.selected.liftId;
+				$scope.addAMC.amcType=42;
 				serviceApi.doPostWithData("/RLMS/report/addAMCDetailsForLift",$scope.addAMC)
 				.then(function(response){
 					$scope.showAlert = true;
