@@ -10,5 +10,12 @@
      	        hide: false
      	      });
      	};
+     	utility.parseInteger = function(num){
+     		if(parseInt(num) != NaN){
+     			return parseInt(num); 
+     		}else{
+     			return num;
+     		}
+     	}
      }]);
 })();
