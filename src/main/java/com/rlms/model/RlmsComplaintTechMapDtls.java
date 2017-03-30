@@ -28,7 +28,7 @@ public class RlmsComplaintTechMapDtls implements Serializable{
 	private RlmsUserRoles userRoles;
 	private Date assignedDate;
 	private Date plannedEndDate;
-	
+	private Integer userRating;
 	private Integer activeFlag;
 	private Integer status;
 	private Date createdDate;
@@ -130,5 +130,15 @@ public class RlmsComplaintTechMapDtls implements Serializable{
 	public void setUpdatedBy(Integer updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+	
+	@Column(name = "user_rating", unique = true, nullable = false)
+	public Integer getUserRating() {
+		return userRating;
+	}
+	public void setUserRating(Integer userRating) {
+		this.userRating = userRating;
+	}
+	
+	
 	
 }

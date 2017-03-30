@@ -5,11 +5,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class DateUtils {
 
 	public static String convertDateToStringWithoutTime(Date inputDate){
 		Format formatter = new SimpleDateFormat("dd-MMM-yyyy");
+		String s = formatter.format(inputDate);
+		return s;
+	}
+	
+	public static String convertDateToStringWithTime(Date inputDate){
+		Format formatter = new SimpleDateFormat("dd-MMM-yyyy hh:MM:ss a");
 		String s = formatter.format(inputDate);
 		return s;
 	}
@@ -79,4 +86,28 @@ public class DateUtils {
 	public static Integer daysBetween(Date d1, Date d2){
 		 return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
 	}
+	
+	public static Long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+	    long diffInMillies = date2.getTime() - date1.getTime();
+	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+	}
+	
+	 public static String convertTimeIntoDaysHrMin(Long duration, TimeUnit timeUnit)
+	 {
+		 String durationInDaysHrMin;
+		 Long days = timeUnit.toDays(duration);
+		 Long hrs = timeUnit.toHours(duration) - (days * 24);
+		 Long mins = timeUnit.toMinutes(duration)- (timeUnit.toHours(duration)*60);
+		 if(days > 0)
+		 {
+		   durationInDaysHrMin = days.toString() + " days " + hrs.toString() + " hours " + mins.toString() + " mins";
+		 }else if(hrs > 0)
+		 {
+			 durationInDaysHrMin = hrs.toString() + " hours " + mins.toString() + " mins";
+		 }else{
+			 durationInDaysHrMin = mins.toString() + " mins";
+		 }
+		 return durationInDaysHrMin;
+		
+	 }
 }

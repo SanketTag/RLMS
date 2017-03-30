@@ -32,7 +32,10 @@ public enum RlmsErrorType {
 	STATUS_UPDATED(34,"status_updated"),
 	SUCCESSFULLY(35,"successfully"),
 	NO_COMPLAINT_ASSIGNED(36,"no_complaints_assigned"),
-	ADDED_AMC_DTLS_SUCCESSFULLY(37,"added_amc_dtls_successfully");
+	ADDED_AMC_DTLS_SUCCESSFULLY(37,"added_amc_dtls_successfully"),
+	INVALID_USER_ROLE_ID(38,"invalid_user_role_id"),
+	INCOMPLETE_DATA(39,"incomplete_data"),
+	VISIT_UPDATED_SUCCESS(40,"visit_updated_success");
 	
 	private Integer code;
 	private String message;

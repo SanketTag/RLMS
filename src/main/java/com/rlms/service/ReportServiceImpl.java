@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.envers.Audited;
@@ -20,13 +21,18 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
 import com.rlms.contract.AMCDetailsDto;
 import com.rlms.contract.ComplaintsDtlsDto;
+import com.rlms.contract.SiteVisitDtlsDto;
+import com.rlms.contract.TechnicianWiseReportDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.dao.BranchDao;
+import com.rlms.dao.ComplaintsDao;
 import com.rlms.dao.LiftDao;
 import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsComplaintMaster;
+import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
+import com.rlms.model.RlmsSiteVisitDtls;
 import com.rlms.predicates.LiftPredicate;
 import com.rlms.utils.DateUtils;
 import com.rlms.utils.PropertyUtils;
@@ -39,6 +45,9 @@ public class ReportServiceImpl implements ReportService {
 	
 	@Autowired
 	private LiftDao liftDao;
+	
+	@Audited
+	private ComplaintsDao complaintsDao;
 	
 	@Autowired
 	private ComplaintsService complaintService;
@@ -212,14 +221,92 @@ public class ReportServiceImpl implements ReportService {
 		
 		
 	}
-	/*@Transactional(propagation = Propagation.REQUIRED)
-	public List<ComplaintsDtlsDto> generateComplaintsReport(ComplaintsDtlsDto dto){
-		List<ComplaintsDtlsDto> listOfAllComplaints = new ArrayList<ComplaintsDtlsDto>();
-		List<RlmsComplaintMaster> listOfComplaints = this.complaintService.getAllComplaintsForGivenCriteria(dto);
-		for (RlmsComplaintMaster rlmsComplaintMaster : listOfComplaints) {
-			ComplaintsDtlsDto dto =  new ComplaintsDtlsDto();
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<TechnicianWiseReportDto> getSiteVisitReport(TechnicianWiseReportDto dto){
+		List<RlmsComplaintTechMapDtls> listOfComplaints = this.complaintsDao.getListOfComplaintDtlsForTechies(dto);
+		List<TechnicianWiseReportDto> listOfAllComplaints = new ArrayList<TechnicianWiseReportDto>();
+		for (RlmsComplaintTechMapDtls rlmsComplaintTechMapDtls : listOfComplaints) {
+			TechnicianWiseReportDto complaintwiseSiteVisitReport = new TechnicianWiseReportDto();
+			List<SiteVisitDtlsDto> listOfAllVisists = new ArrayList<SiteVisitDtlsDto>();
+			List<RlmsSiteVisitDtls> listOfAllVisits = this.complaintsDao.getAllVisitsForComnplaints(rlmsComplaintTechMapDtls.getComplaintTechMapId());
+			if(null != rlmsComplaintTechMapDtls.getComplaintMaster().getRegistrationDate()){
+				complaintwiseSiteVisitReport.setComplaintRegDate(DateUtils.convertDateToStringWithTime(rlmsComplaintTechMapDtls.getComplaintMaster().getRegistrationDate()));
+			}
 			
+			if(null != rlmsComplaintTechMapDtls.getPlannedEndDate()){
+				complaintwiseSiteVisitReport.setComplaintResolveDate(DateUtils.convertDateToStringWithTime(rlmsComplaintTechMapDtls.getPlannedEndDate()));
+			}
+			
+			
+			complaintwiseSiteVisitReport.setComplaintStatus(Status.getStringFromID(rlmsComplaintTechMapDtls.getStatus()));
+			complaintwiseSiteVisitReport.setComplNumber(rlmsComplaintTechMapDtls.getComplaintMaster().getComplaintNumber());
+			complaintwiseSiteVisitReport.setCustomerName(rlmsComplaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getCustomerName());
+			complaintwiseSiteVisitReport.setLiftNumber(rlmsComplaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftMaster().getLiftNumber());
+			complaintwiseSiteVisitReport.setTechName(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName());
+			complaintwiseSiteVisitReport.setTechNumber(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber());
+			if(null != listOfAllVisists &&  !listOfAllVisists.isEmpty()){
+				complaintwiseSiteVisitReport.setTotalNoOfVisits(listOfAllVisists.size());
+			}
+			Long totalTimeForComplaint = null;
+			for (RlmsSiteVisitDtls rlmsSiteVisitDtls : listOfAllVisits) {
+				SiteVisitDtlsDto siteVisitDto = new SiteVisitDtlsDto();
+				siteVisitDto.setFromDateDtr(DateUtils.convertDateToStringWithTime(rlmsSiteVisitDtls.getFromDate()));
+				siteVisitDto.setToDateStr(DateUtils.convertDateToStringWithTime(rlmsSiteVisitDtls.getToDate()));
+				String totalTime = DateUtils.convertTimeIntoDaysHrMin(DateUtils.getDateDiff(rlmsSiteVisitDtls.getFromDate(), rlmsSiteVisitDtls.getToDate(), TimeUnit.SECONDS), TimeUnit.SECONDS);
+				if(null != totalTime){
+					siteVisitDto.setTotalTime(totalTime);
+				}
+				totalTimeForComplaint = DateUtils.getDateDiff(rlmsSiteVisitDtls.getFromDate(), rlmsSiteVisitDtls.getToDate(), TimeUnit.SECONDS);
+				
+				listOfAllVisists.add(siteVisitDto);
+			}
+			if(null != totalTimeForComplaint){
+				complaintwiseSiteVisitReport.setTotalTimeTaken(DateUtils.convertTimeIntoDaysHrMin(totalTimeForComplaint, TimeUnit.SECONDS));
+			}
+			complaintwiseSiteVisitReport.setListOFAllVisits(listOfAllVisists);
+			complaintwiseSiteVisitReport.setUserRating(rlmsComplaintTechMapDtls.getUserRating());
+			listOfAllComplaints.add(complaintwiseSiteVisitReport);
 		}
-		
-	}*/
+		return listOfAllComplaints;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<TechnicianWiseReportDto> getTechnicianWiseREport(TechnicianWiseReportDto dto){
+		List<RlmsComplaintTechMapDtls> listOfComplaints = this.complaintsDao.getListOfComplaintDtlsForTechies(dto);
+		List<TechnicianWiseReportDto> listOfAllComplaints = new ArrayList<TechnicianWiseReportDto>();
+		for (RlmsComplaintTechMapDtls rlmsComplaintTechMapDtls : listOfComplaints) {
+			TechnicianWiseReportDto complaintwiseSiteVisitReport = new TechnicianWiseReportDto();
+			List<SiteVisitDtlsDto> listOfAllVisists = new ArrayList<SiteVisitDtlsDto>();
+			List<RlmsSiteVisitDtls> listOfAllVisits = this.complaintsDao.getAllVisitsForComnplaints(rlmsComplaintTechMapDtls.getComplaintTechMapId());
+					
+			
+			
+			
+			complaintwiseSiteVisitReport.setTechName(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName());
+			complaintwiseSiteVisitReport.setTechNumber(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber());
+			if(null != listOfAllVisists &&  !listOfAllVisists.isEmpty()){
+				complaintwiseSiteVisitReport.setTotalNoOfVisits(listOfAllVisists.size());
+			}
+			Long totalTimeForComplaint = null;
+			for (RlmsSiteVisitDtls rlmsSiteVisitDtls : listOfAllVisits) {
+				SiteVisitDtlsDto siteVisitDto = new SiteVisitDtlsDto();
+				siteVisitDto.setFromDateDtr(DateUtils.convertDateToStringWithTime(rlmsSiteVisitDtls.getFromDate()));
+				siteVisitDto.setToDateStr(DateUtils.convertDateToStringWithTime(rlmsSiteVisitDtls.getToDate()));
+				String totalTime = DateUtils.convertTimeIntoDaysHrMin(DateUtils.getDateDiff(rlmsSiteVisitDtls.getFromDate(), rlmsSiteVisitDtls.getToDate(), TimeUnit.SECONDS), TimeUnit.SECONDS);
+				if(null != totalTime){
+					siteVisitDto.setTotalTime(totalTime);
+				}
+				totalTimeForComplaint = DateUtils.getDateDiff(rlmsSiteVisitDtls.getFromDate(), rlmsSiteVisitDtls.getToDate(), TimeUnit.SECONDS);
+				
+				listOfAllVisists.add(siteVisitDto);
+			}
+			if(null != totalTimeForComplaint){
+				complaintwiseSiteVisitReport.setTotalTimeTaken(DateUtils.convertTimeIntoDaysHrMin(totalTimeForComplaint, TimeUnit.SECONDS));
+			}
+			complaintwiseSiteVisitReport.setListOFAllVisits(listOfAllVisists);
+			complaintwiseSiteVisitReport.setUserRating(rlmsComplaintTechMapDtls.getUserRating());
+			listOfAllComplaints.add(complaintwiseSiteVisitReport);
+		}
+		return listOfAllComplaints;
+	}
 }

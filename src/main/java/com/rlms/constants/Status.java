@@ -38,4 +38,32 @@ public enum Status {
 	}
 	
 	
+	public static String getStringFromID(Integer statusId){
+		if(statusId == Status.PENDING.getStatusId()){
+			return Status.PENDING.getStatusMsg();
+		}else if(statusId == Status.ASSIGNED.getStatusId()){
+			return Status.ASSIGNED.getStatusMsg();
+		}else if(statusId == Status.INPROGESS.getStatusId()){
+			return Status.INPROGESS.getStatusMsg();
+		}else if(statusId == Status.RESOLVED.getStatusId()){
+			return Status.RESOLVED.getStatusMsg();
+		}else if(statusId == Status.AMC_PENDING.getStatusId()){
+			return Status.AMC_PENDING.getStatusMsg();
+		}else if(statusId == Status.PENDING_FOR_APPROVAL.getStatusId()){
+			return Status.PENDING_FOR_APPROVAL.getStatusMsg();
+		}else if(statusId == Status.COMPLETED.getStatusId()){
+			return Status.COMPLETED.getStatusMsg();
+		}else if(statusId == Status.UNDER_WARRANTY.getStatusId()){
+			return Status.UNDER_WARRANTY.getStatusMsg();
+		}else if(statusId == Status.RENEWAL_DUE.getStatusId()){
+			return Status.RENEWAL_DUE.getStatusMsg();
+		}else if(statusId == Status.AMC_PENDING.getStatusId()){
+			return Status.	AMC_PENDING.getStatusMsg();
+		}else if(statusId == Status.UNDER_AMC.getStatusId()){
+			return Status.UNDER_AMC.getStatusMsg();
+		}
+		
+		return "";
+	}
+	
 }

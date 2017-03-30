@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.mysql.jdbc.Messages;
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RLMSMessages;
@@ -27,6 +29,8 @@ import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
+import com.rlms.contract.SiteVisitDtlsDto;
+import com.rlms.contract.TechnicianWiseReportDto;
 import com.rlms.contract.UserAppDtls;
 //import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserMetaInfo;
@@ -42,6 +46,7 @@ import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsCustomerMemberMap;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsMemberMaster;
+import com.rlms.model.RlmsSiteVisitDtls;
 import com.rlms.model.RlmsUserApplicationMapDtls;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.utils.DateUtils;
@@ -442,5 +447,48 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		return resultMessage;
 		
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void saveComplaintSiteVisitDtls(RlmsSiteVisitDtls siteVisitDtls){
+		this.complaintsDao.saveComplaintSiteVisitDtls(siteVisitDtls);
+	}
+	
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String validateAndSaveSiteVisitDtls(SiteVisitDtlsDto dto, UserMetaInfo metaInfo) throws ValidationException{
+		this.validateVisitDtls(dto);
+		RlmsSiteVisitDtls visitDtls = this.constructVisitDtls(dto, metaInfo);
+		this.saveComplaintSiteVisitDtls(visitDtls);
+		return PropertyUtils.getPrpertyFromContext(RlmsErrorType.VISIT_UPDATED_SUCCESS.getMessage());
+	}
+	
+	private RlmsSiteVisitDtls constructVisitDtls(SiteVisitDtlsDto dto, UserMetaInfo metaInfo){
+		RlmsComplaintTechMapDtls complaintTechMapDtls = this.complaintsDao.getComplTechMapByComplaintTechMapId(dto.getComplaintTechMapId());
+		RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(dto.getUserRoleId());
+		RlmsSiteVisitDtls visitDtls = new RlmsSiteVisitDtls();
+		visitDtls.setComplaintTechMapDtls(complaintTechMapDtls);
+		visitDtls.setFromDate(dto.getFromDate());
+		visitDtls.setToDate(dto.getToDate());
+		visitDtls.setUserRoles(userRoles);
+		visitDtls.setCreatedDate(new Date());
+		visitDtls.setCreatedBy(metaInfo.getUserId());
+		visitDtls.setUpdatedDate(new Date());
+		visitDtls.setUpdatedBy(metaInfo.getUserId());
+		return visitDtls;
+	}
+	private String validateVisitDtls(SiteVisitDtlsDto dto) throws ValidationException{
+		String errorMesage = null;
+		RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(dto.getUserRoleId());
+		if(null == userRoles){
+			throw new ValidationException(RlmsErrorType.INVALID_USER_ROLE_ID.getCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.INVALID_USER_ROLE_ID.getMessage()));
+		}
+		
+		if(null == dto.getFromDate() || null == dto.getToDate() || null == dto.getComplaintTechMapId()){
+			throw new ValidationException(RlmsErrorType.INVALID_USER_ROLE_ID.getCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.INCOMPLETE_DATA.getMessage()));
+		}
+		
+		return errorMesage;
+	}
+	
 	
 }
