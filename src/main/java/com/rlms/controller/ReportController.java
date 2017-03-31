@@ -1,5 +1,6 @@
 package com.rlms.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -17,6 +18,7 @@ import com.rlms.constants.Status;
 import com.rlms.contract.AMCDetailsDto;
 import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.ResponseDto;
+import com.rlms.contract.TechnicianWiseReportDto;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
 import com.rlms.exception.ValidationException;
@@ -64,4 +66,22 @@ public class ReportController extends BaseController{
 	 
 	        return responseDto;
 	    }
+	 
+	 @RequestMapping(value = "/getSiteVisitReport", method = RequestMethod.POST)
+	    public @ResponseBody List<TechnicianWiseReportDto>  getSiteVisitReport(@RequestBody TechnicianWiseReportDto dto) throws RunTimeException, ValidationException {
+	        
+		 List<TechnicianWiseReportDto>  listOfVisitDtls = new ArrayList<TechnicianWiseReportDto>();
+	        try{
+	        	logger.info("In addAMCDetailsForLift method");
+	        	listOfVisitDtls = this.reportService.getSiteVisitReport(dto);
+	        	
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));	       	
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return listOfVisitDtls;
+	    }
+	 
+	 
 }
