@@ -144,7 +144,8 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 	public List<RlmsComplaintTechMapDtls> getListOfComplaintDtlsForTechies(TechnicianWiseReportDto dto){
 		Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsComplaintTechMapDtls.class);
-		 criteria.createAlias("liftCustomerMap.branchCustomerMap", "bcm");
+		 criteria.createAlias("complaintMaster.liftCustomerMap", "lcm");
+		 criteria.createAlias("lcm.branchCustomerMap", "bcm");
 		 criteria.createAlias("bcm.companyBranchMapDtls", "cbm");
 		 criteria.createAlias("userRoles", "role");
 		 

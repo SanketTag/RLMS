@@ -1,13 +1,13 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('amcManagementCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
-		initAMCList();
+	.controller('reportCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
+		initReport();
 		$scope.cutomers=[];
 		$scope.goToAddAMC = function(){
 			window.location.hash = "#/add-amc";
 		}
-		function initAMCList(){
+		function initReport(){
 			 $scope.selectedCustomer = {};	
 			 $scope.lifts=[];
 			 $scope.selectedCustomer = {};
@@ -51,7 +51,7 @@
  	         })
 		}
 		//Show Member List
-		$scope.loadAMCList = function(){
+		$scope.loadReportList = function(){
 			$scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
 			$scope.showMembers = true;
 		}
@@ -80,7 +80,7 @@
 	  	        if (searchText) {
 	  	          var ft = searchText.toLowerCase();
 	  	        var dataToSend = constructDataToSend();
-	  	        serviceApi.doPostWithData('/RLMS/report/getAMCDetailsForLifts',dataToSend)
+	  	        serviceApi.doPostWithData('/RLMS/report/getSiteVisitReport',dataToSend)
 	  	         .then(function(largeLoad) {
 	  	        	  var details=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
@@ -141,7 +141,7 @@
 	  	        	
 	  	        	var dataToSend = constructDataToSend();
 		  	    	
-	  	        	serviceApi.doPostWithData('/RLMS/report/getAMCDetailsForLifts',dataToSend).then(function(largeLoad) {
+	  	        	serviceApi.doPostWithData('/RLMS/report/getSiteVisitReport',dataToSend).then(function(largeLoad) {
 	  	        	  var details=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var detailsObj={};
@@ -287,29 +287,40 @@
 				} 
 				
 			}
-	  	  $scope.resetAMCList = function(){
-	  		initAMCList();
+	  	  $scope.resetReportList = function(){
+	  		initReport();
 	  	  }
 	  	  function constructDataToSend(){
 	  		var tempLiftIds = [];
-			for (var i = 0; i < $scope.selectedLift.selected.length; i++) {
-				tempLiftIds.push($scope.selectedLift.selected[i].liftId);
-			}
-			var tempCusto = [];
-			for (var j = 0; j < $scope.selectedCustomer.selected.length; j++) {
-				tempCusto.push($scope.selectedCustomer.selected[j].branchCustomerMapId);
-			}
+//			for (var i = 0; i < $scope.selectedLift.selected.length; i++) {
+//				tempLiftIds.push($scope.selectedLift.selected[i].liftId);
+//			}
+//			var tempCusto = [];
+//			for (var j = 0; j < $scope.selectedCustomer.selected.length; j++) {
+//				tempCusto.push($scope.selectedCustomer.selected[j].branchCustomerMapId);
+//			}
 			var tempStatus =[];
 			for (var j = 0; j < $scope.selectedAmc.selected.length; j++) {
 				tempStatus.push($scope.selectedAmc.selected[j].id);
 			}
-			var data = {
-	        			liftCustomerMapId:tempLiftIds,
-	        			listOfBranchCustomerMapId:tempCusto,
-	        			listOFStatusIds:tempStatus
-  	    	}
-			var tempStatus =[]
-			return data;
+//			var data = {
+//	        			liftCustomerMapId:tempLiftIds,
+//	        			listOfBranchCustomerMapId:tempCusto,
+//	        			listOFStatusIds:tempStatus
+//  	    	}
+//			var tempStatus =[]
+//			return data;
+	  		var tempListOfUserRoleIds = [];
+	  		tempListOfUserRoleIds[0] = 2;
+	  		var data = {
+	  				companyBranchMapId:1,
+	  				listOfUserRoleIds:tempListOfUserRoleIds,
+	  				listOfStatusIds:tempStatus,
+//	  				fromDate:"",
+//	  				toDate:"",
+//	  				listOfBranchCustoMapIds:""
+	  		};
+	  		return data;
 	  	  }
 	}]);
 })();

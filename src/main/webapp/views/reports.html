@@ -1,0 +1,95 @@
+<div class="rlms-wrapper">
+<div class="rlms-container amc-management" ng-controller="reportCtrl">
+	<h1 class="rlms-heading">Report</h1>
+<!-- 	<div class="row">
+		<div class="col-lg-12 align-right">
+			<button class="btn-primary btn rlms-btn" ng-click="goToAddAMC()">Add AMC</button>
+		</div>	
+	</div> -->
+	<div class="filter-section">
+		<div class="form-group margin-b10">
+			<label class="control-label">AMC Status</label>
+			<div class="select-container">
+				  <ui-select multiple close-on-select="false" ng-model="selectedAmc.selected" title="Choose a AMC status">
+				    <ui-select-match placeholder="Select Amc Status">{{$select.selected[$index].name}}</ui-select-match>
+				    <ui-select-choices repeat="iterator in amcStatuses | filter: $select.search">
+				      <span ng-bind-html="iterator.name | highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+			</div>
+			<label class="control-label">Select Customer</label>
+			<div class="select-container">
+				  <ui-select multiple close-on-select="false" ng-model="selectedCustomer.selected" title="Choose a Customer" on-select="loadLifts();">
+				    <ui-select-match placeholder="Select Customer">{{$select.selected[$index].customerName}}</ui-select-match>
+				    <ui-select-choices refresh="searchCustomer($select.search)" refresh-delay="0" repeat="customerIterator in cutomers| filter: $select.search">
+				      <span ng-bind-html="customerIterator.customerName | highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+			</div>
+			<label class="control-label">Select Lift</label>
+			<div class="select-container">
+				  <ui-select multiple ng-model="selectedLift.selected" close-on-select="false" title="Choose lifts">
+				    <ui-select-match placeholder="Select lifts in the list...">{{$select.selected[$index].liftNumber}}</ui-select-match>
+				    <ui-select-choices repeat="iterator in lifts | filter: $select.search">
+				      <span ng-bind-html="iterator.liftNumber | highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+			</div>	
+		</div>
+		<div class="row">
+			<div class="col-lg-12 align-right">
+				<button class="btn-sky btn" ng-click="loadReportList()">Proceed</button>
+				<button class="btn-sky btn margin-left-10" ng-click="resetReportList()">Reset</button>
+			</div>	
+		</div>
+	</div>
+	<div class="container-fluid" ng-show="showMembers">
+	<h5 class="rlms-info"><span class="fa fa-info-circle"></span>Following is the list </h5>
+		<div class="row">
+	      <div class="col-md-12">		
+               <table class="table table-bordered table-striped table-responsive">
+				 <tr class="table-active">
+				  <th>Abc</th>
+				  <th>Xyz</th>
+				  <th>Bob</th>
+				  <th>Alice</th>
+				  <th>Xyz</th>
+				  <th>Bob</th>
+				 </tr>
+				 <tr class="table-active">
+				  <td rowspan="4">Favorite</td>
+				  <td rowspan="4">Favorite 2</td>
+				  <td rowspan="4">Favorite 3</td>
+				  <td>Color</td>
+				  <td>Blue</td>
+				  <td>Purple</td>
+				 </tr>
+				<tr class="table-active">
+				  <td>Flavor</td>
+				  <td>Banana</td>
+				  <td>Chocolate</td>
+				 </tr>
+				 <tr class="table-active">
+				  <td>Flavor</td>
+				  <td>Banana</td>
+				  <td>Chocolate</td>
+				 </tr>				 
+				<tr class="table-active">
+				  <td>Flavor</td>
+				  <td>Banana</td>
+				  <td>Chocolate</td>
+				 </tr>
+				 <tr class="table-active">
+				  <td>Least Favorite</td>
+				  <td>Color</td>
+				  <td>Yellow</td>
+				  <td>Pink</td>
+				  <td>Yellow</td>
+				  <td>Pink</td>
+				 </tr>
+				</table>
+	        </div>
+	    </div>
+	</div>
+</div>
+</div>
