@@ -243,8 +243,7 @@ public class RestControllerController  extends BaseController {
         	metaInfo.setUserName(userRoles.getRlmsUserMaster().getFirstName());
         	metaInfo.setUserRole(userRoles);
         	MemberDtlsDto dto = this.customerService.registerMemeberDeviceByMblNo(memberDtlsDto, metaInfo);
-        	Gson gSon = new Gson();
-        	reponseDto.setJsonElement(gSon.toJsonTree(dto, new TypeToken<MemberDtlsDto>() {}.getType()));
+        	reponseDto.setResponse(mapper.writeValueAsString(dto));
         	
         	reponseDto.setStatus(true);
         	
