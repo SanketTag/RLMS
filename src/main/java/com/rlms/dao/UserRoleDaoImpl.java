@@ -137,7 +137,6 @@ UserRoleDao{
 				 }
 				 criteria.add(Restrictions.eq("rlmsSpocRoleMaster.spocRoleId", spocRoleId));
 				 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
-		 		 //.add(Restrictions.eq("rlmsSpocRoleMaster.spocRoleId", SpocRoleConstants.TECHNICIAN.getSpocRoleId()));
 		 List<RlmsUserRoles> listOfAllTechnicians =  criteria.list();
 		 return listOfAllTechnicians;
 	}

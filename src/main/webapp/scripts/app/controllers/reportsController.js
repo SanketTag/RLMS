@@ -141,7 +141,7 @@
 	  	        	
 	  	        	var dataToSend = constructDataToSend();
 		  	    	
-	  	        	serviceApi.doPostWithData('/RLMS/report/getSiteVisitReport',dataToSend).then(function(largeLoad) {
+	  	        	serviceApi.doPostWithData('/RLMS/report/getTechnicianWiseReport',dataToSend).then(function(largeLoad) {
 	  	        	  var details=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var detailsObj={};
@@ -312,10 +312,16 @@
 //			return data;
 	  		var tempListOfUserRoleIds = [];
 	  		tempListOfUserRoleIds[0] = 2;
+	  		var statusIds = [];
+	  		statusIds[0] = 2;
+	  		statusIds[1] = 3;
+	  		statusIds[2] = 4;
+	  		statusIds[3] = 5;
+	  		statusIds[4] = 9;
 	  		var data = {
-	  				companyBranchMapId:1,
+	  				branchCompanyMapId:8,
+	  				companyId:9,
 	  				listOfUserRoleIds:tempListOfUserRoleIds,
-	  				listOfStatusIds:tempStatus,
 //	  				fromDate:"",
 //	  				toDate:"",
 //	  				listOfBranchCustoMapIds:""

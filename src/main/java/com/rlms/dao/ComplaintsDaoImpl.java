@@ -172,6 +172,7 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 		 return listOfAllcomplaints;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<RlmsSiteVisitDtls> getAllVisitsForComnplaints(Integer complaintTechMapId){
 		 Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsSiteVisitDtls.class)

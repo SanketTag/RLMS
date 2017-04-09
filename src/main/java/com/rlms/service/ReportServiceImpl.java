@@ -57,7 +57,7 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired
 	private ComplaintsService complaintService;
 	
-	@Audited
+	@Autowired
 	private UserRoleDao userRoleDao;
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -252,8 +252,8 @@ public class ReportServiceImpl implements ReportService {
 			complaintwiseSiteVisitReport.setLiftNumber(rlmsComplaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftMaster().getLiftNumber());
 			complaintwiseSiteVisitReport.setTechName(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName());
 			complaintwiseSiteVisitReport.setTechNumber(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber());
-			if(null != listOfAllVisists &&  !listOfAllVisists.isEmpty()){
-				complaintwiseSiteVisitReport.setTotalNoOfVisits(listOfAllVisists.size());
+			if(null != listOfAllVisits &&  !listOfAllVisits.isEmpty()){
+				complaintwiseSiteVisitReport.setTotalNoOfVisits(listOfAllVisits.size());
 			}
 			Long totalTimeForComplaint = null;
 			for (RlmsSiteVisitDtls rlmsSiteVisitDtls : listOfAllVisits) {
@@ -264,7 +264,7 @@ public class ReportServiceImpl implements ReportService {
 				if(null != totalTime){
 					siteVisitDto.setTotalTime(totalTime);
 				}
-				totalTimeForComplaint = DateUtils.getDateDiff(rlmsSiteVisitDtls.getFromDate(), rlmsSiteVisitDtls.getToDate(), TimeUnit.SECONDS);
+				totalTimeForComplaint = totalTimeForComplaint + DateUtils.getDateDiff(rlmsSiteVisitDtls.getFromDate(), rlmsSiteVisitDtls.getToDate(), TimeUnit.SECONDS);
 				
 				listOfAllVisists.add(siteVisitDto);
 			}
