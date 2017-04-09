@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -69,6 +70,7 @@ import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.LoginDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.ResponseDto;
+import com.rlms.contract.SiteVisitDtlsDto;
 import com.rlms.contract.UserDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.exception.ExceptionCode;
@@ -213,7 +215,7 @@ public class RestControllerController  extends BaseController {
     	ResponseDto reponseDto = new ResponseDto();
         try{
         	log.info("Method :: validateAndRegisterNewComplaint");
-        	reponseDto.setResponse(this.ComplaintsService.validateAndRegisterNewComplaint(dto, this.getMetaInfo()));
+        	reponseDto.setResponse(this.ComplaintsService.validateAndRegisterNewComplaint(dto, null));
         	reponseDto.setStatus(true);
         }catch(ValidationException vex){
         	log.error(ExceptionUtils.getFullStackTrace(vex));
@@ -350,5 +352,24 @@ public class RestControllerController  extends BaseController {
  
         return reponseDto;
     }
+    
+    @RequestMapping(value = "/complaint/validateAndSaveSiteVisitDtls", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto validateAndSaveSiteVisitDtls(@RequestBody SiteVisitDtlsDto dto){
+    	ResponseDto reponseDto = new ResponseDto();
+        try{
+        	log.info("Method :: uploadPhoto");
+        	reponseDto.setResponse(this.ComplaintsService.validateAndSaveSiteVisitDtls(dto, this.getMetaInfo()));        	
+       
+        }catch(Exception e){
+        	log.error(ExceptionUtils.getFullStackTrace(e));
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        
+        }
+ 
+        return reponseDto;
+    }
+    
+    
     
 }

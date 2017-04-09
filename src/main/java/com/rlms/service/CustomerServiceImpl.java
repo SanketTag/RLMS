@@ -348,6 +348,7 @@ public class CustomerServiceImpl implements CustomerService{
 		memberDtlsDto.setFirstName(memberMaster.getFirstName());
 		memberDtlsDto.setLastName(memberMaster.getLastName());
 		memberDtlsDto.setContactNumber(memberMaster.getContactNumber());
+		memberDtlsDto.setMemberId(memberMaster.getMemberId());
 		memberDtlsDto.setListOfCustomerDtls(this.constructCustoDtlsDto(listOFAllCustomers));
 		return memberDtlsDto;
 		
@@ -436,7 +437,7 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public RlmsMemberMaster getMemberById(Integer memeberId){
-		return this.getMemberById(memeberId);
+		return this.customerDao.getMemberById(memeberId);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)

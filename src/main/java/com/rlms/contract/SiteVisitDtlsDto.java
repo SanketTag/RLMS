@@ -11,6 +11,7 @@ public class SiteVisitDtlsDto {
 	private String fromDateDtr;
 	private String toDateStr;
 	private String totalTime;
+	private String remark;
 	
 	public Integer getUserRoleId() {
 		return userRoleId;
@@ -53,6 +54,12 @@ public class SiteVisitDtlsDto {
 	}
 	public void setTotalTime(String totalTime) {
 		this.totalTime = totalTime;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 	

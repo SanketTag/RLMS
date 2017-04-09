@@ -1,153 +1,81 @@
 package com.rlms.contract;
 
-import java.util.Date;
 import java.util.List;
 
-public class TechnicianWiseReportDto {
+public class TechnicianWiseReportDTO {
 
-	private Integer companyBranchMapId;
+	private Integer companyId;
+	private Integer branchCompanyMapId;
+	private List<Integer> listOFRatings;
 	private List<Integer> listOfUserRoleIds;
-	private List<Integer> listOfStatusIds;
-	private Date fromDate;
-	private Date toDate;
-	private List<Integer> listOfBranchCustoMapIds;
 	
-	private String techName;
-	private String techNumber;
-	private String complNumber;
-	private String LiftNumber;
-	private String customerName;
-	private String complaintRegDate;
-	private String complaintStatus;
-	private String complaintResolveDate;
-	private Integer totalComplaintAssigned;
-	private Integer totalComplResolved;
-	private Integer totalComplaintPending;
-	private String totalTimeTaken;
-	private Integer totalNoOfVisits;
+	private String technicianName;
+	private String contactNumber;
+	private String branchname;
+	private String companyName;
+	private Integer totalComplaintsAssigned;
+	private Integer totalComplaintsResolved;
+	private String avgTimeTaken;
 	private Integer userRating;
-	private List<SiteVisitDtlsDto> listOFAllVisits;
-	
-	
-	public Integer getCompanyBranchMapId() {
-		return companyBranchMapId;
+	public Integer getCompanyId() {
+		return companyId;
 	}
-	public void setCompanyBranchMapId(Integer companyBranchMapId) {
-		this.companyBranchMapId = companyBranchMapId;
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
 	}
-	public List<Integer> getListOfUserRoleIds() {
-		return listOfUserRoleIds;
+	public Integer getBranchCompanyMapId() {
+		return branchCompanyMapId;
 	}
-	public void setListOfUserRoleIds(List<Integer> listOfUserRoleIds) {
-		this.listOfUserRoleIds = listOfUserRoleIds;
+	public void setBranchCompanyMapId(Integer branchCompanyMapId) {
+		this.branchCompanyMapId = branchCompanyMapId;
 	}
-	public List<Integer> getListOfStatusIds() {
-		return listOfStatusIds;
+	public List<Integer> getListOFRatings() {
+		return listOFRatings;
 	}
-	public void setListOfStatusIds(List<Integer> listOfStatusIds) {
-		this.listOfStatusIds = listOfStatusIds;
+	public void setListOFRatings(List<Integer> listOFRatings) {
+		this.listOFRatings = listOFRatings;
 	}
-	public Date getFromDate() {
-		return fromDate;
+	public String getTechnicianName() {
+		return technicianName;
 	}
-	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
+	public void setTechnicianName(String technicianName) {
+		this.technicianName = technicianName;
 	}
-	public Date getToDate() {
-		return toDate;
+	public String getContactNumber() {
+		return contactNumber;
 	}
-	public void setToDate(Date toDate) {
-		this.toDate = toDate;
+	public void setContactNumber(String contactNumber) {
+		this.contactNumber = contactNumber;
 	}
-	public List<Integer> getListOfBranchCustoMapIds() {
-		return listOfBranchCustoMapIds;
+	public String getBranchname() {
+		return branchname;
 	}
-	public void setListOfBranchCustoMapIds(List<Integer> listOfBranchCustoMapIds) {
-		this.listOfBranchCustoMapIds = listOfBranchCustoMapIds;
+	public void setBranchname(String branchname) {
+		this.branchname = branchname;
 	}
-	public String getTechName() {
-		return techName;
+	public String getCompanyName() {
+		return companyName;
 	}
-	public void setTechName(String techName) {
-		this.techName = techName;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
-	public String getTechNumber() {
-		return techNumber;
+	public Integer getTotalComplaintsAssigned() {
+		return totalComplaintsAssigned;
 	}
-	public void setTechNumber(String techNumber) {
-		this.techNumber = techNumber;
+	public void setTotalComplaintsAssigned(Integer totalComplaintsAssigned) {
+		this.totalComplaintsAssigned = totalComplaintsAssigned;
 	}
-	public String getComplNumber() {
-		return complNumber;
+	public Integer getTotalComplaintsResolved() {
+		return totalComplaintsResolved;
 	}
-	public void setComplNumber(String complNumber) {
-		this.complNumber = complNumber;
+	public void setTotalComplaintsResolved(Integer totalComplaintsResolved) {
+		this.totalComplaintsResolved = totalComplaintsResolved;
 	}
-	public String getLiftNumber() {
-		return LiftNumber;
+	public String getAvgTimeTaken() {
+		return avgTimeTaken;
 	}
-	public void setLiftNumber(String liftNumber) {
-		LiftNumber = liftNumber;
-	}
-	public String getCustomerName() {
-		return customerName;
-	}
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-	public String getComplaintRegDate() {
-		return complaintRegDate;
-	}
-	public void setComplaintRegDate(String complaintRegDate) {
-		this.complaintRegDate = complaintRegDate;
-	}
-	public String getComplaintStatus() {
-		return complaintStatus;
-	}
-	public void setComplaintStatus(String complaintStatus) {
-		this.complaintStatus = complaintStatus;
-	}
-	public String getComplaintResolveDate() {
-		return complaintResolveDate;
-	}
-	public void setComplaintResolveDate(String complaintResolveDate) {
-		this.complaintResolveDate = complaintResolveDate;
-	}
-	public Integer getTotalComplaintAssigned() {
-		return totalComplaintAssigned;
-	}
-	public void setTotalComplaintAssigned(Integer totalComplaintAssigned) {
-		this.totalComplaintAssigned = totalComplaintAssigned;
-	}
-	public Integer getTotalComplResolved() {
-		return totalComplResolved;
-	}
-	public void setTotalComplResolved(Integer totalComplResolved) {
-		this.totalComplResolved = totalComplResolved;
-	}
-	public Integer getTotalComplaintPending() {
-		return totalComplaintPending;
-	}
-	public void setTotalComplaintPending(Integer totalComplaintPending) {
-		this.totalComplaintPending = totalComplaintPending;
-	}
-	public String getTotalTimeTaken() {
-		return totalTimeTaken;
-	}
-	public void setTotalTimeTaken(String totalTimeTaken) {
-		this.totalTimeTaken = totalTimeTaken;
-	}
-	public List<SiteVisitDtlsDto> getListOFAllVisits() {
-		return listOFAllVisits;
-	}
-	public void setListOFAllVisits(List<SiteVisitDtlsDto> listOFAllVisits) {
-		this.listOFAllVisits = listOFAllVisits;
-	}
-	public Integer getTotalNoOfVisits() {
-		return totalNoOfVisits;
-	}
-	public void setTotalNoOfVisits(Integer totalNoOfVisits) {
-		this.totalNoOfVisits = totalNoOfVisits;
+	public void setAvgTimeTaken(String avgTimeTaken) {
+		this.avgTimeTaken = avgTimeTaken;
 	}
 	public Integer getUserRating() {
 		return userRating;
@@ -155,6 +83,13 @@ public class TechnicianWiseReportDto {
 	public void setUserRating(Integer userRating) {
 		this.userRating = userRating;
 	}
+	public List<Integer> getListOfUserRoleIds() {
+		return listOfUserRoleIds;
+	}
+	public void setListOfUserRoleIds(List<Integer> listOfUserRoleIds) {
+		this.listOfUserRoleIds = listOfUserRoleIds;
+	}
+	
 	
 	
 }

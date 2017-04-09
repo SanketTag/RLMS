@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rlms.constants.RLMSConstants;
-import com.rlms.contract.TechnicianWiseReportDto;
+import com.rlms.contract.SiteVisitReportDto;
+import com.rlms.contract.TechnicianWiseReportDTO;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsSiteVisitDtls;
@@ -141,7 +142,7 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<RlmsComplaintTechMapDtls> getListOfComplaintDtlsForTechies(TechnicianWiseReportDto dto){
+	public List<RlmsComplaintTechMapDtls> getListOfComplaintDtlsForTechies(SiteVisitReportDto dto){
 		Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsComplaintTechMapDtls.class);
 		 criteria.createAlias("liftCustomerMap.branchCustomerMap", "bcm");
@@ -176,5 +177,35 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 				 .add(Restrictions.eq("complaintTechMapDtls.complaintTechMapId", complaintTechMapId));
 		 List<RlmsSiteVisitDtls> listOFAllVisits =  criteria.list();
 		 return listOFAllVisits;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsComplaintTechMapDtls> getListOfComplaintDtlsForTechies(TechnicianWiseReportDTO dto){
+		Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsComplaintTechMapDtls.class);
+		 criteria.createAlias("liftCustomerMap.branchCustomerMap", "bcm");
+		 criteria.createAlias("bcm.companyBranchMapDtls", "cbm");
+		 criteria.createAlias("cbm.rlmsCompanyMaster", "cm");
+		 
+		 criteria.createAlias("userRoles", "role");
+		 
+				 if(null != dto.getBranchCompanyMapId()){
+					 criteria.add(Restrictions.eq("cbm.companyBranchMapId", dto.getBranchCompanyMapId()));
+				 }
+				 if(null != dto.getCompanyId()){
+					 criteria.add(Restrictions.eq("cm.companyId", dto.getCompanyId()));
+				 }
+				
+				 if(null != dto.getListOfUserRoleIds()){
+					 criteria.add(Restrictions.in("role.userRoleId", dto.getListOfUserRoleIds())); 
+				 }
+				 
+				 if(null != dto.getListOfUserRoleIds()){
+					 criteria.add(Restrictions.in("userRating", dto.getListOFRatings())); 
+				 }
+				 
+				 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 List<RlmsComplaintTechMapDtls> listOfAllcomplaints = criteria.list();
+		 return listOfAllcomplaints;
 	}
 }

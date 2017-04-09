@@ -131,7 +131,7 @@ public class RlmsComplaintTechMapDtls implements Serializable{
 		this.updatedBy = updatedBy;
 	}
 	
-	@Column(name = "user_rating", unique = true, nullable = false)
+	@Column(name = "user_rating", unique = true, nullable = true)
 	public Integer getUserRating() {
 		return userRating;
 	}

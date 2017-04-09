@@ -21,8 +21,9 @@ public class RlmsSiteVisitDtls {
 	private RlmsUserRoles userRoles;
 	private Date fromDate;
 	private Date toDate;
-	private Integer totalTime;
+	private Long totalTime;
 	private RlmsComplaintTechMapDtls complaintTechMapDtls;
+	private String remark;
 	private Date createdDate;
 	private Integer createdBy;
 	private Date updatedDate;
@@ -66,12 +67,21 @@ public class RlmsSiteVisitDtls {
 	
 	
 	@Column(name = "total_time", unique = true, nullable = true)
-	public Integer getTotalTime() {
+	public Long getTotalTime() {
 		return totalTime;
 	}
-	public void setTotalTime(Integer totalTime) {
+	public void setTotalTime(Long totalTime) {
 		this.totalTime = totalTime;
 	}
+	
+	@Column(name = "remark", unique = true, nullable = true)
+	public String getRemark() {
+		return this.remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "complaint_tech_map_id")
 	public RlmsComplaintTechMapDtls getComplaintTechMapDtls() {

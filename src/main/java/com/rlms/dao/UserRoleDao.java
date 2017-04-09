@@ -29,4 +29,5 @@ public interface UserRoleDao{
 			Integer spocRoleId);
 	public void saveUserAppDlts(RlmsUserApplicationMapDtls userApplicationMapDtls);
 	public void mergeUserAppDlts(RlmsUserApplicationMapDtls userApplicationMapDtls);
+	public List<RlmsUserRoles> getAllUserWithRoleForBranch(Integer commpBranchMapId, Integer companyId, Integer spocRoleId);
 }

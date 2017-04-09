@@ -18,7 +18,8 @@ import com.rlms.constants.Status;
 import com.rlms.contract.AMCDetailsDto;
 import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.ResponseDto;
-import com.rlms.contract.TechnicianWiseReportDto;
+import com.rlms.contract.SiteVisitReportDto;
+import com.rlms.contract.TechnicianWiseReportDTO;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
 import com.rlms.exception.ValidationException;
@@ -68,11 +69,11 @@ public class ReportController extends BaseController{
 	    }
 	 
 	 @RequestMapping(value = "/getSiteVisitReport", method = RequestMethod.POST)
-	    public @ResponseBody List<TechnicianWiseReportDto>  getSiteVisitReport(@RequestBody TechnicianWiseReportDto dto) throws RunTimeException, ValidationException {
+	    public @ResponseBody List<SiteVisitReportDto>  getSiteVisitReport(@RequestBody SiteVisitReportDto dto) throws RunTimeException, ValidationException {
 	        
-		 List<TechnicianWiseReportDto>  listOfVisitDtls = new ArrayList<TechnicianWiseReportDto>();
+		 List<SiteVisitReportDto>  listOfVisitDtls = new ArrayList<SiteVisitReportDto>();
 	        try{
-	        	logger.info("In addAMCDetailsForLift method");
+	        	logger.info("In getSiteVisitReport method");
 	        	listOfVisitDtls = this.reportService.getSiteVisitReport(dto);
 	        	
 	        }catch(Exception e){
@@ -81,6 +82,22 @@ public class ReportController extends BaseController{
 	        }
 	 
 	        return listOfVisitDtls;
+	    }
+	 
+	 @RequestMapping(value = "/getTechnicianWiseReport", method = RequestMethod.POST)
+	    public @ResponseBody List<TechnicianWiseReportDTO>  getTechnicianWiseReport(@RequestBody TechnicianWiseReportDTO dto) throws RunTimeException, ValidationException {
+	        
+		 List<TechnicianWiseReportDTO>  listOfTEchis = new ArrayList<TechnicianWiseReportDTO>();
+	        try{
+	        	logger.info("In getTechnicianWiseReport method");
+	        	listOfTEchis = this.reportService.getTechnicianWiseReport(dto);
+	        	
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));	       	
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return listOfTEchis;
 	    }
 	 
 	 

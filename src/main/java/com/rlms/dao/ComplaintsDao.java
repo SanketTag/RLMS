@@ -3,7 +3,8 @@ package com.rlms.dao;
 import java.util.Date;
 import java.util.List;
 
-import com.rlms.contract.TechnicianWiseReportDto;
+import com.rlms.contract.SiteVisitReportDto;
+import com.rlms.contract.TechnicianWiseReportDTO;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsSiteVisitDtls;
@@ -18,8 +19,9 @@ public interface ComplaintsDao {
 	public void saveComplaintTechMapDtls(RlmsComplaintTechMapDtls complaintTechMapDtls);
 	public List<RlmsComplaintMaster> getAllComplaintsByMemberId(Integer memberId);
 	public void mergeComplaintM(RlmsComplaintMaster complaintMaster);
-	public List<RlmsComplaintTechMapDtls> getListOfComplaintDtlsForTechies(TechnicianWiseReportDto dto);
+	public List<RlmsComplaintTechMapDtls> getListOfComplaintDtlsForTechies(SiteVisitReportDto dto);
 	public void saveComplaintSiteVisitDtls(RlmsSiteVisitDtls siteVisitDtls);
 	public RlmsComplaintTechMapDtls getComplTechMapByComplaintTechMapId(Integer complaintTechMapId);
 	public List<RlmsSiteVisitDtls> getAllVisitsForComnplaints(Integer complaintTechMapId);
+	public List<RlmsComplaintTechMapDtls> getListOfComplaintDtlsForTechies(TechnicianWiseReportDTO dto);
 }

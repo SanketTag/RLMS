@@ -125,6 +125,23 @@ UserRoleDao{
 		 return listOfAllTechnicians;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<RlmsUserRoles> getAllUserWithRoleForBranch(Integer commpBranchMapId, Integer companyId, Integer spocRoleId){
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsUserRoles.class);
+				 if(null != commpBranchMapId){
+					criteria.add(Restrictions.eq("rlmsCompanyBranchMapDtls.companyBranchMapId", commpBranchMapId));
+				 }
+				 if(null != companyId){
+					criteria.add(Restrictions.eq("rlmsCompanyMaster.companyId", companyId));
+				 }
+				 criteria.add(Restrictions.eq("rlmsSpocRoleMaster.spocRoleId", spocRoleId));
+				 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 		 //.add(Restrictions.eq("rlmsSpocRoleMaster.spocRoleId", SpocRoleConstants.TECHNICIAN.getSpocRoleId()));
+		 List<RlmsUserRoles> listOfAllTechnicians =  criteria.list();
+		 return listOfAllTechnicians;
+	}
+	
 	public RlmsUserRoles getUserByUserName(String username)
 	{
 		 Session session = this.sessionFactory.getCurrentSession();

@@ -30,7 +30,7 @@ import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.SiteVisitDtlsDto;
-import com.rlms.contract.TechnicianWiseReportDto;
+import com.rlms.contract.SiteVisitReportDto;
 import com.rlms.contract.UserAppDtls;
 //import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserMetaInfo;
@@ -274,7 +274,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		complaintTechMapDtls.setComplaintMaster(complaintMaster);
 		complaintTechMapDtls.setCreatedBy(metaInfo.getUserId());
 		complaintTechMapDtls.setCreatedDate(new Date());
-		complaintTechMapDtls.setStatus(Status.PENDING_FOR_APPROVAL.getStatusId());
+		complaintTechMapDtls.setStatus(Status.ASSIGNED.getStatusId());
 		complaintTechMapDtls.setUpdatedBy(metaInfo.getUserId());
 		complaintTechMapDtls.setUpdatedDate(new Date());
 		complaintTechMapDtls.setUserRoles(userRoles);
@@ -469,7 +469,9 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		visitDtls.setComplaintTechMapDtls(complaintTechMapDtls);
 		visitDtls.setFromDate(dto.getFromDate());
 		visitDtls.setToDate(dto.getToDate());
+		visitDtls.setTotalTime(DateUtils.getDateDiff(dto.getFromDate(), dto.getToDate(), TimeUnit.SECONDS));
 		visitDtls.setUserRoles(userRoles);
+		visitDtls.setRemark(dto.getRemark());
 		visitDtls.setCreatedDate(new Date());
 		visitDtls.setCreatedBy(metaInfo.getUserId());
 		visitDtls.setUpdatedDate(new Date());

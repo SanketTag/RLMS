@@ -18,21 +18,26 @@ import org.springframework.transaction.annotation.Transactional;
 import com.rlms.constants.AMCType;
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RlmsErrorType;
+import com.rlms.constants.SpocRoleConstants;
 import com.rlms.constants.Status;
 import com.rlms.contract.AMCDetailsDto;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.SiteVisitDtlsDto;
-import com.rlms.contract.TechnicianWiseReportDto;
+import com.rlms.contract.SiteVisitReportDto;
+import com.rlms.contract.TechnicianWiseReportDTO;
 import com.rlms.contract.UserMetaInfo;
+import com.rlms.contract.UserRolePredicate;
 import com.rlms.dao.BranchDao;
 import com.rlms.dao.ComplaintsDao;
 import com.rlms.dao.LiftDao;
+import com.rlms.dao.UserRoleDao;
 import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsSiteVisitDtls;
+import com.rlms.model.RlmsUserRoles;
 import com.rlms.predicates.LiftPredicate;
 import com.rlms.utils.DateUtils;
 import com.rlms.utils.PropertyUtils;
@@ -51,6 +56,9 @@ public class ReportServiceImpl implements ReportService {
 	
 	@Autowired
 	private ComplaintsService complaintService;
+	
+	@Audited
+	private UserRoleDao userRoleDao;
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<AMCDetailsDto> getAMCDetailsForLifts(AMCDetailsDto dto){
@@ -222,11 +230,11 @@ public class ReportServiceImpl implements ReportService {
 		
 	}
 	@Transactional(propagation = Propagation.REQUIRED)
-	public List<TechnicianWiseReportDto> getSiteVisitReport(TechnicianWiseReportDto dto){
+	public List<SiteVisitReportDto> getSiteVisitReport(SiteVisitReportDto dto){
 		List<RlmsComplaintTechMapDtls> listOfComplaints = this.complaintsDao.getListOfComplaintDtlsForTechies(dto);
-		List<TechnicianWiseReportDto> listOfAllComplaints = new ArrayList<TechnicianWiseReportDto>();
+		List<SiteVisitReportDto> listOfAllComplaints = new ArrayList<SiteVisitReportDto>();
 		for (RlmsComplaintTechMapDtls rlmsComplaintTechMapDtls : listOfComplaints) {
-			TechnicianWiseReportDto complaintwiseSiteVisitReport = new TechnicianWiseReportDto();
+			SiteVisitReportDto complaintwiseSiteVisitReport = new SiteVisitReportDto();
 			List<SiteVisitDtlsDto> listOfAllVisists = new ArrayList<SiteVisitDtlsDto>();
 			List<RlmsSiteVisitDtls> listOfAllVisits = this.complaintsDao.getAllVisitsForComnplaints(rlmsComplaintTechMapDtls.getComplaintTechMapId());
 			if(null != rlmsComplaintTechMapDtls.getComplaintMaster().getRegistrationDate()){
@@ -270,43 +278,64 @@ public class ReportServiceImpl implements ReportService {
 		return listOfAllComplaints;
 	}
 	
+	@SuppressWarnings("unused")
 	@Transactional(propagation = Propagation.REQUIRED)
-	public List<TechnicianWiseReportDto> getTechnicianWiseREport(TechnicianWiseReportDto dto){
-		List<RlmsComplaintTechMapDtls> listOfComplaints = this.complaintsDao.getListOfComplaintDtlsForTechies(dto);
-		List<TechnicianWiseReportDto> listOfAllComplaints = new ArrayList<TechnicianWiseReportDto>();
-		for (RlmsComplaintTechMapDtls rlmsComplaintTechMapDtls : listOfComplaints) {
-			TechnicianWiseReportDto complaintwiseSiteVisitReport = new TechnicianWiseReportDto();
-			List<SiteVisitDtlsDto> listOfAllVisists = new ArrayList<SiteVisitDtlsDto>();
-			List<RlmsSiteVisitDtls> listOfAllVisits = this.complaintsDao.getAllVisitsForComnplaints(rlmsComplaintTechMapDtls.getComplaintTechMapId());
-					
-			
-			
-			
-			complaintwiseSiteVisitReport.setTechName(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName());
-			complaintwiseSiteVisitReport.setTechNumber(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber());
-			if(null != listOfAllVisists &&  !listOfAllVisists.isEmpty()){
-				complaintwiseSiteVisitReport.setTotalNoOfVisits(listOfAllVisists.size());
-			}
-			Long totalTimeForComplaint = null;
-			for (RlmsSiteVisitDtls rlmsSiteVisitDtls : listOfAllVisits) {
-				SiteVisitDtlsDto siteVisitDto = new SiteVisitDtlsDto();
-				siteVisitDto.setFromDateDtr(DateUtils.convertDateToStringWithTime(rlmsSiteVisitDtls.getFromDate()));
-				siteVisitDto.setToDateStr(DateUtils.convertDateToStringWithTime(rlmsSiteVisitDtls.getToDate()));
-				String totalTime = DateUtils.convertTimeIntoDaysHrMin(DateUtils.getDateDiff(rlmsSiteVisitDtls.getFromDate(), rlmsSiteVisitDtls.getToDate(), TimeUnit.SECONDS), TimeUnit.SECONDS);
-				if(null != totalTime){
-					siteVisitDto.setTotalTime(totalTime);
-				}
-				totalTimeForComplaint = DateUtils.getDateDiff(rlmsSiteVisitDtls.getFromDate(), rlmsSiteVisitDtls.getToDate(), TimeUnit.SECONDS);
-				
-				listOfAllVisists.add(siteVisitDto);
-			}
-			if(null != totalTimeForComplaint){
-				complaintwiseSiteVisitReport.setTotalTimeTaken(DateUtils.convertTimeIntoDaysHrMin(totalTimeForComplaint, TimeUnit.SECONDS));
-			}
-			complaintwiseSiteVisitReport.setListOFAllVisits(listOfAllVisists);
-			complaintwiseSiteVisitReport.setUserRating(rlmsComplaintTechMapDtls.getUserRating());
-			listOfAllComplaints.add(complaintwiseSiteVisitReport);
+	public List<TechnicianWiseReportDTO> getTechnicianWiseReport(TechnicianWiseReportDTO dto){
+		List<Integer> listOfUserRoleIds = new ArrayList<Integer>();
+		List<TechnicianWiseReportDTO> technicianList = new ArrayList<TechnicianWiseReportDTO>();
+		
+		List<RlmsUserRoles> listOfAllTechnicians = this.userRoleDao.getAllUserWithRoleForBranch(dto.getBranchCompanyMapId(), dto.getCompanyId(), SpocRoleConstants.TECHNICIAN.getSpocRoleId());
+		
+		
+		for (RlmsUserRoles userRoles : listOfAllTechnicians) {
+			listOfUserRoleIds.add(userRoles.getUserRoleId());
 		}
-		return listOfAllComplaints;
+		
+		if(null == dto.getListOfUserRoleIds() || dto.getListOfUserRoleIds().isEmpty()){
+			dto.setListOfUserRoleIds(listOfUserRoleIds);
+		}
+		
+		List<RlmsComplaintTechMapDtls> listOfComplaints = this.complaintsDao.getListOfComplaintDtlsForTechies(dto);
+		
+		List<SiteVisitReportDto> listOfAllComplaints = new ArrayList<SiteVisitReportDto>();
+		for (Integer userRoleId : listOfUserRoleIds) {
+			List<RlmsComplaintTechMapDtls> tempListOfComplaints = new ArrayList<RlmsComplaintTechMapDtls>(listOfComplaints);
+			RlmsUserRoles userRoles = this.userRoleDao.getUserRoleToRegister(userRoleId);
+			CollectionUtils.filter(tempListOfComplaints, new UserRolePredicate(userRoleId));
+			TechnicianWiseReportDTO technician = new TechnicianWiseReportDTO();
+			technician.setTechnicianName(userRoles.getRlmsUserMaster().getFirstName() + " " + userRoles.getRlmsUserMaster().getLastName());
+			technician.setContactNumber(userRoles.getRlmsUserMaster().getContactNumber());
+			technician.setBranchname(userRoles.getRlmsCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());
+			technician.setCompanyName(userRoles.getRlmsCompanyMaster().getCompanyName());
+			Long totalTimeForAllComplaints = 0L;
+			Integer totalResolvedComplaints = 0;
+			for (RlmsComplaintTechMapDtls rlmsComplaintTechMapDtls : tempListOfComplaints) {
+				if(Status.RESOLVED.getStatusId().equals(rlmsComplaintTechMapDtls.getStatus())){
+					totalResolvedComplaints++;
+					List<RlmsSiteVisitDtls> listOfAllVisits = this.complaintsDao.getAllVisitsForComnplaints(rlmsComplaintTechMapDtls.getComplaintTechMapId());
+					for (RlmsSiteVisitDtls rlmsSiteVisitDtls : listOfAllVisits) {
+						totalTimeForAllComplaints = totalTimeForAllComplaints + rlmsSiteVisitDtls.getTotalTime();
+					}
+				}
+				
+			}
+			if(null != tempListOfComplaints){
+				technician.setTotalComplaintsAssigned(tempListOfComplaints.size());
+			}else{
+				technician.setTotalComplaintsAssigned(RLMSConstants.ZERO.getId());
+			}
+			
+			technician.setTotalComplaintsResolved(totalResolvedComplaints);
+			if(totalTimeForAllComplaints > 0L && totalResolvedComplaints > 0){
+				Long avgTimeTaken = totalTimeForAllComplaints/totalResolvedComplaints;
+				technician.setAvgTimeTaken(DateUtils.convertTimeIntoDaysHrMin(avgTimeTaken, TimeUnit.SECONDS));
+			}else{
+				technician.setAvgTimeTaken(RLMSConstants.NA.getName());
+			}
+			
+			technicianList.add(technician);
+		}
+		
+		return technicianList;
 	}
 }

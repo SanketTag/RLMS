@@ -6,6 +6,7 @@ import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
+import com.rlms.contract.SiteVisitDtlsDto;
 import com.rlms.contract.UserAppDtls;
 //import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserMetaInfo;
@@ -25,4 +26,5 @@ public interface ComplaintsService {
 	public List<UserRoleDtlsDTO> getAllTechniciansToAssignComplaint(ComplaintsDtlsDto complaintsDtlsDto);
 	public String updateComplaintStatus(ComplaintsDto dto);
 	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(ComplaintsDtlsDto dto);
+	public String validateAndSaveSiteVisitDtls(SiteVisitDtlsDto dto, UserMetaInfo metaInfo) throws ValidationException;
 }
