@@ -284,7 +284,7 @@ public class ReportServiceImpl implements ReportService {
 		List<Integer> listOfUserRoleIds = new ArrayList<Integer>();
 		List<TechnicianWiseReportDTO> technicianList = new ArrayList<TechnicianWiseReportDTO>();
 		
-		List<RlmsUserRoles> listOfAllTechnicians = this.userRoleDao.getAllUserWithRoleForBranch(dto.getBranchCompanyMapId(), dto.getCompanyId(), SpocRoleConstants.TECHNICIAN.getSpocRoleId());
+		List<RlmsUserRoles> listOfAllTechnicians = this.userRoleDao.getAllUserWithRoleForBranch(dto.getBranchCompanyMapId(), null, SpocRoleConstants.TECHNICIAN.getSpocRoleId());
 		
 		
 		for (RlmsUserRoles userRoles : listOfAllTechnicians) {
