@@ -51,7 +51,7 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired
 	private LiftDao liftDao;
 	
-	@Audited
+	@Autowired
 	private ComplaintsDao complaintsDao;
 	
 	@Autowired

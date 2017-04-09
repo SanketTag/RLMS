@@ -42,23 +42,33 @@ angular
    	    	  url: "#/work-list"
    	      }*/
    	      ]
-   	    },{
-     	      label: 'Complaints',
-       	      iconClasses: 'glyphicon glyphicon-user ',
-       	      children: [{
-       	          label: 'Manage Complaint',
-       	          url: '#/complaint-management'
-       	      }
-       	      ]
-       	    },{
-       	    	label: 'AMC',
-       	   	    iconClasses: 'glyphicon glyphicon-user ',
-       	   	    children: [{
-       	   	        label: 'Manage AMC',
-       	   	        url: '#/amc-management'
-       	      }
-       	      ]
-       	    }];
+   	    },
+   	    {
+ 	      label: 'Complaints',
+   	      iconClasses: 'glyphicon glyphicon-user ',
+   	      children: [{
+   	          label: 'Manage Complaint',
+   	          url: '#/complaint-management'
+   	      }
+   	      ]
+   	    },
+   	    {
+   	    	label: 'AMC',
+   	   	    iconClasses: 'glyphicon glyphicon-user ',
+   	   	    children: [{
+   	   	        label: 'Manage AMC',
+   	   	        url: '#/amc-management'
+   	      }]
+   	    },
+   	    {
+   	    	label: 'Report',
+   	   	    iconClasses: 'glyphicon glyphicon-user ',
+   	   	    children: [{
+   	   	        label: 'Site Visit Report',
+   	   	        url: '#/reports'
+   	      }]
+   	    }
+];
 
 
     var setParent = function(children, parent) {
