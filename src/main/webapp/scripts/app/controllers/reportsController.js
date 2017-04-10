@@ -140,8 +140,8 @@
 	  	        } else {
 	  	        	
 	  	        	var dataToSend = constructDataToSend();
-		  	    	
-	  	        	serviceApi.doPostWithData('/RLMS/report/getTechnicianWiseReport',dataToSend).then(function(largeLoad) {
+		  	    	//getTechnicianWiseReport
+	  	        	serviceApi.doPostWithData('/RLMS/report/getSiteVisitReport',dataToSend).then(function(largeLoad) {
 	  	        	  var details=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var detailsObj={};
@@ -319,9 +319,10 @@
 	  		statusIds[3] = 5;
 	  		statusIds[4] = 9;
 	  		var data = {
-	  				branchCompanyMapId:8,
-	  				companyId:9,
-	  				listOfUserRoleIds:tempListOfUserRoleIds,
+	  				companyBranchMapId:8,
+	  				//companyId:9,
+	  				//listOfUserRoleIds:tempListOfUserRoleIds,
+	  				listOfStatusIds:statusIds,
 //	  				fromDate:"",
 //	  				toDate:"",
 //	  				listOfBranchCustoMapIds:""
