@@ -107,7 +107,41 @@
 				  	</table>
 				  </td>
 				  <td>{{report.totalTimeTaken}}</td>
-				  <td>{{report.userRating}}</td>
+				  <td ng-if="(report.userRating == 1)">
+				  <ul class="star-rating" class='readonly'>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				  </ul>
+        		 </td>
+        		 <td ng-if="(report.userRating == 2)">
+        		 <ul class="star-rating" class='readonly'>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				  </ul>
+        		 </td>
+        		 <td ng-if="(report.userRating == 3)">
+        		 <ul class="star-rating" class='readonly'>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				  </ul>
+        		 </td>
+        		 <td ng-if="(report.userRating == 4)">
+        		 <ul class="star-rating" class='readonly'>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				 </ul>
+        		 </td>
+        		 <td ng-if="(report.userRating == 5)">
+        		 <ul class="star-rating" class='readonly'>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				  </ul>
+        		 </td>
 				 </tr>
 				</table>
 	        </div>
