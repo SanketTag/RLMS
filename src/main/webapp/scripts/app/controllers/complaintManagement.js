@@ -435,15 +435,18 @@
 									filterOptions : $scope.filterOptions,
 									multiSelect : false,
 									gridFooterHeight : 35,
+									enableRowSelection: true,
 									selectedItems: [],
 									afterSelectionChange:function(rowItem, event){
 										$scope.showAlert = false;
-										var selected = $filter('filter')($scope.complaints,{complaintId:$scope.gridOptions.selectedItems[0].complaintId});
-										if(selected[0].Status == "Assigned"){
-											$scope.isAssigned = true;
-										}else{
-											$scope.isAssigned = false;
-										}
+										console.log(rowItem);
+										console.log(event);
+										//var selected = $filter('filter')($scope.complaints,{complaintId:$scope.gridOptions.selectedItems[0].complaintId});
+//										if(selected[0].Status == "Assigned"){
+//											$scope.isAssigned = true;
+//										}else{
+//											$scope.isAssigned = false;
+//										}
 									},
 									columnDefs : [ {
 										field : "Number",
@@ -501,7 +504,7 @@
 									]
 								};
 								$scope.assignComplaint =function(){
-									var selected = $filter('filter')($scope.complaints,{complaintId:$scope.gridOptions.selectedItems[0].complaintId});
+									//var selected = $filter('filter')($scope.complaints,{complaintId:$scope.gridOptions.selectedItems[0].complaintId});
 									var dataToSend ={
 											complaintId:selected[0].complaintId
 									}
