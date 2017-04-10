@@ -97,7 +97,6 @@
  	         serviceApi.doPostWithData('/RLMS/report/getSiteVisitReport',dataToSend)
  	         .then(function(data) {
  	        	 $scope.siteViseReport = data;
- 	        	 console.log(siteViseReport);
  	         })
 			$scope.showMembers = true;
 		}
@@ -139,8 +138,7 @@
 			
 
 	  		var data = {
-//	  				companyBranchMapId:$scope.selectedBranch.selected.companyBranchMapId,
-	  				companyBranchMapId:8,
+	  				companyBranchMapId:$scope.selectedBranch.selected.companyBranchMapId,
 	  				//companyId:9,
 	  				//listOfUserRoleIds:tempListOfUserRoleIds,
 	  				listOfStatusIds:tempStatus,
