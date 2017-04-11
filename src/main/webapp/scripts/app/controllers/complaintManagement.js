@@ -430,9 +430,9 @@
 									enableRowSelection: true,
 									selectedItems: [],
 									afterSelectionChange:function(rowItem, event){
-										$scope.showAlert = false;
-										console.log(rowItem);
-										console.log(event);
+										//$scope.showAlert = false;
+										//console.log(rowItem);
+										//console.log(event);
 										//var selected = $filter('filter')($scope.complaints,{complaintId:$scope.gridOptions.selectedItems[0].complaintId});
 //										if(selected[0].Status == "Assigned"){
 //											$scope.isAssigned = true;
@@ -491,20 +491,29 @@
 									}
 									]
 								};
+//								 $scope.$watch('gridOptions.selectedItems', function(oldVal , newVal) {
+//								     console.log("________")
+//								    		 console.log(newVal);
+//								    });
 								$scope.assignComplaint =function(){
 									//var selected = $filter('filter')($scope.complaints,{complaintId:$scope.gridOptions.selectedItems[0].complaintId});
-									var dataToSend ={
-											complaintId:selected[0].complaintId
+									if($scope.gridOptions.selectedItems[0].Status == "Pending"){
+										$scope.selectedComplaintId = $scope.gridOptions.selectedItems[0].complaintId;
+										var dataToSend ={
+												complaintId:$scope.selectedComplaintId
+										}
+										serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
+										.then(function(data) {
+											$scope.technicians = data;
+										})
+										$scope.modalInstance = $modal.open({
+									        templateUrl: 'assignComplaintTemplate',
+									        scope:$scope
+									     })
+									}else{
+										alert("Already Assigned Complaint");
 									}
-									$scope.selectedComplaintId = selected[0].complaintId;
-									serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
-									.then(function(data) {
-										$scope.technicians = data;
-									})
-									$scope.modalInstance = $modal.open({
-								        templateUrl: 'assignComplaintTemplate',
-								        scope:$scope
-								     })
+										
 							}
 				
 									
@@ -520,6 +529,7 @@
 										var successMessage = response.response;
 										$scope.alert.msg = successMessage;
 										$scope.alert.type = "success";
+										$scope.loadComplaintsList();
 									})
 									setTimeout(function(){ $scope.modalInstance.dismiss(); }, 1000);
 									
