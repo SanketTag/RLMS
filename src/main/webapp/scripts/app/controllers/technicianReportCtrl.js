@@ -68,7 +68,7 @@
 	  	  }
 	  	  function constructDataToSend(){
 	  		var data = {
-	  				'companyBranchMapId':$scope.selectedBranch.selected.companyBranchMapId,
+	  				'branchCompanyMapId':$scope.selectedBranch.selected.companyBranchMapId,
 	  				'companyId':$scope.selectedCompany.selected.companyId,
 	  		};
 	  		return data;
