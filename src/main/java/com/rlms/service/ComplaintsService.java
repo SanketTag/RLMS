@@ -19,7 +19,7 @@ public interface ComplaintsService {
 	public List<ComplaintsDto> getAllComplaintsAssigned(Integer userRoleId, List<Integer> statusList);
 	public String validateAndRegisterNewComplaint(ComplaintsDtlsDto dto, UserMetaInfo metaInfo) throws ValidationException;
 	public List<ComplaintsDto> getListOfComplaintsBy(ComplaintsDtlsDto dto);
-	public String assignComplaint(ComplaintsDto complaintsDto, UserMetaInfo metaInfo);
+	public String assignComplaint(ComplaintsDto complaintsDto, UserMetaInfo metaInfo) throws ValidationException;
 	public List<LiftDtlsDto> getAllLiftsForBranchsOrCustomer(LiftDtlsDto dto);
 	public List<UserAppDtls> getRegIdsOfAllApplicableUsers(Integer complaintId);
 	public List<ComplaintsDto> getAllComplaintsByMember(Integer memberId);

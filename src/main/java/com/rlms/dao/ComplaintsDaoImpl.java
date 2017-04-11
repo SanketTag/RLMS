@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rlms.constants.RLMSConstants;
+import com.rlms.constants.Status;
 import com.rlms.contract.SiteVisitReportDto;
 import com.rlms.contract.TechnicianWiseReportDTO;
 import com.rlms.model.RlmsComplaintMaster;
@@ -109,7 +110,6 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 		 return complaintMapDtls;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public RlmsComplaintTechMapDtls getComplTechMapByComplaintTechMapId(Integer complaintTechMapId){
 		 Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsComplaintTechMapDtls.class)
@@ -119,8 +119,16 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 	}
 	
 	
+	public RlmsComplaintTechMapDtls getComplTechMapByComplaintId(Integer complaintId){
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsComplaintTechMapDtls.class)
+				 .add(Restrictions.eq("complaintMaster.complaintId", complaintId));
+		 RlmsComplaintTechMapDtls complaintMapDtls = (RlmsComplaintTechMapDtls) criteria.uniqueResult();
+		 return complaintMapDtls;
+	}
 	
-	@SuppressWarnings("unchecked")
+	
+	
 	public RlmsComplaintMaster getComplaintMasterObj(Integer complaintId){
 		 Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsComplaintMaster.class)

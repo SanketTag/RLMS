@@ -180,11 +180,7 @@
 																			} else {
 																				userDetailsObj["Title"] = " - ";
 																			}
-																			if (!!largeLoad[i].remark) {
-																				userDetailsObj["Remark"] = largeLoad[i].remark;
-																			} else {
-																				userDetailsObj["Remark"] = " - ";
-																			}
+																		
 																			if (!!largeLoad[i].registrationDate) {
 																				userDetailsObj["Registration_Date"] = largeLoad[i].registrationDate;
 																			} else {
@@ -280,11 +276,7 @@
 																			} else {
 																				userDetailsObj["Title"] = " - ";
 																			}
-																			if (!!largeLoad[i].remark) {
-																				userDetailsObj["Remark"] = largeLoad[i].remark;
-																			} else {
-																				userDetailsObj["Remark"] = " - ";
-																			}
+																			
 																			if (!!largeLoad[i].registrationDateStr) {
 																				userDetailsObj["Registration_Date"] = largeLoad[i].registrationDateStr;
 																			} else {
@@ -455,11 +447,7 @@
 										width : 120
 									}, {
 										field : "Remark",
-										displayName:"Remark",
-										width : 120
-									}, {
-										field : "Remark",
-										displayName:"Title",
+										displayName:"Details",
 										width : 120
 									}, {
 										field : "Registration_Date",

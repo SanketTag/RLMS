@@ -28,6 +28,7 @@ public enum RlmsErrorType {
 	MEMBER_REG_SUCCESSFUL(30,"member_reg_successful"),
 	INVALID_CONTACT_NUMBER(31,"invalid_contact_number"),
 	COMPLAINT_ASSIGNED_SUUCESSFULLY(32,"complaint_assigned_suucessfully"),
+	COMPLAINT_ASSIGNED_ALREADY(32,"complaint_assigned_already"),
 	PHOTO_UPDATED(33,"photo_updated"),
 	STATUS_UPDATED(34,"status_updated"),
 	SUCCESSFULLY(35,"successfully"),

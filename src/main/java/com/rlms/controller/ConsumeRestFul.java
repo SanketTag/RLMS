@@ -12,8 +12,8 @@ public class ConsumeRestFul {
 
 	// http://localhost:8080/RESTfulExample/json/product/post
 		public static void main(String[] args) {
-			//getAllLiftsForMemeber();
-			addNewComplaint();
+			getAllLiftsForMemeber();
+			//addNewComplaint();
 		}
 		  public static void getAllComplaintsByTech(){
 			  try{

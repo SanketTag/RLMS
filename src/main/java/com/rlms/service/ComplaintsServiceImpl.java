@@ -250,7 +250,12 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public String assignComplaint(ComplaintsDto complaintsDto, UserMetaInfo metaInfo){
+	public String assignComplaint(ComplaintsDto complaintsDto, UserMetaInfo metaInfo) throws ValidationException{
+		
+		RlmsComplaintTechMapDtls alreadyAssignedComplaint = this.complaintsDao.getComplTechMapByComplaintId(complaintsDto.getComplaintId());
+		if(null == alreadyAssignedComplaint){
+		  throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_ASSIGNED_ALREADY.getMessage()));	
+		}
 		RlmsComplaintTechMapDtls complaintTechMapDtls = this.constructComplaintTechMapDtlsDto(complaintsDto, metaInfo);
 		this.complaintsDao.saveComplaintTechMapDtls(complaintTechMapDtls);
 		RlmsComplaintMaster complaintMaster = complaintTechMapDtls.getComplaintMaster();

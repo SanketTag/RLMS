@@ -22,6 +22,7 @@ public interface ComplaintsDao {
 	public List<RlmsComplaintTechMapDtls> getListOfComplaintDtlsForTechies(SiteVisitReportDto dto);
 	public void saveComplaintSiteVisitDtls(RlmsSiteVisitDtls siteVisitDtls);
 	public RlmsComplaintTechMapDtls getComplTechMapByComplaintTechMapId(Integer complaintTechMapId);
+	public RlmsComplaintTechMapDtls getComplTechMapByComplaintId(Integer complaintId);
 	public List<RlmsSiteVisitDtls> getAllVisitsForComnplaints(Integer complaintTechMapId);
 	public List<RlmsComplaintTechMapDtls> getListOfComplaintDtlsForTechies(TechnicianWiseReportDTO dto);
 }

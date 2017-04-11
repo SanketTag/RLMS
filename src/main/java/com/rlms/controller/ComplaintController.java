@@ -20,6 +20,7 @@ import com.rlms.contract.ResponseDto;
 import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
+import com.rlms.exception.ValidationException;
 import com.rlms.service.ComplaintsService;
 import com.rlms.service.CustomerService;
 import com.rlms.utils.PropertyUtils;
@@ -79,6 +80,9 @@ public class ComplaintController extends BaseController{
 	        	logger.info("Method :: assignComplaint");
 	        	reponseDto.setResponse(this.complaintsService.assignComplaint(dto, this.getMetaInfo()));
 	        	
+	        } catch(ValidationException e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(e.getExceptionCode(), e.getExceptionMessage());
 	        }
 	        catch(Exception e){
 	        	logger.error(ExceptionUtils.getFullStackTrace(e));
