@@ -317,3 +317,32 @@ ul.stepy-header{
 .margin-b10{
 	margin-bottom:10px !important;
 }
+.padding0{
+	padding:0!important;
+}
+.margin-left-20{
+	margin-left:20px!important;
+}
+.margin-b-0{
+	margin-bottom:0!important;
+}
+.report-table th,.report-table td{
+	min-width:100px;
+}
+.report-table .inner-table th,.report-table .inner-table td{
+	min-width: 160px;
+	border-left: 1px solid silver;
+}
+.report-container {
+    overflow: auto;
+    min-height:300px;
+    max-height:500px;
+    border: 1px solid silver;
+}
+table.report-table, table.inner-table{
+	 font-size: 12px!important;
+}
+
+/* rating css */
+.star-rating { margin: 0; padding: 0; display: inline-block; } .star-rating .star { padding: 1px; color: #ddd;font-size: 12px;text-shadow: .05em .05em #aaa; list-style-type: none; display: inline-block; cursor: pointer; } .star-rating .star.filled { color: #fd0; } .star-rating.readonly .star.filled { color: #666; } 
+   

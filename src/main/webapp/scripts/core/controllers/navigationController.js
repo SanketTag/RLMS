@@ -66,6 +66,9 @@ angular
    	   	    children: [{
    	   	        label: 'Site Visit Report',
    	   	        url: '#/reports'
+   	      },{
+   	   	        label: 'Technician Wise Report',
+   	   	        url: '#/technician-wise-report'
    	      }]
    	    }
 ];

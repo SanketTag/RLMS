@@ -8,32 +8,73 @@
 			window.location.hash = "#/add-amc";
 		}
 		function initReport(){
-			 $scope.selectedCustomer = {};	
+			$scope.selectedCompany = {};
+			$scope.selectedBranch = {};
 			 $scope.lifts=[];
+			 $scope.branches = [];
 			 $scope.selectedCustomer = {};
+			 $scope.selectedStatus = {};
 			 $scope.selectedLift = {};
 			 $scope.selectedAmc = {};
 			 $scope.showMembers = false;
-			 $scope.amcStatuses=[
-				 {
-					 name:"Under Warranty",
-					 id:38
-				 },
-				 {
-					 name:"Renewal Due",
-					 id:39
-				 },
-				 {
-					 name:"AMC Pending",
-					 id:40
-				 },
-				 {
-					 name:"Under AMC",
-					 id:41
-				 }
-			 ]
+			 $scope.status = [ {
+					id : 2,
+					name : 'Pending'
+				}, {
+					id : 3,
+					name : 'Assigned'
+				}, {
+					id : 4,
+					name : 'Completed'
+				}, {
+					id : 5,
+					name : 'Resolved'
+				} ];
 			 
 		} 
+		// showCompnay Flag
+		if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1) {
+			$scope.showCompany = true;
+			loadCompanyData();
+		} else {
+			$scope.showCompany = false;
+			$scope.loadBranchData();
+		}
+		
+		// showBranch Flag
+		if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel < 3) {
+			$scope.showBranch = true;
+		} else {
+			$scope.showBranch = false;
+		}
+		function loadCompanyData() {
+			serviceApi
+					.doPostWithoutData(
+							'/RLMS/admin/getAllApplicableCompanies')
+					.then(function(response) {
+						$scope.companies = response;
+					});
+		}
+		$scope.loadBranchData = function() {
+			var companyData = {};
+			if ($scope.showCompany == true) {
+				companyData = {
+					companyId : $scope.selectedCompany.selected.companyId
+				}
+			} else {
+				companyData = {
+					companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+				}
+			}
+			serviceApi
+					.doPostWithData(
+							'/RLMS/admin/getAllBranchesForCompany',
+							companyData)
+					.then(function(response) {
+						$scope.branches = response;
+
+					});
+		}
 		$scope.loadCustomerData = function(){
 			var branchData ={};
   	    	if($scope.showBranch == true){
@@ -52,225 +93,14 @@
 		}
 		//Show Member List
 		$scope.loadReportList = function(){
-			$scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+ 	         var dataToSend = constructDataToSend();
+ 	         serviceApi.doPostWithData('/RLMS/report/getSiteVisitReport',dataToSend)
+ 	         .then(function(data) {
+ 	        	 $scope.siteViseReport = data;
+ 	         })
 			$scope.showMembers = true;
 		}
-	    $scope.filterOptions = {
-	  	      filterText: '',
-	  	      useExternalFilter: true
-	  	    };
-	  	    $scope.totalServerItems = 0;
-	  	    $scope.pagingOptions = {
-	  	      pageSizes: [10, 20, 50],
-	  	      pageSize: 10,
-	  	      currentPage: 1
-	  	    };
-	  	    $scope.setPagingData = function(data, page, pageSize) {
-	  	      var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
-	  	      $scope.myData = pagedData;
-	  	      $scope.totalServerItems = data.length;
-	  	      if (!$scope.$$phase) {
-	  	        $scope.$apply();
-	  	      }
-	  	    };
-	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
-	  	    	
-	  	      setTimeout(function() {
-	  	        var data;
-	  	        if (searchText) {
-	  	          var ft = searchText.toLowerCase();
-	  	        var dataToSend = constructDataToSend();
-	  	        serviceApi.doPostWithData('/RLMS/report/getSiteVisitReport',dataToSend)
-	  	         .then(function(largeLoad) {
-	  	        	  var details=[];
-	  	        	  for(var i=0;i<largeLoad.length;i++){
-	  	        		var detailsObj={};
-	  	        		if(!!largeLoad[i].customerName){
-	  	        			detailsObj["customerName"] =largeLoad[i].customerName;
-	  	        		}else{
-	  	        			detailsObj["customerName"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].liftNumber){
-	  	        			detailsObj["liftNumber"] =largeLoad[i].liftNumber;
-	  	        		}else{
-	  	        			detailsObj["liftNumber"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].status){
-	  	        			detailsObj["status"] =largeLoad[i].status;
-	  	        		}else{
-	  	        			detailsObj["status"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].amcAmount){
-	  	        			detailsObj["amcAmount"] =largeLoad[i].amcAmount;
-	  	        		}else{
-	  	        			detailsObj["amcAmount"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].amcTypeStr){
-	  	        			detailsObj["amcTypeStr"] =largeLoad[i].amcTypeStr;
-	  	        		}else{
-	  	        			detailsObj["amcTypeStr"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].amcStartDate){
-	  	        			detailsObj["amcStartDate"] =largeLoad[i].amcStartDate;
-	  	        		}else{
-	  	        			detailsObj["amcStartDate"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].dueDate){
-	  	        			detailsObj["dueDate"] =largeLoad[i].dueDate;
-	  	        		}else{
-	  	        			detailsObj["dueDate"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].area){
-	  	        			detailsObj["area"] =largeLoad[i].area;
-	  	        		}else{
-	  	        			detailsObj["area"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].city){
-	  	        			detailsObj["city"] =largeLoad[i].city;
-	  	        		}else{
-	  	        			detailsObj["city"] =" - ";
-	  	        		}
-	  	        		details.push(detailsObj);
-	  	        	  }
-	  	            data = details.filter(function(item) {
-	  	              return JSON.stringify(item).toLowerCase().indexOf(ft) !== -1;
-	  	            });
-	  	            $scope.setPagingData(data, page, pageSize);
-	  	          });
-	  	        } else {
-	  	        	
-	  	        	var dataToSend = constructDataToSend();
-		  	    	//getTechnicianWiseReport
-	  	        	serviceApi.doPostWithData('/RLMS/report/getSiteVisitReport',dataToSend).then(function(largeLoad) {
-	  	        	  var details=[];
-	  	        	  for(var i=0;i<largeLoad.length;i++){
-		  	        	var detailsObj={};
-	  	        		if(!!largeLoad[i].customerName){
-	  	        			detailsObj["customerName"] =largeLoad[i].customerName;
-	  	        		}else{
-	  	        			detailsObj["customerName"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].liftNumber){
-	  	        			detailsObj["liftNumber"] =largeLoad[i].liftNumber;
-	  	        		}else{
-	  	        			detailsObj["liftNumber"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].status){
-	  	        			detailsObj["status"] =largeLoad[i].status;
-	  	        		}else{
-	  	        			detailsObj["status"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].amcAmount){
-	  	        			detailsObj["amcAmount"] =largeLoad[i].amcAmount;
-	  	        		}else{
-	  	        			detailsObj["amcAmount"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].amcTypeStr){
-	  	        			detailsObj["amcTypeStr"] =largeLoad[i].amcTypeStr;
-	  	        		}else{
-	  	        			detailsObj["amcTypeStr"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].amcStartDate){
-	  	        			detailsObj["amcStartDate"] =largeLoad[i].amcStartDate;
-	  	        		}else{
-	  	        			detailsObj["amcStartDate"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].dueDate){
-	  	        			detailsObj["dueDate"] =largeLoad[i].dueDate;
-	  	        		}else{
-	  	        			detailsObj["dueDate"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].area){
-	  	        			detailsObj["area"] =largeLoad[i].area;
-	  	        		}else{
-	  	        			detailsObj["area"] =" - ";
-	  	        		}
-	  	        		if(!!largeLoad[i].city){
-	  	        			detailsObj["city"] =largeLoad[i].city;
-	  	        		}else{
-	  	        			detailsObj["city"] =" - ";
-	  	        		}
-	  	        		details.push(detailsObj);
-	  	        	  }
-	  	            $scope.setPagingData(details, page, pageSize);
-	  	          });
-	  	          
-	  	        }
-	  	      }, 100);
-	  	    };
-	  	    
-	  	    $scope.$watch('pagingOptions', function(newVal, oldVal) {
-	  	      if (newVal !== oldVal) {
-	  	        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
-	  	      }
-	  	    }, true);
-	  	    $scope.$watch('filterOptions', function(newVal, oldVal) {
-	  	      if (newVal !== oldVal) {
-	  	        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
-	  	      }
-	  	    }, true);
-
-	  	    $scope.gridOptions = {
-	  	      data: 'myData',
-	  	      rowHeight: 40,
-	  	      enablePaging: true,
-	  	      showFooter: true,
-	  	      totalServerItems: 'totalServerItems',
-	  	      pagingOptions: $scope.pagingOptions,
-	  	      filterOptions: $scope.filterOptions,
-	  	      multiSelect: false,
-	  	      gridFooterHeight:35,
-	  	      groupBy:'customerName',
-	  	      columnDefs : [ {
-				field : "amcAmount",
-				displayName:"AMC Amount",
-				width : 120
-	  	      },{
-					field : "amcStartDate",
-					displayName:"AMC Start Date",
-					width : 120
-		  	  },{
-					field : "amcTypeStr",
-					displayName:"AMC Type",
-					width : 120
-		  	  },{
-					field : "area",
-					displayName:"Area",
-					width : 120
-		  	  },{
-					field : "city",
-					displayName:"City",
-					width : 120
-		  	  },{
-					field : "customerName",
-					displayName:"Customer Name",
-					width : 120
-		  	  },{
-					field : "dueDate",
-					displayName:"Due Date",
-					width : 120
-		  	  },{
-					field : "liftNumber",
-					displayName:"Lift Number",
-					width : 120
-		  	  },{
-					field : "status",
-					displayName:"Status",
-					width : 120
-		  	  }
-	  	      ]
-	  	    };
-	  	  $scope.loadLifts = function() {
-				
-				var dataToSend = {
-					//branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId,
-					branchCustomerMapId : $scope.selectedCustomer.selected.branchCustomerMapId
-				}
-				serviceApi.doPostWithData('/RLMS/complaint/getAllApplicableLifts',dataToSend)
-						.then(function(liftData) {
-							$scope.lifts = liftData;
-						})
-			}
+	   
 	  	  $scope.searchCustomer = function(query){
 				//console.log(query);
 				if(query && query.length > 1){
@@ -291,41 +121,30 @@
 	  		initReport();
 	  	  }
 	  	  function constructDataToSend(){
-	  		var tempLiftIds = [];
-//			for (var i = 0; i < $scope.selectedLift.selected.length; i++) {
-//				tempLiftIds.push($scope.selectedLift.selected[i].liftId);
-//			}
-//			var tempCusto = [];
-//			for (var j = 0; j < $scope.selectedCustomer.selected.length; j++) {
-//				tempCusto.push($scope.selectedCustomer.selected[j].branchCustomerMapId);
-//			}
-			var tempStatus =[];
-			for (var j = 0; j < $scope.selectedAmc.selected.length; j++) {
-				tempStatus.push($scope.selectedAmc.selected[j].id);
+	  		var tempStatus = [];
+	  		if($scope.selectedStatus.selected.length){
+	  			for (var j = 0; j < $scope.selectedStatus.selected.length; j++) {
+					tempStatus.push($scope.selectedStatus.selected[j].id);
+				}
+	  		}
+	  		
+			
+	  		var tempbranchCustomerMapIds = [];
+			if($scope.selectedCustomer.selected.length > 0){
+				for (var j = 0; j < $scope.selectedCustomer.selected.length; j++) {
+					tempbranchCustomerMapIds.push($scope.selectedCustomer.selected[j].branchCustomerMapId);
+				}
 			}
-//			var data = {
-//	        			liftCustomerMapId:tempLiftIds,
-//	        			listOfBranchCustomerMapId:tempCusto,
-//	        			listOFStatusIds:tempStatus
-//  	    	}
-//			var tempStatus =[]
-//			return data;
-	  		var tempListOfUserRoleIds = [];
-	  		tempListOfUserRoleIds[0] = 2;
-	  		var statusIds = [];
-	  		statusIds[0] = 2;
-	  		statusIds[1] = 3;
-	  		statusIds[2] = 4;
-	  		statusIds[3] = 5;
-	  		statusIds[4] = 9;
+			
+
 	  		var data = {
-	  				companyBranchMapId:8,
+	  				companyBranchMapId:$scope.selectedBranch.selected.companyBranchMapId,
 	  				//companyId:9,
 	  				//listOfUserRoleIds:tempListOfUserRoleIds,
-	  				listOfStatusIds:statusIds,
+	  				listOfStatusIds:tempStatus,
 //	  				fromDate:"",
 //	  				toDate:"",
-//	  				listOfBranchCustoMapIds:""
+	  				listOfBranchCustoMapIds:tempbranchCustomerMapIds
 	  		};
 	  		return data;
 	  	  }
