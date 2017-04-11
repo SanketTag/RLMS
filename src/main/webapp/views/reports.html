@@ -86,6 +86,7 @@
 				  	</table>
 				  </th>
 				 <th>Time Taken</th>
+				   <th>Technician</th>
 				  <th>User Rating</th>
 				 </tr>
 				 <tr rowspan="{{report.listOFAllVisits.length}}" class="table-active" ng-repeat="report in siteViseReport">
@@ -107,6 +108,7 @@
 				  	</table>
 				  </td>
 				  <td>{{report.totalTimeTaken}}</td>
+				   <td>{{report.techName}}</td>
 				  <td ng-if="(report.userRating == 1)">
 				  <ul class="star-rating" class='readonly'>
 				   	<li class="star filled"><i class="fa fa-star"></i></li>
@@ -142,6 +144,7 @@
 				   	<li class="star filled"><i class="fa fa-star"></i></li>
 				  </ul>
         		 </td>
+        		 
 				 </tr>
 				</table>
 	        </div>

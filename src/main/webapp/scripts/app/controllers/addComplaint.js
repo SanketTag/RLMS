@@ -95,6 +95,7 @@
 			//Post call add customer
 			$scope.submitAddComplaint = function(){
 				$scope.addComplaint.liftCustomerMapId = $scope.selectedLift.selected.liftId;
+				$scope.addComplaint.registrationType = 31;
 				serviceApi.doPostWithData("/RLMS/complaint/validateAndRegisterNewComplaint",$scope.addComplaint)
 				.then(function(response){
 					$scope.showAlert = true;
