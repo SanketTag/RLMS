@@ -290,11 +290,11 @@ public class ReportServiceImpl implements ReportService {
 		for (RlmsUserRoles userRoles : listOfAllTechnicians) {
 			listOfUserRoleIds.add(userRoles.getUserRoleId());
 		}
-		
-		if(null == dto.getListOfUserRoleIds() || dto.getListOfUserRoleIds().isEmpty()){
-			dto.setListOfUserRoleIds(listOfUserRoleIds);
+		if(!listOfUserRoleIds.isEmpty()){
+			if(null == dto.getListOfUserRoleIds() || dto.getListOfUserRoleIds().isEmpty()){
+				dto.setListOfUserRoleIds(listOfUserRoleIds);
+			}
 		}
-		
 		List<RlmsComplaintTechMapDtls> listOfComplaints = this.complaintsDao.getListOfComplaintDtlsForTechies(dto);
 		
 		List<SiteVisitReportDto> listOfAllComplaints = new ArrayList<SiteVisitReportDto>();
