@@ -196,12 +196,18 @@ public class ReportServiceImpl implements ReportService {
 	public RlmsLiftAmcDtls constructLiftAMCDtls(AMCDetailsDto dto, UserMetaInfo metaInfo) throws ParseException{
 		RlmsLiftAmcDtls liftAMCDtls = new RlmsLiftAmcDtls();
 		RlmsLiftCustomerMap liftCustomerMap = this.liftDao.getLiftCustomerMapById(dto.getLiftCustoMapId());
-		
-		liftAMCDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
 		if(null != dto.getAmcEndDate()){
+			dto.setAmcEdDate(DateUtils.convertStringToDateWithoutTime(dto.getAmcEndDate()));
+		}
+		
+		if(null != dto.getAmcStartDate()){
+			dto.setAmcStDate(DateUtils.convertStringToDateWithoutTime(dto.getAmcStartDate()));
+		}
+		liftAMCDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
+		if(null != dto.getAmcEdDate()){
 			liftAMCDtls.setAmcDueDate(DateUtils.addDaysToDate(dto.getAmcEdDate(), -30));
 		}
-		if(null != dto.getAmcEndDate()){
+		if(null != dto.getAmcEdDate()){
 			liftAMCDtls.setAmcEndDate(dto.getAmcEdDate());
 		}
 		
