@@ -315,6 +315,8 @@ public class ReportServiceImpl implements ReportService {
 			technician.setCompanyName(userRoles.getRlmsCompanyMaster().getCompanyName());
 			Long totalTimeForAllComplaints = 0L;
 			Integer totalResolvedComplaints = 0;
+			Integer avgRating = 0;
+			Integer ratCount = 0 ;
 			for (RlmsComplaintTechMapDtls rlmsComplaintTechMapDtls : tempListOfComplaints) {
 				if(Status.RESOLVED.getStatusId().equals(rlmsComplaintTechMapDtls.getStatus())){
 					totalResolvedComplaints++;
@@ -323,8 +325,15 @@ public class ReportServiceImpl implements ReportService {
 						totalTimeForAllComplaints = totalTimeForAllComplaints + rlmsSiteVisitDtls.getTotalTime();
 					}
 				}
-				
+				if(null != rlmsComplaintTechMapDtls.getUserRating()){
+					avgRating = avgRating + rlmsComplaintTechMapDtls.getUserRating();
+					ratCount++;
+				}
 			}
+			if(ratCount > 0 && avgRating > 0){
+				avgRating = avgRating / ratCount;
+			}
+			technician.setUserRating(avgRating);
 			if(null != tempListOfComplaints){
 				technician.setTotalComplaintsAssigned(tempListOfComplaints.size());
 			}else{

@@ -253,7 +253,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	public String assignComplaint(ComplaintsDto complaintsDto, UserMetaInfo metaInfo) throws ValidationException{
 		
 		RlmsComplaintTechMapDtls alreadyAssignedComplaint = this.complaintsDao.getComplTechMapByComplaintId(complaintsDto.getComplaintId());
-		if(null == alreadyAssignedComplaint){
+		if(null != alreadyAssignedComplaint){
 		  throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_ASSIGNED_ALREADY.getMessage()));	
 		}
 		RlmsComplaintTechMapDtls complaintTechMapDtls = this.constructComplaintTechMapDtlsDto(complaintsDto, metaInfo);

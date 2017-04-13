@@ -42,6 +42,7 @@
 				  <th>Complaints Assigned</th>
 				  <th>Complaints Resolved</th>
 				  <th>Avg Time Taken</th>
+				  <th>User Rating</th>
 				 </tr>
 				 <tr class="table-active" ng-repeat="report in siteViseReport">
 				  <td>{{report.technicianName}}</td>
@@ -51,6 +52,47 @@
 				  <td>{{report.totalComplaintsAssigned}}</td>
 				  <td>{{report.totalComplaintsResolved}}</td>
 				  <td>{{report.avgTimeTaken}}</td>
+				   <td ng-if="(report.userRating == 0)">
+				  <ul class="star-rating" class='readonly'>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				  </ul>
+        		 </td>
+				  <td ng-if="(report.userRating == 1)">
+				  <ul class="star-rating" class='readonly'>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				  </ul>
+        		 </td>
+        		 <td ng-if="(report.userRating == 2)">
+        		 <ul class="star-rating" class='readonly'>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				  </ul>
+        		 </td>
+        		 <td ng-if="(report.userRating == 3)">
+        		 <ul class="star-rating" class='readonly'>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				  </ul>
+        		 </td>
+        		 <td ng-if="(report.userRating == 4)">
+        		 <ul class="star-rating" class='readonly'>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				 </ul>
+        		 </td>
+        		 <td ng-if="(report.userRating == 5)">
+        		 <ul class="star-rating" class='readonly'>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				   	<li class="star filled"><i class="fa fa-star"></i></li>
+				  </ul>
+        		 </td>
+        		 
 				 </tr>
 				</table>
 	        </div>
