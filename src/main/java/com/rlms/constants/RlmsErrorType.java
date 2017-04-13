@@ -36,7 +36,9 @@ public enum RlmsErrorType {
 	ADDED_AMC_DTLS_SUCCESSFULLY(37,"added_amc_dtls_successfully"),
 	INVALID_USER_ROLE_ID(38,"invalid_user_role_id"),
 	INCOMPLETE_DATA(39,"incomplete_data"),
-	VISIT_UPDATED_SUCCESS(40,"visit_updated_success");
+	VISIT_UPDATED_SUCCESS(40,"visit_updated_success"),
+	USERNAME_ALREADY_USED(40,"username_already_used"),
+	USER_ALREADY_REGISTERED_SYSTEM(42,"user_already_registered_system");
 	
 	private Integer code;
 	private String message;

@@ -20,7 +20,7 @@
 	  	        $scope.$apply();
 	  	      }
 	  	    };
-	  	    $scope.alert = { type: 'success', msg: 'Well done! You successfully Added Lift.',close:true };
+	  	    $scope.alert = { type: 'success', msg: ' You successfully Added Lift.',close:true };
 			$scope.showAlert = false;
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
 	  	    	

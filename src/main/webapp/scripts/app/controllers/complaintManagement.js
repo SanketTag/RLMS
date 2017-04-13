@@ -29,7 +29,7 @@
 								        startDate: moment().subtract(1, "days"),
 								        endDate: moment()
 								    };
-									$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Complaint.',close:true };
+									$scope.alert = { type: 'success', msg: 'You successfully Added Complaint.',close:true };
 									$scope.showAlert = false;
 									$scope.selectedCompany = {};
 									$scope.selectedBranch = {};

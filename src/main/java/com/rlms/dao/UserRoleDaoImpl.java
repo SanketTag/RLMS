@@ -53,6 +53,14 @@ UserRoleDao{
 		 return (RlmsUserRoles)criteria.uniqueResult();
 	}
 	
+	public RlmsUserRoles getUserIFRoleisAssigned(Integer userID){
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsUserRoles.class)
+				 .add(Restrictions.eq("rlmsUserMaster.userId", userID));
+		 
+		 return (RlmsUserRoles)criteria.uniqueResult();
+	}
+	
 	public List<RlmsSpocRoleMaster> getAllRoles(UserMetaInfo metaInfo){
 		 Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsSpocRoleMaster.class)

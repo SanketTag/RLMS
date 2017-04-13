@@ -72,7 +72,7 @@
 		    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
 		    $scope.format = $scope.formats[0];
 	    //Date Picker End
-		$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Lift.',close:true };
+		$scope.alert = { type: 'success', msg: 'You successfully Added Lift.',close:true };
 		$scope.showAlert = false;
 		$scope.showCompany = false;
 		$scope.showBranch = false;

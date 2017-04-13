@@ -3,7 +3,7 @@
 	angular.module('rlmsApp')
 	.controller('addCompanyCtrl', ['$scope', '$filter','serviceApi','$route','utility','pinesNotifications','$timeout','$window', function($scope, $filter,serviceApi,$route,utility,pinesNotifications,$timeout,$window) {
 		initAddCompany();
-		$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Company.',close:true };
+		$scope.alert = { type: 'success', msg: 'You successfully Added Company.',close:true };
 		//function to initialize addCompany Model
 		$scope.showAlert = false;
 		function initAddCompany(){

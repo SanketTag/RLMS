@@ -4,7 +4,7 @@
 	.controller('assignRoleCtrl', ['$scope', '$filter','serviceApi','$route','utility', function($scope, $filter,serviceApi,$route,utility) {
 		initAssignRole();
 		loadRolesData();
-		$scope.alert = { type: 'success', msg: 'Well done! You successfully Assigned Role.',close:true };
+		$scope.alert = { type: 'success', msg: 'You successfully Assigned Role.',close:true };
 		$scope.showAlert = false;
 		$scope.roles = [];
 		$scope.companies = [];

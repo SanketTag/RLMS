@@ -5,7 +5,7 @@
 		//initialize add Branch
 		initAddBranch();
 		loadCompayInfo();
-		$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Branch.',close:true };
+		$scope.alert = { type: 'success', msg: 'You successfully Added Branch.',close:true };
 		//loadBranchListInfo();
 		$scope.showAlert = false;
 		$scope.companies = [];

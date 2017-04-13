@@ -275,7 +275,8 @@ public class UserServiceImpl implements UserService{
 		String userRoleIdbyte = dto.getRegistrationId();
 		Integer userroleId = Integer.valueOf(this.messagingService.decrypt(userRoleIdbyte));
 		RlmsUserRoles userRole = this.userRoleDao.getUserRoleToRegister(userroleId);
-		if(null != userRole && !this.isAlreadyHasActiveAccount(userRole)){
+		this.validateUserAccount(dto, userroleId, userRole);
+		if(null != userRole ){
 			RlmsUsersMaster userMaster = userRole.getRlmsUserMaster();
 			userMaster.setUsername(dto.getUserName());
 			userMaster.setPassword(dto.getPassword());
@@ -291,7 +292,18 @@ public class UserServiceImpl implements UserService{
 		}
 		return statusMessage;
 	}
-	
+	private void validateUserAccount(RegisterDto dto, Integer useRoleId, RlmsUserRoles givenRoleObj) throws ValidationException{
+		RlmsUserRoles userRoles = this.userRoleDao.getUserByUserName(dto.getUserName());
+		
+		if(null != userRoles && useRoleId.equals(userRoles.getUserRoleId())){
+			throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.USERNAME_ALREADY_USED.getMessage()));
+		}else if(this.isAlreadyHasActiveAccount(givenRoleObj)){
+			
+			throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.USER_ALREADY_REGISTERED_SYSTEM.getMessage()));
+		}
+		
+		
+	}
 	private boolean isAlreadyHasActiveAccount(RlmsUserRoles userRole){
 		boolean isAlreadyHasActiveAccount = false;
 		if(RLMSConstants.ACTIVE.getId().equals(userRole.getActiveFlag())){

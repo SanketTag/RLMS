@@ -19,14 +19,10 @@
 		<intercept-url pattern="/admin**" access="ROLE_ADMIN" />-->
 		
 			<!-- <intercept-url pattern="/customer/**" access="isAuthenticated()" /> -->
-		<intercept-url pattern="/device/**" access="isAuthenticated()" />
-		<intercept-url pattern="/driver/**" access="isAuthenticated()" />
-		<intercept-url pattern="/Report/**" access="isAuthenticated()" />
-		<intercept-url pattern="/plan/**" access="isAuthenticated()" />
-		<intercept-url pattern="/vehicle/**" access="isAuthenticated()" />
-		<intercept-url pattern="/home" access="isAuthenticated()" />
-		<intercept-url pattern="/index" access="isAuthenticated()" />
-		<intercept-url pattern="/Vts/API/**" access="permitAll" />
+		<intercept-url pattern="/RLMS/admin/**" access="isAuthenticated()" />
+		<intercept-url pattern="/RLMS/complaint/**" access="isAuthenticated()" />
+		<intercept-url pattern="/RLMS/report/**" access="isAuthenticated()" />
+		<intercept-url pattern="/RLMS/index#/**" access="isAuthenticated()" />
 		<intercept-url pattern="/Vts/customer/regNewAccount/**" access="permitAll" />
 		<intercept-url pattern="/Vts/customer/getRegistrationPage" access="permitAll" />
 		<!-- <intercept-url pattern="/Vts/API/**" access="permitAll" />

@@ -4,7 +4,7 @@
 	.controller('addComplaintCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window','$rootScope','$modal', function($scope, $filter,serviceApi,$route,utility,$window,$rootScope,$modal) {
 		initAddComplaint();
 			//loadCompayInfo();
-			$scope.alert = { type: 'success', msg: 'Well done! You successfully Added Complaint.',close:true };
+			$scope.alert = { type: 'success', msg: 'You successfully Added Complaint.',close:true };
 			$scope.showAlert = false;
 			$scope.companies = [];
 			$scope.branches = [];
