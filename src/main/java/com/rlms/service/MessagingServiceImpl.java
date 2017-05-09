@@ -192,6 +192,19 @@ public class MessagingServiceImpl implements MessagingService{
 		this.emailService.sendEmail(dto);
 	}
 	
+	public void sendAMCMail(List<String> listOfDyanamicValues, List<String> toList, Integer mailTemplateId) throws UnsupportedEncodingException{
+		
+		EmailTemplate emailTemplate = this.getEmailTemplate(mailTemplateId);
+		
+		String content = this.emailService.replaceDyanamicValue(listOfDyanamicValues, emailTemplate.getEmailContent());
+		
+		emailTemplate.setEmailContent(content);
+		
+		MailDTO dto = this.emailService.constructMailDto(toList, emailTemplate.getEmailSubject(), emailTemplate.getEmailContent(), "sanket.tagalpallewar@gmail.com", toList);
+		
+		this.emailService.sendEmail(dto);
+	}
+	
 	public String encryptToByteArr(Integer id) throws InvalidKeyException, Exception{
 		return this.emailService.encryptToByteArr(id.toString());
 	}

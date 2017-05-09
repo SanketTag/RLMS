@@ -423,15 +423,15 @@ public class CustomerServiceImpl implements CustomerService{
 		for (RlmsCustomerMemberMap customerMemberMap : listOfAllCustomers) {
 			listOfAllBranchCustomerMapIds.add(customerMemberMap.getRlmsBranchCustomerMap().getBranchCustoMapId());
 		}
-		
-		List<RlmsLiftCustomerMap> allLiftsForCustomes = this.liftDao.getAllLiftsForCustomres(listOfAllBranchCustomerMapIds);
-		for (RlmsLiftCustomerMap rlmsLiftCustomerMap : allLiftsForCustomes) {
-			LiftDtlsDto dto = new LiftDtlsDto();
-			dto.setLiftCustomerMapId(rlmsLiftCustomerMap.getLiftCustomerMapId());
-			dto.setLiftNumber(rlmsLiftCustomerMap.getLiftMaster().getLiftNumber());
-			listOfLiftDtls.add(dto);
+		if(null != listOfAllBranchCustomerMapIds && !listOfAllBranchCustomerMapIds.isEmpty()){
+			List<RlmsLiftCustomerMap> allLiftsForCustomes = this.liftDao.getAllLiftsForCustomres(listOfAllBranchCustomerMapIds);
+			for (RlmsLiftCustomerMap rlmsLiftCustomerMap : allLiftsForCustomes) {
+				LiftDtlsDto dto = new LiftDtlsDto();
+				dto.setLiftCustomerMapId(rlmsLiftCustomerMap.getLiftCustomerMapId());
+				dto.setLiftNumber(rlmsLiftCustomerMap.getLiftMaster().getLiftNumber());
+				listOfLiftDtls.add(dto);
+			}
 		}
-		
 		return listOfLiftDtls;
 	}
 	

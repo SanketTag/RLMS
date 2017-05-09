@@ -29,6 +29,7 @@ public class AMCDetailsDto {
 	private String area;
 	private Date amcStDate;
 	private Date amcEdDate;
+	private Date amcDueDate;
 	
 	public Integer getCompanyId() {
 		return companyId;
@@ -173,6 +174,12 @@ public class AMCDetailsDto {
 	}
 	public void setAmcEdDate(Date amcEdDate) {
 		this.amcEdDate = amcEdDate;
+	}
+	public Date getAmcDueDate() {
+		return amcDueDate;
+	}
+	public void setAmcDueDate(Date amcDueDate) {
+		this.amcDueDate = amcDueDate;
 	}
 	
 	

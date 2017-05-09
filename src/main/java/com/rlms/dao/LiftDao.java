@@ -41,5 +41,11 @@ public interface LiftDao {
 	public Integer saveLiftAMCDtls(RlmsLiftAmcDtls liftAmcDtls);
 	
 	public List<RlmsLiftCustomerMap> getAllLiftsByIds(List<Integer> liftCustomerMapIds);
+	
+	public List<RlmsLiftAmcDtls> getAllLiftsWithTodaysDueDate();
+
+	public void mergeLiftAMCDtls(RlmsLiftAmcDtls liftAmcDtls);
+	
+	public List<RlmsLiftAmcDtls> getAllLiftsWithTodaysExpiryDate();
 
 }

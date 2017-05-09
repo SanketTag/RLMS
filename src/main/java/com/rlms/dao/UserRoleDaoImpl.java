@@ -134,6 +134,18 @@ UserRoleDao{
 	}
 	
 	@SuppressWarnings("unchecked")
+	public RlmsUserRoles getUserWithRoleForCompany(Integer companyId, Integer spocRoleId){
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsUserRoles.class)
+				 .add(Restrictions.eq("rlmsCompanyMaster.companyId", companyId))
+				 .add(Restrictions.eq("rlmsSpocRoleMaster.spocRoleId", spocRoleId))
+				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 		 //.add(Restrictions.eq("rlmsSpocRoleMaster.spocRoleId", SpocRoleConstants.TECHNICIAN.getSpocRoleId()));
+		 RlmsUserRoles userRoles =  (RlmsUserRoles) criteria.uniqueResult();
+		 return userRoles;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<RlmsUserRoles> getAllUserWithRoleForBranch(Integer commpBranchMapId, Integer companyId, Integer spocRoleId){
 		 Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsUserRoles.class);

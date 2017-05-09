@@ -10,34 +10,21 @@ import javax.crypto.spec.SecretKeySpec;
 public class Test {
 
 	
-
+	
+	 
+	public static void main(String[] args) {
+	 
+	String str="Hello world";
+	String revstring="";
+	 
+	for(int i=str.length()-1;i>=0;--i){
+	revstring +=str.charAt(i);
+	}
+	 
+	System.out.println(revstring);
+	}
 	
 	
-	    public void run() 
-	    {
-	        try 
-	        {
-	        	ByteArrayOutputStream baos = new ByteArrayOutputStream ();
-	        	DataOutputStream dos = new DataOutputStream (baos);
-	        	dos.writeInt (3);
-	        	byte[] data = baos.toByteArray();
-	        	
-	        	System.out.println(data);
-	        	
-	        	ByteArrayInputStream bais = new ByteArrayInputStream (data);
-	        	DataInputStream dis = new DataInputStream (bais);
-	        	int j = dis.readInt();
-	        	System.out.println(j);
-	        }
-	        catch(Exception e) 
-	        {
-	            e.printStackTrace();
-	        }
-	    }
-	    public static void main(String[] args) 
-	    {
-	    	Test app = new Test();
-	        app.run();
-	    }
+	   
 	
 }

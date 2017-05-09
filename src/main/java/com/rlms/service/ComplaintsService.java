@@ -1,5 +1,6 @@
 package com.rlms.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.rlms.contract.ComplaintsDtlsDto;
@@ -26,5 +27,6 @@ public interface ComplaintsService {
 	public List<UserRoleDtlsDTO> getAllTechniciansToAssignComplaint(ComplaintsDtlsDto complaintsDtlsDto);
 	public String updateComplaintStatus(ComplaintsDto dto);
 	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(ComplaintsDtlsDto dto);
-	public String validateAndSaveSiteVisitDtls(SiteVisitDtlsDto dto, UserMetaInfo metaInfo) throws ValidationException;
+	public String validateAndSaveSiteVisitDtls(SiteVisitDtlsDto dto) throws ValidationException, ParseException;
+	public List<SiteVisitDtlsDto> getAllVisitsForComplaint(SiteVisitDtlsDto siteVisitDtlsDto);
 }

@@ -13,8 +13,6 @@ public class ResponseDto {
 
 	private boolean status;
 	private Object response;
-	private JsonElement jsonElement;
-	private JsonArray jsonArray;
 	
 
 	public boolean isStatus() {
@@ -33,21 +31,7 @@ public class ResponseDto {
 		this.response = response;
 	}
 
-	public JsonElement getJsonElement() {
-		return jsonElement;
-	}
 
-	public void setJsonElement(JsonElement jsonElement) {
-		this.jsonElement = jsonElement;
-	}
-
-	public JsonArray getJsonArray() {
-		return jsonArray;
-	}
-
-	public void setJsonArray(JsonArray jsonArray) {
-		this.jsonArray = jsonArray;
-	}
 
 	
 

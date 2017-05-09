@@ -27,6 +27,12 @@ public class DateUtils {
 		return s;
 	}
 	
+	public static Date convertStringToDateWithTime(String inputDate) throws ParseException{
+		Format formatter = new SimpleDateFormat("dd-MMM-yyyy hh:MM:ss a");
+		Date s = (Date) formatter.parseObject(inputDate);
+		return s;
+	}
+	
 	public static Date addDaysToDate(Date date, int days){
 		Calendar c = Calendar.getInstance();
 		c.setTime(date); // Now use today date.

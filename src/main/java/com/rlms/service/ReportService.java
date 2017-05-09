@@ -1,5 +1,6 @@
 package com.rlms.service;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface ReportService {
 	public String addAMCDetailsForLift(AMCDetailsDto dto, UserMetaInfo metaInfo) throws ParseException;
 	public List<SiteVisitReportDto> getSiteVisitReport(SiteVisitReportDto dto);
 	public List<TechnicianWiseReportDTO> getTechnicianWiseReport(TechnicianWiseReportDTO dto);
+	public void changeStatusToAMCRenewalAndNotifyUser() throws UnsupportedEncodingException;
+	public void changeStatusToAMCExpiryAndNotifyUser() throws UnsupportedEncodingException;
 }

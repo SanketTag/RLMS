@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
 
 import javax.crypto.BadPaddingException;
@@ -31,5 +32,6 @@ public interface MessagingService {
 	public String encrypt(String value) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException;
 	public String decrypt(String encrypted) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException;
 	public void sendNotification(String appRegId, Map<String, String> dataPayload) throws SmackException, IOException;
+	public void sendAMCMail(List<String> listOfDyanamicValues, List<String> toList, Integer mailTemplateId) throws UnsupportedEncodingException;
 	
 }

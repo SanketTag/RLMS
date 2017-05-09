@@ -1,25 +1,41 @@
 package com.rights.batches;
 
+import java.io.UnsupportedEncodingException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.envers.Audited;
+
+import com.rlms.service.ReportService;
 
 public class AMCMonitor {
 
+	
 	private static final Logger logger = Logger.getLogger(AMCMonitor.class);
+	
+	@Autowired
+	private ReportService reportService;
 	
 	public static void main(String arg[])
 	{
 		System.out.println("Batch start");
 		ApplicationContext context = new ClassPathXmlApplicationContext("BatchBeans.xml");
 		 logger.debug(context);
-		 AMCMonitor geoCodingBatch = (AMCMonitor) context.getBean("aMCMonitor");
+		 AMCMonitor amcMonitor = (AMCMonitor) context.getBean("aMCMonitor");
 		 try {
-		//	geoCodingBatch.executeGeoCodingBatch();
+			 amcMonitor.executeAMCBatch();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			logger.debug(e.getStackTrace());
+			logger.error(ExceptionUtils.getFullStackTrace(e));	 
 		}
+	}
+	
+	private void executeAMCBatch() throws UnsupportedEncodingException{
+		this.reportService.changeStatusToAMCExpiryAndNotifyUser();
+		this.reportService.changeStatusToAMCRenewalAndNotifyUser();
 	}
 }

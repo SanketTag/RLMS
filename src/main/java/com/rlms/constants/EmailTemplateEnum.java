@@ -2,7 +2,9 @@ package com.rlms.constants;
 
 public enum EmailTemplateEnum {
 
-	USER_ROLE_ASSIGNED(13,"USER_ROLE_ASSIGNED");
+	USER_ROLE_ASSIGNED(13,"USER_ROLE_ASSIGNED"),
+	AMC_RENEWAL(14,"AMC_RENEWAL"),
+	AMC_EXPIRED(15,"AMC_EXPIRED");
 	
 
 	private Integer templateId;

@@ -1,6 +1,7 @@
 package com.rlms.service;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -460,27 +461,27 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public String validateAndSaveSiteVisitDtls(SiteVisitDtlsDto dto, UserMetaInfo metaInfo) throws ValidationException{
+	public String validateAndSaveSiteVisitDtls(SiteVisitDtlsDto dto) throws ValidationException, ParseException{
 		this.validateVisitDtls(dto);
-		RlmsSiteVisitDtls visitDtls = this.constructVisitDtls(dto, metaInfo);
+		RlmsSiteVisitDtls visitDtls = this.constructVisitDtls(dto);
 		this.saveComplaintSiteVisitDtls(visitDtls);
 		return PropertyUtils.getPrpertyFromContext(RlmsErrorType.VISIT_UPDATED_SUCCESS.getMessage());
 	}
 	
-	private RlmsSiteVisitDtls constructVisitDtls(SiteVisitDtlsDto dto, UserMetaInfo metaInfo){
+	private RlmsSiteVisitDtls constructVisitDtls(SiteVisitDtlsDto dto) throws ParseException{
 		RlmsComplaintTechMapDtls complaintTechMapDtls = this.complaintsDao.getComplTechMapByComplaintTechMapId(dto.getComplaintTechMapId());
 		RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(dto.getUserRoleId());
 		RlmsSiteVisitDtls visitDtls = new RlmsSiteVisitDtls();
 		visitDtls.setComplaintTechMapDtls(complaintTechMapDtls);
-		visitDtls.setFromDate(dto.getFromDate());
-		visitDtls.setToDate(dto.getToDate());
+		visitDtls.setFromDate(DateUtils.convertStringToDateWithTime(dto.getFromDateDtr()));
+		visitDtls.setToDate(DateUtils.convertStringToDateWithTime(dto.getToDateStr()));
 		visitDtls.setTotalTime(DateUtils.getDateDiff(dto.getFromDate(), dto.getToDate(), TimeUnit.SECONDS));
 		visitDtls.setUserRoles(userRoles);
 		visitDtls.setRemark(dto.getRemark());
 		visitDtls.setCreatedDate(new Date());
-		visitDtls.setCreatedBy(metaInfo.getUserId());
+		visitDtls.setCreatedBy(dto.getUserRoleId());
 		visitDtls.setUpdatedDate(new Date());
-		visitDtls.setUpdatedBy(metaInfo.getUserId());
+		visitDtls.setUpdatedBy(dto.getUserRoleId());
 		return visitDtls;
 	}
 	private String validateVisitDtls(SiteVisitDtlsDto dto) throws ValidationException{
@@ -497,5 +498,22 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		return errorMesage;
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<SiteVisitDtlsDto> getAllVisitsForComplaint(SiteVisitDtlsDto siteVisitDtlsDto){
+		List<SiteVisitDtlsDto> listOfVisits = new ArrayList<SiteVisitDtlsDto>();
+		List<RlmsSiteVisitDtls> listOfAllVisits = this.complaintsDao.getAllVisitsForComnplaints(siteVisitDtlsDto.getComplaintTechMapId());
+		for (RlmsSiteVisitDtls rlmsSiteVisitDtls : listOfAllVisits) {
+			SiteVisitDtlsDto dto = new SiteVisitDtlsDto();
+			dto.setComplaintTechMapId(rlmsSiteVisitDtls.getComplaintTechMapDtls().getComplaintTechMapId());
+			dto.setFromDateDtr(DateUtils.convertDateToStringWithTime(rlmsSiteVisitDtls.getFromDate()));
+			dto.setToDateStr(DateUtils.convertDateToStringWithTime(rlmsSiteVisitDtls.getToDate()));
+			String totalTime = DateUtils.convertTimeIntoDaysHrMin(DateUtils.getDateDiff(rlmsSiteVisitDtls.getFromDate(), rlmsSiteVisitDtls.getToDate(), TimeUnit.SECONDS), TimeUnit.SECONDS);
+			if(null != totalTime){
+				dto.setTotalTime(totalTime);
+			}
+			listOfVisits.add(dto);
+		}
+		return listOfVisits;
+	}
 	
 }

@@ -1,5 +1,6 @@
 package com.rlms.service;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +42,8 @@ import com.rlms.model.RlmsUserRoles;
 import com.rlms.predicates.LiftPredicate;
 import com.rlms.utils.DateUtils;
 import com.rlms.utils.PropertyUtils;
+import com.telesist.email.EmailService;
+import com.telesist.email.EmailTemplateEnum;
 
 @Service("ReportService")
 public class ReportServiceImpl implements ReportService {
@@ -59,6 +62,10 @@ public class ReportServiceImpl implements ReportService {
 	
 	@Autowired
 	private UserRoleDao userRoleDao;
+	
+
+	@Autowired
+	private MessagingService messagingService;
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<AMCDetailsDto> getAMCDetailsForLifts(AMCDetailsDto dto){
@@ -352,5 +359,62 @@ public class ReportServiceImpl implements ReportService {
 		}
 		
 		return technicianList;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void changeStatusToAMCRenewalAndNotifyUser() throws UnsupportedEncodingException{
+		List<RlmsLiftAmcDtls> listOfAllLifts = this.liftDao.getAllLiftsWithTodaysDueDate();
+		for (RlmsLiftAmcDtls rlmsLiftAmcDtls : listOfAllLifts) {
+			rlmsLiftAmcDtls.setStatus(Status.RENEWAL_DUE.getStatusId());
+			this.liftDao.mergeLiftAMCDtls(rlmsLiftAmcDtls);
+			
+			List<String> listOfDynamicValues = new ArrayList<String>();
+			listOfDynamicValues.add(rlmsLiftAmcDtls.getLiftCustomerMap().getLiftMaster().getLiftNumber());
+			listOfDynamicValues.add(rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getAddress()+ ", " + rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getArea() + ", " + rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getCity());
+			listOfDynamicValues.add(DateUtils.convertDateToStringWithoutTime(rlmsLiftAmcDtls.getAmcDueDate()));
+			listOfDynamicValues.add(DateUtils.convertDateToStringWithoutTime(rlmsLiftAmcDtls.getAmcEndDate()));
+			
+			List<RlmsUserRoles> listOfAdmin = this.userRoleDao.getAllUserWithRoleForBranch(rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getBranchCustoMapId(), SpocRoleConstants.BRANCH_ADMIN.getSpocRoleId());
+			if(null != listOfAdmin && !listOfAdmin.isEmpty()){
+				listOfDynamicValues.add(listOfAdmin.get(0).getRlmsUserMaster().getFirstName() + " " + listOfAdmin.get(0).getRlmsUserMaster().getLastName() + " (" + listOfAdmin.get(0).getRlmsUserMaster().getContactNumber() + ")");
+			}else{
+				RlmsUserRoles companyAdmin = this.userRoleDao.getUserWithRoleForCompany(rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyId(), SpocRoleConstants.COMPANY_ADMIN.getSpocRoleId());
+				if(null != companyAdmin){
+					listOfDynamicValues.add(companyAdmin.getRlmsUserMaster().getFirstName() + " " + companyAdmin.getRlmsUserMaster().getLastName() + " (" + companyAdmin.getRlmsUserMaster().getContactNumber() + ")");
+				}
+			}
+			
+			List<String> toList = new ArrayList<String>();
+			toList.add(rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getEmailID());
+			this.messagingService.sendAMCMail(listOfDynamicValues, toList, com.rlms.constants.EmailTemplateEnum.AMC_RENEWAL.getTemplateId());
+		}
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void changeStatusToAMCExpiryAndNotifyUser() throws UnsupportedEncodingException{
+		List<RlmsLiftAmcDtls> listOfAllLifts = this.liftDao.getAllLiftsWithTodaysExpiryDate();
+		for (RlmsLiftAmcDtls rlmsLiftAmcDtls : listOfAllLifts) {
+			rlmsLiftAmcDtls.setStatus(Status.AMC_PENDING.getStatusId());
+			this.liftDao.mergeLiftAMCDtls(rlmsLiftAmcDtls);
+			
+			List<String> listOfDynamicValues = new ArrayList<String>();
+			listOfDynamicValues.add(rlmsLiftAmcDtls.getLiftCustomerMap().getLiftMaster().getLiftNumber());
+			listOfDynamicValues.add(rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getAddress()+ ", " + rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getArea() + ", " + rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getCity());
+			listOfDynamicValues.add(DateUtils.convertDateToStringWithoutTime(rlmsLiftAmcDtls.getAmcEndDate()));
+			
+			List<RlmsUserRoles> listOfAdmin = this.userRoleDao.getAllUserWithRoleForBranch(rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getBranchCustoMapId(), SpocRoleConstants.BRANCH_ADMIN.getSpocRoleId());
+			if(null != listOfAdmin && !listOfAdmin.isEmpty()){
+				listOfDynamicValues.add(listOfAdmin.get(0).getRlmsUserMaster().getFirstName() + " " + listOfAdmin.get(0).getRlmsUserMaster().getLastName() + " (" + listOfAdmin.get(0).getRlmsUserMaster().getContactNumber() + ")");
+			}else{
+				RlmsUserRoles companyAdmin = this.userRoleDao.getUserWithRoleForCompany(rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyId(), SpocRoleConstants.COMPANY_ADMIN.getSpocRoleId());
+				if(null != companyAdmin){
+					listOfDynamicValues.add(companyAdmin.getRlmsUserMaster().getFirstName() + " " + companyAdmin.getRlmsUserMaster().getLastName() + " (" + companyAdmin.getRlmsUserMaster().getContactNumber() + ")");
+				}
+			}
+			
+			List<String> toList = new ArrayList<String>();
+			toList.add(rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getEmailID());
+			this.messagingService.sendAMCMail(listOfDynamicValues, toList, com.rlms.constants.EmailTemplateEnum.AMC_EXPIRED.getTemplateId());
+		}
 	}
 }

@@ -90,8 +90,6 @@ import com.rlms.utils.PropertyUtils;
 @RequestMapping(value="/API")
 public class RestControllerController  extends BaseController {
 
-	@Autowired
-    protected AuthenticationManager authenticationManager;
 	
 	@Autowired
 	private ComplaintsService ComplaintsService;
@@ -108,7 +106,7 @@ public class RestControllerController  extends BaseController {
 	private static final Logger log = Logger.getLogger(RestControllerController.class);
 	   
     
-    @RequestMapping("/loginIntoApp")
+   /* @RequestMapping("/loginIntoApp")
     public @ResponseBody LoginDtlsDto loginIntoApp(@RequestBody LoginDtlsDto loginDtlsDto, HttpServletRequest request, HttpServletResponse response) {
     
     	 UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDtlsDto.getUserName(), loginDtlsDto.getPassword());
@@ -138,7 +136,7 @@ public class RestControllerController  extends BaseController {
          
          return dto;
         
-    }
+    }*/
     
     @RequestMapping("/isLoggedIn")
     public @ResponseBody String isUserAlreadyLoggedIn()
@@ -358,8 +356,15 @@ public class RestControllerController  extends BaseController {
     	ResponseDto reponseDto = new ResponseDto();
         try{
         	log.info("Method :: uploadPhoto");
-        	reponseDto.setResponse(this.ComplaintsService.validateAndSaveSiteVisitDtls(dto, this.getMetaInfo()));        	
-       
+        	dto.setFromDate(new Date());
+        	dto.setToDate(new Date());
+        	reponseDto.setResponse(this.ComplaintsService.validateAndSaveSiteVisitDtls(dto));        	
+        	reponseDto.setStatus(true);
+        }catch(ValidationException e){
+        	log.error(ExceptionUtils.getFullStackTrace(e));
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(e.getExceptionMessage());
+        
         }catch(Exception e){
         	log.error(ExceptionUtils.getFullStackTrace(e));
         	reponseDto.setStatus(false);
@@ -370,6 +375,22 @@ public class RestControllerController  extends BaseController {
         return reponseDto;
     }
     
+    @RequestMapping(value = "/complaint/getAllVisitsForComplaint", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto getAllVisitsForComplaint(@RequestBody SiteVisitDtlsDto siteVisitDtlsDto){
+    	ObjectMapper mapper = new ObjectMapper();
+    	ResponseDto reponseDto = new ResponseDto();
+    	try{
+    	 List<SiteVisitDtlsDto> listOfVisists = this.ComplaintsService.getAllVisitsForComplaint(siteVisitDtlsDto);
+    	 reponseDto.setStatus(true);
+    	 reponseDto.setResponse(mapper.writeValueAsString(listOfVisists));
+    	}catch(Exception e){
+        	log.error(ExceptionUtils.getFullStackTrace(e));
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        
+        }
+    	return reponseDto;
+    }
     
     
 }

@@ -1,5 +1,6 @@
 package com.rlms.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -19,6 +20,7 @@ import com.rlms.model.RlmsLiftAmcDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsLiftMaster;
 import com.rlms.model.RlmsSpocRoleMaster;
+import com.rlms.utils.DateUtils;
 @Repository
 public class LiftDaoImpl implements LiftDao{
 	@Autowired
@@ -82,6 +84,11 @@ public class LiftDaoImpl implements LiftDao{
 	@Override
 	public Integer saveLiftAMCDtls(RlmsLiftAmcDtls liftAmcDtls){
 		return (Integer) this.sessionFactory.getCurrentSession().save(liftAmcDtls);
+	}
+	
+	@Override
+	public void mergeLiftAMCDtls(RlmsLiftAmcDtls liftAmcDtls){
+		this.sessionFactory.getCurrentSession().merge(liftAmcDtls);
 	}
 	
 	@Override
@@ -184,6 +191,41 @@ public class LiftDaoImpl implements LiftDao{
 						  criteria.add(Restrictions.in("status", dto.getListOFStatusIds()));
 					  }
 					  
+					  criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+					  criteria.addOrder(Order.asc("craetedDate"));
+			 List<RlmsLiftAmcDtls> listOFAMCdtlsForAllLifts = criteria.list();
+			 
+			 return listOFAMCdtlsForAllLifts;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsLiftAmcDtls> getAllLiftsWithTodaysDueDate(){		
+		
+		     Date d1 = DateUtils.addDaysToDate(new Date(), 1);
+		     Date d2 = DateUtils.addDaysToDate(new Date(), -1);
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftAmcDtls.class);
+					  criteria.add(Restrictions.ge("amcDueDate", d2));
+					  criteria.add(Restrictions.le("amcDueDate", d1));
+					  criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+					  criteria.addOrder(Order.asc("craetedDate"));
+			 List<RlmsLiftAmcDtls> listOFAMCdtlsForAllLifts = criteria.list();
+			 
+			 return listOFAMCdtlsForAllLifts;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsLiftAmcDtls> getAllLiftsWithTodaysExpiryDate(){		
+		
+		  Date d1 = DateUtils.addDaysToDate(new Date(), 1);
+		  Date d2 = DateUtils.addDaysToDate(new Date(), -1);
+		     
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftAmcDtls.class);
+					  criteria.add(Restrictions.le("amcEndDate", d1));
+					  criteria.add(Restrictions.ge("amcEndDate", d2));
 					  criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 					  criteria.addOrder(Order.asc("craetedDate"));
 			 List<RlmsLiftAmcDtls> listOFAMCdtlsForAllLifts = criteria.list();
