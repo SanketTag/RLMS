@@ -1,0 +1,140 @@
+<div class="rlms-wrapper">
+<div class="rlms-container amc-management" ng-controller="configurLiftController">
+	<h1 class="rlms-heading">Configure Lift</h1>
+	<!-- <div class="filter-section">
+		<div class="form-group margin-b10">
+			<label class="control-label" ng-show="showCompany">Select Company : </label>
+			<div class="select-container" ng-show="showCompany">
+				  <ui-select ng-model="selectedCompany.selected" title="Choose a Company" on-select="loadBranchData();">
+				    <ui-select-match placeholder="Select company">{{$select.selected.companyName}}</ui-select-match>
+				    <ui-select-choices repeat="companyIterator in companies| filter: $select.search">
+				      <span ng-bind-html="companyIterator.companyName | highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+			</div>
+			<label class="control-label" ng-show="showBranch">Select Branch</label>
+			<div class="select-container" ng-show="showBranch">
+				  <ui-select ng-model="selectedBranch.selected" title="Choose a Branch" on-select="loadCustomerData()">
+				    <ui-select-match placeholder="Select Branch">{{$select.selected.rlmsBranchMaster.branchName}}</ui-select-match>
+				    <ui-select-choices repeat="branchIterator in branches| filter: $select.search">
+				      <span ng-bind-html="branchIterator.rlmsBranchMaster.branchName | highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12 align-right">
+				<button class="btn-sky btn" ng-click="loadReportList()">Proceed</button>
+				<button class="btn-sky btn margin-left-10" ng-click="resetReportList()">Reset</button>
+			</div>	
+		</div>
+	</div> -->
+	<div class="container-fluid configure-lift" >
+
+		<div id="exTab2" class="container">	
+		<ul class="nav nav-tabs">
+			<li class="active">
+        	<a  href="#1" data-toggle="tab">Configure A</a>
+			</li>
+			<li><a href="#2" data-toggle="tab">Configure B D</a>
+			</li>
+			<li><a href="#3" data-toggle="tab">Configure P</a>
+			</li>
+			<li><a href="#3" data-toggle="tab">Configure R T C</a>
+			</li>
+		</ul>
+
+			<div class="tab-content ">
+			  <div class="tab-pane active" id="1">
+				<fieldset class="width-70">
+				  <legend>User Details</legend>
+				  
+					<div class="form-group"><label class="col-sm-4 control-label">Home Landing Floor Number : </label>
+						<div class="col-sm-6">
+							<input name="homeLandingFloorNumber" type="text" placeholder="Required Field" required ng-model="a.homeLandingFloorNumber" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Disable Home landing : </label>
+						<div class="col-sm-6">
+							<input name="firstName" type="radio"  required ng-model="a.disableHomelanding" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Home Landing Time : </label>
+						<div class="col-sm-6">
+							<input name="homeLandingTime" type="text" placeholder="Required Field" required ng-model="a.homeLandingTime" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Fire Mode Floor Selection</label>
+						<div class="col-sm-6">
+							<input name="homeLandingTime" type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Output contactor off delay time at lift stopping</label>
+						<div class="col-sm-6">
+							<input name="homeLandingTime" type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Reed 1 and Reed 2 Timeout</label>
+						<div class="col-sm-6">
+							<input name="homeLandingTime" type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Lift Run Timeout</label>
+						<div class="col-sm-6">
+							<input name="homeLandingTime" type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">MODE Flag 2</label>
+						<div class="col-sm-6">
+							  <select>
+							  	<option>Bit 0</option>
+							  	<option>Bit 1</option>
+							  	<option>Bit 2</option>
+							  	<option>Bit 3</option>
+							  	<option>Bit 4</option>
+							  	<option>Bit 5</option>
+							  </select>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Door closure expeccted time</label>
+						<div class="col-sm-6">
+							<input name="homeLandingTime" type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">MODE FLAG 3</label>
+						<div class="col-sm-6">
+							  <select>
+							  	<option>Bit 0</option>
+							  	<option>Bit 1</option>
+							  	<option>Bit 2</option>
+							  	<option>Bit 3</option>
+							  	<option>Bit 4</option>
+							  	<option>Bit 5</option>
+							  </select>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">MODE FLAG 4</label>
+						<div class="col-sm-6">
+							  <select>
+							  	<option>Bit 0</option>
+							  	<option>Bit 1</option>
+							  	<option>Bit 2</option>
+							  	<option>Bit 3</option>
+							  	<option>Bit 4</option>
+							  	<option>Bit 5</option>
+							  </select>
+						</div>
+					</div>
+				 </fieldset>				
+		 </div>
+		<div class="tab-pane" id="2">
+          <h3>Notice the gap between the content and tab after applying a background color</h3>
+		</div>
+        <div class="tab-pane" id="3">
+          <h3>add clearfix to tab-content (see the css)</h3>
+		</div>
+		</div>
+  </div>
+	</div>
+</div>
+</div>
