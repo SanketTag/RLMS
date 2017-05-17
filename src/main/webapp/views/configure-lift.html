@@ -40,14 +40,14 @@
 			</li>
 			<li><a href="#3" data-toggle="tab">Configure P</a>
 			</li>
-			<li><a href="#3" data-toggle="tab">Configure R T C</a>
+			<li><a href="#4" data-toggle="tab">Configure R T C</a>
 			</li>
 		</ul>
 
 			<div class="tab-content ">
 			  <div class="tab-pane active" id="1">
 				<fieldset class="width-70">
-				  <legend>User Details</legend>
+				  <legend>configure A</legend>
 				  
 					<div class="form-group"><label class="col-sm-4 control-label">Home Landing Floor Number : </label>
 						<div class="col-sm-6">
@@ -125,13 +125,274 @@
 							  </select>
 						</div>
 					</div>
+					<div class="panel-footer">
+				<div class="row">
+					<div class="col-sm-6">
+					</div>
+					<div class="col-sm-6 ">
+						<div class="btn-toolbar">
+							<button class="btn-primary btn">Next</button>
+						</div>
+					</div>
+				</div>
+		</div>			
 				 </fieldset>				
 		 </div>
 		<div class="tab-pane" id="2">
-          <h3>Notice the gap between the content and tab after applying a background color</h3>
+          <fieldset class="width-70">
+				  <legend>Configure B D</legend>
+				  <div class="form-group"><label class="col-sm-4 control-label">Floor Enabled / Disabled</label>
+						<div class="col-sm-6">
+							  <select>
+							  	<option>Complete Disabled</option>
+							  	<option>Landing calls disabled for Master</option>
+							  	<option>Landing calls disabled for Slave</option>
+							  	<option>Enabled</option>
+							  </select>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Designating the Floors</label>
+						<div class="col-sm-6">
+							  <select>
+							  	<option>D 0</option>
+							  	<option>D 1</option>
+							  	<option>D 2</option>
+							  	<option>D 3</option>
+							  	<option>D 4</option>
+							  	<option>D 5</option>
+							  	<option>D 6</option>
+							  	<option>D 7</option>
+							  	<option>D 8</option>
+							  	<option>D 9</option>
+							  	<option>D A</option>
+							  	<option>D B</option>
+							  	<option>D M</option>
+							  </select>
+						</div>
+					</div>
+				  <div class="panel-footer">
+				<div class="row">
+					<div class="col-sm-6">
+						<span class=" button button-clear fa fa-chevron-circle-left go-back"></span>
+					</div>
+					<div class="col-sm-6 ">
+						<div class="btn-toolbar">
+							<button class="btn-primary btn">Next</button>
+						</div>
+					</div>
+				</div>
+		</div>			
+		  </fieldset>
 		</div>
         <div class="tab-pane" id="3">
-          <h3>add clearfix to tab-content (see the css)</h3>
+           <fieldset class="width-70">
+				  <legend>Configure P</legend>
+				  <div class="form-group"><label class="col-sm-4 control-label">No Of Stops</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Door Mode</label>
+						<div class="col-sm-6">
+							<label>Manual Door Mode.</label>
+							<input  type="radio" name="doormode" class="form-control">
+							<label>Auto Door, Level sensor ABSENT</label>
+							<input  type="radio" name="doormode" class="form-control">
+							<label>Auto Door, Level sensor PRESENT.</label>
+							<input  type="radio" name="doormode" class="form-control">
+							
+						</div>
+					</div>
+					<!-- //if p1 == 0 -->
+					<div class="form-group"><label class="col-sm-4 control-label">RC ON Time</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">RC OFF Time</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">No of RC Cyles</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<!-- //if p1 == 1 -->
+					<div class="form-group"><label class="col-sm-4 control-label">Door Open time at Floor reached</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Door Open time Same Floor  LOP Call</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Door Cycles</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Stoppage Time</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Mode Flag</label>
+						<div class="col-sm-6">
+							<label>Bit 0</label>
+							<input  type="checkbox" />
+							<label>Bit 1</label>
+							<input  type="checkbox" />
+							<label>Bit 2</label>
+							<input  type="checkbox" />
+							<label>Bit 3</label>
+							<input  type="checkbox" />
+							<label>Bit 4</label>
+							<input  type="checkbox" />
+							<label>Bit 5</label>
+							<input  type="checkbox" />
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Lift Type</label>
+						<div class="col-sm-6">
+							<select>
+							  	<option>Simplex</option>
+							  	<option>Duplex Master</option>
+							  	<option>Duplex Slave</option>
+							  </select>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Fan On Time</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Tube On Time</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="panel-footer">
+				<div class="row">
+					<div class="col-sm-6">
+						<span class=" button button-clear fa fa-chevron-circle-left go-back"></span>
+					</div>
+					<div class="col-sm-6 ">
+						<div class="btn-toolbar">
+							<button class="btn-primary btn">Next</button>
+						</div>
+					</div>
+				</div>
+		</div>			
+			</fieldset>
+		</div>
+		<div class="tab-pane" id="4">
+				<fieldset class="width-70">
+				  <legend>configure R T C</legend>
+				  <div class="form-group"><label class="col-sm-4 control-label">R0 RTC Date(DD)</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">R1 RTC Month(MM)</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">R2 RTC Year (YY)</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">R3 RTC Hours (HH)</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">R4 RTC Minutes (MM))</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">R5 RTC Seconds (SS)</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">R5 RTC Seconds (SS)</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">DATE</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Month</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">YEAR</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Count</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Consumer No MSD 2 digit</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">Consumer No LSD 2 Digit</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">ARD off Delay</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">ARD On Delayy</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">ARD Over off Delay</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-4 control-label">ARD Direction Reversal delay</label>
+						<div class="col-sm-6">
+							<input  type="text" class="form-control">
+						</div>
+					</div>
+							<div class="panel-footer">
+				<div class="row">
+					<div class="col-sm-6">
+						<span class=" button button-clear fa fa-chevron-circle-left go-back"></span>
+					</div>
+					<div class="col-sm-6 ">
+						<div class="btn-toolbar">
+							<button class="btn-primary btn">Submit</button>
+							<button class="btn-default btn">Reset</button>
+						</div>
+					</div>
+				</div>
+		</div>	
+						
+				 </fieldset>
+				 
 		</div>
 		</div>
   </div>

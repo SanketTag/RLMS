@@ -365,3 +365,17 @@ table.report-table, table.inner-table{
 	display:block;
 	clear:both;
 }
+.configure-lift input[type="radio"] {
+    display: inline!important;
+    width: auto;
+    margin: 0 10px;
+    vertical-align: middle;
+}
+.configure-lift input[type="checkbox"] {
+    margin: 0 10px;
+}
+.configure-lift select {
+    width: 100%;
+    height: 30px;
+    border-radius: 0px;
+}
