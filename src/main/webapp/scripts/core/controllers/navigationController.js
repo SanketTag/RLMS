@@ -70,6 +70,14 @@ angular
    	   	        label: 'Technician Wise Report',
    	   	        url: '#/technician-wise-report'
    	      }]
+   	    },
+   	 {
+   	    	label: 'Configure Lift',
+   	   	    iconClasses: 'glyphicon glyphicon-user ',
+   	   	    children: [{
+   	   	        label: 'Configure Lift',
+   	   	        url: '#/configure-lift'
+   	      }]
    	    }
 ];
 

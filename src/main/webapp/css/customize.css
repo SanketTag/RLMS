@@ -188,7 +188,8 @@ body.sidebar-default #wrapper.rlms-ap .static-sidebar #sidebar ul li.active>a {
 .assign_role form,
 .add_lift form,
 .add_customer form,
-.add_AMC form{
+.add_AMC form,
+.configure-lift form{
 	width: 70%;
     margin: 0 auto;
 }
@@ -354,4 +355,27 @@ table.report-table, table.inner-table{
 	font-size: 24px;
 	float: right;
 	color: #0FACF3;	
+}
+.width-70{
+	    width: 70%;
+    margin: 0 auto;
+}
+.configure-lift fieldset .form-group:after{
+	content:"";
+	display:block;
+	clear:both;
+}
+.configure-lift input[type="radio"] {
+    display: inline!important;
+    width: auto;
+    margin: 0 10px;
+    vertical-align: middle;
+}
+.configure-lift input[type="checkbox"] {
+    margin: 0 10px;
+}
+.configure-lift select {
+    width: 100%;
+    height: 30px;
+    border-radius: 0px;
 }

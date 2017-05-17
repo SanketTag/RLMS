@@ -3635,7 +3635,7 @@ button.close {
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-  color: #a2acb3;
+  color: #000;
   background-color: #ebeef0;
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
