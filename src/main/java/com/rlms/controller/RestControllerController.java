@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -82,6 +83,7 @@ import com.rlms.service.CustomerService;
 import com.rlms.service.LiftService;
 import com.rlms.service.MessagingServiceImpl;
 import com.rlms.service.UserService;
+import com.rlms.utils.DateUtils;
 import com.rlms.utils.PropertyUtils;
 
 
@@ -355,9 +357,11 @@ public class RestControllerController  extends BaseController {
     public @ResponseBody ResponseDto validateAndSaveSiteVisitDtls(@RequestBody SiteVisitDtlsDto dto){
     	ResponseDto reponseDto = new ResponseDto();
         try{
-        	log.info("Method :: uploadPhoto");
-        	dto.setFromDate(new Date());
-        	dto.setToDate(new Date());
+        	log.info("Method ::" + dto.getFromDateDtr() + " " + dto.getToDateStr());
+        	if(null != dto.getFromDateDtr() && null != dto.getToDateStr()){
+        	dto.setFromDate(DateUtils.convertStringToDateWithTime(dto.getFromDateDtr()));
+        	dto.setToDate(DateUtils.convertStringToDateWithTime(dto.getToDateStr()));
+        	}
         	reponseDto.setResponse(this.ComplaintsService.validateAndSaveSiteVisitDtls(dto));        	
         	reponseDto.setStatus(true);
         }catch(ValidationException e){
@@ -392,5 +396,20 @@ public class RestControllerController  extends BaseController {
     	return reponseDto;
     }
     
-    
+    @RequestMapping(value = "/complaint/getTechnicianDtls", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto getTechnicianDtls(@RequestBody ComplaintsDtlsDto complaintsDtlsDto){
+    	ObjectMapper mapper = new ObjectMapper();
+    	ResponseDto reponseDto = new ResponseDto();
+    	try{
+    	 UserDtlsDto uesrDtlsDto = this.ComplaintsService.getTechnicianDtls(complaintsDtlsDto.getComplaintId());
+    	 reponseDto.setStatus(true);
+    	 reponseDto.setResponse(mapper.writeValueAsString(uesrDtlsDto));
+    	}catch(Exception e){
+        	log.error(ExceptionUtils.getFullStackTrace(e));
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        
+        }
+    	return reponseDto;
+    }
 }

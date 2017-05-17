@@ -17,17 +17,17 @@ public class ConsumeRestFul {
 	// http://localhost:8080/RESTfulExample/json/product/post
 		public static void main(String[] args) {
 			//submitVisitDetails();
-			//getAllComplaintsByTech();
+			getAllComplaintsByTech();
 			//addNewComplaint();
-			getVisitDetails();
+		//	getVisitDetails();
 		}
 		  public static void getAllComplaintsByTech(){
 			  try{
-			  /* 1.  URL url = new URL("http://localhost:8000/RLMS/API/getAllComplaintsAssigned"); //(userRoleId 17)*/ 
+			  /* 1.*/ // URL url = new URL("http://139.162.5.222:8000/RLMS/API/getAllComplaintsAssigned"); //(userRoleId 17)*/ 
 				//URL url = new URL("http://139.162.5.222:8000/RLMS/API/register/registerMemeberDeviceByMblNo"); 
 				/*3. */// URL url = new URL("http://139.162.5.222:8000/RLMS/API/register/registerTechnicianDeviceByMblNo");
-				/* 4.*/URL url = new URL("http://localhost:8000/RLMS/API/lift/getAllLiftsForMember");
-				 ///5.  URL url = new URL("http://localhost:8000/RLMS/API/complaints/getAllComplaintsByMember");
+				/* 4.*///URL url = new URL("http://localhost:8000/RLMS/API/lift/getAllLiftsForMember");
+				 /*5.*/  URL url = new URL("http://139.162.5.222:8000/RLMS/API/complaints/getAllComplaintsByMember");
 				//URL url = new URL("http://localhost:8000/RLMS/API/loginIntoApp");
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setDoOutput(true);
@@ -38,7 +38,7 @@ public class ConsumeRestFul {
 				/* 3. */// String input = "{\"contactNumber\":\"9096136234\", \"latitude\":\"18.12457898\", \"longitude\":\"72.12457896\", \"appRegId\":\"AAAAGqJGmak:APA91bH5wu5DXT01MIyN2LF0n46WqR0ZXtuTCaV8qHGEe738r-fAfoIGG1ytz_k6oHiFEgo6nX9VSopGXi2qhylnjpXKdh4U-tzGoMIA78QDDqnxIVJQFo56AN1uKrmz0UiLo6_-lb3b\", \"address\":\"WAKAD\"}";
 				// String input = "{\"userName\":\"admin\",\"password\":\"rlms1234\"}";
 				/*/4 and 5.*/ String input = "{\"memberId\":\"5\"}";
-				//String input = "{\"userRoleId\":\"17\"}";
+				//String input = "{\"userRoleId\":\"43\"}";
 
 				OutputStream os = conn.getOutputStream();
 				os.write(input.getBytes());
@@ -199,7 +199,7 @@ public class ConsumeRestFul {
 				String fromDate = DateUtils.convertDateToStringWithTime(new Date());
 				String toDate = DateUtils.convertDateToStringWithTime(new Date());
 			
-				String input = "{\"complaintTechMapId\":\"3\",\"userRoleId\":\"2\",\"fromDateDtr\":\"" + fromDate +"\",\"toDateStr\":\"" + toDate + "\",\"remark\":\"not done yet\"}";
+				String input = "{\"complaintTechMapId\":\"27\",\"userRoleId\":\"43\",\"fromDateDtr\":\"" + fromDate +"\",\"toDateStr\":\"" + toDate + "\",\"remark\":\"not done yet\"}";
 
 //				String input = "{\"complaintTechMapId\":\"3\",\"userRoleId\":\"2\",\"remark\":\"not done yet\"}";
 
@@ -254,7 +254,7 @@ public class ConsumeRestFul {
 				conn.setRequestMethod("POST");
 				conn.setRequestProperty("Content-Type", "application/json");
 			
-				String input = "{\"complaintTechMapId\":\"3\"}";
+				String input = "{\"complaintTechMapId\":\"27\"}";
 
 //				String input = "{\"complaintTechMapId\":\"3\",\"userRoleId\":\"2\",\"remark\":\"not done yet\"}";
 

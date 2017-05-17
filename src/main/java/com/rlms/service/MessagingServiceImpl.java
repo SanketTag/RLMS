@@ -189,6 +189,7 @@ public class MessagingServiceImpl implements MessagingService{
 		
 		MailDTO dto = this.emailService.constructMailDto(toList, emailTemplate.getEmailSubject(), emailTemplate.getEmailContent(), "sanket.tagalpallewar@gmail.com", toList);
 		
+		log.debug(content);
 		this.emailService.sendEmail(dto);
 	}
 	

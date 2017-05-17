@@ -29,6 +29,8 @@ public class ComplaintsDto {
 	private Integer liftCustoMapId;
 	private String complaintent;
 	private String regType;
+	private Integer complaintTechMapId;
+	
 	public String getComplaintNumber() {
 		return complaintNumber;
 	}
@@ -166,6 +168,12 @@ public class ComplaintsDto {
 	}
 	public void setRegType(String regType) {
 		this.regType = regType;
+	}
+	public Integer getComplaintTechMapId() {
+		return complaintTechMapId;
+	}
+	public void setComplaintTechMapId(Integer complaintTechMapId) {
+		this.complaintTechMapId = complaintTechMapId;
 	}
 	
 	

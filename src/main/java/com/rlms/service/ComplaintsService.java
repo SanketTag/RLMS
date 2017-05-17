@@ -9,6 +9,7 @@ import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.SiteVisitDtlsDto;
 import com.rlms.contract.UserAppDtls;
+import com.rlms.contract.UserDtlsDto;
 //import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.contract.UserRoleDtlsDTO;
@@ -29,4 +30,5 @@ public interface ComplaintsService {
 	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(ComplaintsDtlsDto dto);
 	public String validateAndSaveSiteVisitDtls(SiteVisitDtlsDto dto) throws ValidationException, ParseException;
 	public List<SiteVisitDtlsDto> getAllVisitsForComplaint(SiteVisitDtlsDto siteVisitDtlsDto);
+	public UserDtlsDto getTechnicianDtls(Integer complaintId);
 }

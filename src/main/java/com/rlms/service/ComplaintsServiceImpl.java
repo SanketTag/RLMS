@@ -33,6 +33,7 @@ import com.rlms.contract.MemberDtlsDto;
 import com.rlms.contract.SiteVisitDtlsDto;
 import com.rlms.contract.SiteVisitReportDto;
 import com.rlms.contract.UserAppDtls;
+import com.rlms.contract.UserDtlsDto;
 //import com.rlms.contract.UserAppDtls;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.contract.UserRoleDtlsDTO;
@@ -93,6 +94,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			dto.setRemark(complaintTechMapDtls.getComplaintMaster().getRemark());
 			dto.setServiceStartDate(complaintTechMapDtls.getComplaintMaster().getServiceStartDate());
 			dto.setComplaintId(complaintTechMapDtls.getComplaintMaster().getComplaintId());
+			dto.setComplaintTechMapId(complaintTechMapDtls.getComplaintTechMapId());
 			if(Status.PENDING.getStatusId().equals(complaintTechMapDtls.getComplaintMaster().getStatus())){
 				dto.setStatus(Status.PENDING.getStatusMsg());
 			}else if(Status.ASSIGNED.getStatusId().equals(complaintTechMapDtls.getComplaintMaster().getStatus())){
@@ -398,6 +400,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			}else if(Status.RESOLVED.getStatusId().equals(rlmsComplaintMaster.getStatus())){
 				dto.setStatus(Status.RESOLVED.getStatusMsg());
 			}
+			dto.setComplaintTechMapId(rlmsComplaintMaster.getComplaintId());
 			listOfComplDtls.add(dto);
 		}
 		return listOfComplDtls;
@@ -462,7 +465,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public String validateAndSaveSiteVisitDtls(SiteVisitDtlsDto dto) throws ValidationException, ParseException{
-		this.validateVisitDtls(dto);
+		//this.validateVisitDtls(dto);
 		RlmsSiteVisitDtls visitDtls = this.constructVisitDtls(dto);
 		this.saveComplaintSiteVisitDtls(visitDtls);
 		return PropertyUtils.getPrpertyFromContext(RlmsErrorType.VISIT_UPDATED_SUCCESS.getMessage());
@@ -475,6 +478,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		visitDtls.setComplaintTechMapDtls(complaintTechMapDtls);
 		visitDtls.setFromDate(DateUtils.convertStringToDateWithTime(dto.getFromDateDtr()));
 		visitDtls.setToDate(DateUtils.convertStringToDateWithTime(dto.getToDateStr()));
+		
 		visitDtls.setTotalTime(DateUtils.getDateDiff(dto.getFromDate(), dto.getToDate(), TimeUnit.SECONDS));
 		visitDtls.setUserRoles(userRoles);
 		visitDtls.setRemark(dto.getRemark());
@@ -511,9 +515,26 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			if(null != totalTime){
 				dto.setTotalTime(totalTime);
 			}
+			dto.setRemark(rlmsSiteVisitDtls.getRemark());
 			listOfVisits.add(dto);
 		}
 		return listOfVisits;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public UserDtlsDto getTechnicianDtls(Integer complaintId){
+		UserDtlsDto dto = new UserDtlsDto();
+		RlmsComplaintTechMapDtls complaintTechMapDtls = this.complaintsDao.getComplTechMapByComplaintId(complaintId);
+		if(null != complaintTechMapDtls){
+			dto.setFirstName(complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName());
+			dto.setLastName(complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName());
+			dto.setUserId(complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getUserId());
+			dto.setContactNumber(complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber());
+			dto.setEmailId(complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getEmailId());
+			
+		}
+		
+		return dto;
 	}
 	
 }

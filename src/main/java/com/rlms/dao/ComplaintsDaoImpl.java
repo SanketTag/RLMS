@@ -2,6 +2,7 @@ package com.rlms.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ListResourceBundle;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -120,10 +121,14 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 	
 	
 	public RlmsComplaintTechMapDtls getComplTechMapByComplaintId(Integer complaintId){
-		 Session session = this.sessionFactory.getCurrentSession();
+		RlmsComplaintTechMapDtls complaintMapDtls = null;
+		Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsComplaintTechMapDtls.class)
 				 .add(Restrictions.eq("complaintMaster.complaintId", complaintId));
-		 RlmsComplaintTechMapDtls complaintMapDtls = (RlmsComplaintTechMapDtls) criteria.uniqueResult();
+		 List<RlmsComplaintTechMapDtls> listOfComplaintMapDtls =  criteria.list();
+		 if(null != listOfComplaintMapDtls && !listOfComplaintMapDtls.isEmpty()){
+			 complaintMapDtls = listOfComplaintMapDtls.get(0);
+		 }
 		 return complaintMapDtls;
 	}
 	
