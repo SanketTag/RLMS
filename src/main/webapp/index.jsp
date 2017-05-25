@@ -389,6 +389,7 @@
 	<script src="scripts/app/controllers/reportsController.js"></script>
 	<script src="scripts/app/controllers/addAmcCtrl.js"></script>
 	<script src="scripts/app/controllers/technicianReportCtrl.js"></script>
+	<script src="scripts/app/controllers/configureLiftController.js"></script>
 	<script src="scripts/app/services/serviceApi.js"></script>
 	<script src="scripts/app/services/utility.js"></script>
 	<!-- App-->
