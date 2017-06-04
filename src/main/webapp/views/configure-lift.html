@@ -34,13 +34,13 @@
 		<div id="exTab2" class="container">	
 		<ul class="nav nav-tabs">
 			<li class="active">
-        	<a  href="#1" data-toggle="tab">Configure A</a>
+        	<a id="tab1" href="#1" data-toggle="tab">Configure A</a>
 			</li>
-			<li><a href="#2" data-toggle="tab">Configure B D</a>
+			<li><a id="tab2" href="#2" data-toggle="tab">Configure B D</a>
 			</li>
-			<li><a href="#3" data-toggle="tab">Configure P</a>
+			<li><a id="tab3" href="#3" data-toggle="tab">Configure P</a>
 			</li>
-			<li><a href="#4" data-toggle="tab">Configure R T C</a>
+			<li><a id="tab4" href="#4" data-toggle="tab">Configure R T C</a>
 			</li>
 		</ul>
 
@@ -49,42 +49,42 @@
 				<fieldset class="width-70">
 				  <legend>configure A</legend>
 				  
-					<div class="form-group"><label class="col-sm-4 control-label">Home Landing Floor Number : </label>
+					<div class="form-group"><label class="col-sm-4 control-label">A0 Home Landing Floor Number : </label>
 						<div class="col-sm-6">
-							<input name="homeLandingFloorNumber" type="text" placeholder="Required Field" required ng-model="a.homeLandingFloorNumber" class="form-control">
+							<input name="homeLandingFloorNumber" ng-disabled="a.disableHomelanding" type="number" min="0" max="98" required ng-model="a.homeLandingFloorNumber" class="form-control">
 						</div>
 					</div>
 					<div class="form-group"><label class="col-sm-4 control-label">Disable Home landing : </label>
 						<div class="col-sm-6">
-							<input name="firstName" type="radio"  required ng-model="a.disableHomelanding" class="form-control">
+							<input name="firstName" type="checkbox"  required ng-model="a.disableHomelanding" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Home Landing Time : </label>
+					<div class="form-group"><label class="col-sm-4 control-label">A1 Home Landing Time : </label>
 						<div class="col-sm-6">
 							<input name="homeLandingTime" type="text" placeholder="Required Field" required ng-model="a.homeLandingTime" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Fire Mode Floor Selection</label>
+					<div class="form-group"><label class="col-sm-4 control-label">A2 Fire Mode Floor Selection</label>
 						<div class="col-sm-6">
 							<input name="homeLandingTime" type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Output contactor off delay time at lift stopping</label>
+					<div class="form-group"><label class="col-sm-4 control-label">A3 Output contactor off delay time at lift stopping</label>
 						<div class="col-sm-6">
 							<input name="homeLandingTime" type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Reed 1 and Reed 2 Timeout</label>
+					<div class="form-group"><label class="col-sm-4 control-label">A4 Reed 1 and Reed 2 Timeout</label>
 						<div class="col-sm-6">
 							<input name="homeLandingTime" type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Lift Run Timeout</label>
+					<div class="form-group"><label class="col-sm-4 control-label">A5 Lift Run Timeout</label>
 						<div class="col-sm-6">
 							<input name="homeLandingTime" type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">MODE Flag 2</label>
+					<div class="form-group"><label class="col-sm-4 control-label">A6 MODE Flag 2</label>
 						<div class="col-sm-6">
 							  <select>
 							  	<option>Bit 0</option>
@@ -96,12 +96,12 @@
 							  </select>
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Door closure expeccted time</label>
+					<div class="form-group"><label class="col-sm-4 control-label">A7 Door closure expeccted time</label>
 						<div class="col-sm-6">
 							<input name="homeLandingTime" type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">MODE FLAG 3</label>
+					<div class="form-group"><label class="col-sm-4 control-label">A8 MODE FLAG 3</label>
 						<div class="col-sm-6">
 							  <select>
 							  	<option>Bit 0</option>
@@ -113,7 +113,7 @@
 							  </select>
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">MODE FLAG 4</label>
+					<div class="form-group"><label class="col-sm-4 control-label">A9 MODE FLAG 4</label>
 						<div class="col-sm-6">
 							  <select>
 							  	<option>Bit 0</option>
@@ -131,7 +131,7 @@
 					</div>
 					<div class="col-sm-6 ">
 						<div class="btn-toolbar">
-							<button class="btn-primary btn">Next</button>
+							<button ng-click="changeTab(2)" class="btn-primary btn">Next</button>
 						</div>
 					</div>
 				</div>
@@ -141,16 +141,6 @@
 		<div class="tab-pane" id="2">
           <fieldset class="width-70">
 				  <legend>Configure B D</legend>
-				  <div class="form-group"><label class="col-sm-4 control-label">Floor Enabled / Disabled</label>
-						<div class="col-sm-6">
-							  <select>
-							  	<option>Complete Disabled</option>
-							  	<option>Landing calls disabled for Master</option>
-							  	<option>Landing calls disabled for Slave</option>
-							  	<option>Enabled</option>
-							  </select>
-						</div>
-					</div>
 					<div class="form-group"><label class="col-sm-4 control-label">Designating the Floors</label>
 						<div class="col-sm-6">
 							  <select>
@@ -169,15 +159,38 @@
 							  	<option>D M</option>
 							  </select>
 						</div>
+						<div class="form-group"><label class="col-sm-4 control-label">Floor Enabled / Disabled</label>
+						<div class="col-sm-6">
+								<div>
+									<input  type="radio" name="floorED" class="form-control">
+									<label>Complete Disabled</label>
+
+								</div>
+								<div>
+									<input  type="radio" name="floorED" class="form-control">
+									<label>Landing calls disabled for Master</label>
+
+								</div>
+								<div>
+									<input  type="radio" name="floorED" class="form-control">
+									<label>Landing calls disabled for Slave</label>
+
+								</div>
+								<div>
+									<input  type="radio" name="floorED" class="form-control">
+									<label>Enabled</label>
+								</div>
+						</div>
+					</div>
 					</div>
 				  <div class="panel-footer">
 				<div class="row">
 					<div class="col-sm-6">
-						<span class=" button button-clear fa fa-chevron-circle-left go-back"></span>
+						<span ng-click="changeTab(1)" class=" button button-clear fa fa-chevron-circle-left go-back"></span>
 					</div>
 					<div class="col-sm-6 ">
 						<div class="btn-toolbar">
-							<button class="btn-primary btn">Next</button>
+							<button ng-click="changeTab(3)" class="btn-primary btn">Next</button>
 						</div>
 					</div>
 				</div>
@@ -187,60 +200,65 @@
         <div class="tab-pane" id="3">
            <fieldset class="width-70">
 				  <legend>Configure P</legend>
-				  <div class="form-group"><label class="col-sm-4 control-label">No Of Stops</label>
+				  <div class="form-group"><label class="col-sm-4 control-label">P0 No Of Stops</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Door Mode</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P1 Door Mode</label>
 						<div class="col-sm-6">
-							<label>Manual Door Mode.</label>
-							<input  type="radio" name="doormode" class="form-control">
-							<label>Auto Door, Level sensor ABSENT</label>
-							<input  type="radio" name="doormode" class="form-control">
-							<label>Auto Door, Level sensor PRESENT.</label>
-							<input  type="radio" name="doormode" class="form-control">
-							
+							<div>
+								<input  type="radio" name="doormode" class="form-control">
+								<label>Manual Door Mode.</label>
+							</div>
+							<div>
+								<input  type="radio" name="doormode" class="form-control">
+								<label>Auto Door, Level sensor ABSENT</label>
+							</div>
+							<div>
+								<input  type="radio" name="doormode" class="form-control">
+								<label>Auto Door, Level sensor PRESENT.</label>
+							</div>
 						</div>
 					</div>
 					<!-- //if p1 == 0 -->
-					<div class="form-group"><label class="col-sm-4 control-label">RC ON Time</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P2 RC ON Time</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">RC OFF Time</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P3 RC OFF Time</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">No of RC Cyles</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P4 No of RC Cyles</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
 					<!-- //if p1 == 1 -->
-					<div class="form-group"><label class="col-sm-4 control-label">Door Open time at Floor reached</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P2 Door Open time at Floor reached</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Door Open time Same Floor  LOP Call</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P3 Door Open time Same Floor  LOP Call</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Door Cycles</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P4 Door Cycles</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Stoppage Time</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P5 Stoppage Time</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Mode Flag</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P6 Mode Flag</label>
 						<div class="col-sm-6">
 							<label>Bit 0</label>
 							<input  type="checkbox" />
@@ -256,7 +274,7 @@
 							<input  type="checkbox" />
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Lift Type</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P7 Lift Type</label>
 						<div class="col-sm-6">
 							<select>
 							  	<option>Simplex</option>
@@ -265,12 +283,12 @@
 							  </select>
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Fan On Time</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P8 Fan On Time</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Tube On Time</label>
+					<div class="form-group"><label class="col-sm-4 control-label">P9 Tube On Time</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
@@ -278,11 +296,11 @@
 					<div class="panel-footer">
 				<div class="row">
 					<div class="col-sm-6">
-						<span class=" button button-clear fa fa-chevron-circle-left go-back"></span>
+						<span ng-click="changeTab(2)" class=" button button-clear fa fa-chevron-circle-left go-back"></span>
 					</div>
 					<div class="col-sm-6 ">
 						<div class="btn-toolbar">
-							<button class="btn-primary btn">Next</button>
+							<button ng-click="changeTab(4)" class="btn-primary btn">Next</button>
 						</div>
 					</div>
 				</div>
@@ -292,6 +310,25 @@
 		<div class="tab-pane" id="4">
 				<fieldset class="width-70">
 				  <legend>configure R T C</legend>
+				  <div class="form-group"><label class="col-sm-4 control-label">Date</label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'Date')" is-open="openFlag.Date" ng-model="a.Date"/>
+						</div>
+					</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">Time</label>
+				<div class="col-sm-6">
+					<timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" class="timepicker"></timepicker>
+					<div>
+				<label class="col-sm-3 control-label">Controls</label>
+				<div class="col-sm-6">
+					  <button class="btn btn-info" ng-click="toggleMode()">12H / 24H</button>
+					  <button class="btn btn-danger" ng-click="clear()">Clear</button>
+				</div>
+			</div>
+				</div>
+			</div>
+			
 				  <div class="form-group"><label class="col-sm-4 control-label">R0 RTC Date(DD)</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
@@ -322,57 +359,52 @@
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">R5 RTC Seconds (SS)</label>
+					<div class="form-group"><label class="col-sm-4 control-label">T0 DATE</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">DATE</label>
+					<div class="form-group"><label class="col-sm-4 control-label">T1 Month</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Month</label>
+					<div class="form-group"><label class="col-sm-4 control-label">T2 YEAR</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">YEAR</label>
+					<div class="form-group"><label class="col-sm-4 control-label">T3 Count</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Count</label>
+					<div class="form-group"><label class="col-sm-4 control-label">T4 Consumer No MSD 2 digit</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Consumer No MSD 2 digit</label>
+					<div class="form-group"><label class="col-sm-4 control-label">T5 Consumer No LSD 2 Digit</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">Consumer No LSD 2 Digit</label>
+					<div class="form-group"><label class="col-sm-4 control-label">C0 ARD off Delay</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">ARD off Delay</label>
+					<div class="form-group"><label class="col-sm-4 control-label">C1 ARD On Delay</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">ARD On Delayy</label>
+					<div class="form-group"><label class="col-sm-4 control-label">C2 ARD Over off Delay</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
 					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">ARD Over off Delay</label>
-						<div class="col-sm-6">
-							<input  type="text" class="form-control">
-						</div>
-					</div>
-					<div class="form-group"><label class="col-sm-4 control-label">ARD Direction Reversal delay</label>
+					<div class="form-group"><label class="col-sm-4 control-label">C3 ARD Direction Reversal delay</label>
 						<div class="col-sm-6">
 							<input  type="text" class="form-control">
 						</div>
@@ -380,7 +412,7 @@
 							<div class="panel-footer">
 				<div class="row">
 					<div class="col-sm-6">
-						<span class=" button button-clear fa fa-chevron-circle-left go-back"></span>
+						<span ng-click="changeTab(3)" class=" button button-clear fa fa-chevron-circle-left go-back"></span>
 					</div>
 					<div class="col-sm-6 ">
 						<div class="btn-toolbar">
