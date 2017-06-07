@@ -55,10 +55,7 @@
 						bit4 : 0,
 						bit5 : 0
 			}
-			$scope.$watch("a.flag2",function(){
-				alert("flag2");
-				$scope.a.flag2result = $scope.a.flag2.bit5 + $scope.a.flag2.bit4 + $scope.a.flag2.bit3 + $scope.a.flag2.bit2 + $scope.a.flag2.bit1 + $scope.a.flag2.bit0;
-			})
+			
 			 
 			$scope.a.flag3 = {
 						bit0 : 0,
@@ -68,12 +65,7 @@
 						bit4 : 0,
 						bit5 : 0
 			}
-			$scope.$watch("a.flag3",function(){
-				alert("flag3");
-				$scope.a.flag3result = $scope.a.flag3.bit5 + $scope.a.flag3.bit4 + $scope.a.flag3.bit3 + $scope.a.flag3.bit2 + $scope.a.flag3.bit1 + $scope.a.flag3.bit0;
-			})
-			
-			$scope.a.flag4 = {
+						$scope.a.flag4 = {
 						bit0 : 0,
 						bit1 : 0,
 						bit2 : 0,
@@ -81,10 +73,7 @@
 						bit4 : 0,
 						bit5 : 0
 			}
-			$scope.$watch("a.flag4",function(){
-				alert("flag4");
-				$scope.a.flag4result = $scope.a.flag4.bit5 + $scope.a.flag4.bit4 + $scope.a.flag4.bit3 + $scope.a.flag4.bit2 + $scope.a.flag4.bit1 + $scope.a.flag4.bit0;
-			})
+			
 			
 			$scope.$watch("a.disableHomelanding",
                     function handleChange( newValue, oldValue ) {
