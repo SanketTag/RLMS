@@ -87,31 +87,35 @@
 					<div class="form-group"><label class="col-sm-4 control-label">A6 MODE Flag 2</label>
 						<div class="col-sm-6 bits">
 							 	<span>
-									<input  type="checkbox" ng-model="a.flag2.bit0" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag2.bit0" name="a8flag3" class="form-control" ng-change="stateChangedFlag2(this)">
 									<label>Bit 0</label>
 
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag2.bit1" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag2.bit1" name="a8flag3" class="form-control" ng-change="stateChangedFlag2(this)">
 									<label>Bit 1</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag2.bit2" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag2.bit2" name="a8flag3" class="form-control" ng-change="stateChangedFlag2(this)">
 									<label>Bit 2</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag2.bit3" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag2.bit3" name="a8flag3" class="form-control" ng-change="stateChangedFlag2(this)">
 									<label>Bit 3</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag2.bit4" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag2.bit4" name="a8flag3" class="form-control" ng-change="stateChangedFlag2(this)">
 									<label>Bit 4</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag2.bit5" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag2.bit5" name="a8flag3" class="form-control" ng-change="stateChangedFlag2(this)">
 									<label>Bit 5</label>
 								</span>
+								<span>
+									<label>Total=</label>{{aflag2decimalvalue}}
+								</span>
 						</div>
+						
 					</div>
 					<div class="form-group"><label class="col-sm-4 control-label">A7 Door closure expeccted time</label>
 						<div class="col-sm-6">
@@ -121,58 +125,65 @@
 					<div class="form-group"><label class="col-sm-4 control-label">A8 MODE FLAG 3</label>
 						<div class="col-sm-6">
 								<span>
-									<input  type="checkbox" ng-model="a.flag3.bit0" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag3.bit0" ng-change="stateChangedFlag3()" name="a8flag3" class="form-control">
 									<label>Bit 0</label>
 
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag3.bit1" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag3.bit1" ng-change="stateChangedFlag3()" name="a8flag3" class="form-control">
 									<label>Bit 1</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag3.bit2" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag3.bit2" ng-change="stateChangedFlag3()" name="a8flag3" class="form-control">
 									<label>Bit 2</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag3.bit3" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag3.bit3" ng-change="stateChangedFlag3()" name="a8flag3" class="form-control">
 									<label>Bit 3</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag3.bit4" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag3.bit4" ng-change="stateChangedFlag3()" name="a8flag3" class="form-control">
 									<label>Bit 4</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag3.bit5" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag3.bit5" ng-change="stateChangedFlag3()" name="a8flag3" class="form-control">
 									<label>Bit 5</label>
 								</span>
+								<span>
+									<label>Total=</label>{{aflag3decimalvalue}}
+								</span>
+								
 						</div>
 					</div>
 					<div class="form-group"><label class="col-sm-4 control-label">A9 MODE FLAG 4</label>
 						<div class="col-sm-6">
 							  	<span>
-									<input  type="checkbox" ng-model="a.flag4.bit0" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag4.bit0" ng-change="stateChangedFlag4()" name="a8flag3" class="form-control">
 									<label>Bit 0</label>
 
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag4.bit1" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag4.bit1" ng-change="stateChangedFlag4()" name="a8flag3" class="form-control">
 									<label>Bit 1</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag4.bit2" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag4.bit2" ng-change="stateChangedFlag4()" name="a8flag3" class="form-control">
 									<label>Bit 2</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag4.bit3" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag4.bit3" ng-change="stateChangedFlag4()" name="a8flag3" class="form-control">
 									<label>Bit 3</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag4.bit4" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag4.bit4" ng-change="stateChangedFlag4()" name="a8flag3" class="form-control">
 									<label>Bit 4</label>
 								</span>
 								<span>
-									<input  type="checkbox" ng-model="a.flag4.bit5" name="a8flag3" class="form-control">
+									<input  type="checkbox" ng-model="a.flag4.bit5" ng-change="stateChangedFlag4()" name="a8flag3" class="form-control">
 									<label>Bit 5</label>
+								</span>
+								<span>
+									<label>Total=</label>{{aflag4decimalvalue}}
 								</span>
 						</div>
 						
@@ -496,18 +507,37 @@
 					</div>
 					<div class="form-group"><label class="col-sm-4 control-label">P6 Mode Flag</label>
 						<div class="col-sm-6">
-							<label>Bit 0</label>
-							<input  type="checkbox" />
-							<label>Bit 1</label>
-							<input  type="checkbox" />
-							<label>Bit 2</label>
-							<input  type="checkbox" />
-							<label>Bit 3</label>
-							<input  type="checkbox" />
-							<label>Bit 4</label>
-							<input  type="checkbox" />
-							<label>Bit 5</label>
-							<input  type="checkbox" />
+							<span>
+									<input  type="checkbox" ng-model="a.modeflag.bit0" ng-change="stateChangedmodeflag()" name="a8flag3" class="form-control">
+									<label>Bit 0</label>
+
+								</span>
+								<span>
+									<input  type="checkbox" ng-model="a.modeflag.bit1" ng-change="stateChangedmodeflag()" name="a8flag3" class="form-control">
+									<label>Bit 1</label>
+								</span>
+								<span>
+									<input  type="checkbox" ng-model="a.modeflag.bit2" ng-change="stateChangedmodeflag()" name="a8flag3" class="form-control">
+									<label>Bit 2</label>
+								</span>
+								<span>
+									<input  type="checkbox" ng-model="a.modeflag.bit3" ng-change="stateChangedmodeflag()" name="a8flag3" class="form-control">
+									<label>Bit 3</label>
+								</span>
+								<span>
+									<input  type="checkbox" ng-model="a.modeflag.bit4" ng-change="stateChangedmodeflag()" name="a8flag3" class="form-control">
+									<label>Bit 4</label>
+								</span>
+								<span>
+									<input  type="checkbox" ng-model="a.modeflag.bit5" ng-change="stateChangedmodeflag()" name="a8flag3" class="form-control">
+									<label>Bit 5</label>
+								</span>
+								<span>
+									<label>Total=</label>{{modeflagdecimalvalue}}
+								</span>
+							<!-- <span>
+							<label>Total=</label>{{p6flagdecimalvalue}}
+							</span> -->
 						</div>
 					</div>
 					<div class="form-group"><label class="col-sm-4 control-label">P7 Lift Type</label>
