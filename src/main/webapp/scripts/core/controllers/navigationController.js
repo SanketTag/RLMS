@@ -5,7 +5,7 @@ angular
     $scope.menu = [ {
 	        label: 'Dashboard',
 	        iconClasses: 'glyphicon glyphicon-home',
-	        url: '#/company-management'
+	        url: '#/index'
    	      },{
    	      label: 'Admin',
    	      iconClasses: 'glyphicon glyphicon-user glyphicons-user-add',
