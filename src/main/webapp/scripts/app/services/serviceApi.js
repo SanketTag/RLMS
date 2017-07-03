@@ -24,5 +24,16 @@
 	            });
      		return deferred.promise;
      	};
+     	serviceArr.doGetWithoutData = function(url){
+     		var deferred = $q.defer();
+     		$http.get(url)
+	            .success(function (response, status, headers, responseConfig) {
+	            	deferred.resolve(response);
+	            })
+	            .error(function (error, status, headers, config) {
+	            	deferred.reject("Error occured while making ajax call");
+	            });
+     		return deferred.promise;
+     	};
      }]);
 })();
