@@ -3,7 +3,7 @@ angular.module('theme.demos.dashboard', [
     'theme.demos.forms',
     'theme.demos.tasks'
   ])
-  .controller('DashboardController', ['$scope', '$timeout', '$window','$modal','serviceApi', function($scope, $timeout, $window, $modal,serviceApi) {
+  .controller('DashboardController', ['$scope', '$timeout', '$window','$modal','serviceApi','$filter', function($scope, $timeout, $window, $modal,serviceApi,$filter) {
     'use strict';
     var moment = $window.moment;
     var _ = $window._;
@@ -15,6 +15,96 @@ angular.module('theme.demos.dashboard', [
       }, 2000);
     };
     
+    $scope.messages = [{
+        name: 'Sanket',
+        message: 'Mobile number changed',
+        time: '3m',
+        class: 'notification-danger',
+        thumb: 'assets/demo/avatar/paton.png',
+        read: false
+      }, {
+        name: 'Test User',
+        message: 'Regstered today',
+        time: '17m',
+        class: 'notification-danger',
+        thumb: 'assets/demo/avatar/corbett.png',
+        read: false
+      }];
+
+      $scope.setRead = function(item, $event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        item.read = true;
+      };
+
+      $scope.setUnread = function(item, $event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        item.read = false;
+      };
+
+      $scope.setReadAll = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        angular.forEach($scope.messages, function(item) {
+          item.read = true;
+        });
+      };
+
+      $scope.unseenCount = $filter('filter')($scope.messages, {
+        read: false
+      }).length;
+
+      $scope.$watch('messages', function(messages) {
+        $scope.unseenCount = $filter('filter')(messages, {
+          read: false
+        }).length;
+      }, true);
+      $scope.notifications = [{
+          text: 'Site visited by technician',
+          time: '4m',
+          class: 'notification-success',
+          iconClasses: 'glyphicon glyphicon-ok',
+          seen: true
+        }, {
+          text: 'Complaint registered today',
+          time: '10m',
+          class: 'notification-user',
+          iconClasses: 'glyphicon glyphicon-user',
+          seen: false
+        }];
+
+        $scope.setSeen = function(item, $event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          item.seen = true;
+        };
+
+        $scope.setUnseen = function(item, $event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          item.seen = false;
+        };
+
+        $scope.setSeenAll = function($event) {
+          $event.preventDefault();
+          $event.stopPropagation();
+          angular.forEach($scope.notifications, function(item) {
+            item.seen = true;
+          });
+        };
+
+        $scope.unseenCountForNotifications = $filter('filter')($scope.notifications, {
+          seen: false
+        }).length;
+
+        $scope.$watch('notifications', function(notifications) {
+          $scope.unseenCountForNotifications = $filter('filter')(notifications, {
+            seen: false
+          }).length;
+        }, true);
+      
+      
     $scope.filterOptions = {
 	  	      filterText: '',
 	  	      useExternalFilter: true
