@@ -84,7 +84,7 @@
 <script type="text/ng-template" id="demoModalContent.html">
 <div ng-controller="DashboardController">
     <div class="modal-header">
-        <h3 class="modal-title"><span ng-bind="modalHeaderVal">Modal</span></h3>
+        <h3 class="modal-title">{{modalHeaderVal}}</h3>
     </div>
     <div class="modal-body">
     	<div class="container-fluid">
@@ -93,7 +93,7 @@
 	      <div class="col-md-12">		
                <div class="input-icon right mb10">
                    <i class="fa fa-search"></i>
-                   <input type="text" ng-model="filterOptions.filterText" class="form-control" placeholder="Search Filter">
+                   <input type="text" ng-model="filterOptionsForModal.filterText" class="form-control" placeholder="Search Filter">
                </div>
                <div class ="data-table" style="min-height:300px;max-height:500px" ng-grid="gridOptionsForComplaints"></div>
 	        </div>
@@ -120,20 +120,20 @@
         <div class="col-md-3 animated-content">
             <div class="row">
                 <div class="col-xs-6">
-                    <tile-simple data="{ title: 'Assigned Complaints', text: '9', color: 'danger'}" ng-click="openDemoModal('lg','Pending Complaints','2')"></tile-simple>
+                    <tile-simple data="{ title: 'Assigned Complaints', text: '9', color: 'danger'}" ng-click="openDemoModal('lg','Pending Complaints','3')"></tile-simple>
                 </div>
                 <div class="col-xs-6">
-                    <tile-simple data="{ title: 'Complaints Attempted Today', text: '41', color: 'indigo'}" ng-click="openDemoModal('lg','Pending Complaints','2')"></tile-simple>
+                    <tile-simple data="{ title: 'Complaints Attempted Today', text: '41', color: 'indigo'}" ng-click="openDemoModal('lg','Pending Complaints','3')"></tile-simple>
                 </div>
             </div>
         </div>
         <div class="col-md-3 animated-content">
             <div class="row">
                 <div class="col-xs-6">
-                    <tile-simple data="{ title: 'Resolved Complaints', text: '9', color: 'danger'}" ng-click="openDemoModal('lg','Pending Complaints','2')"></tile-simple>
+                    <tile-simple data="{ title: 'Resolved Complaints', text: '9', color: 'danger'}" ng-click="openDemoModal('lg','Pending Complaints','4')"></tile-simple>
                 </div>
                 <div class="col-xs-6">
-                    <tile-simple data="{ title: 'Total Complaints', text: '41', color: 'indigo'}" ng-click="openDemoModal('lg','Pending Complaints','2')"></tile-simple>
+                    <tile-simple data="{ title: 'Total Complaints', text: '41', color: 'indigo'}" ng-click="openDemoModal('lg','Pending Complaints','4')"></tile-simple>
                 </div>
             </div>
         </div>

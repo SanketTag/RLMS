@@ -1,554 +1,571 @@
 angular.module('theme.demos.dashboard', [
-    'angular-skycons',
-    'theme.demos.forms',
-    'theme.demos.tasks'
-  ])
-  .controller('DashboardController', ['$scope', '$timeout', '$window','$modal','serviceApi','$filter', function($scope, $timeout, $window, $modal,serviceApi,$filter) {
+  'angular-skycons',
+  'theme.demos.forms',
+  'theme.demos.tasks'
+])
+  .controller('DashboardController', ['$scope', '$timeout', '$window', '$modal', 'serviceApi', '$filter', function ($scope, $timeout, $window, $modal, serviceApi, $filter) {
     'use strict';
     var moment = $window.moment;
     var _ = $window._;
     $scope.loadingChartData = false;
-    $scope.refreshAction = function() {
+    $scope.refreshAction = function () {
       $scope.loadingChartData = true;
-      $timeout(function() {
+      $timeout(function () {
         $scope.loadingChartData = false;
       }, 2000);
     };
-    
+
     $scope.messages = [{
-        name: 'Sanket',
-        message: 'Mobile number changed',
-        time: '3m',
-        class: 'notification-danger',
-        thumb: 'assets/demo/avatar/paton.png',
-        read: false
-      }, {
-        name: 'Test User',
-        message: 'Regstered today',
-        time: '17m',
-        class: 'notification-danger',
-        thumb: 'assets/demo/avatar/corbett.png',
-        read: false
-      }];
+      name: 'Sanket',
+      message: 'Mobile number changed',
+      time: '3m',
+      class: 'notification-danger',
+      thumb: 'assets/demo/avatar/paton.png',
+      read: false
+    }, {
+      name: 'Test User',
+      message: 'Regstered today',
+      time: '17m',
+      class: 'notification-danger',
+      thumb: 'assets/demo/avatar/corbett.png',
+      read: false
+    }];
 
-      $scope.setRead = function(item, $event) {
-        $event.preventDefault();
-        $event.stopPropagation();
+    $scope.setRead = function (item, $event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      item.read = true;
+    };
+
+    $scope.setUnread = function (item, $event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      item.read = false;
+    };
+
+    $scope.setReadAll = function ($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      angular.forEach($scope.messages, function (item) {
         item.read = true;
-      };
+      });
+    };
 
-      $scope.setUnread = function(item, $event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        item.read = false;
-      };
+    $scope.unseenCount = $filter('filter')($scope.messages, {
+      read: false
+    }).length;
 
-      $scope.setReadAll = function($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        angular.forEach($scope.messages, function(item) {
-          item.read = true;
-        });
-      };
-
-      $scope.unseenCount = $filter('filter')($scope.messages, {
+    $scope.$watch('messages', function (messages) {
+      $scope.unseenCount = $filter('filter')(messages, {
         read: false
       }).length;
+    }, true);
+    $scope.notifications = [{
+      text: 'Site visited by technician',
+      time: '4m',
+      class: 'notification-success',
+      iconClasses: 'glyphicon glyphicon-ok',
+      seen: true
+    }, {
+      text: 'Complaint registered today',
+      time: '10m',
+      class: 'notification-user',
+      iconClasses: 'glyphicon glyphicon-user',
+      seen: false
+    }];
 
-      $scope.$watch('messages', function(messages) {
-        $scope.unseenCount = $filter('filter')(messages, {
-          read: false
-        }).length;
-      }, true);
-      $scope.notifications = [{
-          text: 'Site visited by technician',
-          time: '4m',
-          class: 'notification-success',
-          iconClasses: 'glyphicon glyphicon-ok',
-          seen: true
-        }, {
-          text: 'Complaint registered today',
-          time: '10m',
-          class: 'notification-user',
-          iconClasses: 'glyphicon glyphicon-user',
-          seen: false
-        }];
-
-        $scope.setSeen = function(item, $event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-          item.seen = true;
-        };
-
-        $scope.setUnseen = function(item, $event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-          item.seen = false;
-        };
-
-        $scope.setSeenAll = function($event) {
-          $event.preventDefault();
-          $event.stopPropagation();
-          angular.forEach($scope.notifications, function(item) {
-            item.seen = true;
-          });
-        };
-
-        $scope.unseenCountForNotifications = $filter('filter')($scope.notifications, {
-          seen: false
-        }).length;
-
-        $scope.$watch('notifications', function(notifications) {
-          $scope.unseenCountForNotifications = $filter('filter')(notifications, {
-            seen: false
-          }).length;
-        }, true);
-      
-      
-    $scope.filterOptions = {
-	  	      filterText: '',
-	  	      useExternalFilter: true
-	  	    };
-	  	    $scope.totalServerItems = 0;
-	  	    $scope.pagingOptions = {
-	  	      pageSizes: [10, 20, 50],
-	  	      pageSize: 10,
-	  	      currentPage: 1
-	  	    };
-	  	    
-	  	  $scope.gridOptionsForComplaints = {
-					data : 'myComplaintsData',
-					rowHeight : 40,
-					enablePaging : true,
-					showFooter : true,
-					totalServerItems : 'totalServerItems',
-					pagingOptions : $scope.pagingOptions,
-					filterOptions : $scope.filterOptions,
-					multiSelect : false,
-					gridFooterHeight : 35,
-					enableRowSelection: true,
-					selectedItems: [],
-					afterSelectionChange:function(rowItem, event){
-					},
-					columnDefs : [ {
-						field : "Number",
-						displayName:"Number",
-						width : 120
-					}, {
-						field : "Title",
-						displayName:"Title",
-						width : 120
-					}, {
-						field : "Remark",
-						displayName:"Details",
-						width : 120
-					}, {
-						field : "Registration_Date",
-						displayName:"Registration Date",
-						width : 120
-					}
-					, {
-						field : "Service_StartDate",
-						displayName:"Service Start Date",
-						width : 160
-					}, {
-						field : "Service_End_Date",
-						displayName:"Service End Date",
-						width : 120
-					}
-					, {
-						field : "Address",
-						displayName:"Address",
-						width : 120
-					}
-					, {
-						field : "City",
-						displayName:"City",
-						width : 120
-					}, {
-						field : "Status",
-						displayName:"Status",
-						width : 120
-					}
-					, {
-						field : "Technician",
-						displayName:"Technician",
-						width : 120
-					},{
-						field : "complaintId",
-						displayName:"complaintId",
-						visible: false,
-					}
-					]
-				};
-	  	    
-	  	  $scope.gridOptions = {
-		  	      data: 'myData',
-		  	      rowHeight: 40,
-		  	      enablePaging: true,
-		  	      showFooter: true,
-		  	      totalServerItems: 'totalServerItems',
-		  	      pagingOptions: $scope.pagingOptions,
-		  	      filterOptions: $scope.filterOptions,
-		  	      multiSelect: false,
-		  	      gridFooterHeight:35,
-		  	      groupBy:'customerName',
-		  	      columnDefs : [ {
-					field : "amcAmount",
-					displayName:"AMC Amount",
-					width : 120
-		  	      },{
-						field : "amcStartDate",
-						displayName:"AMC Start Date",
-						width : 120
-			  	  },{
-						field : "amcTypeStr",
-						displayName:"AMC Type",
-						width : 120
-			  	  },{
-						field : "area",
-						displayName:"Area",
-						width : 120
-			  	  },{
-						field : "city",
-						displayName:"City",
-						width : 120
-			  	  },{
-						field : "customerName",
-						displayName:"Customer Name",
-						width : 120
-			  	  },{
-						field : "dueDate",
-						displayName:"Due Date",
-						width : 120
-			  	  },{
-						field : "liftNumber",
-						displayName:"Lift Number",
-						width : 120
-			  	  },{
-						field : "status",
-						displayName:"Status",
-						width : 120
-			  	  }
-		  	      ]
-		  	    };
-    
-	$scope.setPagingData = function(data, page, pageSize) {
-	      var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
-	      $scope.myData = pagedData;
-	      $scope.totalServerItems = data.length;
-	      if (!$scope.$$phase) {
-	        $scope.$apply();
-	      }
-	    };
-	    $scope.setPagingDataForComplaints = function(data, page, pageSize) {
-		      var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
-		      $scope.myComplaintsData = pagedData;
-		      $scope.totalServerItems = data.length;
-		      if (!$scope.$$phase) {
-		        $scope.$apply();
-		      }
-		    };
-    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
-    	setTimeout(function() {
-	        var data;
-	        if (searchText) {
-	        	var ft = searchText.toLowerCase();
-	        	data = $scope.myData.filter(function(item) {
-	  	              return JSON.stringify(item).toLowerCase().indexOf(ft) !== -1;
-	  	            });
-	  	            $scope.setPagingData(data, page, pageSize);
-	        }else{
-	        	serviceApi.doGetWithoutData('/RLMS/dashboard/getAMCDetails')
-		         .then(function(largeLoad) {
-		        	  var details=[];
-		        	  for(var i=0;i<largeLoad.length;i++){
-		        		var detailsObj={};
-		        		if(!!largeLoad[i].customerName){
-		        			detailsObj["customerName"] =largeLoad[i].customerName;
-		        		}else{
-		        			detailsObj["customerName"] =" - ";
-		        		}
-		        		if(!!largeLoad[i].liftNumber){
-		        			detailsObj["liftNumber"] =largeLoad[i].liftNumber;
-		        		}else{
-		        			detailsObj["liftNumber"] =" - ";
-		        		}
-		        		if(!!largeLoad[i].status){
-		        			detailsObj["status"] =largeLoad[i].status;
-		        		}else{
-		        			detailsObj["status"] =" - ";
-		        		}
-		        		if(!!largeLoad[i].amcAmount){
-		        			detailsObj["amcAmount"] =largeLoad[i].amcAmount;
-		        		}else{
-		        			detailsObj["amcAmount"] =" - ";
-		        		}
-		        		if(!!largeLoad[i].amcTypeStr){
-		        			detailsObj["amcTypeStr"] =largeLoad[i].amcTypeStr;
-		        		}else{
-		        			detailsObj["amcTypeStr"] =" - ";
-		        		}
-		        		if(!!largeLoad[i].amcStartDate){
-		        			detailsObj["amcStartDate"] =largeLoad[i].amcStartDate;
-		        		}else{
-		        			detailsObj["amcStartDate"] =" - ";
-		        		}
-		        		if(!!largeLoad[i].dueDate){
-		        			detailsObj["dueDate"] =largeLoad[i].dueDate;
-		        		}else{
-		        			detailsObj["dueDate"] =" - ";
-		        		}
-		        		if(!!largeLoad[i].area){
-		        			detailsObj["area"] =largeLoad[i].area;
-		        		}else{
-		        			detailsObj["area"] =" - ";
-		        		}
-		        		if(!!largeLoad[i].city){
-		        			detailsObj["city"] =largeLoad[i].city;
-		        		}else{
-		        			detailsObj["city"] =" - ";
-		        		}
-		        		details.push(detailsObj);
-		        	  }
-		            data = details.filter(function(item) {
-		              return true;
-		            });
-		            $scope.setPagingData(data, page, pageSize);
-		          });
-	        }
-    }, 100);
+    $scope.setSeen = function (item, $event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      item.seen = true;
     };
-    
-    
-    $scope.loadAMCList = function(){
-		$scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
-	};
-	$scope.loadAMCList();
-	
-	$scope.$watch('pagingOptions', function(newVal, oldVal) {
-	      if (newVal !== oldVal) {
-	        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
-	      }
-	    }, true);
-	$scope.$watch('filterOptions', function(newVal, oldVal) {
-	      if (newVal !== oldVal) {
-	        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
-	      }
-	    }, true);
-	$scope.getPagedDataAsyncForComplaints = function(pageSize,
-			page, searchText, complaintStatus) {
 
-		setTimeout(
-				function() {
-					var data;
-					if (searchText) {
-						var ft = searchText
-								.toLowerCase();
-						var dataToSend = $scope
-								.construnctObjeToSend(complaintStatus);
-						serviceApi
-								.doPostWithData('/RLMS/complaint/getListOfComplaints',dataToSend)
-								.then(
-										function(largeLoad) {
-											$scope.complaints = largeLoad;
-											$scope.showTable = true;
-											var userDetails = [];
-											for (var i = 0; i < largeLoad.length; i++) {
-												var userDetailsObj = {};
-												if (!!largeLoad[i].complaintNumber) {
-													userDetailsObj["Complaint_Number"] = largeLoad[i].complaintNumber;
-												} else {
-													userDetailsObj["Complaint_Number"] = " - ";
-												}
-												if (!!largeLoad[i].title) {
-													userDetailsObj["Title"] = largeLoad[i].title;
-												} else {
-													userDetailsObj["Title"] = " - ";
-												}
-											
-												if (!!largeLoad[i].registrationDate) {
-													userDetailsObj["Registration_Date"] = largeLoad[i].registrationDate;
-												} else {
-													userDetailsObj["Registration_Date"] = " - ";
-												}
-												if (!!largeLoad[i].serviceStartDate) {
-													userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDate;
-												} else {
-													userDetailsObj["Service_StartDate"] = " - ";
-												}
-												if (!!largeLoad[i].serviceStartDateStr) {
-													userDetailsObj["Service_Start_Date"] = largeLoad[i].serviceStartDateStr;
-												} else {
-													userDetailsObj["Service_Start_Date"] = " - ";
-												}
-												if (!!largeLoad[i].serviceEndDateStr) {
-													userDetailsObj["Service_End_Date"] = largeLoad[i].serviceEndDateStr;
-												} else {
-													userDetailsObj["Service_End_Date"] = " - ";
-												}
-												if (!!largeLoad[i].liftAddress) {
-													userDetailsObj["Address"] = largeLoad[i].liftAddress;
-												} else {
-													userDetailsObj["Address"] = " - ";
-												}
-												if (!!largeLoad[i].city) {
-													userDetailsObj["City"] = largeLoad[i].city;
-												} else {
-													userDetailsObj["City"] = " - ";
-												}
-												if (!!largeLoad[i].status) {
-													userDetailsObj["Status"] = largeLoad[i].status;
-												} else {
-													userDetailsObj["Status"] = " - ";
-												}
-												if (!!largeLoad[i].technicianDtls) {
-													userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
-												} else {
-													userDetailsObj["Technician"] = " - ";
-												}
-												if (!!largeLoad[i].technicianDtls) {
-													userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
-												} else {
-													userDetailsObj["Technician"] = " - ";
-												}
-												if (!!largeLoad[i].complaintId) {
-													userDetailsObj["complaintId"] = largeLoad[i].complaintId;
-												} else {
-													userDetailsObj["complaintId"] = " - ";
-												}
-												
-												userDetails
-														.push(userDetailsObj);
-											}
-											data = userDetails
-													.filter(function(
-															item) {
-														return JSON
-																.stringify(
-																		item)
-																.toLowerCase()
-																.indexOf(
-																		ft) !== -1;
-													});
-											$scope
-													.setPagingDataForComplaints(
-															data,
-															page,
-															pageSize);
-										});
-					} else {
-						var dataToSend = $scope
-								.construnctObjeToSend(complaintStatus);
-						serviceApi
-								.doPostWithData(
-										'/RLMS/complaint/getListOfComplaints',
-										dataToSend)
-								.then(
-										function(
-												largeLoad) {
-											$scope.complaints = largeLoad;
-											$scope.showTable = true;
-											var userDetails = [];
-											for (var i = 0; i < largeLoad.length; i++) {
-												var userDetailsObj = {};
-												if (!!largeLoad[i].complaintNumber) {
-													userDetailsObj["Number"] = largeLoad[i].complaintNumber;
-												} else {
-													userDetailsObj["Number"] = " - ";
-												}
-												if (!!largeLoad[i].title) {
-													userDetailsObj["Title"] = largeLoad[i].title;
-												} else {
-													userDetailsObj["Title"] = " - ";
-												}
-												
-												if (!!largeLoad[i].registrationDateStr) {
-													userDetailsObj["Registration_Date"] = largeLoad[i].registrationDateStr;
-												} else {
-													userDetailsObj["Registration_Date"] = " - ";
-												}
-												if (!!largeLoad[i].serviceStartDateStr) {
-													userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDateStr;
-												} else {
-													userDetailsObj["Service_StartDate"] = " - ";
-												}
-												if (!!largeLoad[i].serviceStartDateStr) {
-													userDetailsObj["Service_Start_Date"] = largeLoad[i].serviceStartDateStr;
-												} else {
-													userDetailsObj["Service_Start_Date"] = " - ";
-												}
-												if (!!largeLoad[i].serviceEndDateStr) {
-													userDetailsObj["Service_End_Date"] = largeLoad[i].serviceEndDateStr;
-												} else {
-													userDetailsObj["Service_End_Date"] = " - ";
-												}
-												if (!!largeLoad[i].liftAddress) {
-													userDetailsObj["Address"] = largeLoad[i].liftAddress;
-												} else {
-													userDetailsObj["Address"] = " - ";
-												}
-												if (!!largeLoad[i].city) {
-													userDetailsObj["City"] = largeLoad[i].city;
-												} else {
-													userDetailsObj["City"] = " - ";
-												}
-												if (!!largeLoad[i].status) {
-													userDetailsObj["Status"] = largeLoad[i].status;
-												} else {
-													userDetailsObj["Status"] = " - ";
-												}
-												if (!!largeLoad[i].technicianDtls) {
-													userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
-												} else {
-													userDetailsObj["Technician"] = " - ";
-												}
-												if (!!largeLoad[i].complaintId) {
-													userDetailsObj["complaintId"] = largeLoad[i].complaintId;
-												} else {
-													userDetailsObj["complaintId"] = " - ";
-												}
-												userDetails
-														.push(userDetailsObj);
-											}
-											/*$scope.newComplaints=userDetails.filter(function(item) {
-								  	              return item.Status=="Pending";
-								  	            });
-											$scope.pendingComplaints=userDetails.filter(function(item) {
-								  	              return item.Status=="Pending";
-								  	            });
-											$scope.assignedComplaints=userDetails.filter(function(item) {
-								  	              return item.Status=="Assigned";
-								  	            });
-											$scope.complaintsAttemptedToday=userDetails.filter(function(item) {
-								  	              return item.Status=="Completed";
-								  	            });
-											$scope.resolvedComplaints=userDetails.filter(function(item) {
-								  	              return item.Status=="Completed";
-								  	            });*/
-											$scope
-													.setPagingDataForComplaints(
-															userDetails,
-															page,
-															pageSize);
-										});
+    $scope.setUnseen = function (item, $event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      item.seen = false;
+    };
 
-					}
-				}, 100);
-	};
-		
-	$scope.construnctObjeToSend = function(complaintStatus) {
-		var dataToSend = {
-				statusList:[]
+    $scope.setSeenAll = function ($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      angular.forEach($scope.notifications, function (item) {
+        item.seen = true;
+      });
+    };
+
+    $scope.unseenCountForNotifications = $filter('filter')($scope.notifications, {
+      seen: false
+    }).length;
+
+    $scope.$watch('notifications', function (notifications) {
+      $scope.unseenCountForNotifications = $filter('filter')(notifications, {
+        seen: false
+      }).length;
+    }, true);
+
+
+    $scope.filterOptions = {
+      filterText: '',
+      useExternalFilter: true
+    };
+    $scope.totalServerItems = 0;
+    $scope.pagingOptions = {
+      pageSizes: [10, 20, 50],
+      pageSize: 10,
+      currentPage: 1
+    };
+
+    $scope.gridOptionsForComplaints = {
+      data: 'myComplaintsData',
+      rowHeight: 40,
+      enablePaging: true,
+      showFooter: true,
+      totalServerItems: 'totalServerItems',
+      pagingOptions: $scope.pagingOptions,
+      filterOptions: $scope.filterOptions,
+      multiSelect: false,
+      gridFooterHeight: 35,
+      enableRowSelection: true,
+      selectedItems: [],
+      afterSelectionChange: function (rowItem, event) {
+      },
+      columnDefs: [{
+        field: "Number",
+        displayName: "Number",
+        width: 120
+      }, {
+        field: "Title",
+        displayName: "Title",
+        width: 120
+      }, {
+        field: "Remark",
+        displayName: "Details",
+        width: 120
+      }, {
+        field: "Registration_Date",
+        displayName: "Registration Date",
+        width: 120
+      }
+        , {
+        field: "Service_StartDate",
+        displayName: "Service Start Date",
+        width: 160
+      }, {
+        field: "Service_End_Date",
+        displayName: "Service End Date",
+        width: 120
+      }
+        , {
+        field: "Address",
+        displayName: "Address",
+        width: 120
+      }
+        , {
+        field: "City",
+        displayName: "City",
+        width: 120
+      }, {
+        field: "Status",
+        displayName: "Status",
+        width: 120
+      }
+        , {
+        field: "Technician",
+        displayName: "Technician",
+        width: 120
+      }, {
+        field: "complaintId",
+        displayName: "complaintId",
+        visible: false,
+      }
+      ]
+    };
+
+    $scope.gridOptions = {
+      data: 'myData',
+      rowHeight: 40,
+      enablePaging: true,
+      showFooter: true,
+      totalServerItems: 'totalServerItems',
+      pagingOptions: $scope.pagingOptions,
+      filterOptions: $scope.filterOptions,
+      multiSelect: false,
+      gridFooterHeight: 35,
+      groupBy: 'customerName',
+      columnDefs: [{
+        field: "amcAmount",
+        displayName: "AMC Amount",
+        width: 120
+      }, {
+        field: "amcStartDate",
+        displayName: "AMC Start Date",
+        width: 120
+      }, {
+        field: "amcTypeStr",
+        displayName: "AMC Type",
+        width: 120
+      }, {
+        field: "area",
+        displayName: "Area",
+        width: 120
+      }, {
+        field: "city",
+        displayName: "City",
+        width: 120
+      }, {
+        field: "customerName",
+        displayName: "Customer Name",
+        width: 120
+      }, {
+        field: "dueDate",
+        displayName: "Due Date",
+        width: 120
+      }, {
+        field: "liftNumber",
+        displayName: "Lift Number",
+        width: 120
+      }, {
+        field: "status",
+        displayName: "Status",
+        width: 120
+      }
+      ]
+    };
+
+    $scope.setPagingData = function (data, page, pageSize) {
+      var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+      $scope.myData = pagedData;
+      $scope.totalServerItems = data.length;
+      if (!$scope.$$phase) {
+        $scope.$apply();
+      }
+    };
+    $scope.setPagingDataForComplaints = function (data, page, pageSize) {
+      var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
+      $scope.myComplaintsData = pagedData;
+      $scope.totalServerItems = data.length;
+      if (!$scope.$$phase) {
+        $scope.$apply();
+      }
+    };
+    $scope.getPagedDataAsync = function (pageSize, page, searchText) {
+      setTimeout(function () {
+        var data;
+        if (searchText) {
+          var ft = searchText.toLowerCase();
+          data = $scope.myData.filter(function (item) {
+            return JSON.stringify(item).toLowerCase().indexOf(ft) !== -1;
+          });
+          $scope.setPagingData(data, page, pageSize);
+        } else {
+          serviceApi.doGetWithoutData('/RLMS/dashboard/getAMCDetails')
+            .then(function (largeLoad) {
+              var details = [];
+              for (var i = 0; i < largeLoad.length; i++) {
+                var detailsObj = {};
+                if (!!largeLoad[i].customerName) {
+                  detailsObj["customerName"] = largeLoad[i].customerName;
+                } else {
+                  detailsObj["customerName"] = " - ";
+                }
+                if (!!largeLoad[i].liftNumber) {
+                  detailsObj["liftNumber"] = largeLoad[i].liftNumber;
+                } else {
+                  detailsObj["liftNumber"] = " - ";
+                }
+                if (!!largeLoad[i].status) {
+                  detailsObj["status"] = largeLoad[i].status;
+                } else {
+                  detailsObj["status"] = " - ";
+                }
+                if (!!largeLoad[i].amcAmount) {
+                  detailsObj["amcAmount"] = largeLoad[i].amcAmount;
+                } else {
+                  detailsObj["amcAmount"] = " - ";
+                }
+                if (!!largeLoad[i].amcTypeStr) {
+                  detailsObj["amcTypeStr"] = largeLoad[i].amcTypeStr;
+                } else {
+                  detailsObj["amcTypeStr"] = " - ";
+                }
+                if (!!largeLoad[i].amcStartDate) {
+                  detailsObj["amcStartDate"] = largeLoad[i].amcStartDate;
+                } else {
+                  detailsObj["amcStartDate"] = " - ";
+                }
+                if (!!largeLoad[i].dueDate) {
+                  detailsObj["dueDate"] = largeLoad[i].dueDate;
+                } else {
+                  detailsObj["dueDate"] = " - ";
+                }
+                if (!!largeLoad[i].area) {
+                  detailsObj["area"] = largeLoad[i].area;
+                } else {
+                  detailsObj["area"] = " - ";
+                }
+                if (!!largeLoad[i].city) {
+                  detailsObj["city"] = largeLoad[i].city;
+                } else {
+                  detailsObj["city"] = " - ";
+                }
+                details.push(detailsObj);
+              }
+              data = details.filter(function (item) {
+                return true;
+              });
+              $scope.setPagingData(data, page, pageSize);
+            });
+        }
+      }, 100);
+    };
+
+
+    $scope.loadAMCList = function () {
+      $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+    };
+    $scope.loadAMCList();
+
+    $scope.$watch('pagingOptions', function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+    }, true);
+    $scope.$watch('filterOptions', function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
+      }
+    }, true);
+    $scope.filterOptionsForModal = {
+			filterText: '',
+			useExternalFilter: true
 		};
-		var tempStatus = [];
-		tempStatus.push(complaintStatus);
-		dataToSend["statusList"] = tempStatus;
-		return dataToSend;
-	}
-	
+    $scope
+	.$watch(
+	'filterOptionsForModal',
+	function (newVal, oldVal) {
+		if (newVal !== oldVal) {
+			$scope
+				.getPagedDataAsyncForComplaints(
+				$scope.pagingOptions.pageSize,
+				$scope.pagingOptions.currentPage,
+				$scope.filterOptionsForModal.filterText,
+				$scope.complaintStatusValue);
+		}
+	}, true);
+    $scope.getPagedDataAsyncForComplaints = function (pageSize,
+      page, searchText, complaintStatus) {
+
+      setTimeout(
+        function () {
+          var data;
+          if (searchText) {
+            var ft = searchText
+              .toLowerCase();
+            var dataToSend = $scope
+            .construnctObjeToSend(complaintStatus);
+            serviceApi
+              .doPostWithData('/RLMS/complaint/getListOfComplaints', dataToSend)
+              .then(
+              function (largeLoad) {
+                $scope.complaints = largeLoad;
+                $scope.showTable = true;
+                var userDetails = [];
+                for (var i = 0; i < largeLoad.length; i++) {
+                  var userDetailsObj = {};
+                  if (!!largeLoad[i].complaintNumber) {
+                    userDetailsObj["Number"] = largeLoad[i].complaintNumber;
+                  } else {
+                    userDetailsObj["Number"] = " - ";
+                  }
+                  if (!!largeLoad[i].title) {
+                    userDetailsObj["Title"] = largeLoad[i].title;
+                  } else {
+                    userDetailsObj["Title"] = " - ";
+                  }
+
+                  if (!!largeLoad[i].registrationDate) {
+                    userDetailsObj["Registration_Date"] = largeLoad[i].registrationDate;
+                  } else {
+                    userDetailsObj["Registration_Date"] = " - ";
+                  }
+                  if (!!largeLoad[i].serviceStartDate) {
+                    userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDate;
+                  } else {
+                    userDetailsObj["Service_StartDate"] = " - ";
+                  }
+                  if (!!largeLoad[i].serviceStartDateStr) {
+                    userDetailsObj["Service_Start_Date"] = largeLoad[i].serviceStartDateStr;
+                  } else {
+                    userDetailsObj["Service_Start_Date"] = " - ";
+                  }
+                  if (!!largeLoad[i].serviceEndDateStr) {
+                    userDetailsObj["Service_End_Date"] = largeLoad[i].serviceEndDateStr;
+                  } else {
+                    userDetailsObj["Service_End_Date"] = " - ";
+                  }
+                  if (!!largeLoad[i].liftAddress) {
+                    userDetailsObj["Address"] = largeLoad[i].liftAddress;
+                  } else {
+                    userDetailsObj["Address"] = " - ";
+                  }
+                  if (!!largeLoad[i].city) {
+                    userDetailsObj["City"] = largeLoad[i].city;
+                  } else {
+                    userDetailsObj["City"] = " - ";
+                  }
+                  if (!!largeLoad[i].status) {
+                    userDetailsObj["Status"] = largeLoad[i].status;
+                  } else {
+                    userDetailsObj["Status"] = " - ";
+                  }
+                  if (!!largeLoad[i].technicianDtls) {
+                    userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
+                  } else {
+                    userDetailsObj["Technician"] = " - ";
+                  }
+                  if (!!largeLoad[i].technicianDtls) {
+                    userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
+                  } else {
+                    userDetailsObj["Technician"] = " - ";
+                  }
+                  if (!!largeLoad[i].complaintId) {
+                    userDetailsObj["complaintId"] = largeLoad[i].complaintId;
+                  } else {
+                    userDetailsObj["complaintId"] = " - ";
+                  }
+
+                  userDetails
+                    .push(userDetailsObj);
+                }
+                data = userDetails
+                  .filter(function (
+                    item) {
+                    return JSON
+                      .stringify(
+                      item)
+                      .toLowerCase()
+                      .indexOf(
+                      ft) !== -1;
+                  });
+                $scope
+                  .setPagingDataForComplaints(
+                  data,
+                  page,
+                  pageSize);
+              });
+          } else {
+            var dataToSend = $scope
+              .construnctObjeToSend(complaintStatus);
+            serviceApi
+              .doPostWithData(
+              '/RLMS/complaint/getListOfComplaints',
+              dataToSend)
+              .then(
+              function (
+                largeLoad) {
+                $scope.complaints = largeLoad;
+                $scope.showTable = true;
+                var userDetails = [];
+                for (var i = 0; i < largeLoad.length; i++) {
+                  var userDetailsObj = {};
+                  if (!!largeLoad[i].complaintNumber) {
+                    userDetailsObj["Number"] = largeLoad[i].complaintNumber;
+                  } else {
+                    userDetailsObj["Number"] = " - ";
+                  }
+                  if (!!largeLoad[i].title) {
+                    userDetailsObj["Title"] = largeLoad[i].title;
+                  } else {
+                    userDetailsObj["Title"] = " - ";
+                  }
+
+                  if (!!largeLoad[i].registrationDateStr) {
+                    userDetailsObj["Registration_Date"] = largeLoad[i].registrationDateStr;
+                  } else {
+                    userDetailsObj["Registration_Date"] = " - ";
+                  }
+                  if (!!largeLoad[i].serviceStartDateStr) {
+                    userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDateStr;
+                  } else {
+                    userDetailsObj["Service_StartDate"] = " - ";
+                  }
+                  if (!!largeLoad[i].serviceStartDateStr) {
+                    userDetailsObj["Service_Start_Date"] = largeLoad[i].serviceStartDateStr;
+                  } else {
+                    userDetailsObj["Service_Start_Date"] = " - ";
+                  }
+                  if (!!largeLoad[i].serviceEndDateStr) {
+                    userDetailsObj["Service_End_Date"] = largeLoad[i].serviceEndDateStr;
+                  } else {
+                    userDetailsObj["Service_End_Date"] = " - ";
+                  }
+                  if (!!largeLoad[i].liftAddress) {
+                    userDetailsObj["Address"] = largeLoad[i].liftAddress;
+                  } else {
+                    userDetailsObj["Address"] = " - ";
+                  }
+                  if (!!largeLoad[i].city) {
+                    userDetailsObj["City"] = largeLoad[i].city;
+                  } else {
+                    userDetailsObj["City"] = " - ";
+                  }
+                  if (!!largeLoad[i].status) {
+                    userDetailsObj["Status"] = largeLoad[i].status;
+                  } else {
+                    userDetailsObj["Status"] = " - ";
+                  }
+                  if (!!largeLoad[i].technicianDtls) {
+                    userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
+                  } else {
+                    userDetailsObj["Technician"] = " - ";
+                  }
+                  if (!!largeLoad[i].complaintId) {
+                    userDetailsObj["complaintId"] = largeLoad[i].complaintId;
+                  } else {
+                    userDetailsObj["complaintId"] = " - ";
+                  }
+                  userDetails
+                    .push(userDetailsObj);
+                }
+                /*$scope.newComplaints=userDetails.filter(function(item) {
+                            return item.Status=="Pending";
+                          });
+                $scope.pendingComplaints=userDetails.filter(function(item) {
+                            return item.Status=="Pending";
+                          });
+                $scope.assignedComplaints=userDetails.filter(function(item) {
+                            return item.Status=="Assigned";
+                          });
+                $scope.complaintsAttemptedToday=userDetails.filter(function(item) {
+                            return item.Status=="Completed";
+                          });
+                $scope.resolvedComplaints=userDetails.filter(function(item) {
+                            return item.Status=="Completed";
+                          });*/
+                $scope
+                  .setPagingDataForComplaints(
+                  userDetails,
+                  page,
+                  pageSize);
+              });
+
+          }
+        }, 100);
+    };
+
+    $scope.construnctObjeToSend = function (complaintStatus) {
+      var dataToSend = {
+        statusList: []
+      };
+      var tempStatus = [];
+      tempStatus.push(complaintStatus);
+      dataToSend["statusList"] = tempStatus;
+      return dataToSend;
+    }
+
     $scope.percentages = [53, 65, 23, 99];
-    $scope.randomizePie = function() {
+    $scope.randomizePie = function () {
       $scope.percentages = _.shuffle($scope.percentages);
     };
 
@@ -581,20 +598,18 @@ angular.module('theme.demos.dashboard', [
       ],
       label: 'Unique Views'
     }];
-    $scope.getPagedDataAsyncForComplaints($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage,"","3");
-    $scope.openDemoModal = function (size,headerVal,complaintStatus) {
-    	$scope.getPagedDataAsyncForComplaints($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage,"",complaintStatus);
-    	$scope.modalHeaderVal=headerVal;
-    	  var modalInstance = $modal.open({
-    	    templateUrl: 'demoModalContent.html',
-    	    controller: function ($scope, $modalInstance) {
-    	      $scope.cancel = function () {
-    	        $modalInstance.dismiss('cancel');
-    	      };
-    	    },
-    	    size: size,
-    	  });
-    	}
+    $scope.cancel = function () {
+      $scope.modalInstance.dismiss('cancel');
+    };
+    $scope.openDemoModal = function (size, headerVal, complaintStatus) {
+      $scope.getPagedDataAsyncForComplaints($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, "", complaintStatus);
+      $scope.complaintStatusValue=complaintStatus;
+      $scope.modalHeaderVal = headerVal;
+      $scope.modalInstance = $modal.open({
+        templateUrl: 'demoModalContent.html',
+        scope: $scope
+      })
+    }
 
     $scope.plotStatsOptions = {
       series: {
@@ -646,7 +661,7 @@ angular.module('theme.demos.dashboard', [
           color: 'rgba(0,0,0,0.4)',
           size: 11
         },
-        tickFormatter: function(val) {
+        tickFormatter: function (val) {
           if (val > 999) {
             return (val / 1000) + 'K';
           } else {
@@ -726,7 +741,7 @@ angular.module('theme.demos.dashboard', [
           color: 'rgba(0,0,0,0.4)',
           size: 11
         },
-        tickFormatter: function(val) {
+        tickFormatter: function (val) {
           if (val > 999) {
             return '$' + (val / 1000) + 'K';
           } else {
@@ -742,17 +757,17 @@ angular.module('theme.demos.dashboard', [
     $scope.currentPage = 1;
     $scope.itemsPerPage = 7;
 
-    $scope.accountsInRange = function() {
+    $scope.accountsInRange = function () {
       return this.userAccounts.slice(this.currentPage * 7, this.currentPage * 7 + 7);
     };
 
-    $scope.uaHandle = function($index) {
+    $scope.uaHandle = function ($index) {
       // console.log(ua);
       this.userAccounts.splice($index, 1);
     };
 
-    $scope.uaHandleSelected = function() {
-      this.userAccounts = _.filter(this.userAccounts, function(item) {
+    $scope.uaHandleSelected = function () {
+      this.userAccounts = _.filter(this.userAccounts, function (item) {
         return (item.rem === false || item.rem === undefined);
       });
     };
