@@ -33,19 +33,19 @@
 
 		<div id="exTab2" class="container">	
 		<ul class="nav nav-tabs">
-			<li class="active">
-        	<a id="tab1" href="#1" data-toggle="tab">Configure A</a>
+			<li class="active"><a id="tab1" href="#1" data-toggle="tab">Configure P</a>
 			</li>
 			<li><a id="tab2" href="#2" data-toggle="tab">Configure B D</a>
 			</li>
-			<li><a id="tab3" href="#3" data-toggle="tab">Configure P</a>
+			<li>
+        	<a id="tab3" href="#3" data-toggle="tab">Configure A</a>
 			</li>
 			<li><a id="tab4" href="#4" data-toggle="tab">Configure R T C</a>
 			</li>
 		</ul>
 
 			<div class="tab-content ">
-			  <div class="tab-pane active" id="1">
+			  <div class="tab-pane" id="3">
 				<fieldset class="width-70">
 				  <legend>configure A</legend>
 				  
@@ -191,10 +191,11 @@
 					<div class="panel-footer">
 				<div class="row">
 					<div class="col-sm-6">
+						<span ng-click="changeTab(2)" class=" button button-clear fa fa-chevron-circle-left go-back"></span>
 					</div>
 					<div class="col-sm-6 ">
 						<div class="btn-toolbar">
-							<button ng-click="changeTab(2)" class="btn-primary btn">Next</button>
+							<button ng-click="changeTab(4)" class="btn-primary btn">Next</button>
 						</div>
 					</div>
 				</div>
@@ -444,7 +445,7 @@
 		</div>			
 		  </fieldset>
 		</div>	
-        <div class="tab-pane" id="3">
+        <div class="tab-pane active" id="1">
            <fieldset class="width-70">
 				  <legend>Configure P</legend>
 				  <div class="form-group"><label class="col-sm-4 control-label">P0 No Of Stops</label>
@@ -561,12 +562,9 @@
 					</div>
 					<div class="panel-footer">
 				<div class="row">
-					<div class="col-sm-6">
-						<span ng-click="changeTab(2)" class=" button button-clear fa fa-chevron-circle-left go-back"></span>
-					</div>
 					<div class="col-sm-6 ">
 						<div class="btn-toolbar">
-							<button ng-click="changeTab(4)" class="btn-primary btn">Next</button>
+							<button ng-click="changeTab(2)" class="btn-primary btn">Next</button>
 						</div>
 					</div>
 				</div>
