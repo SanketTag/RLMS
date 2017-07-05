@@ -37,7 +37,15 @@
 		    $scope.clear = function() {
 		      $scope.mytime = null;
 		    };
-		    
+		    $scope.changeSelection=function(selectedValue){
+		    	if(selectedValue=='0'){
+		    		$scope.manualModeSelected=true;
+		    		$scope.autoDoorSensorModeSelected=false;
+		    	}else if(selectedValue=='1' || selectedValue=='3'){
+		    		$scope.autoDoorSensorModeSelected=true;
+		    		$scope.manualModeSelected=false;
+		    	}
+		    };
 		    var ConvertBase = function (num) {
 		        return {
 		            from : function (baseFrom) {
@@ -56,17 +64,17 @@
 		    };
 		    $scope.stateChangedFlag2 = function (qId) {
 		    	var binaryValues = ["0","0","0","0", "0","0", "0", "0"];
-		    	if($scope.a.flag2.bit0){
+		    	if($scope.a.flag2.bit5){
 		    		binaryValues[2]="1";
-		    	}if($scope.a.flag2.bit1){
-		    		binaryValues[3]="1";
-		    	}if($scope.a.flag2.bit2){
-		    		binaryValues[4]="1";
-		    	}if($scope.a.flag2.bit3){
-		    		binaryValues[5]="1";
 		    	}if($scope.a.flag2.bit4){
+		    		binaryValues[3]="1";
+		    	}if($scope.a.flag2.bit3){
+		    		binaryValues[4]="1";
+		    	}if($scope.a.flag2.bit2){
+		    		binaryValues[5]="1";
+		    	}if($scope.a.flag2.bit1){
 		    		binaryValues[6]="1";
-		    	}if($scope.a.flag2.bit5){
+		    	}if($scope.a.flag2.bit0){
 		    		binaryValues[7]="1";
 		    	}
 		    	var finalvalues="";
@@ -77,17 +85,17 @@
 		    }
 		    $scope.stateChangedFlag3 = function () {
 		    	var binaryValues = ["0","0","0","0", "0","0", "0", "0"];
-		    	if($scope.a.flag3.bit0){
+		    	if($scope.a.flag3.bit5){
 		    		binaryValues[2]="1";
-		    	}if($scope.a.flag3.bit1){
-		    		binaryValues[3]="1";
-		    	}if($scope.a.flag3.bit2){
-		    		binaryValues[4]="1";
-		    	}if($scope.a.flag3.bit3){
-		    		binaryValues[5]="1";
 		    	}if($scope.a.flag3.bit4){
+		    		binaryValues[3]="1";
+		    	}if($scope.a.flag3.bit3){
+		    		binaryValues[4]="1";
+		    	}if($scope.a.flag3.bit2){
+		    		binaryValues[5]="1";
+		    	}if($scope.a.flag3.bit1){
 		    		binaryValues[6]="1";
-		    	}if($scope.a.flag3.bit5){
+		    	}if($scope.a.flag3.bit0){
 		    		binaryValues[7]="1";
 		    	}
 		    	var finalvalues="";
@@ -99,17 +107,17 @@
 		    
 		    $scope.stateChangedFlag4 = function () {
 		    	var binaryValues = ["0","0","0","0", "0","0", "0", "0"];
-		    	if($scope.a.flag4.bit0){
+		    	if($scope.a.flag4.bit5){
 		    		binaryValues[2]="1";
-		    	}if($scope.a.flag4.bit1){
-		    		binaryValues[3]="1";
-		    	}if($scope.a.flag4.bit2){
-		    		binaryValues[4]="1";
-		    	}if($scope.a.flag4.bit3){
-		    		binaryValues[5]="1";
 		    	}if($scope.a.flag4.bit4){
+		    		binaryValues[3]="1";
+		    	}if($scope.a.flag4.bit3){
+		    		binaryValues[4]="1";
+		    	}if($scope.a.flag4.bit2){
+		    		binaryValues[5]="1";
+		    	}if($scope.a.flag4.bit1){
 		    		binaryValues[6]="1";
-		    	}if($scope.a.flag4.bit5){
+		    	}if($scope.a.flag4.bit0){
 		    		binaryValues[7]="1";
 		    	}
 		    	var finalvalues="";
@@ -121,17 +129,17 @@
 		    
 		    $scope.stateChangedmodeflag = function () {
 		    	var binaryValues = ["0","0","0","0", "0","0", "0", "0"];
-		    	if($scope.a.modeflag.bit0){
+		    	if($scope.a.modeflag.bit5){
 		    		binaryValues[2]="1";
-		    	}if($scope.a.modeflag.bit1){
-		    		binaryValues[3]="1";
-		    	}if($scope.a.modeflag.bit2){
-		    		binaryValues[4]="1";
-		    	}if($scope.a.modeflag.bit3){
-		    		binaryValues[5]="1";
 		    	}if($scope.a.modeflag.bit4){
+		    		binaryValues[3]="1";
+		    	}if($scope.a.modeflag.bit3){
+		    		binaryValues[4]="1";
+		    	}if($scope.a.modeflag.bit2){
+		    		binaryValues[5]="1";
+		    	}if($scope.a.modeflag.bit1){
 		    		binaryValues[6]="1";
-		    	}if($scope.a.modeflag.bit5){
+		    	}if($scope.a.modeflag.bit0){
 		    		binaryValues[7]="1";
 		    	}
 		    	var finalvalues="";
