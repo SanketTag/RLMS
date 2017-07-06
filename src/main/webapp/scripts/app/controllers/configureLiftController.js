@@ -126,6 +126,15 @@
 		    	}
 		    	$scope.aflag4decimalvalue=bin2dec(finalvalues);
 		    }
+		    $scope.floorArray=[];
+		    $scope.changeStops=function(stops){
+		    	$scope.floorArray=[];
+		    	for(var i=0;i<stops;i++){
+		    		$scope.floorArray.push(i);
+		    	}
+		    	console.log("Number of Stops changed",$scope.floorArray);
+		    };
+		    
 		    
 		    $scope.stateChangedmodeflag = function () {
 		    	var binaryValues = ["0","0","0","0", "0","0", "0", "0"];
