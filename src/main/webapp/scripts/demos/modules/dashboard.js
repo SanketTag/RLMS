@@ -14,6 +14,8 @@ angular.module('theme.demos.dashboard', [
         $scope.loadingChartData = false;
       }, 2000);
     };
+    
+    $scope.totalServerItemsForComplaints = 0;
 
     $scope.messages = [{
       name: 'Sanket',
@@ -115,15 +117,21 @@ angular.module('theme.demos.dashboard', [
       pageSize: 10,
       currentPage: 1
     };
+    
+    $scope.pagingOptionsForComplaints = {
+    	      pageSizes: [10, 20, 50],
+    	      pageSize: 10,
+    	      currentPage: 1
+    	    };
 
     $scope.gridOptionsForComplaints = {
       data: 'myComplaintsData',
       rowHeight: 40,
       enablePaging: true,
       showFooter: true,
-      totalServerItems: 'totalServerItems',
-      pagingOptions: $scope.pagingOptions,
-      filterOptions: $scope.filterOptions,
+      totalServerItems: 'totalServerItemsForComplaints',
+      pagingOptions: $scope.pagingOptionsForComplaints,
+      filterOptions: $scope.filterOptionsForModal,
       multiSelect: false,
       gridFooterHeight: 35,
       enableRowSelection: true,
@@ -244,7 +252,7 @@ angular.module('theme.demos.dashboard', [
     $scope.setPagingDataForComplaints = function (data, page, pageSize) {
       var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
       $scope.myComplaintsData = pagedData;
-      $scope.totalServerItems = data.length;
+      $scope.totalServerItemsForComplaints = data.length;
       if (!$scope.$$phase) {
         $scope.$apply();
       }
@@ -331,6 +339,11 @@ angular.module('theme.demos.dashboard', [
         $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
       }
     }, true);
+    $scope.$watch('pagingOptionsForComplaints', function (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          $scope.getPagedDataAsyncForComplaints($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText);
+        }
+      }, true);
     $scope.$watch('filterOptions', function (newVal, oldVal) {
       if (newVal !== oldVal) {
         $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
@@ -347,8 +360,8 @@ angular.module('theme.demos.dashboard', [
 		if (newVal !== oldVal) {
 			$scope
 				.getPagedDataAsyncForComplaints(
-				$scope.pagingOptions.pageSize,
-				$scope.pagingOptions.currentPage,
+				$scope.pagingOptionsForComplaints.pageSize,
+				$scope.pagingOptionsForComplaints.currentPage,
 				$scope.filterOptionsForModal.filterText,
 				$scope.complaintStatusValue);
 		}
@@ -365,7 +378,7 @@ angular.module('theme.demos.dashboard', [
             var dataToSend = $scope
             .construnctObjeToSend(complaintStatus);
             serviceApi
-              .doPostWithData('/RLMS/complaint/getListOfComplaints', dataToSend)
+              .doPostWithData('/RLMS/dashboard/getListOfComplaintsForDashboard', dataToSend)
               .then(
               function (largeLoad) {
                 $scope.complaints = largeLoad;
@@ -459,7 +472,7 @@ angular.module('theme.demos.dashboard', [
               .construnctObjeToSend(complaintStatus);
             serviceApi
               .doPostWithData(
-              '/RLMS/complaint/getListOfComplaints',
+              '/RLMS/dashboard/getListOfComplaintsForDashboard',
               dataToSend)
               .then(
               function (
@@ -558,9 +571,7 @@ angular.module('theme.demos.dashboard', [
       var dataToSend = {
         statusList: []
       };
-      var tempStatus = [];
-      tempStatus.push(complaintStatus);
-      dataToSend["statusList"] = tempStatus;
+      dataToSend["statusList"] = complaintStatus;
       return dataToSend;
     }
 
@@ -602,8 +613,17 @@ angular.module('theme.demos.dashboard', [
       $scope.modalInstance.dismiss('cancel');
     };
     $scope.openDemoModal = function (size, headerVal, complaintStatus) {
-      $scope.getPagedDataAsyncForComplaints($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, "", complaintStatus);
-      $scope.complaintStatusValue=complaintStatus;
+    	var complaintStatusArray=[];
+    	var str_array = complaintStatus.split(',');
+
+    	for(var i = 0; i < str_array.length; i++) {
+    	   // Trim the excess whitespace.
+    	   str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+    	   // Add additional code here, such as:
+    	   complaintStatusArray.push(str_array[i]);
+    	}
+      $scope.getPagedDataAsyncForComplaints($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "", complaintStatusArray);
+      $scope.complaintStatusValue=complaintStatusArray;
       $scope.modalHeaderVal = headerVal;
       $scope.modalInstance = $modal.open({
         templateUrl: 'demoModalContent.html',
