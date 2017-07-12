@@ -3,6 +3,7 @@ package com.rlms.dao;
 import java.util.Date;
 import java.util.List;
 
+import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
@@ -18,5 +19,4 @@ public interface DashboardDao {
 
 	public RlmsComplaintTechMapDtls getComplTechMapObjByComplaintId(
 			Integer complaintId);
-
 }

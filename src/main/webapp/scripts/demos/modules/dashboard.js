@@ -3,7 +3,7 @@ angular.module('theme.demos.dashboard', [
   'theme.demos.forms',
   'theme.demos.tasks'
 ])
-  .controller('DashboardController', ['$scope', '$timeout', '$window', '$modal', 'serviceApi', '$filter', function ($scope, $timeout, $window, $modal, serviceApi, $filter) {
+  .controller('DashboardController', ['$scope', '$timeout', '$window', '$modal', 'serviceApi', '$filter','$rootScope', function ($scope, $timeout, $window, $modal, serviceApi, $filter,$rootScope) {
     'use strict';
     var moment = $window.moment;
     var _ = $window._;
@@ -106,6 +106,12 @@ angular.module('theme.demos.dashboard', [
       }).length;
     }, true);
 
+    $scope.dataTiles={
+    		color:'red',
+    		href:'',
+    		title:'Sample',
+    		text:'123'
+    };
 
     $scope.filterOptions = {
       filterText: '',
@@ -257,6 +263,12 @@ angular.module('theme.demos.dashboard', [
         $scope.$apply();
       }
     };
+    function constructDataToSend(){
+		var data = {
+				companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+	    	}
+		return data;
+  	  }
     $scope.getPagedDataAsync = function (pageSize, page, searchText) {
       setTimeout(function () {
         var data;
@@ -267,7 +279,8 @@ angular.module('theme.demos.dashboard', [
           });
           $scope.setPagingData(data, page, pageSize);
         } else {
-          serviceApi.doGetWithoutData('/RLMS/dashboard/getAMCDetails')
+        	var dataToSend = constructDataToSend();
+          serviceApi.doPostWithData('/RLMS/dashboard/getAMCDetails',dataToSend)
             .then(function (largeLoad) {
               var details = [];
               for (var i = 0; i < largeLoad.length; i++) {
