@@ -8,7 +8,7 @@ angular
     'use strict';
     $routeProvider
       .when('/', {
-        templateUrl: 'views/company-management.html',
+        templateUrl: 'views/index.html',
         resolve: {
           loadCalendar: ['$ocLazyLoad', function($ocLazyLoad) {
             return $ocLazyLoad.load([
