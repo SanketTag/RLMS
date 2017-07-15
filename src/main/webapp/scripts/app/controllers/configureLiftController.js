@@ -11,13 +11,15 @@
 		
 		    $scope.hstep = 1;
 		    $scope.mstep = 15;
+		    $scope.sstep = 1;
 		
 		    $scope.options = {
 		      hstep: [1, 2, 3],
-		      mstep: [1, 5, 10, 15, 25, 30]
+		      mstep: [1, 5, 10, 15, 25, 30],
+		      sstep: [1, 2, 3]
 		    };
 		
-		    $scope.ismeridian = true;
+		    $scope.ismeridian = false;
 		    $scope.toggleMode = function() {
 		      $scope.ismeridian = !$scope.ismeridian;
 		    };
@@ -30,7 +32,9 @@
 		    };
 		
 		    $scope.changed = function() {
-		      console.log('Time changed to: ' + $scope.mytime);
+		    	$scope.r3RTCHours=$scope.mytime.getHours();
+		    	$scope.r4RTCMinutes=$scope.mytime.getMinutes();
+		    	$scope.r5RTCSeconds=$scope.mytime.getSeconds();
 		    };
 		    
 		
@@ -224,6 +228,10 @@
             	$scope.r2RTCYear=date.getFullYear();
             	console.log("Selected date is-->"+date);
             }
+            if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+				$scope.rtcOptionsForInditechAdmin= true;
+            }
+            $scope.isUPSConnected=true;
 		}
 		
 	}]);

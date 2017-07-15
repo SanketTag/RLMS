@@ -462,14 +462,14 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label">Time</label>
 								<div class="col-sm-6">
-									<timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" class="timepicker"></timepicker>
-									<div>
+									<timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" second-step="sstep" show-meridian="ismeridian" class="timepicker"></timepicker>
+									<!-- <div>
 										<label class="col-sm-3 control-label">Controls</label>
 										<div class="col-sm-6">
 											<button class="btn btn-info" ng-click="toggleMode()">12H / 24H</button>
 											<button class="btn btn-danger" ng-click="clear()">Clear</button>
 										</div>
-									</div>
+									</div> -->
 								</div>
 							</div>
 
@@ -504,6 +504,7 @@
 								</div>
 							</div>
 							<hr>
+							<div ng-show="rtcOptionsForInditechAdmin">
 							<div class="form-group"><label class="col-sm-4 control-label">T0 DATE</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" title="T0 DATE">
@@ -534,7 +535,15 @@
 									<input type="text" class="form-control" title="Means '34' of consumer number '1234'">
 								</div>
 							</div>
+							</div>
 							<hr>
+							<div class="form-group">
+							<div class="col-sm-6">
+								<input name="upsConnected" type="checkbox" title="Check if UPS is connected" ng-model="isUPSConnected" class="form-control">
+								<label>Is UPS Selected</label>
+							</div>
+							</div>
+							<div ng-show="isUPSConnected">
 							<div class="form-group"><label class="col-sm-4 control-label">C0 ARD off Delay</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control" title="C0 = 20 means, after power failure ARD operation will start after 20 seconds.">
@@ -554,6 +563,7 @@
 								<div class="col-sm-6">
 									<input type="text" class="form-control" title="C3=30 means if V3F drive decides to change the ARD direction, direction will be reversed in 3 seconds. (in multiple of 10 to be entered">
 								</div>
+							</div>
 							</div>
 							<div class="panel-footer">
 								<div class="row">
