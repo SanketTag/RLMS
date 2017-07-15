@@ -110,6 +110,22 @@ public class DashBoardController extends BaseController {
 	List<ComplaintsDto> getListOfComplaints(@RequestBody ComplaintsDtlsDto dto)
 			throws RunTimeException {
 		List<ComplaintsDto> listOfComplaints = null;
+		List<RlmsCompanyBranchMapDtls> listOfAllBranches = null;
+
+		List<Integer> companyBranchMapIds = new ArrayList<>();
+		List<Integer> branchCustomerMapIds = new ArrayList<>();
+		listOfAllBranches = this.companyService
+				.getAllBranches(dto.getCompanyId());
+		for (RlmsCompanyBranchMapDtls companyBranchMap : listOfAllBranches) {
+			companyBranchMapIds.add(companyBranchMap.getCompanyBranchMapId());
+		}
+
+		List<CustomerDtlsDto> allCustomersForBranch = dashboardService
+				.getAllCustomersForBranch(companyBranchMapIds);
+		for (CustomerDtlsDto customerDtlsDto : allCustomersForBranch) {
+			branchCustomerMapIds.add(customerDtlsDto
+					.getBranchCustomerMapId());
+		}
 
 		try {
 			logger.info("Method :: getListOfComplaints");

@@ -129,8 +129,10 @@
 		    $scope.floorArray=[];
 		    $scope.changeStops=function(stops){
 		    	$scope.floorArray=[];
-		    	for(var i=0;i<stops;i++){
-		    		$scope.floorArray.push(i);
+		    	if(stops <= 23){
+		    		for(var i=0;i<stops;i++){
+		    			$scope.floorArray.push(i);
+		    		}
 		    	}
 		    	console.log("Number of Stops changed",$scope.floorArray);
 		    };

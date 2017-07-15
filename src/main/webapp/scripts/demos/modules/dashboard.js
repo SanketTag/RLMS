@@ -582,7 +582,8 @@ angular.module('theme.demos.dashboard', [
 
     $scope.construnctObjeToSend = function (complaintStatus) {
       var dataToSend = {
-        statusList: []
+        statusList: [],
+        companyId: $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
       };
       dataToSend["statusList"] = complaintStatus;
       return dataToSend;
