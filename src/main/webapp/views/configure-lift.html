@@ -456,7 +456,7 @@
 							<div class="form-group"><label class="col-sm-4 control-label">Date</label>
 								<div class="col-sm-6">
 									<input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'Date')" is-open="openFlag.Date"
-									 ng-model="a.Date" />
+									 ng-model="a.Date" ng-change="readDate(a.Date)"/>
 								</div>
 							</div>
 							<div class="form-group">
@@ -475,32 +475,32 @@
 
 							<div class="form-group"><label class="col-sm-4 control-label">R0 RTC Date(DD)</label>
 								<div class="col-sm-6">
-									<input type="text" title="R0=30 Means 30th day of the month" class="form-control" title="R0 RTC Date(DD)">
+									<input type="text" title="R0=30 Means 30th day of the month" ng-model="r0RTCDate" class="form-control">
 								</div>
 							</div>
 							<div class="form-group"><label class="col-sm-4 control-label">R1 RTC Month(MM)</label>
 								<div class="col-sm-6">
-									<input type="text" title="R1=12 Means 12th month of a year" class="form-control" title="R1 RTC Month(MM)">
+									<input type="text" title="R1=12 Means 12th month of a year" ng-model="r1RTCMonth" class="form-control">
 								</div>
 							</div>
 							<div class="form-group"><label class="col-sm-4 control-label">R2 RTC Year (YY)</label>
 								<div class="col-sm-6">
-									<input type="text" title="R2=17 means Year 2017" class="form-control" >
+									<input type="text" title="R2=17 means Year 2017" ng-model="r2RTCYear" class="form-control" >
 								</div>
 							</div>
 							<div class="form-group"><label class="col-sm-4 control-label">R3 RTC Hours (HH)</label>
 								<div class="col-sm-6">
-									<input type="text" title="R3=23 means 23rd hour of the day (11PM)" class="form-control">
+									<input type="text" title="R3=23 means 23rd hour of the day (11PM)" ng-model="r3RTCHours" class="form-control">
 								</div>
 							</div>
 							<div class="form-group"><label class="col-sm-4 control-label">R4 RTC Minutes (MM))</label>
 								<div class="col-sm-6">
-									<input type="text" title="R4=59 means 59th minute of an hour" class="form-control">
+									<input type="text" title="R4=59 means 59th minute of an hour" ng-model="r4RTCMinutes" class="form-control">
 								</div>
 							</div>
 							<div class="form-group"><label class="col-sm-4 control-label">R5 RTC Seconds (SS)</label>
 								<div class="col-sm-6">
-									<input type="text" title="R5=59 menas 59th second of a minute" class="form-control">
+									<input type="text" title="R5=59 menas 59th second of a minute" ng-model="r5RTCSeconds" class="form-control">
 								</div>
 							</div>
 							<hr>

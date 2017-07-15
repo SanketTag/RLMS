@@ -218,6 +218,12 @@
 			      else
 			    	  $scope.openFlag[which] = false;
 			  }
+            $scope.readDate=function(date){
+            	$scope.r0RTCDate=date.getDate()
+            	$scope.r1RTCMonth=date.getMonth()+1;
+            	$scope.r2RTCYear=date.getFullYear();
+            	console.log("Selected date is-->"+date);
+            }
 		}
 		
 	}]);
