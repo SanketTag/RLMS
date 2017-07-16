@@ -122,11 +122,20 @@ public class DashBoardController extends BaseController {
 
 		List<CustomerDtlsDto> allCustomersForBranch = dashboardService
 				.getAllCustomersForBranch(companyBranchMapIds);
+
+		List<Integer> liftCustomerMapIds = new ArrayList<>();
 		for (CustomerDtlsDto customerDtlsDto : allCustomersForBranch) {
-			branchCustomerMapIds.add(customerDtlsDto
+			LiftDtlsDto dtoToGetLifts = new LiftDtlsDto();
+			dtoToGetLifts.setBranchCustomerMapId(customerDtlsDto
 					.getBranchCustomerMapId());
+			List<RlmsLiftCustomerMap> list=dashboardService.getAllLiftsForBranchsOrCustomer(dtoToGetLifts);
+			for (RlmsLiftCustomerMap rlmsLiftCustomerMap : list) {
+				liftCustomerMapIds.add(rlmsLiftCustomerMap
+						.getLiftCustomerMapId());
+			}
 		}
 
+		dto.setListOfLiftCustoMapId(liftCustomerMapIds);
 		try {
 			logger.info("Method :: getListOfComplaints");
 			listOfComplaints = this.dashboardService.getListOfComplaintsBy(dto);

@@ -130,6 +130,87 @@ angular.module('theme.demos.dashboard', [
     	      currentPage: 1
     	    };
 
+    $scope.pendingComplaints={ 
+    		title: 'Pending Complaints', 
+    		text: '0', 
+    		color: 'red'
+    };
+    
+    $scope.assignedComplaints={ 
+    		title: 'Assigned Complaints', 
+    		text: '0', 
+    		color: 'amber'
+    };
+    
+    $scope.attemptedTodayComplaints={ 
+    		title: 'Complaints Attempted Today', 
+    		text: '0', 
+    		color: 'blue'
+    };
+    $scope.resolvedComplaints={ 
+    		title: 'Resolved Complaints', 
+    		text: '0', 
+    		color: 'green'
+    };
+    $scope.totalComplaints={ 
+    		title: 'Total Complaints', 
+    		text: '0', 
+    		color: 'indigo'
+    };
+    $scope.newCustomerRegistered={ 
+    		title: 'New Customers Registered', 
+    		text: '0', 
+    		color: 'grey'
+    };
+    
+    $scope.getComplaintsCount = function (complaintStatus) {
+    	var complaintStatusArray=[];
+    	var str_array = complaintStatus.split(',');
+
+    	for(var i = 0; i < str_array.length; i++) {
+    	   // Trim the excess whitespace.
+    	   str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+    	   // Add additional code here, such as:
+    	   complaintStatusArray.push(str_array[i]);
+    	}
+    	      setTimeout(
+    	        function () {
+    	            var dataToSend = $scope
+    	              .construnctObjeToSend(complaintStatusArray);
+    	            serviceApi
+    	              .doPostWithData(
+    	              '/RLMS/dashboard/getListOfComplaintsForDashboard',
+    	              dataToSend)
+    	              .then(
+    	              function (
+    	                largeLoad) {
+    	            	  if(complaintStatusArray.includes('2') && complaintStatusArray.length==1 && largeLoad.length>0){
+    	            			$scope.pendingComplaints.text=largeLoad.length;    
+    	            		}
+    	            		if(complaintStatusArray.includes('3') && complaintStatusArray.length==1 && largeLoad.length>0){
+    	            			$scope.assignedComplaints.text=largeLoad.length;
+    	            		}
+    	            		if(complaintStatusArray.includes('3') && complaintStatusArray.length==1 && largeLoad.length>0){
+    	            			$scope.attemptedTodayComplaints.text=largeLoad.length;   
+    	            		}
+    	            		if(complaintStatusArray.includes('4') && complaintStatusArray.length==1 && largeLoad.length>0){
+    	            			$scope.resolvedComplaints.text=largeLoad.length; 
+    	            		}
+    	            		if(complaintStatusArray.includes('2') && complaintStatusArray.length==3 && largeLoad.length>0){
+    	            			$scope.totalComplaints.text=largeLoad.length;  
+    	            		}
+    	            		if(complaintStatusArray.includes('2') && complaintStatusArray.length==1 && largeLoad.length>0){
+    	            			$scope.newCustomerRegistered.text=largeLoad.length;   
+    	            		}
+    	              });
+    	          }, 100);
+    	    };
+    
+    $scope.getComplaintsCount('2');
+    $scope.getComplaintsCount('3');
+    $scope.getComplaintsCount('4');
+    $scope.getComplaintsCount('2,3,4');
+    
     $scope.gridOptionsForComplaints = {
       data: 'myComplaintsData',
       rowHeight: 40,
@@ -379,6 +460,8 @@ angular.module('theme.demos.dashboard', [
 				$scope.complaintStatusValue);
 		}
 	}, true);
+        
+    
     $scope.getPagedDataAsyncForComplaints = function (pageSize,
       page, searchText, complaintStatus) {
 
