@@ -441,6 +441,11 @@
 //										}
 									},
 									columnDefs : [ {
+										cellTemplate :  
+								             '<div class="grid-action-cell">'+
+								             '<button ng-click="$event.stopPropagation(); editThisRow(row.entity);">Edit</button></div>',
+										width : 60
+									},{
 										field : "Number",
 										displayName:"Number",
 										width : 120
@@ -490,6 +495,20 @@
 										visible: false,
 									}
 									]
+								};
+								$rootScope.editComplaint={};
+								$scope.editThisRow=function(row){
+									$rootScope.editComplaint.complaintsNumber=row.Number;
+									$rootScope.editComplaint.complaintsTitle=row.Title;
+									$rootScope.editComplaint.complaintsAddress=row.Address;
+									$rootScope.editComplaint.complaintsCity=row.City;
+									$rootScope.editComplaint.regDate=row.Registration_Date;
+									$rootScope.editComplaint.serviceEndDate=row.Service_End_Date;
+									$rootScope.editComplaint.serviceStartDate=row.Service_StartDate;
+									$rootScope.editComplaint.complaintsStatus=row.Status;
+									$rootScope.editComplaint.complaintsTechnician=row.Technician;
+									window.location.hash = "#/edit-complaint";
+									console.log("Inside Delete row");
 								};
 //								 $scope.$watch('gridOptions.selectedItems', function(oldVal , newVal) {
 //								     console.log("________")

@@ -384,7 +384,8 @@
 	<script src="scripts/app/controllers/memberManagement.js"></script>
 	<script src="scripts/app/controllers/addMember.js"></script>
 	<script src="scripts/app/controllers/complaintManagement.js"></script>	
-	<script src="scripts/app/controllers/addComplaint.js"></script>	
+	<script src="scripts/app/controllers/addComplaint.js"></script>
+	<script src="scripts/app/controllers/editComplaint.js"></script>	
 	<script src="scripts/app/controllers/amcManagement.js"></script>
 	<script src="scripts/app/controllers/reportsController.js"></script>
 	<script src="scripts/app/controllers/addAmcCtrl.js"></script>
