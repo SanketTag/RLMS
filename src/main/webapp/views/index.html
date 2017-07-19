@@ -96,7 +96,7 @@
         <div class="col-md-3 animated-content">
             <div class="row">
 				<div class="col-xs-6" style="color: red">
-					<a class="info-tiles tiles-{{pendingComplaints.color}}" ng-click="openDemoModal('lg','Pending Complaints','2')">
+					<a class="info-tiles tiles-{{pendingComplaints.color}}" ng-click="openDemoModal('lg','pendingComplaints','2')">
 						<div class="tiles-heading">
 							<div class="text-center">{{pendingComplaints.title}}</div>
 						</div>
@@ -106,7 +106,7 @@
 					</a>
 				</div>
 				<div class="col-xs-6">
-				<a class="info-tiles tiles-{{assignedComplaints.color}}" ng-click="openDemoModal('lg','Assigned Complaints','3')">
+				<a class="info-tiles tiles-{{assignedComplaints.color}}" ng-click="openDemoModal('lg','assignedComplaints','3')">
 						<div class="tiles-heading">
 							<div class="text-center">{{assignedComplaints.title}}</div>
 						</div>
@@ -122,7 +122,7 @@
             <div class="row">
                 
                 <div class="col-xs-6">
-                	<a class="info-tiles tiles-{{attemptedTodayComplaints.color}}" ng-click="openDemoModal('lg','attemptedToday','3')">
+                	<a class="info-tiles tiles-{{attemptedTodayComplaints.color}}" ng-click="openDemoModal('lg','attemptedToday','2,3,4')">
 						<div class="tiles-heading">
 							<div class="text-center">{{attemptedTodayComplaints.title}}</div>
 						</div>
@@ -133,7 +133,7 @@
                     <!-- <tile-simple data="{ title: 'Complaints Attempted Today', text: '41', color: 'blue'}" ng-click="openDemoModal('lg','Complaints Attempted Today','3')"></tile-simple> -->
                 </div>
                 <div class="col-xs-6">
-                	<a class="info-tiles tiles-{{resolvedComplaints.color}}" ng-click="openDemoModal('lg','Resolved Complaints','4')">
+                	<a class="info-tiles tiles-{{resolvedComplaints.color}}" ng-click="openDemoModal('lg','resolvedComplaints','4')">
 						<div class="tiles-heading">
 							<div class="text-center">{{resolvedComplaints.title}}</div>
 						</div>
@@ -149,7 +149,7 @@
             <div class="row">
                 
                 <div class="col-xs-6">
-                	<a class="info-tiles tiles-{{totalComplaints.color}}" ng-click="openDemoModal('lg','Total Complaints','2,3,4')">
+                	<a class="info-tiles tiles-{{totalComplaints.color}}" ng-click="openDemoModal('lg','totalComplaints','2,3,4')">
 						<div class="tiles-heading">
 							<div class="text-center">{{totalComplaints.title}}</div>
 						</div>
@@ -160,7 +160,7 @@
                     <!-- <tile-simple data="{ title: 'Total Complaints', text: '41', color: 'indigo'}" ng-click="openDemoModal('lg','Total Complaints','2,3,4')"></tile-simple> -->
                 </div>
                 <div class="col-xs-6">
-                	<a class="info-tiles tiles-{{newCustomerRegistered.color}}" ng-click="openDemoModal('lg','New Customers Registered','2')">
+                	<a class="info-tiles tiles-{{newCustomerRegistered.color}}" ng-click="openDemoModal('lg','newCustomerRegistered','')">
 						<div class="tiles-heading">
 							<div class="text-center">{{newCustomerRegistered.title}}</div>
 						</div>

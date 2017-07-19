@@ -461,7 +461,7 @@ angular.module('theme.demos.dashboard', [
     }, true);
     $scope.$watch('pagingOptionsForComplaints', function (newVal, oldVal) {
         if (newVal !== oldVal) {
-          $scope.getPagedDataAsyncForComplaints($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText);
+          $scope.getPagedDataAsyncForComplaints($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.currentComplaintStatus,$scope.currentModel);
         }
       }, true);
     $scope.$watch('filterOptions', function (newVal, oldVal) {
@@ -483,7 +483,8 @@ angular.module('theme.demos.dashboard', [
 				$scope.pagingOptionsForComplaints.pageSize,
 				$scope.pagingOptionsForComplaints.currentPage,
 				$scope.filterOptionsForModal.filterText,
-				$scope.complaintStatusValue);
+				$scope.currentComplaintStatus,
+				$scope.currentModel);
 		}
 	}, true);
         
@@ -677,7 +678,8 @@ console.log("Url called is -->"+url);
     $scope.cancel = function () {
         $scope.modalInstance.dismiss('cancel');
       };
-      $scope.openDemoModal = function (size, headerVal, complaintStatus) {
+      $scope.openDemoModal = function (size, currentModelOpen, complaintStatus) {
+    	  $scope.currentModel=currentModelOpen;
       	var complaintStatusArray=[];
       	var str_array = complaintStatus.split(',');
 
@@ -687,9 +689,9 @@ console.log("Url called is -->"+url);
       	   // Add additional code here, such as:
       	   complaintStatusArray.push(str_array[i]);
       	}
-        $scope.getPagedDataAsyncForComplaints($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "", complaintStatusArray,headerVal);
+      	$scope.currentComplaintStatus=complaintStatusArray;
+        $scope.getPagedDataAsyncForComplaints($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "", complaintStatusArray,currentModelOpen);
         $scope.complaintStatusValue=complaintStatusArray;
-        $scope.modalHeaderVal = headerVal;
         $scope.modalInstance = $modal.open({
           templateUrl: 'demoModalContent.html',
           scope: $scope
