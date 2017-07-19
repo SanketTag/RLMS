@@ -22,6 +22,7 @@ import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.dao.BranchDao;
+import com.rlms.dao.ComplaintsDao;
 import com.rlms.dao.CustomerDao;
 import com.rlms.dao.DashboardDao;
 import com.rlms.dao.LiftDao;
@@ -31,6 +32,7 @@ import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsMemberMaster;
+import com.rlms.model.RlmsSiteVisitDtls;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.predicates.LiftPredicate;
 import com.rlms.utils.DateUtils;
@@ -49,6 +51,8 @@ public class DashboardServiceImpl implements DashboardService {
 	private BranchDao branchDao;
 	@Autowired
 	CustomerDao customerDao;
+	@Autowired
+	ComplaintsDao complaintsDao;
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<CustomerDtlsDto> getAllCustomersForBranch(
@@ -124,6 +128,7 @@ public class DashboardServiceImpl implements DashboardService {
 		}
 		return listOFDtos;
 	}
+
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<AMCDetailsDto> getAMCDetailsForDashboard(List<Integer> liftCustomerMapId) {
@@ -387,5 +392,19 @@ public class DashboardServiceImpl implements DashboardService {
 		}
 		return amcStatus;
 
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public RlmsComplaintTechMapDtls getComplTechMapObjByComplaintId(
+			Integer complaintId) {
+		return complaintsDao.getComplTechMapObjByComplaintId(complaintId);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<RlmsSiteVisitDtls> getAllVisitsForComnplaints(
+			Integer complaintTechMapId) {
+		return complaintsDao.getAllVisitsForComnplaints(complaintTechMapId);
 	}
 }

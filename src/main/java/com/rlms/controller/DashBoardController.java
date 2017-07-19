@@ -1,8 +1,11 @@
 package com.rlms.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -20,13 +23,15 @@ import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
+import com.rlms.dao.ComplaintsDao;
 import com.rlms.dao.LiftDao;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
 import com.rlms.exception.ValidationException;
-import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsCompanyBranchMapDtls;
+import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
+import com.rlms.model.RlmsSiteVisitDtls;
 import com.rlms.service.CompanyService;
 import com.rlms.service.DashboardService;
 import com.rlms.utils.PropertyUtils;
@@ -42,6 +47,9 @@ public class DashBoardController extends BaseController {
 	private CompanyService companyService;
 	@Autowired
 	private LiftDao liftDao;
+	
+	@Autowired
+	ComplaintsDao complaintsDao;
 
 	private static final Logger logger = Logger
 			.getLogger(ComplaintController.class);
@@ -89,19 +97,6 @@ public class DashBoardController extends BaseController {
 							.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS
 									.getMessage()));
 		}
-
-		/*
-		 * List<AMCDetailsDto> listOFAmcDtls = null; try{
-		 * logger.info("In getAMCDetailsForDashboard method"); listOFAmcDtls =
-		 * this.dashboardService.getAMCDetailsForDashboard(dto);
-		 * 
-		 * }catch(Exception e){
-		 * logger.error(ExceptionUtils.getFullStackTrace(e)); throw new
-		 * RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(),
-		 * PropertyUtils
-		 * .getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS
-		 * .getMessage())); }
-		 */
 		return listOFAmcDtls;
 	}
 
@@ -150,5 +145,77 @@ public class DashBoardController extends BaseController {
 		}
 
 		return listOfComplaints;
+	}
+	
+	@RequestMapping(value = "/getListOfComplaintsForSiteVisited", method = RequestMethod.POST)
+	public @ResponseBody
+	List<ComplaintsDto> getListOfComplaintsForSiteVisited(@RequestBody ComplaintsDtlsDto dto)
+			throws RunTimeException {
+		List<ComplaintsDto> listOfComplaints = null;
+		List<RlmsCompanyBranchMapDtls> listOfAllBranches = null;
+		Set<Integer> siteVisitedTodayComplaintIds=new HashSet<>();
+
+		List<Integer> companyBranchMapIds = new ArrayList<>();
+		List<Integer> branchCustomerMapIds = new ArrayList<>();
+		listOfAllBranches = this.companyService
+				.getAllBranches(dto.getCompanyId());
+		for (RlmsCompanyBranchMapDtls companyBranchMap : listOfAllBranches) {
+			companyBranchMapIds.add(companyBranchMap.getCompanyBranchMapId());
+		}
+
+		List<CustomerDtlsDto> allCustomersForBranch = dashboardService
+				.getAllCustomersForBranch(companyBranchMapIds);
+
+		List<Integer> liftCustomerMapIds = new ArrayList<>();
+		for (CustomerDtlsDto customerDtlsDto : allCustomersForBranch) {
+			LiftDtlsDto dtoToGetLifts = new LiftDtlsDto();
+			dtoToGetLifts.setBranchCustomerMapId(customerDtlsDto
+					.getBranchCustomerMapId());
+			List<RlmsLiftCustomerMap> list=dashboardService.getAllLiftsForBranchsOrCustomer(dtoToGetLifts);
+			for (RlmsLiftCustomerMap rlmsLiftCustomerMap : list) {
+				liftCustomerMapIds.add(rlmsLiftCustomerMap
+						.getLiftCustomerMapId());
+			}
+		}
+
+		dto.setListOfLiftCustoMapId(liftCustomerMapIds);
+		try {
+			logger.info("Method :: getListOfComplaints");
+			listOfComplaints = this.dashboardService.getListOfComplaintsBy(dto);
+			List<Integer> listOfComplaintIds=new ArrayList<>();
+			for (ComplaintsDto complaintsDto : listOfComplaints) {
+				listOfComplaintIds.add(complaintsDto.getComplaintId());
+			}
+			Date todayDate = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			
+			
+			for (Integer complaintId : listOfComplaintIds) {
+				RlmsComplaintTechMapDtls rlmsTechMapId=dashboardService.getComplTechMapObjByComplaintId(complaintId);
+				if(rlmsTechMapId!=null){
+					List<RlmsSiteVisitDtls> allVisits=dashboardService.getAllVisitsForComnplaints(rlmsTechMapId.getComplaintTechMapId());
+					for (RlmsSiteVisitDtls rlmsSiteVisitDtls : allVisits) {
+						if(sdf.format(rlmsSiteVisitDtls.getCreatedDate()).equals(sdf.format(todayDate))){
+							siteVisitedTodayComplaintIds.add(complaintId);
+						}
+					}
+				}
+			}
+
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getFullStackTrace(e));
+			throw new RunTimeException(
+					ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(),
+					PropertyUtils
+							.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS
+									.getMessage()));
+		}
+		List<ComplaintsDto> finalListOfComplaints = new ArrayList<>();
+		for (ComplaintsDto complaintsDto : listOfComplaints) {
+			if(siteVisitedTodayComplaintIds.contains(complaintsDto.getComplaintId())){
+				finalListOfComplaints.add(complaintsDto);
+			} 
+		}
+ 		return finalListOfComplaints;
 	}
 }

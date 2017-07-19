@@ -190,9 +190,6 @@ angular.module('theme.demos.dashboard', [
     	            		if(complaintStatusArray.includes('3') && complaintStatusArray.length==1 && largeLoad.length>0){
     	            			$scope.assignedComplaints.text=largeLoad.length;
     	            		}
-    	            		if(complaintStatusArray.includes('3') && complaintStatusArray.length==1 && largeLoad.length>0){
-    	            			$scope.attemptedTodayComplaints.text=largeLoad.length;   
-    	            		}
     	            		if(complaintStatusArray.includes('4') && complaintStatusArray.length==1 && largeLoad.length>0){
     	            			$scope.resolvedComplaints.text=largeLoad.length; 
     	            		}
@@ -205,11 +202,40 @@ angular.module('theme.demos.dashboard', [
     	              });
     	          }, 100);
     	    };
+    	    
+    	    $scope.getComplaintsCountForSiteVisited = function (complaintStatus) {
+    	    	var complaintStatusArray=[];
+    	    	var str_array = complaintStatus.split(',');
+
+    	    	for(var i = 0; i < str_array.length; i++) {
+    	    	   // Trim the excess whitespace.
+    	    	   str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+    	    	   // Add additional code here, such as:
+    	    	   complaintStatusArray.push(str_array[i]);
+    	    	}
+    	    	      setTimeout(
+    	    	        function () {
+    	    	            var dataToSend = $scope
+    	    	              .construnctObjeToSend(complaintStatusArray);
+    	    	            serviceApi
+    	    	              .doPostWithData(
+    	    	              '/RLMS/dashboard/getListOfComplaintsForSiteVisited',
+    	    	              dataToSend)
+    	    	              .then(
+    	    	              function (
+    	    	                largeLoad) {
+    	    	            	  if(largeLoad.length>0){
+    	    	            		  $scope.attemptedTodayComplaints.text=largeLoad.length;
+    	    	            	  }    	    	            			   
+    	    	              });
+    	    	          }, 100);
+    	    	    };
     
     $scope.getComplaintsCount('2');
     $scope.getComplaintsCount('3');
     $scope.getComplaintsCount('4');
     $scope.getComplaintsCount('2,3,4');
+    $scope.getComplaintsCountForSiteVisited('2,3,4');
     
     $scope.gridOptionsForComplaints = {
       data: 'myComplaintsData',
@@ -463,8 +489,14 @@ angular.module('theme.demos.dashboard', [
         
     
     $scope.getPagedDataAsyncForComplaints = function (pageSize,
-      page, searchText, complaintStatus) {
-
+      page, searchText, complaintStatus, callingModel) {
+    	var url;
+    	if(callingModel=='attemptedToday'){
+    		url='/RLMS/dashboard/getListOfComplaintsForSiteVisited';
+    	}else{
+    		url='/RLMS/dashboard/getListOfComplaintsForDashboard';
+    	}
+console.log("Url called is -->"+url);
       setTimeout(
         function () {
           var data;
@@ -474,7 +506,7 @@ angular.module('theme.demos.dashboard', [
             var dataToSend = $scope
             .construnctObjeToSend(complaintStatus);
             serviceApi
-              .doPostWithData('/RLMS/dashboard/getListOfComplaintsForDashboard', dataToSend)
+              .doPostWithData(url, dataToSend)
               .then(
               function (largeLoad) {
                 $scope.complaints = largeLoad;
@@ -483,66 +515,61 @@ angular.module('theme.demos.dashboard', [
                 for (var i = 0; i < largeLoad.length; i++) {
                   var userDetailsObj = {};
                   if (!!largeLoad[i].complaintNumber) {
-                    userDetailsObj["Number"] = largeLoad[i].complaintNumber;
-                  } else {
-                    userDetailsObj["Number"] = " - ";
-                  }
-                  if (!!largeLoad[i].title) {
-                    userDetailsObj["Title"] = largeLoad[i].title;
-                  } else {
-                    userDetailsObj["Title"] = " - ";
-                  }
+                      userDetailsObj["Number"] = largeLoad[i].complaintNumber;
+                    } else {
+                      userDetailsObj["Number"] = " - ";
+                    }
+                    if (!!largeLoad[i].title) {
+                      userDetailsObj["Title"] = largeLoad[i].title;
+                    } else {
+                      userDetailsObj["Title"] = " - ";
+                    }
 
-                  if (!!largeLoad[i].registrationDate) {
-                    userDetailsObj["Registration_Date"] = largeLoad[i].registrationDate;
-                  } else {
-                    userDetailsObj["Registration_Date"] = " - ";
-                  }
-                  if (!!largeLoad[i].serviceStartDate) {
-                    userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDate;
-                  } else {
-                    userDetailsObj["Service_StartDate"] = " - ";
-                  }
-                  if (!!largeLoad[i].serviceStartDateStr) {
-                    userDetailsObj["Service_Start_Date"] = largeLoad[i].serviceStartDateStr;
-                  } else {
-                    userDetailsObj["Service_Start_Date"] = " - ";
-                  }
-                  if (!!largeLoad[i].serviceEndDateStr) {
-                    userDetailsObj["Service_End_Date"] = largeLoad[i].serviceEndDateStr;
-                  } else {
-                    userDetailsObj["Service_End_Date"] = " - ";
-                  }
-                  if (!!largeLoad[i].liftAddress) {
-                    userDetailsObj["Address"] = largeLoad[i].liftAddress;
-                  } else {
-                    userDetailsObj["Address"] = " - ";
-                  }
-                  if (!!largeLoad[i].city) {
-                    userDetailsObj["City"] = largeLoad[i].city;
-                  } else {
-                    userDetailsObj["City"] = " - ";
-                  }
-                  if (!!largeLoad[i].status) {
-                    userDetailsObj["Status"] = largeLoad[i].status;
-                  } else {
-                    userDetailsObj["Status"] = " - ";
-                  }
-                  if (!!largeLoad[i].technicianDtls) {
-                    userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
-                  } else {
-                    userDetailsObj["Technician"] = " - ";
-                  }
-                  if (!!largeLoad[i].technicianDtls) {
-                    userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
-                  } else {
-                    userDetailsObj["Technician"] = " - ";
-                  }
-                  if (!!largeLoad[i].complaintId) {
-                    userDetailsObj["complaintId"] = largeLoad[i].complaintId;
-                  } else {
-                    userDetailsObj["complaintId"] = " - ";
-                  }
+                    if (!!largeLoad[i].registrationDateStr) {
+                      userDetailsObj["Registration_Date"] = largeLoad[i].registrationDateStr;
+                    } else {
+                      userDetailsObj["Registration_Date"] = " - ";
+                    }
+                    if (!!largeLoad[i].serviceStartDateStr) {
+                      userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDateStr;
+                    } else {
+                      userDetailsObj["Service_StartDate"] = " - ";
+                    }
+                    if (!!largeLoad[i].serviceStartDateStr) {
+                      userDetailsObj["Service_Start_Date"] = largeLoad[i].serviceStartDateStr;
+                    } else {
+                      userDetailsObj["Service_Start_Date"] = " - ";
+                    }
+                    if (!!largeLoad[i].serviceEndDateStr) {
+                      userDetailsObj["Service_End_Date"] = largeLoad[i].serviceEndDateStr;
+                    } else {
+                      userDetailsObj["Service_End_Date"] = " - ";
+                    }
+                    if (!!largeLoad[i].liftAddress) {
+                      userDetailsObj["Address"] = largeLoad[i].liftAddress;
+                    } else {
+                      userDetailsObj["Address"] = " - ";
+                    }
+                    if (!!largeLoad[i].city) {
+                      userDetailsObj["City"] = largeLoad[i].city;
+                    } else {
+                      userDetailsObj["City"] = " - ";
+                    }
+                    if (!!largeLoad[i].status) {
+                      userDetailsObj["Status"] = largeLoad[i].status;
+                    } else {
+                      userDetailsObj["Status"] = " - ";
+                    }
+                    if (!!largeLoad[i].technicianDtls) {
+                      userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
+                    } else {
+                      userDetailsObj["Technician"] = " - ";
+                    }
+                    if (!!largeLoad[i].complaintId) {
+                      userDetailsObj["complaintId"] = largeLoad[i].complaintId;
+                    } else {
+                      userDetailsObj["complaintId"] = " - ";
+                    }
 
                   userDetails
                     .push(userDetailsObj);
@@ -567,8 +594,7 @@ angular.module('theme.demos.dashboard', [
             var dataToSend = $scope
               .construnctObjeToSend(complaintStatus);
             serviceApi
-              .doPostWithData(
-              '/RLMS/dashboard/getListOfComplaintsForDashboard',
+              .doPostWithData(url,
               dataToSend)
               .then(
               function (
@@ -637,21 +663,6 @@ angular.module('theme.demos.dashboard', [
                   userDetails
                     .push(userDetailsObj);
                 }
-                /*$scope.newComplaints=userDetails.filter(function(item) {
-                            return item.Status=="Pending";
-                          });
-                $scope.pendingComplaints=userDetails.filter(function(item) {
-                            return item.Status=="Pending";
-                          });
-                $scope.assignedComplaints=userDetails.filter(function(item) {
-                            return item.Status=="Assigned";
-                          });
-                $scope.complaintsAttemptedToday=userDetails.filter(function(item) {
-                            return item.Status=="Completed";
-                          });
-                $scope.resolvedComplaints=userDetails.filter(function(item) {
-                            return item.Status=="Completed";
-                          });*/
                 $scope
                   .setPagingDataForComplaints(
                   userDetails,
@@ -662,6 +673,28 @@ angular.module('theme.demos.dashboard', [
           }
         }, 100);
     };
+    
+    $scope.cancel = function () {
+        $scope.modalInstance.dismiss('cancel');
+      };
+      $scope.openDemoModal = function (size, headerVal, complaintStatus) {
+      	var complaintStatusArray=[];
+      	var str_array = complaintStatus.split(',');
+
+      	for(var i = 0; i < str_array.length; i++) {
+      	   // Trim the excess whitespace.
+      	   str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+      	   // Add additional code here, such as:
+      	   complaintStatusArray.push(str_array[i]);
+      	}
+        $scope.getPagedDataAsyncForComplaints($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "", complaintStatusArray,headerVal);
+        $scope.complaintStatusValue=complaintStatusArray;
+        $scope.modalHeaderVal = headerVal;
+        $scope.modalInstance = $modal.open({
+          templateUrl: 'demoModalContent.html',
+          scope: $scope
+        })
+      }
 
     $scope.construnctObjeToSend = function (complaintStatus) {
       var dataToSend = {
@@ -706,28 +739,7 @@ angular.module('theme.demos.dashboard', [
       ],
       label: 'Unique Views'
     }];
-    $scope.cancel = function () {
-      $scope.modalInstance.dismiss('cancel');
-    };
-    $scope.openDemoModal = function (size, headerVal, complaintStatus) {
-    	var complaintStatusArray=[];
-    	var str_array = complaintStatus.split(',');
-
-    	for(var i = 0; i < str_array.length; i++) {
-    	   // Trim the excess whitespace.
-    	   str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
-    	   // Add additional code here, such as:
-    	   complaintStatusArray.push(str_array[i]);
-    	}
-      $scope.getPagedDataAsyncForComplaints($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "", complaintStatusArray);
-      $scope.complaintStatusValue=complaintStatusArray;
-      $scope.modalHeaderVal = headerVal;
-      $scope.modalInstance = $modal.open({
-        templateUrl: 'demoModalContent.html',
-        scope: $scope
-      })
-    }
-
+    
     $scope.plotStatsOptions = {
       series: {
         stack: true,
