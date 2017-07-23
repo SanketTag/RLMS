@@ -442,9 +442,8 @@
 									},
 									columnDefs : [ {
 										cellTemplate :  
-								             '<div class="grid-action-cell" ng-show="loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1">'+
-								             '<button ng-click="$event.stopPropagation(); editThisRow(row.entity);">Edit</button></div>',
-										width : 60
+								             '<button ng-click="$event.stopPropagation(); editThisRow(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
+										width : 30
 									},{
 										field : "Number",
 										displayName:"Number",
