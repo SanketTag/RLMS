@@ -224,4 +224,14 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 		 List<RlmsComplaintTechMapDtls> listOfAllcomplaints = criteria.list();
 		 return listOfAllcomplaints;
 	}
+
+	@Override
+	public void updateComplaints(RlmsComplaintTechMapDtls complaintTechMapDtls) {
+		this.sessionFactory.getCurrentSession().update(complaintTechMapDtls);
+	}
+
+	@Override
+	public void updateComplaintsMatser(RlmsComplaintMaster complaintMaster) {
+		this.sessionFactory.getCurrentSession().update(complaintMaster);
+	}
 }

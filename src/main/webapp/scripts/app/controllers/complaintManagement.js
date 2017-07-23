@@ -196,8 +196,8 @@
 																			} else {
 																				userDetailsObj["Service_Start_Date"] = " - ";
 																			}
-																			if (!!largeLoad[i].serviceEndDateStr) {
-																				userDetailsObj["Service_End_Date"] = largeLoad[i].serviceEndDateStr;
+																			if (!!largeLoad[i].actualServiceEndDateStr) {
+																				userDetailsObj["Service_End_Date"] = largeLoad[i].actualServiceEndDateStr;
 																			} else {
 																				userDetailsObj["Service_End_Date"] = " - ";
 																			}
@@ -292,8 +292,8 @@
 																			} else {
 																				userDetailsObj["Service_Start_Date"] = " - ";
 																			}
-																			if (!!largeLoad[i].serviceEndDateStr) {
-																				userDetailsObj["Service_End_Date"] = largeLoad[i].serviceEndDateStr;
+																			if (!!largeLoad[i].actualServiceEndDateStr) {
+																				userDetailsObj["Service_End_Date"] = largeLoad[i].actualServiceEndDateStr;
 																			} else {
 																				userDetailsObj["Service_End_Date"] = " - ";
 																			}
@@ -442,7 +442,7 @@
 									},
 									columnDefs : [ {
 										cellTemplate :  
-								             '<div class="grid-action-cell">'+
+								             '<div class="grid-action-cell" ng-show="loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1">'+
 								             '<button ng-click="$event.stopPropagation(); editThisRow(row.entity);">Edit</button></div>',
 										width : 60
 									},{
@@ -496,19 +496,36 @@
 									}
 									]
 								};
+								if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel != 1){
+									$scope.gridOptions.columnDefs[0].visible = false;
+								}								
 								$rootScope.editComplaint={};
+								$rootScope.technicianDetails=[];
+								$rootScope.complaintStatusArray=['Pending','Assigned','Completed','In Progress'];
 								$scope.editThisRow=function(row){
-									$rootScope.editComplaint.complaintsNumber=row.Number;
-									$rootScope.editComplaint.complaintsTitle=row.Title;
-									$rootScope.editComplaint.complaintsAddress=row.Address;
-									$rootScope.editComplaint.complaintsCity=row.City;
+									$rootScope.editComplaint.complaintsNumber=row.Number.replace(/-/g, '');
+									$rootScope.editComplaint.complaintsTitle=row.Title.replace(/-/g, '');
+									$rootScope.editComplaint.complaintsAddress=row.Address.replace(/-/g, '');
+									$rootScope.editComplaint.complaintsCity=row.City.replace(/-/g, '');
 									$rootScope.editComplaint.regDate=row.Registration_Date;
 									$rootScope.editComplaint.serviceEndDate=row.Service_End_Date;
 									$rootScope.editComplaint.serviceStartDate=row.Service_StartDate;
-									$rootScope.editComplaint.complaintsStatus=row.Status;
-									$rootScope.editComplaint.complaintsTechnician=row.Technician;
-									window.location.hash = "#/edit-complaint";
-									console.log("Inside Delete row");
+									$rootScope.selectedComplaintStatus=row.Status;
+									//$rootScope.editComplaint.complaintsStatus=row.Status.replace(/-/g, '');
+									var dataToSend ={
+											complaintId:row.Number
+									}
+									serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
+									.then(function(data) {
+										$rootScope.techniciansForEditComplaints = data;
+										var technicianArray=$rootScope.techniciansForEditComplaints;
+										technicianArray.forEach(function(technician) {
+											if(row.Technician.includes(technician.name)){
+												$rootScope.selectedTechnician=technician;
+											}
+										});
+										window.location.hash = "#/edit-complaint";
+									});
 								};
 //								 $scope.$watch('gridOptions.selectedItems', function(oldVal , newVal) {
 //								     console.log("________")

@@ -536,5 +536,39 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		
 		return dto;
 	}
-	
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String validateAndUpdateComplaint(ComplaintsDto complaintsDto,
+			UserMetaInfo metaInfo) throws ValidationException, ParseException {
+		RlmsComplaintTechMapDtls complaintTechMapDtls = this.complaintsDao.getComplTechMapByComplaintId(complaintsDto.getComplaintId());
+		RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(complaintsDto.getUserRoleId());
+		complaintTechMapDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
+		complaintTechMapDtls.setStatus(Status.ASSIGNED.getStatusId());
+		complaintTechMapDtls.setUpdatedBy(metaInfo.getUserId());
+		complaintTechMapDtls.setUpdatedDate(new Date());
+		complaintTechMapDtls.setUserRoles(userRoles);
+		if(complaintsDto.getRegistrationDateStr()!=null){
+			complaintTechMapDtls.getComplaintMaster().setRegistrationDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getRegistrationDateStr()));
+		}if(complaintsDto.getServiceStartDateStr()!=null){
+			complaintTechMapDtls.getComplaintMaster().setServiceStartDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getServiceStartDateStr()));
+		}if(complaintsDto.getActualServiceEndDateStr()!=null){
+			complaintTechMapDtls.getComplaintMaster().setActualServiceEndDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getActualServiceEndDateStr()));
+		}
+		complaintTechMapDtls.getComplaintMaster().setTitle(complaintsDto.getTitle());
+		if("Assigned".equalsIgnoreCase(complaintsDto.getStatus())){
+			complaintTechMapDtls.getComplaintMaster().setStatus(Status.ASSIGNED.getStatusId());		
+		}else if("Pending".equalsIgnoreCase(complaintsDto.getStatus())){
+			complaintTechMapDtls.getComplaintMaster().setStatus(Status.PENDING.getStatusId());
+		}else if("Completed".equalsIgnoreCase(complaintsDto.getStatus())){
+			complaintTechMapDtls.getComplaintMaster().setStatus(Status.COMPLETED.getStatusId());
+		}else if("In Progress".equalsIgnoreCase(complaintsDto.getStatus())){
+			complaintTechMapDtls.getComplaintMaster().setStatus(Status.INPROGESS.getStatusId());
+		}
+		complaintTechMapDtls.getComplaintMaster().setUpdatedBy(metaInfo.getUserId());
+		complaintTechMapDtls.getComplaintMaster().setUpdatedDate(new Date());
+		this.complaintsDao.updateComplaints(complaintTechMapDtls);
+		String statusMessage = PropertyUtils.getPrpertyFromContext("Complaint Updated Successfully");
+		return statusMessage;
+	}	
 }

@@ -152,4 +152,21 @@ public class ComplaintController extends BaseController{
 		return customerDtlsDto;
 	}
 	
+	@RequestMapping(value = "/validateAndUpdateComplaint", method = RequestMethod.POST)
+	 public @ResponseBody ResponseDto validateAndUpdateComplaint(@RequestBody ComplaintsDto dto) throws RunTimeException{
+		 ResponseDto reponseDto = new ResponseDto();
+		 
+		 try{
+	        	logger.info("Method :: validateAndRegisterNewComplaint");
+	        	reponseDto.setResponse(this.complaintsService.validateAndUpdateComplaint(dto, this.getMetaInfo()));
+	        	
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
+	 }
+	
 }

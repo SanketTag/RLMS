@@ -42,25 +42,29 @@
 			<div class="form-group col-sm-6">
 			<label class="col-sm-4 control-label">Address</label>
 				<div class="col-sm-6">
-					<input name="complaintsAddress" type="text" placeholder="Address" ng-model="editComplaint.complaintsAddress" class="form-control">
+					<input name="complaintsAddress" disabled type="text" placeholder="Address" ng-model="editComplaint.complaintsAddress" class="form-control">
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label">City</label>
 				<div class="col-sm-6">
-					<input name="complaintsCity" type="text" placeholder="City" ng-model="editComplaint.complaintsCity" class="form-control">
+					<input name="complaintsCity" disabled type="text" placeholder="City" ng-model="editComplaint.complaintsCity" class="form-control">
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
 			<label class="col-sm-4 control-label">Status</label>
 				<div class="col-sm-6">
-					<input name="complaintsStatus" type="text" placeholder="Status" ng-model="editComplaint.complaintsStatus" class="form-control">
+					<select ng-model="selectedComplaintStatus" ng-options="x for x in complaintStatusArray" class="form-control"></select>
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label">Technician</label>
 				<div class="col-sm-6">
-					<input name="complaintsTechnician" type="text" placeholder="Technician" ng-model="editComplaint.complaintsTechnician" class="form-control">
+					<div class="select-container">
+						<select ng-model="selectedTechnician" ng-options="x.name for x in techniciansForEditComplaints" class="form-control">
+						</select>
+				</div>
+					<!-- <input name="complaintsTechnician" type="text" placeholder="Technician" ng-model="editComplaint.complaintsTechnician" class="form-control"> -->
 				</div>
 			</div>
 		 </fieldset>
@@ -72,7 +76,7 @@
 		</div>
 		<div class="col-sm-6 ">
 			<div class="btn-toolbar">
-				<button class="btn-primary btn" ng-disabled="addComplaintForm.$invalid && addComplaintForm.$pristine">Submit</button>
+				<button class="btn-primary btn" ng-click="submitEditComplaint()">Submit</button>
 				<button class="btn-default btn" ng-click="resetaddComplaint();">Reset</button>
 			</div>
 		</div>

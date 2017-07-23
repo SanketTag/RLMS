@@ -19,11 +19,23 @@
 			      else
 			    	  $scope.editFlag[which] = false;
 			  }
-			//Post call add customer
-			$scope.submitAddComplaint = function(){
-				$scope.addComplaint.liftCustomerMapId = $scope.selectedLift.selected.liftId;
-				$scope.addComplaint.registrationType = 31;
-				serviceApi.doPostWithData("/RLMS/complaint/validateAndRegisterNewComplaint",$scope.addComplaint)
+			
+			$scope.submitEditComplaint = function(){
+				$scope.selectedTechnician;
+				var complaintsData = {};
+				complaintsData = {
+						 complaintNumber:$scope.editComplaint.complaintsNumber,
+						 complaintId:$scope.editComplaint.complaintsNumber,
+						 registrationDateStr:$filter('date')($scope.editComplaint.regDate, "dd-MMM-yyyy"),
+						 serviceStartDateStr:$filter('date')($scope.editComplaint.serviceStartDate, "dd-MMM-yyyy"),
+						 actualServiceEndDateStr:$filter('date')($scope.editComplaint.serviceEndDate, "dd-MMM-yyyy"),
+						 liftAddress:$scope.editComplaint.complaintsAddress + $scope.editComplaint.complaintsCity,
+						 status:$scope.selectedComplaintStatus,
+						 title:$scope.editComplaint.complaintsTitle,
+						 technicianDtls:$scope.selectedTechnician.name,
+						 userRoleId:$scope.selectedTechnician.userRoleId
+				};
+				serviceApi.doPostWithData("/RLMS/complaint/validateAndUpdateComplaint",complaintsData)
 				.then(function(response){
 					$scope.showAlert = true;
 					var key = Object.keys(response);
