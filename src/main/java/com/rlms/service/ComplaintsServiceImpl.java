@@ -548,11 +548,11 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		complaintTechMapDtls.setUpdatedBy(metaInfo.getUserId());
 		complaintTechMapDtls.setUpdatedDate(new Date());
 		complaintTechMapDtls.setUserRoles(userRoles);
-		if(complaintsDto.getRegistrationDateStr()!=null){
+		if(complaintsDto.getRegistrationDateStr()!=null && !(" - ".equals(complaintsDto.getRegistrationDateStr()))){
 			complaintTechMapDtls.getComplaintMaster().setRegistrationDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getRegistrationDateStr()));
-		}if(complaintsDto.getServiceStartDateStr()!=null){
+		}if(complaintsDto.getServiceStartDateStr()!=null && !(" - ".equals(complaintsDto.getServiceStartDateStr()))){
 			complaintTechMapDtls.getComplaintMaster().setServiceStartDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getServiceStartDateStr()));
-		}if(complaintsDto.getActualServiceEndDateStr()!=null){
+		}if(complaintsDto.getActualServiceEndDateStr()!=null && !(" - ".equals(complaintsDto.getActualServiceEndDateStr()))){
 			complaintTechMapDtls.getComplaintMaster().setActualServiceEndDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getActualServiceEndDateStr()));
 		}
 		complaintTechMapDtls.getComplaintMaster().setTitle(complaintsDto.getTitle());

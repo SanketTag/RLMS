@@ -495,9 +495,9 @@
 									}
 									]
 								};
-								if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel != 1){
+								/*if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel != 1){
 									$scope.gridOptions.columnDefs[0].visible = false;
-								}								
+								}*/								
 								$rootScope.editComplaint={};
 								$rootScope.technicianDetails=[];
 								$rootScope.complaintStatusArray=['Pending','Assigned','Completed','In Progress'];
