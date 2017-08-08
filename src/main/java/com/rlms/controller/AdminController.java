@@ -458,5 +458,23 @@ public class AdminController extends BaseController{
 	 
 	        return dto;
 	 }
-	
+	 @RequestMapping(value = "/validateAndUpdateUser", method = RequestMethod.POST)
+	    public @ResponseBody ResponseDto validateAndUpdateUser(@RequestBody UserDtlsDto dto) throws RunTimeException, ValidationException {
+		 ResponseDto reponseDto = new ResponseDto();
+	        
+	        try{
+	        	logger.info("Method :: validateAndRegisterNewUser");
+	        	reponseDto.setResponse(this.userService.validateAndEditUser(dto, this.getMetaInfo()));
+	        	
+	        }catch(ValidationException vex){
+	        	logger.error(ExceptionUtils.getFullStackTrace(vex));
+	        	throw vex;
+	        }
+	        catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
+	  }	
 }

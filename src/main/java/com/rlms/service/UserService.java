@@ -58,4 +58,7 @@ public interface UserService {
 	public UserDtlsDto registerTechnicianDeviceByMblNo(UserDtlsDto dto, UserMetaInfo metaInfo) throws ValidationException;
 	
 	public RlmsUserRoles getUserRoleObjhById(Integer userRoleId);
+	
+	public String validateAndEditUser(UserDtlsDto userDto, UserMetaInfo metaInfo)
+			throws ValidationException;
 }

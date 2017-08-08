@@ -8,6 +8,47 @@
 		$scope.goToAddUser =function(){
 			window.location.hash = "#/add-user";
 		};
+		$scope.editUser =function(){
+			window.location.hash = "#/edit-user";
+		};
+		$rootScope.editUser={};
+		$scope.editThisUser=function(row){
+			$rootScope.editUser.userId=row.Id;
+			$rootScope.editUser.name=row.Name.replace(/-/g, '');
+			$rootScope.editUser.company=row.Company.replace(/-/g, '');
+			$rootScope.editUser.contactnumber=row.Contact_Number.replace(/-/g, '');
+			$rootScope.editUser.address=row.Address.replace(/-/g, '');
+			$rootScope.editUser.city=row.City.replace(/-/g, '');
+			$rootScope.editUser.branch=row.Branch.replace(/-/g, '');
+			$rootScope.editUser.role=row.Role.replace(/-/g, '');
+			$rootScope.editUser.emailid=row.Email_Id.replace(/-/g, '');
+			window.location.hash = "#/edit-user";
+			/*
+			$rootScope.editComplaint.complaintsNumber=row.Number.replace(/-/g, '');
+			$rootScope.editComplaint.complaintsTitle=row.Title.replace(/-/g, '');
+			$rootScope.editComplaint.complaintsAddress=row.Address.replace(/-/g, '');
+			$rootScope.editComplaint.complaintsCity=row.City.replace(/-/g, '');
+			$rootScope.editComplaint.regDate=row.Registration_Date;
+			$rootScope.editComplaint.serviceEndDate=row.Service_End_Date;
+			$rootScope.editComplaint.serviceStartDate=row.Service_StartDate;
+			$rootScope.selectedComplaintStatus=row.Status;
+			//$rootScope.editComplaint.complaintsStatus=row.Status.replace(/-/g, '');
+			var dataToSend ={
+					complaintId:row.Number
+			}
+			serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
+			.then(function(data) {
+				$rootScope.techniciansForEditComplaints = data;
+				var technicianArray=$rootScope.techniciansForEditComplaints;
+				technicianArray.forEach(function(technician) {
+					if(row.Technician.includes(technician.name)){
+						$rootScope.selectedTechnician=technician;
+					}
+				});
+				window.location.hash = "#/edit-complaint";
+			});*/
+		};
+		
 		$scope.showCompany = false;
 		
 		function loadCompanyData(){
@@ -57,6 +98,11 @@
 	  	        	  var userDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var userDetailsObj={};
+	  	        		if(!!largeLoad[i].userId){
+	  	        			userDetailsObj["Id"] =largeLoad[i].userId;
+	  	        		}else{
+	  	        			userDetailsObj["Id"] =" - ";
+	  	        		}
 	  	        		if(!!largeLoad[i].userName){
 	  	        			userDetailsObj["Name"] =largeLoad[i].userName;
 	  	        		}else{
@@ -120,6 +166,11 @@
 	  	        	  var userDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var userDetailsObj={};
+		  	        	if(!!largeLoad[i].userId){
+	  	        			userDetailsObj["Id"] =largeLoad[i].userId;
+	  	        		}else{
+	  	        			userDetailsObj["Id"] =" - ";
+	  	        		}
 	  	        		if(!!largeLoad[i].userName){
 	  	        			userDetailsObj["Name"] =largeLoad[i].userName;
 	  	        		}else{
@@ -199,7 +250,40 @@
 	  	      pagingOptions: $scope.pagingOptions,
 	  	      filterOptions: $scope.filterOptions,
 	  	      multiSelect: false,
-	  	      gridFooterHeight:35
+	  	      gridFooterHeight:35,
+	  	      columnDefs : [ {
+				cellTemplate :  
+		             '<button ng-click="$event.stopPropagation(); editThisUser(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
+				width : 30
+			},{
+				field : "Name",
+				displayName:"Name"
+			}, {
+				field : "Company",
+				displayName:"Company"
+			}, {
+				field : "Contact_Number",
+				displayName:"Contact_Number"
+			}, {
+				field : "Address",
+				displayName:"Address"
+			}
+			, {
+				field : "City",
+				displayName:"City"
+			}, {
+				field : "Branch",
+				displayName:"Branch"
+			}
+			, {
+				field : "Role",
+				displayName:"Role"
+			}
+			, {
+				field : "Email_Id",
+				displayName:"Email_Id"
+			}
+			]
 	  	    };
 		
 	}]);
