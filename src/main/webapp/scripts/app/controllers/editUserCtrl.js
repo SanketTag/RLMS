@@ -54,9 +54,11 @@
 					firstName:$scope.editUser.firstName,
 					lastName:$scope.editUser.lastName,
 					address:$scope.editUser.address,
+					area:$scope.editUser.area,
 					contactNumber:$scope.editUser.contactnumber,
 					emailId:$scope.editUser.emailid,
-					city:$scope.editUser.city
+					city:$scope.editUser.city,
+					pinCode:$scope.editUser.pincode,
 			};
 			serviceApi.doPostWithData("/RLMS/admin/validateAndUpdateUser",userData)
 			.then(function(response){

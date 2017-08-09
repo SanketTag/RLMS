@@ -20,7 +20,9 @@
 			$rootScope.editUser.company=row.Company.replace(/-/g, '');
 			$rootScope.editUser.contactnumber=row.Contact_Number.replace(/-/g, '');
 			$rootScope.editUser.address=row.Address.replace(/-/g, '');
+			$rootScope.editUser.area=row.Area;
 			$rootScope.editUser.city=row.City.replace(/-/g, '');
+			$rootScope.editUser.pincode=row.PinCode;
 			$rootScope.editUser.branch=row.Branch.replace(/-/g, '');
 			$rootScope.editUser.role=row.Role.replace(/-/g, '');
 			$rootScope.editUser.emailid=row.Email_Id.replace(/-/g, '');
@@ -125,10 +127,16 @@
 	  	        		}else{
 	  	        			userDetailsObj["Address"] =" - ";
 	  	        		}
+	  	        		if(!!largeLoad[i].area){
+	  	        			userDetailsObj["Area"] =largeLoad[i].area;
+	  	        		}
 	  	        		if(!!largeLoad[i].city){
 	  	        			userDetailsObj["City"] =largeLoad[i].city;
 	  	        		}else{
 	  	        			userDetailsObj["City"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].pinCode){
+	  	        			userDetailsObj["PinCode"] =largeLoad[i].pinCode;
 	  	        		}
 	  	        		if(!!largeLoad[i].branchName){
 	  	        			userDetailsObj["Branch"] =largeLoad[i].branchName;
@@ -193,10 +201,16 @@
 	  	        		}else{
 	  	        			userDetailsObj["Address"] =" - ";
 	  	        		}
+	  	        		if(!!largeLoad[i].area){
+	  	        			userDetailsObj["Area"] =largeLoad[i].area;
+	  	        		}
 	  	        		if(!!largeLoad[i].city){
 	  	        			userDetailsObj["City"] =largeLoad[i].city;
 	  	        		}else{
 	  	        			userDetailsObj["City"] =" - ";
+	  	        		}
+	  	        		if(!!largeLoad[i].pinCode){
+	  	        			userDetailsObj["PinCode"] =largeLoad[i].pinCode;
 	  	        		}
 	  	        		if(!!largeLoad[i].branchName){
 	  	        			userDetailsObj["Branch"] =largeLoad[i].branchName;
