@@ -49,11 +49,10 @@
 		$rootScope.editUser.emailid=row.Email_Id.replace(/-/g, '');*/
 		$scope.submitEditUser = function(){
 			var userData = {};
-			var fullName=$scope.editUser.name.split(" ");
 			userData = {
 					userId: $rootScope.editUser.userId,
-					firstName:fullName[0],
-					lastName:fullName[1],
+					firstName:$scope.editUser.firstName,
+					lastName:$scope.editUser.lastName,
 					address:$scope.editUser.address,
 					contactNumber:$scope.editUser.contactnumber,
 					emailId:$scope.editUser.emailid,

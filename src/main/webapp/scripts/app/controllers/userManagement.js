@@ -13,8 +13,10 @@
 		};
 		$rootScope.editUser={};
 		$scope.editThisUser=function(row){
+			var fullName=row.Name.replace(/-/g, '').split(" ");
 			$rootScope.editUser.userId=row.Id;
-			$rootScope.editUser.name=row.Name.replace(/-/g, '');
+			$rootScope.editUser.firstName=fullName[0];
+			$rootScope.editUser.lastName=fullName[1];
 			$rootScope.editUser.company=row.Company.replace(/-/g, '');
 			$rootScope.editUser.contactnumber=row.Contact_Number.replace(/-/g, '');
 			$rootScope.editUser.address=row.Address.replace(/-/g, '');
@@ -252,10 +254,6 @@
 	  	      multiSelect: false,
 	  	      gridFooterHeight:35,
 	  	      columnDefs : [ {
-				cellTemplate :  
-		             '<button ng-click="$event.stopPropagation(); editThisUser(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
-				width : 30
-			},{
 				field : "Name",
 				displayName:"Name"
 			}, {
@@ -282,6 +280,10 @@
 			, {
 				field : "Email_Id",
 				displayName:"Email_Id"
+			},{
+				cellTemplate :  
+		             '<button ng-click="$event.stopPropagation(); editThisUser(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
+				width : 30
 			}
 			]
 	  	    };

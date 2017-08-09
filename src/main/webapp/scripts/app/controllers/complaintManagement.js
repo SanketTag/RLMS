@@ -441,10 +441,6 @@
 //										}
 									},
 									columnDefs : [ {
-										cellTemplate :  
-								             '<button ng-click="$event.stopPropagation(); editThisRow(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
-										width : 30
-									},{
 										field : "Number",
 										displayName:"Number",
 										width : 120
@@ -492,6 +488,10 @@
 										field : "complaintId",
 										displayName:"complaintId",
 										visible: false,
+									},{
+										cellTemplate :  
+								             '<button ng-click="$event.stopPropagation(); editThisRow(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
+										width : 30
 									}
 									]
 								};

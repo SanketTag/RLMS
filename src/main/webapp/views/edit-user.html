@@ -8,15 +8,21 @@
 		<fieldset>
 		  <legend>User Details</legend>
 		  <div class="form-group col-sm-6">
-				<label class="col-sm-4 control-label">Name</label>
+				<label class="col-sm-4 control-label">First Name</label>
 				<div class="col-sm-6">
-					<input name="name" type="text" placeholder="Name" ng-model="editUser.name" class="form-control">
+					<input name="firstname" type="text" placeholder="First Name" ng-model="editUser.firstName" class="form-control">
+				</div>
+			</div>
+			 <div class="form-group col-sm-6">
+				<label class="col-sm-4 control-label">Last Name</label>
+				<div class="col-sm-6">
+					<input name="lastName" type="text" placeholder="Last Name" ng-model="editUser.lastName" class="form-control">
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
 			<label class="col-sm-4 control-label">Company</label>
 				<div class="col-sm-6">
-					<input name="company" type="text" placeholder="Company" ng-model="editUser.company" class="form-control">
+					<input name="company" disabled type="text" placeholder="Company" ng-model="editUser.company" class="form-control">
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
