@@ -370,6 +370,7 @@
 	<!-- endbuild -->
 	<!-- App-->
 	<script src="scripts/app/controllers/addCompanyCtrl.js"></script>
+	<script src="scripts/app/controllers/editCompanyCtrl.js"></script>
 	<script src="scripts/app/controllers/addBranchCtrl.js"></script>
 	<script src="scripts/app/controllers/assignRoleCtrl.js"></script>
 	<script src="scripts/app/controllers/addUserCtrl.js"></script>

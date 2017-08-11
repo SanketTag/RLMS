@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('companyManagement', ['$scope', '$filter','serviceApi','$route','$http','utility', function($scope, $filter,serviceApi,$route,$http,utility) {
+	.controller('companyManagement', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
 		$scope.goToAddCompany =function(){
 			window.location.hash = "#/add-company";
 		};
@@ -24,6 +24,24 @@
 	  	        $scope.$apply();
 	  	      }
 	  	    };
+	  	  $rootScope.editCompany={};
+	  	  $scope.editCompanyDetails=function(row){
+	  		$rootScope.editCompany.companyId=row.CompanyId;
+	  		$rootScope.editCompany.companyName=row.Company_Name.replace(/-/g, '');
+	  		$rootScope.editCompany.ownerName=row.OwnerName;
+	  		$rootScope.editCompany.ownerNumber=row.OwnerNumber;
+	  		$rootScope.editCompany.ownerEmail=row.OwnerEmail;
+	  		$rootScope.editCompany.address=row.Address.replace(/-/g, '');
+	  		$rootScope.editCompany.area=row.Area;
+	  		$rootScope.editCompany.city=row.City.replace(/-/g, '');
+	  		$rootScope.editCompany.pinCode=row.Pincode;
+	  		$rootScope.editCompany.contactNumber=row.Contact_Number.replace(/-/g, '');
+	  		$rootScope.editCompany.emailId=row.Email_Id.replace(/-/g, '');
+	  		$rootScope.editCompany.panNumber=row.PanNumber;
+	  		$rootScope.editCompany.tinNumber=row.TinNumber;
+	  		$rootScope.editCompany.vatNumber=row.VatNumber;
+			window.location.hash = "#/edit-company";
+			};
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
 	  	      setTimeout(function() {
 	  	        var data;
@@ -33,6 +51,9 @@
 	  	        	  var companyDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var companyDetailsObj={};
+	  	        		if(!!largeLoad[i].companyId){
+	  	        			companyDetailsObj["CompanyId"] =largeLoad[i].companyId;
+	  	        		}
 	  	        		if(!!largeLoad[i].companyName){
 	  	        			companyDetailsObj["Company_Name"] =largeLoad[i].companyName;
 	  	        		}else{
@@ -73,6 +94,30 @@
 	  	        		}else{
 	  	        			companyDetailsObj["Total_Lifts"] =" - ";
 	  	        		}
+	  	        		if(!!largeLoad[i].ownerName){
+	  	        			companyDetailsObj["OwnerName"] =largeLoad[i].ownerName;
+	  	        		}
+	  	        		if(!!largeLoad[i].ownerNumber){
+	  	        			companyDetailsObj["OwnerNumber"] =largeLoad[i].ownerNumber;
+	  	        		}
+	  	        		if(!!largeLoad[i].ownerEmail){
+	  	        			companyDetailsObj["OwnerEmail"] =largeLoad[i].ownerEmail;
+	  	        		}
+	  	        		if(!!largeLoad[i].area){
+	  	        			companyDetailsObj["Area"] =largeLoad[i].area;
+	  	        		}
+	  	        		if(!!largeLoad[i].pinCode){
+	  	        			companyDetailsObj["Pincode"] =largeLoad[i].pinCode;
+	  	        		}
+	  	        		if(!!largeLoad[i].panNumber){
+	  	        			companyDetailsObj["PanNumber"] =largeLoad[i].panNumber;
+	  	        		}
+	  	        		if(!!largeLoad[i].tinNumber){
+	  	        			companyDetailsObj["TinNumber"] =largeLoad[i].tinNumber;
+	  	        		}
+	  	        		if(!!largeLoad[i].vatNumber){
+	  	        			companyDetailsObj["VatNumber"] =largeLoad[i].vatNumber;
+	  	        		}
 	  	        		companyDetails.push(companyDetailsObj);
 	  	        	  }
 	  	            data = companyDetails.filter(function(item) {
@@ -85,6 +130,9 @@
 	  	        	  var companyDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 		  	        	var companyDetailsObj={};
+		  	        	if(!!largeLoad[i].companyId){
+	  	        			companyDetailsObj["CompanyId"] =largeLoad[i].companyId;
+	  	        		}
 	  	        		if(!!largeLoad[i].companyName){
 	  	        			companyDetailsObj["Company_Name"] =largeLoad[i].companyName;
 	  	        		}else{
@@ -125,6 +173,30 @@
 	  	        		}else{
 	  	        			companyDetailsObj["Total_Lifts"] =" - ";
 	  	        		}
+	  	        		if(!!largeLoad[i].ownerName){
+	  	        			companyDetailsObj["OwnerName"] =largeLoad[i].ownerName;
+	  	        		}
+	  	        		if(!!largeLoad[i].ownerNumber){
+	  	        			companyDetailsObj["OwnerNumber"] =largeLoad[i].ownerNumber;
+	  	        		}
+	  	        		if(!!largeLoad[i].ownerEmail){
+	  	        			companyDetailsObj["OwnerEmail"] =largeLoad[i].ownerEmail;
+	  	        		}
+	  	        		if(!!largeLoad[i].area){
+	  	        			companyDetailsObj["Area"] =largeLoad[i].area;
+	  	        		}
+	  	        		if(!!largeLoad[i].pinCode){
+	  	        			companyDetailsObj["Pincode"] =largeLoad[i].pinCode;
+	  	        		}
+	  	        		if(!!largeLoad[i].panNumber){
+	  	        			companyDetailsObj["PanNumber"] =largeLoad[i].panNumber;
+	  	        		}
+	  	        		if(!!largeLoad[i].tinNumber){
+	  	        			companyDetailsObj["TinNumber"] =largeLoad[i].tinNumber;
+	  	        		}
+	  	        		if(!!largeLoad[i].vatNumber){
+	  	        			companyDetailsObj["VatNumber"] =largeLoad[i].vatNumber;
+	  	        		}
 	  	        		companyDetails.push(companyDetailsObj);
 	  	        	  }
 	  	            $scope.setPagingData(companyDetails, page, pageSize);
@@ -156,7 +228,40 @@
 	  	      pagingOptions: $scope.pagingOptions,
 	  	      filterOptions: $scope.filterOptions,
 	  	      multiSelect: false,
-	  	      gridFooterHeight:35
+	  	      gridFooterHeight:35,
+	  	      columnDefs : [ {
+					field : "Company_Name",
+					displayName:"Company_Name"
+				}, {
+					field : "Address",
+					displayName:"Address"
+				}, {
+					field : "City",
+					displayName:"City"
+				}, {
+					field : "Contact_Number",
+					displayName:"Contact_Number"
+				}
+				, {
+					field : "Email_Id",
+					displayName:"Email_Id"
+				}, {
+					field : "Total_Branches",
+					displayName:"Total_Branches"
+				}
+				, {
+					field : "Total_Technicians",
+					displayName:"Total_Technicians"
+				}
+				, {
+					field : "Total_Lifts",
+					displayName:"Total_Lifts"
+				},{
+					cellTemplate :  
+			             '<button ng-click="$event.stopPropagation(); editCompanyDetails(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
+					width : 30
+				}
+				]
 	  	    };
 		
 	}]);

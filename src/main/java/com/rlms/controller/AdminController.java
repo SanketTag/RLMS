@@ -476,5 +476,38 @@ public class AdminController extends BaseController{
 	        }
 	 
 	        return reponseDto;
-	  }	
+	  }
+		 /*@RequestMapping(value = "/getAllCompanyDetails", method = RequestMethod.POST)
+		    public @ResponseBody List<CompanyDtlsDTO> getAllCompanyDetails() throws RunTimeException {
+		        List<CompanyDtlsDTO> listOfApplicableCompaniesDetails = null;
+		        
+		        try{
+		        	logger.info("Method :: getAllCompanyDetails");
+		        	listOfApplicableCompaniesDetails =  this.companyService.getAllCompanyDetails(this.getMetaInfo());
+		        	
+		        }catch(Exception e){
+		        	logger.error(ExceptionUtils.getFullStackTrace(e));
+		        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+		        }
+		 
+		        return listOfApplicableCompaniesDetails;
+		    }*/
+	 @RequestMapping(value = "/updateCompany", method = RequestMethod.POST)
+	    public @ResponseBody ResponseDto updateCompany(@RequestBody CompanyDtlsDTO companyDtlsDTO) throws RunTimeException, ValidationException {
+	        System.out.println("Updating Company");
+	        ResponseDto reponseDto = new ResponseDto();
+	        try{
+	        	logger.info("In updateCompany method");
+	        	reponseDto.setResponse(this.companyService.validateAndUpdateCompanyObj(companyDtlsDTO, this.getMetaInfo()));
+	        	
+	        }catch(ValidationException vex){
+	        	logger.error(ExceptionUtils.getFullStackTrace(vex));	        	
+	        	throw vex;
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));	       	
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
+	    }
 }

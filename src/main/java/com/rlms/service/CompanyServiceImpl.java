@@ -150,6 +150,14 @@ public class CompanyServiceImpl implements CompanyService{
 			companyDto.setCity(rlmsCompanyMaster.getCity());
 			companyDto.setPinCode(rlmsCompanyMaster.getPincode());
 			
+			companyDto.setOwnerName(rlmsCompanyMaster.getOwnerNAme());
+			companyDto.setOwnerNumber(rlmsCompanyMaster.getOwnerNumber());
+			companyDto.setOwnerEmail(rlmsCompanyMaster.getOwnerEmailId());
+			companyDto.setPanNumber(rlmsCompanyMaster.getPanNumber());
+			companyDto.setTinNumber(rlmsCompanyMaster.getTinNumber());
+			companyDto.setVatNumber(rlmsCompanyMaster.getVatNumber());
+			companyDto.setCompanyId(rlmsCompanyMaster.getCompanyId());
+			
 			//Get All branches for company
 			List<BranchDtlsDto> listOfDtos = new ArrayList<BranchDtlsDto>();
 			List<RlmsCompanyBranchMapDtls> listOfAllBranches = this.branchDao.getAllBranchesForCopanies(listOFCompanyIds);
@@ -376,4 +384,38 @@ public class CompanyServiceImpl implements CompanyService{
 	public RlmsCompanyRoleMap getCompanyRole(Integer companyId, Integer spocRoleId){
 		return this.companyDao.getCompanyRole(companyId, spocRoleId);
 	}*/
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String validateAndUpdateCompanyObj(CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo) throws ValidationException{
+		String statusMesage = null;
+		RlmsCompanyMaster companyMaster=this.getCompanyById(companyDtlsDTO.getCompanyId());
+		this.constructCompanyForUpdate(companyMaster,companyDtlsDTO, metaInfo);
+		this.updateCompanyM(companyMaster);
+		statusMesage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPANY_UPDATE_SUCCESFUL.getMessage());
+		return statusMesage;
+	}
+	
+	private RlmsCompanyMaster constructCompanyForUpdate(RlmsCompanyMaster companyMaster, CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo){
+		companyMaster.setCompanyName(companyDtlsDTO.getCompanyName());
+		companyMaster.setAddress(companyDtlsDTO.getAddress());
+		companyMaster.setContactNumber(companyDtlsDTO.getContactNumber());
+		companyMaster.setEmailId(companyDtlsDTO.getEmailId());
+		companyMaster.setPanNumber(companyDtlsDTO.getPanNumber());
+		companyMaster.setTinNumber(companyDtlsDTO.getTinNumber());
+		companyMaster.setVatNumber(companyDtlsDTO.getVatNumber());
+		companyMaster.setCity(companyDtlsDTO.getCity());
+		companyMaster.setArea(companyDtlsDTO.getArea());
+		companyMaster.setPincode(companyDtlsDTO.getPinCode());
+		companyMaster.setOwnerNAme(companyDtlsDTO.getOwnerName());
+		companyMaster.setOwnerNumber(companyDtlsDTO.getOwnerNumber());
+		companyMaster.setOwnerEmailId(companyDtlsDTO.getOwnerEmail());
+		companyMaster.setUpdatedDate(new Date());
+		companyMaster.setUpdatedBy(metaInfo.getUserId());
+		return companyMaster;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void updateCompanyM(RlmsCompanyMaster rlmsCompanyMaster){
+		this.companyDao.updateCompanyM(rlmsCompanyMaster);
+	}
 }

@@ -34,4 +34,6 @@ public interface CompanyService {
 	public List<Integer> getListOfApplicableBranch(Integer userRoleId, UserMetaInfo metaInfo);
 	
 	public List<CompanyDtlsDTO> getAllCompanyDetails(UserMetaInfo metaInfo);
+	
+	public String validateAndUpdateCompanyObj(CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo) throws ValidationException;
 }

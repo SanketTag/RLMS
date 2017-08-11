@@ -10,13 +10,19 @@
 		  <div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label">First Name</label>
 				<div class="col-sm-6">
-					<input name="firstname" type="text" placeholder="First Name" ng-model="editUser.firstName" class="form-control">
+					<input name="firstname" type="text" required placeholder="Required Field" ng-model="editUser.firstName" class="form-control">
+					<span class="help-block"
+						ng-show="addUserForm.firstname.$error.required && addUserForm.firstname.$dirty">This
+						field is required</span>
 				</div>
 			</div>
 			 <div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label">Last Name</label>
 				<div class="col-sm-6">
-					<input name="lastName" type="text" placeholder="Last Name" ng-model="editUser.lastName" class="form-control">
+					<input name="lastName" type="text" required placeholder="Required Field" ng-model="editUser.lastName" class="form-control">
+					<span class="help-block"
+						ng-show="addUserForm.lastName.$error.required && addUserForm.lastName.$dirty">This
+						field is required</span>
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
@@ -28,7 +34,10 @@
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label">Contact Number</label>
 				<div class="col-sm-6">
-					<input name="contactnumber" type="text" placeholder="Contact Number" ng-model="editUser.contactnumber" class="form-control">
+					<input name="contactnumber" required type="text" placeholder="Required Field" ng-model="editUser.contactnumber" class="form-control">
+					<span class="help-block"
+						ng-show="addUserForm.contactnumber.$error.required && addUserForm.contactnumber.$dirty">This
+						field is required</span>
 				</div>
 			</div><div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label">Address</label>
@@ -69,7 +78,10 @@
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label">Email Id</label>
 				<div class="col-sm-6">
-					<input name="emailid" type="text" placeholder="Email Id" ng-model="editUser.emailid" class="form-control">
+					<input name="emailid" type="text" required placeholder="Required Field" ng-model="editUser.emailid" class="form-control">
+					<span class="help-block"
+						ng-show="addUserForm.emailid.$error.required && addUserForm.emailid.$dirty">This
+						field is required</span>
 				</div>
 			</div>
 		 </fieldset>

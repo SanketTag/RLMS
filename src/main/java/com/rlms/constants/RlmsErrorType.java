@@ -38,7 +38,8 @@ public enum RlmsErrorType {
 	INCOMPLETE_DATA(39,"incomplete_data"),
 	VISIT_UPDATED_SUCCESS(40,"visit_updated_success"),
 	USERNAME_ALREADY_USED(40,"username_already_used"),
-	USER_ALREADY_REGISTERED_SYSTEM(42,"user_already_registered_system");
+	USER_ALREADY_REGISTERED_SYSTEM(42,"user_already_registered_system"),
+	COMPANY_UPDATE_SUCCESFUL(43,"company_update_succesful");
 	
 	private Integer code;
 	private String message;

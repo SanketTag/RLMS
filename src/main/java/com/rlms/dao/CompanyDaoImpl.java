@@ -71,6 +71,10 @@ public class CompanyDaoImpl implements CompanyDao{
 		return  companyBranchMapDtls;
 	}
 	
+	public void updateCompanyM(RlmsCompanyMaster rlmsCompanyMaster){
+		this.sessionFactory.getCurrentSession().update(rlmsCompanyMaster);
+	}
+	
 	/*@SuppressWarnings("unchecked")
 	public RlmsCompanyRoleMap getCompanyRole(Integer companyId, Integer spocRoleId){
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(RlmsCompanyRoleMap.class);

@@ -14,6 +14,6 @@ public interface CompanyDao {
 	public List<RlmsCompanyMaster> getAllCompanies(Integer companyId);
 	public RlmsCompanyMaster getCompanyById(Integer companyId);
 	public RlmsCompanyBranchMapDtls getCompanyBranchMapById(Integer companyBranchMapId);
-	
+	public void updateCompanyM(RlmsCompanyMaster rlmsCompanyMaster);
 	//public RlmsCompanyRoleMap getCompanyRole(Integer companyId, Integer spocRoleId);
 }

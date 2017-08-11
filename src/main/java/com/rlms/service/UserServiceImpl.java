@@ -541,22 +541,17 @@ public class UserServiceImpl implements UserService {
 	public String validateAndEditUser(UserDtlsDto userDto, UserMetaInfo metaInfo)
 			throws ValidationException {
 		String statusMessage = "User updated successfully";
-		RlmsUsersMaster userMaster = this.userMasterDao.getUserByUserId(userDto.getUserId());
-		if(!StringUtils.isEmpty(userDto.getFirstName())){
-			userMaster.setFirstName(userDto.getFirstName());
-		}if(!StringUtils.isEmpty(userDto.getLastName())){
-			userMaster.setLastName(userDto.getLastName());
-		}if(!StringUtils.isEmpty(userDto.getAddress())){
-			userMaster.setAddress(userDto.getAddress());
-		}if(!StringUtils.isEmpty(userDto.getContactNumber())){
-			userMaster.setContactNumber(userDto.getContactNumber());
-		}if(!StringUtils.isEmpty(userDto.getEmailId())){
-			userMaster.setEmailId(userDto.getEmailId());
-		}if(!StringUtils.isEmpty(userDto.getCity())){
-			userMaster.setCity(userDto.getCity());
-		}
+		RlmsUsersMaster userMaster = this.userMasterDao.getUserByUserId(userDto
+				.getUserId());
+		userMaster.setFirstName(userDto.getFirstName());
+		userMaster.setLastName(userDto.getLastName());
+		userMaster.setAddress(userDto.getAddress());
+		userMaster.setContactNumber(userDto.getContactNumber());
+		userMaster.setEmailId(userDto.getEmailId());
+		userMaster.setCity(userDto.getCity());
+		userMaster.setUpdatedDate(new Date());
+		userMaster.setUpdatedBy(metaInfo.getUserId());
 		this.userMasterDao.updateUser(userMaster);
-		
 		return statusMessage;
 
 	}
