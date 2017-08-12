@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('userManagement', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
+	.controller('userManagement', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope','$timeout','$window', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope,$timeout,$window) {
 		loadCompanyData();
 		 $scope.selectedCompany={};
 		 $scope.showTable = false;
@@ -11,6 +11,8 @@
 		$scope.editUser =function(){
 			window.location.hash = "#/edit-user";
 		};
+		$scope.alert = { type: 'success', msg: 'You successfully Deleted User.',close:true };
+		$scope.showAlert = false;
 		$rootScope.editUser={};
 		$scope.editThisUser=function(row){
 			var fullName=row.Name.replace(/-/g, '').split(" ");
@@ -27,32 +29,33 @@
 			$rootScope.editUser.role=row.Role.replace(/-/g, '');
 			$rootScope.editUser.emailid=row.Email_Id.replace(/-/g, '');
 			window.location.hash = "#/edit-user";
-			/*
-			$rootScope.editComplaint.complaintsNumber=row.Number.replace(/-/g, '');
-			$rootScope.editComplaint.complaintsTitle=row.Title.replace(/-/g, '');
-			$rootScope.editComplaint.complaintsAddress=row.Address.replace(/-/g, '');
-			$rootScope.editComplaint.complaintsCity=row.City.replace(/-/g, '');
-			$rootScope.editComplaint.regDate=row.Registration_Date;
-			$rootScope.editComplaint.serviceEndDate=row.Service_End_Date;
-			$rootScope.editComplaint.serviceStartDate=row.Service_StartDate;
-			$rootScope.selectedComplaintStatus=row.Status;
-			//$rootScope.editComplaint.complaintsStatus=row.Status.replace(/-/g, '');
-			var dataToSend ={
-					complaintId:row.Number
-			}
-			serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
-			.then(function(data) {
-				$rootScope.techniciansForEditComplaints = data;
-				var technicianArray=$rootScope.techniciansForEditComplaints;
-				technicianArray.forEach(function(technician) {
-					if(row.Technician.includes(technician.name)){
-						$rootScope.selectedTechnician=technician;
-					}
-				});
-				window.location.hash = "#/edit-complaint";
-			});*/
 		};
-		
+		$scope.deleteUserDetails=function(row){
+			var deleteUser = $window.confirm('Are you sure you want to delete the user');
+			if(deleteUser){
+				var userData = {};
+				userData = {
+						userId:row.Id
+				};
+				serviceApi.doPostWithData("/RLMS/admin/deleteUser",userData)
+				.then(function(response){
+					$scope.loadUsersInfo();
+					$scope.showAlert = true;
+					var key = Object.keys(response);
+					var successMessage = response[key[0]];
+					$scope.alert.msg = successMessage;
+					$scope.alert.type = "success";
+					$timeout(function() {
+						$scope.showAlert=false;
+					}, 5000);
+				},function(error){
+					$scope.showAlert = true;
+					$scope.alert.msg = error.exceptionMessage;
+					$scope.alert.type = "danger";
+				});
+			}
+			
+		};
 		$scope.showCompany = false;
 		
 		function loadCompanyData(){
@@ -297,6 +300,10 @@
 			},{
 				cellTemplate :  
 		             '<button ng-click="$event.stopPropagation(); editThisUser(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
+				width : 30
+			},{
+				cellTemplate :  
+		             '<button ng-click="$event.stopPropagation(); deleteUserDetails(row.entity);" title="Delete" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-remove"></span></button>',
 				width : 30
 			}
 			]

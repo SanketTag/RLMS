@@ -17,6 +17,7 @@ import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
 import com.rlms.contract.AddNewUserDto;
+import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.RegisterDto;
 import com.rlms.contract.UserDtlsDto;
 import com.rlms.contract.UserMetaInfo;
@@ -554,6 +555,14 @@ public class UserServiceImpl implements UserService {
 		this.userMasterDao.updateUser(userMaster);
 		return statusMessage;
 
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String deleteUserObj(UserDtlsDto dto, UserMetaInfo metaInfo){
+		String statusMesage = null;
+		this.userMasterDao.deleteUser(dto,metaInfo);
+		statusMesage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPANY_DELETE_SUCCESFUL.getMessage());
+		return statusMesage;
 	}
 
 }

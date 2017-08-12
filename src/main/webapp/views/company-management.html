@@ -8,6 +8,8 @@
 	</div>
 		
 	<div class="container-fluid" >
+	<alert ng-show="showAlert" type="{{alert.type}}"> <span
+				ng-bind-html="alert.msg | safe_html"></alert>
 	<h5 class="rlms-info"><span class="fa fa-info-circle"></span>Following is the list of registered companies</h5>
 		<div class="row">
 	      <div class="col-md-12">		

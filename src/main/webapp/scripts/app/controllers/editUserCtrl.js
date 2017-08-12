@@ -38,15 +38,6 @@
 		    });
 		};
 		
-		/*$rootScope.editUser.userId=row.Id;
-		$rootScope.editUser.name=row.Name.replace(/-/g, '');
-		$rootScope.editUser.company=row.Company.replace(/-/g, '');
-		$rootScope.editUser.contactnumber=row.Contact_Number.replace(/-/g, '');
-		$rootScope.editUser.address=row.Address.replace(/-/g, '');
-		$rootScope.editUser.city=row.City.replace(/-/g, '');
-		$rootScope.editUser.branch=row.Branch.replace(/-/g, '');
-		$rootScope.editUser.role=row.Role.replace(/-/g, '');
-		$rootScope.editUser.emailid=row.Email_Id.replace(/-/g, '');*/
 		$scope.submitEditUser = function(){
 			var userData = {};
 			userData = {

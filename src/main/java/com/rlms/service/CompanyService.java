@@ -36,4 +36,6 @@ public interface CompanyService {
 	public List<CompanyDtlsDTO> getAllCompanyDetails(UserMetaInfo metaInfo);
 	
 	public String validateAndUpdateCompanyObj(CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo) throws ValidationException;
+	
+	public String validateAndDeleteCompanyObj(CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo) throws ValidationException;
 }

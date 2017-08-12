@@ -418,4 +418,17 @@ public class CompanyServiceImpl implements CompanyService{
 	public void updateCompanyM(RlmsCompanyMaster rlmsCompanyMaster){
 		this.companyDao.updateCompanyM(rlmsCompanyMaster);
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String validateAndDeleteCompanyObj(CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo) throws ValidationException{
+		String statusMesage = null;
+		this.deleteCompanyM(companyDtlsDTO,metaInfo);
+		statusMesage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPANY_DELETE_SUCCESFUL.getMessage());
+		return statusMesage;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void deleteCompanyM(CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo){
+		this.companyDao.deleteCompanyM(companyDtlsDTO,metaInfo);
+	}
 }

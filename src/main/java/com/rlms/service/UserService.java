@@ -5,6 +5,7 @@ import java.security.InvalidKeyException;
 import java.util.List;
 
 import com.rlms.contract.AddNewUserDto;
+import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.RegisterDto;
 import com.rlms.contract.UserDtlsDto;
 import com.rlms.contract.UserMetaInfo;
@@ -61,4 +62,5 @@ public interface UserService {
 	
 	public String validateAndEditUser(UserDtlsDto userDto, UserMetaInfo metaInfo)
 			throws ValidationException;
+	public String deleteUserObj(UserDtlsDto dto, UserMetaInfo metaInfo);
 }

@@ -1,10 +1,12 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('companyManagement', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
+	.controller('companyManagement', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope','$window','$timeout', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope,$window,$timeout) {
 		$scope.goToAddCompany =function(){
 			window.location.hash = "#/add-company";
 		};
+		$scope.alert = { type: 'success', msg: 'You successfully Deleted Company.',close:true };
+		$scope.showAlert = false;
 		//-------Company Details Table---------
 	    $scope.filterOptions = {
 	  	      filterText: '',
@@ -41,6 +43,32 @@
 	  		$rootScope.editCompany.tinNumber=row.TinNumber;
 	  		$rootScope.editCompany.vatNumber=row.VatNumber;
 			window.location.hash = "#/edit-company";
+			};
+			$scope.deleteCompanyDetails=function(row){
+				var deleteCompany = $window.confirm('Are you sure you want to delete the company');
+				if(deleteCompany){
+					var companyData = {};
+					companyData = {
+							companyId:row.CompanyId
+					};
+					serviceApi.doPostWithData("/RLMS/admin/deleteCompany",companyData)
+					.then(function(response){
+						$scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
+						$scope.showAlert = true;
+						var key = Object.keys(response);
+						var successMessage = response[key[0]];
+						$scope.alert.msg = successMessage;
+						$scope.alert.type = "success";
+						$timeout(function() {
+							$scope.showAlert=false
+						}, 5000);
+					},function(error){
+						$scope.showAlert = true;
+						$scope.alert.msg = error.exceptionMessage;
+						$scope.alert.type = "danger";
+					});
+				}
+				
 			};
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
 	  	      setTimeout(function() {
@@ -259,6 +287,10 @@
 				},{
 					cellTemplate :  
 			             '<button ng-click="$event.stopPropagation(); editCompanyDetails(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
+					width : 30
+				},{
+					cellTemplate :  
+			             '<button ng-click="$event.stopPropagation(); deleteCompanyDetails(row.entity);" title="Delete" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-remove"></span></button>',
 					width : 30
 				}
 				]

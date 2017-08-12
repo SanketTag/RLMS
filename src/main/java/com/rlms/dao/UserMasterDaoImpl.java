@@ -1,8 +1,10 @@
 package com.rlms.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
@@ -11,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rlms.constants.RLMSConstants;
+import com.rlms.contract.CompanyDtlsDTO;
+import com.rlms.contract.UserDtlsDto;
+import com.rlms.contract.UserMetaInfo;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.model.RlmsUsersMaster;
 
@@ -88,6 +93,13 @@ UserMasterDao{
 		this.sessionFactory.getCurrentSession().merge(rlmsUserRoles);
 	}
 	
-
+	public void deleteUser(UserDtlsDto dto, UserMetaInfo metaInfo){
+		Query q = this.sessionFactory.getCurrentSession().createQuery("update RlmsUsersMaster set activeFlag=:activeFlag,updatedDate=:updatedDate,updatedBy=:updatedBy where userId=:userId");
+		q.setParameter("userId", dto.getUserId());
+		q.setParameter("activeFlag", RLMSConstants.INACTIVE.getId());
+		q.setParameter("updatedDate", new Date());
+		q.setParameter("updatedBy", metaInfo.getUserId());
+		q.executeUpdate();
+	}
 	
 }

@@ -1,17 +1,20 @@
 package com.rlms.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rlms.constants.RLMSConstants;
+import com.rlms.contract.CompanyDtlsDTO;
+import com.rlms.contract.UserMetaInfo;
 import com.rlms.model.RlmsCompanyBranchMapDtls;
 import com.rlms.model.RlmsCompanyMaster;
-import com.rlms.model.RlmsCompanyRoleMap;
 
 @Repository("companyDao")
 public class CompanyDaoImpl implements CompanyDao{
@@ -73,6 +76,16 @@ public class CompanyDaoImpl implements CompanyDao{
 	
 	public void updateCompanyM(RlmsCompanyMaster rlmsCompanyMaster){
 		this.sessionFactory.getCurrentSession().update(rlmsCompanyMaster);
+	}
+	
+	public void deleteCompanyM(CompanyDtlsDTO companyDtlsDTO,UserMetaInfo metaInfo){
+		Query q = this.sessionFactory.getCurrentSession().createQuery("update RlmsCompanyMaster set activeFlag=:activeFlag,status=:status,updatedDate=:updatedDate,updatedBy=:updatedBy where companyId=:companyId");
+		q.setParameter("companyId", companyDtlsDTO.getCompanyId());
+		q.setParameter("activeFlag", RLMSConstants.INACTIVE.getId());
+		q.setParameter("status", RLMSConstants.INACTIVE.getId());
+		q.setParameter("updatedDate", new Date());
+		q.setParameter("updatedBy", metaInfo.getUserId());
+		q.executeUpdate();
 	}
 	
 	/*@SuppressWarnings("unchecked")

@@ -477,21 +477,21 @@ public class AdminController extends BaseController{
 	 
 	        return reponseDto;
 	  }
-		 /*@RequestMapping(value = "/getAllCompanyDetails", method = RequestMethod.POST)
-		    public @ResponseBody List<CompanyDtlsDTO> getAllCompanyDetails() throws RunTimeException {
-		        List<CompanyDtlsDTO> listOfApplicableCompaniesDetails = null;
-		        
-		        try{
-		        	logger.info("Method :: getAllCompanyDetails");
-		        	listOfApplicableCompaniesDetails =  this.companyService.getAllCompanyDetails(this.getMetaInfo());
-		        	
-		        }catch(Exception e){
-		        	logger.error(ExceptionUtils.getFullStackTrace(e));
-		        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
-		        }
-		 
-		        return listOfApplicableCompaniesDetails;
-		    }*/
+	 
+	 @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+	    public @ResponseBody ResponseDto deleteUser(@RequestBody UserDtlsDto dto) throws RunTimeException, ValidationException {
+		 ResponseDto reponseDto = new ResponseDto();
+	        
+	        try{
+	        	logger.info("Method :: deleteUser");
+	        	reponseDto.setResponse(this.userService.deleteUserObj(dto, this.getMetaInfo()));
+	        	
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	        return reponseDto;
+	  }
 	 @RequestMapping(value = "/updateCompany", method = RequestMethod.POST)
 	    public @ResponseBody ResponseDto updateCompany(@RequestBody CompanyDtlsDTO companyDtlsDTO) throws RunTimeException, ValidationException {
 	        System.out.println("Updating Company");
@@ -499,6 +499,25 @@ public class AdminController extends BaseController{
 	        try{
 	        	logger.info("In updateCompany method");
 	        	reponseDto.setResponse(this.companyService.validateAndUpdateCompanyObj(companyDtlsDTO, this.getMetaInfo()));
+	        	
+	        }catch(ValidationException vex){
+	        	logger.error(ExceptionUtils.getFullStackTrace(vex));	        	
+	        	throw vex;
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));	       	
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
+	    }
+	 
+	 @RequestMapping(value = "/deleteCompany", method = RequestMethod.POST)
+	    public @ResponseBody ResponseDto deleteCompany(@RequestBody CompanyDtlsDTO companyDtlsDTO) throws RunTimeException, ValidationException {
+	        System.out.println("Deleting Company");
+	        ResponseDto reponseDto = new ResponseDto();
+	        try{
+	        	logger.info("In deleteCompany method");
+	        	reponseDto.setResponse(this.companyService.validateAndDeleteCompanyObj(companyDtlsDTO, this.getMetaInfo()));
 	        	
 	        }catch(ValidationException vex){
 	        	logger.error(ExceptionUtils.getFullStackTrace(vex));	        	
