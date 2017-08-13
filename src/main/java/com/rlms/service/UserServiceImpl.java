@@ -550,6 +550,8 @@ public class UserServiceImpl implements UserService {
 		userMaster.setContactNumber(userDto.getContactNumber());
 		userMaster.setEmailId(userDto.getEmailId());
 		userMaster.setCity(userDto.getCity());
+		userMaster.setArea(userDto.getArea());
+		userMaster.setPincode(userDto.getPinCode());
 		userMaster.setUpdatedDate(new Date());
 		userMaster.setUpdatedBy(metaInfo.getUserId());
 		this.userMasterDao.updateUser(userMaster);
