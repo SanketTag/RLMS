@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ListResourceBundle;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -13,8 +14,10 @@ import org.springframework.stereotype.Repository;
 
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.Status;
+import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.SiteVisitReportDto;
 import com.rlms.contract.TechnicianWiseReportDTO;
+import com.rlms.contract.UserMetaInfo;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsSiteVisitDtls;
@@ -233,5 +236,12 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 	@Override
 	public void updateComplaintsMatser(RlmsComplaintMaster complaintMaster) {
 		this.sessionFactory.getCurrentSession().update(complaintMaster);
+	}
+	
+	@Override
+	public void deleteComplaintsTechMap(Integer complaintsTechMapId){
+		Query q = this.sessionFactory.getCurrentSession().createQuery("delete RlmsComplaintTechMapDtls where complaintTechMapId=:complaintTechMapId");
+		q.setParameter("complaintTechMapId", complaintsTechMapId);
+		q.executeUpdate();
 	}
 }

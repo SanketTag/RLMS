@@ -3,7 +3,7 @@
 	angular.module('rlmsApp')
 	.controller('editComplaintCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window','$rootScope','$modal', function($scope, $filter,serviceApi,$route,utility,$window,$rootScope,$modal) {
 			//loadCompayInfo();
-			$scope.alert = { type: 'success', msg: 'You successfully Added Complaint.',close:true };
+			$scope.alert = { type: 'success', msg: 'You successfully Edited Complaint.',close:true };
 			$scope.showAlert = false;
 	
 			$scope.editFlag={
@@ -23,6 +23,12 @@
 			$scope.submitEditComplaint = function(){
 				$scope.selectedTechnician;
 				var complaintsData = {};
+				var userRole;
+				var userName;
+				if($scope.selectedTechnician){
+					userRole=$scope.selectedTechnician.userRoleId;
+					userName=$scope.selectedTechnician.name;
+				}
 				complaintsData = {
 						 complaintNumber:$scope.editComplaint.complaintsNumber,
 						 complaintId:$scope.editComplaint.complaintsNumber,
@@ -32,8 +38,8 @@
 						 liftAddress:$scope.editComplaint.complaintsAddress + $scope.editComplaint.complaintsCity,
 						 status:$scope.selectedComplaintStatus,
 						 title:$scope.editComplaint.complaintsTitle,
-						 technicianDtls:$scope.selectedTechnician.name,
-						 userRoleId:$scope.selectedTechnician.userRoleId
+						 technicianDtls:userName,
+						 userRoleId:userRole
 				};
 				serviceApi.doPostWithData("/RLMS/complaint/validateAndUpdateComplaint",complaintsData)
 				.then(function(response){

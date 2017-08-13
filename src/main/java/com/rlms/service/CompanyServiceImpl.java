@@ -296,6 +296,7 @@ public class CompanyServiceImpl implements CompanyService{
 		for (Integer companyBranchMapId : listOFApplicableBranches) {
 			BranchDtlsDto branchDtlsDto = new BranchDtlsDto();
 			RlmsCompanyBranchMapDtls rlmsCompanyBranchMapDtls = this.branchDao.getCompanyBranchMapDtls(companyBranchMapId);
+			branchDtlsDto.setId(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchId());
 			branchDtlsDto.setBranchName(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchName());
 			branchDtlsDto.setBranchAddress(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchAddress());
 			branchDtlsDto.setArea(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getArea());

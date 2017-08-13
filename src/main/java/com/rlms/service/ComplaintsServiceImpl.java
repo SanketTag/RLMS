@@ -542,33 +542,51 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	public String validateAndUpdateComplaint(ComplaintsDto complaintsDto,
 			UserMetaInfo metaInfo) throws ValidationException, ParseException {
 		RlmsComplaintTechMapDtls complaintTechMapDtls = this.complaintsDao.getComplTechMapByComplaintId(complaintsDto.getComplaintId());
-		RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(complaintsDto.getUserRoleId());
-		complaintTechMapDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
-		complaintTechMapDtls.setStatus(Status.ASSIGNED.getStatusId());
-		complaintTechMapDtls.setUpdatedBy(metaInfo.getUserId());
-		complaintTechMapDtls.setUpdatedDate(new Date());
-		complaintTechMapDtls.setUserRoles(userRoles);
-		if(complaintsDto.getRegistrationDateStr()!=null && !(" - ".equals(complaintsDto.getRegistrationDateStr()))){
-			complaintTechMapDtls.getComplaintMaster().setRegistrationDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getRegistrationDateStr()));
-		}if(complaintsDto.getServiceStartDateStr()!=null && !(" - ".equals(complaintsDto.getServiceStartDateStr()))){
-			complaintTechMapDtls.getComplaintMaster().setServiceStartDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getServiceStartDateStr()));
-		}if(complaintsDto.getActualServiceEndDateStr()!=null && !(" - ".equals(complaintsDto.getActualServiceEndDateStr()))){
-			complaintTechMapDtls.getComplaintMaster().setActualServiceEndDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getActualServiceEndDateStr()));
+		if(null==complaintTechMapDtls && "Assigned".equalsIgnoreCase(complaintsDto.getStatus()) && null!=complaintsDto.getUserRoleId()){
+			this.assignComplaint(complaintsDto, metaInfo);
+		}else{			
+			RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDto.getComplaintId());			
+			if(complaintsDto.getRegistrationDateStr()!=null && !(" - ".equals(complaintsDto.getRegistrationDateStr()))){
+				complaintMaster.setRegistrationDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getRegistrationDateStr()));
+			}if(complaintsDto.getServiceStartDateStr()!=null && !(" - ".equals(complaintsDto.getServiceStartDateStr()))){
+				complaintMaster.setServiceStartDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getServiceStartDateStr()));
+			}if(complaintsDto.getActualServiceEndDateStr()!=null && !(" - ".equals(complaintsDto.getActualServiceEndDateStr()))){
+				complaintMaster.setActualServiceEndDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getActualServiceEndDateStr()));
+			}
+			complaintMaster.setTitle(complaintsDto.getTitle());
+			if("Assigned".equalsIgnoreCase(complaintsDto.getStatus()) && null!=complaintsDto.getUserRoleId()){
+				complaintMaster.setStatus(Status.ASSIGNED.getStatusId());		
+			}else if("Pending".equalsIgnoreCase(complaintsDto.getStatus())){
+				complaintMaster.setStatus(Status.PENDING.getStatusId());
+				if(null!=complaintTechMapDtls){
+					deleteComplaintsTechMapDetails(complaintTechMapDtls.getComplaintTechMapId());
+				}
+			}else if("Completed".equalsIgnoreCase(complaintsDto.getStatus()) && null!=complaintsDto.getUserRoleId()){
+				complaintMaster.setStatus(Status.COMPLETED.getStatusId());
+			}else if("In Progress".equalsIgnoreCase(complaintsDto.getStatus()) && null!=complaintsDto.getUserRoleId()){
+				complaintMaster.setStatus(Status.INPROGESS.getStatusId());
+			}
+			complaintMaster.setUpdatedBy(metaInfo.getUserId());
+			complaintMaster.setUpdatedDate(new Date());
+			if(null!=complaintTechMapDtls && !"Pending".equalsIgnoreCase(complaintsDto.getStatus())){
+				complaintTechMapDtls.setUpdatedBy(metaInfo.getUserId());
+				complaintTechMapDtls.setUpdatedDate(new Date());
+				RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(complaintsDto.getUserRoleId());
+				complaintTechMapDtls.setUserRoles(userRoles);
+				complaintTechMapDtls.setComplaintMaster(complaintMaster);
+				this.complaintsDao.updateComplaints(complaintTechMapDtls);
+				
+			}else{
+				this.complaintsDao.updateComplaintsMatser(complaintMaster);
+			}
 		}
-		complaintTechMapDtls.getComplaintMaster().setTitle(complaintsDto.getTitle());
-		if("Assigned".equalsIgnoreCase(complaintsDto.getStatus())){
-			complaintTechMapDtls.getComplaintMaster().setStatus(Status.ASSIGNED.getStatusId());		
-		}else if("Pending".equalsIgnoreCase(complaintsDto.getStatus())){
-			complaintTechMapDtls.getComplaintMaster().setStatus(Status.PENDING.getStatusId());
-		}else if("Completed".equalsIgnoreCase(complaintsDto.getStatus())){
-			complaintTechMapDtls.getComplaintMaster().setStatus(Status.COMPLETED.getStatusId());
-		}else if("In Progress".equalsIgnoreCase(complaintsDto.getStatus())){
-			complaintTechMapDtls.getComplaintMaster().setStatus(Status.INPROGESS.getStatusId());
-		}
-		complaintTechMapDtls.getComplaintMaster().setUpdatedBy(metaInfo.getUserId());
-		complaintTechMapDtls.getComplaintMaster().setUpdatedDate(new Date());
-		this.complaintsDao.updateComplaints(complaintTechMapDtls);
+		
 		String statusMessage = PropertyUtils.getPrpertyFromContext("Complaint Updated Successfully");
 		return statusMessage;
+		
+	}
+	@Transactional(propagation = Propagation.REQUIRED)
+	private void deleteComplaintsTechMapDetails(Integer complaintTechMapId) {
+		this.complaintsDao.deleteComplaintsTechMap(complaintTechMapId);
 	}	
 }

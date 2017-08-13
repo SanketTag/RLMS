@@ -27,4 +27,5 @@ public interface ComplaintsDao {
 	public List<RlmsComplaintTechMapDtls> getListOfComplaintDtlsForTechies(TechnicianWiseReportDTO dto);
 	public void updateComplaints(RlmsComplaintTechMapDtls complaintTechMapDtls);
 	public void updateComplaintsMatser(RlmsComplaintMaster complaintMaster);
+	public void deleteComplaintsTechMap(Integer complaintsTechMapId);
 }

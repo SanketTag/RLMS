@@ -15,6 +15,17 @@
 		    		$scope.companies = response;
 		    });
 		}
+		$rootScope.editBranch={};
+		$scope.editBranchDetails=function(row){
+			$rootScope.editBranch.branchId=row.Branch_Id;
+			$rootScope.editBranch.branchName=row.Branch_Name;
+			$rootScope.editBranch.branchAddress=row.Address;
+			$rootScope.editBranch.area=row.Area;
+			$rootScope.editBranch.city=row.City;
+			$rootScope.editBranch.pinCode=row.PinCode;
+			window.location.hash = "#/edit-branch";
+		};
+		
 		//-------Branch Details Table---------
 	    $scope.filterOptions = {
 	  	      filterText: '',
@@ -46,6 +57,16 @@
   					}
 	  	    	}
 	  	      setTimeout(function() {
+	  	    	var companyData ={};
+	  	    	if($scope.showCompany == true){
+	  	    		companyData = {
+  						companyId : $scope.selectedCompany.selected.companyId
+  					}
+	  	    	}else{
+	  	    		companyData = {
+  						companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+  					}
+	  	    	}
 	  	        var data;
 	  	        if (searchText) {
 	  	          var ft = searchText.toLowerCase();
@@ -54,13 +75,16 @@
 	  	        	  var branchDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var brachDetailsObj={};
-	  	        		brachDetailsObj["Branch Name"] =largeLoad[i].branchName;
+	  	        		brachDetailsObj["Branch_Id"] =largeLoad[i].id;
+	  	        		brachDetailsObj["Branch_Name"] =largeLoad[i].branchName;
 	  	        		brachDetailsObj["Address"] =largeLoad[i].branchAddress;
 	  	        		brachDetailsObj["City"] =largeLoad[i].city;
-	  	        		brachDetailsObj["Company Name"] =largeLoad[i].companyName;
-	  	        		brachDetailsObj["Number Of Technicians"] =largeLoad[i].numberOfTechnicians;
-	  	        		brachDetailsObj["Number Of Lifts"] =largeLoad[i].numberOfLifts;
-	  	        		branchDetails[i].push(brachDetailsObj);
+	  	        		brachDetailsObj["Company_Name"] =largeLoad[i].companyName;
+	  	        		brachDetailsObj["Number_Of_Technicians"] =largeLoad[i].numberOfTechnicians;
+	  	        		brachDetailsObj["Number_Of_Lifts"] =largeLoad[i].numberOfLifts;
+	  	        		brachDetailsObj["PinCode"] =largeLoad[i].pinCode;
+	  	        		brachDetailsObj["Area"] =largeLoad[i].area;
+	  	        		branchDetails.push(brachDetailsObj);
 	  	        	  }
 	  	            data = branchDetails.filter(function(item) {
 	  	              return JSON.stringify(item).toLowerCase().indexOf(ft) !== -1;
@@ -83,12 +107,15 @@
 	  	        	var branchDetails=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
 	  	        		var brachDetailsObj={};
+	  	        		brachDetailsObj["Branch_Id"] =largeLoad[i].id;
 	  	        		brachDetailsObj["Branch_Name"] =largeLoad[i].branchName;
 	  	        		brachDetailsObj["Address"] =largeLoad[i].branchAddress;
 	  	        		brachDetailsObj["City"] =largeLoad[i].city;
 	  	        		brachDetailsObj["Company_Name"] =largeLoad[i].companyName;
 	  	        		brachDetailsObj["Number_Of_Technicians"] =largeLoad[i].numberOfTechnicians;
 	  	        		brachDetailsObj["Number_Of_Lifts"] =largeLoad[i].numberOfLifts;
+	  	        		brachDetailsObj["PinCode"] =largeLoad[i].pinCode;
+	  	        		brachDetailsObj["Area"] =largeLoad[i].area;
 	  	        		branchDetails.push(brachDetailsObj);
 	  	        	  }
 	  	            $scope.setPagingData(branchDetails, page, pageSize);
@@ -124,7 +151,36 @@
 	  	      showFooter: true,
 	  	      totalServerItems: 'totalServerItems',
 	  	      pagingOptions: $scope.pagingOptions,
-	  	      filterOptions: $scope.filterOptions
+	  	      filterOptions: $scope.filterOptions,
+	  	      columnDefs : [ {
+					field : "Branch_Name",
+					displayName:"Branch_Name"
+				}, {
+					field : "Address",
+					displayName:"Address"
+				}, {
+					field : "City",
+					displayName:"City"
+				}, {
+					field : "Company_Name",
+					displayName:"Company_Name"
+				}
+				, {
+					field : "Number_Of_Technicians",
+					displayName:"Number_Of_Technicians"
+				}, {
+					field : "Number_Of_Lifts",
+					displayName:"Number_Of_Lifts"
+				}/*,{
+					cellTemplate :  
+			             '<button ng-click="$event.stopPropagation(); editBranchDetails(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
+					width : 30
+				},{
+					cellTemplate :  
+			             '<button ng-click="$event.stopPropagation(); deleteBranchDetails(row.entity);" title="Delete" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-remove"></span></button>',
+					width : 30
+				}*/
+				]
 	  	    };
 	}]);
 })();
