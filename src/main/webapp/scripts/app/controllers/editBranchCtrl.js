@@ -1,9 +1,9 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('editBranchCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$window', function($scope, $filter,serviceApi,$route,$http,utility,$window) {
+	.controller('editBranchCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$window','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$window,$rootScope) {
 		//initialize add Branch
-		$scope.alert = { type: 'success', msg: 'You successfully Added Branch.',close:true };
+		$scope.alert = { type: 'success', msg: 'You successfully Edited Branch.',close:true };
 		//loadBranchListInfo();
 		$scope.showAlert = false;
 		$scope.companies = [];
@@ -27,16 +27,23 @@
 		    });
 		};
 		//Post call add branch
-		$scope.submitAddBranch = function(){
-			$scope.addBranch.companyId = $scope.selectedCompany.selected.companyId;
-			serviceApi.doPostWithData("/RLMS/admin/addNewBranchInCompany",$scope.addBranch)
+		$scope.submitEditBranch = function(){
+			var branchData = {};
+			branchData = {
+					id:$rootScope.editBranch.branchId,
+					branchName:$scope.editBranch.branchName,
+					branchAddress:$scope.editBranch.branchAddress,
+					area:$scope.editBranch.area,
+					city:$scope.editBranch.city,
+					pinCode:$scope.editBranch.pinCode
+			};
+			serviceApi.doPostWithData("/RLMS/admin/editBranchInCompany",branchData)
 			.then(function(response){
 				$scope.showAlert = true;
 				var key = Object.keys(response);
 				var successMessage = response[key[0]];
 				$scope.alert.msg = successMessage;
 				$scope.alert.type = "success";
-				initAddBranch();
 				$scope.addBranchForm.$setPristine();
 				$scope.addBranchForm.$setUntouched();
 			},function(error){
@@ -47,7 +54,7 @@
 		}
 		//rese add branch
 		$scope.resetAddBranch = function(){
-			initAddBranch();
+			//initAddBranch();
 		}
 		$scope.backPage =function(){
 			 $window.history.back();

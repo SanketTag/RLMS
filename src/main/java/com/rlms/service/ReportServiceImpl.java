@@ -271,8 +271,8 @@ public class ReportServiceImpl implements ReportService {
 			Long totalTimeForComplaint = 0L;
 			for (RlmsSiteVisitDtls rlmsSiteVisitDtls : listOfAllVisits) {
 				SiteVisitDtlsDto siteVisitDto = new SiteVisitDtlsDto();
-				siteVisitDto.setFromDateDtr(DateUtils.convertDateToStringWithTime(rlmsSiteVisitDtls.getFromDate()));
-				siteVisitDto.setToDateStr(DateUtils.convertDateToStringWithTime(rlmsSiteVisitDtls.getToDate()));
+				siteVisitDto.setFromDateDtr(DateUtils.convertDateTimestampToStringWithTime(rlmsSiteVisitDtls.getFromDate()));
+				siteVisitDto.setToDateStr(DateUtils.convertDateTimestampToStringWithTime(rlmsSiteVisitDtls.getToDate()));
 				String totalTime = DateUtils.convertTimeIntoDaysHrMin(DateUtils.getDateDiff(rlmsSiteVisitDtls.getFromDate(), rlmsSiteVisitDtls.getToDate(), TimeUnit.SECONDS), TimeUnit.SECONDS);
 				if(null != totalTime){
 					siteVisitDto.setTotalTime(totalTime);

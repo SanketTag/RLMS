@@ -432,4 +432,20 @@ public class CompanyServiceImpl implements CompanyService{
 	public void deleteCompanyM(CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo){
 		this.companyDao.deleteCompanyM(companyDtlsDTO,metaInfo);
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String editBranchInCompany(BranchDtlsDto dto,UserMetaInfo userMetaInfo){
+		String statusMessage = "";
+		RlmsBranchMaster branchMaster = this.branchDao.getBranchByBranchId(dto.getId());
+		branchMaster.setBranchName(dto.getBranchName());
+		branchMaster.setBranchAddress(dto.getBranchAddress());
+		branchMaster.setCity(dto.getCity());
+		branchMaster.setArea(dto.getArea());
+		branchMaster.setPincode(dto.getPinCode());
+		branchMaster.setUpdatedBy(userMetaInfo.getUserId());
+		branchMaster.setUdpatedDate(new Date());
+		this.companyDao.updateBranchDetails(branchMaster);
+		statusMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.BRANCH_CREATION_SUCCESSFUL.getMessage());
+		return statusMessage;
+	}
 }

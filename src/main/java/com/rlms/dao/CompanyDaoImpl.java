@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.rlms.constants.RLMSConstants;
 import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.UserMetaInfo;
+import com.rlms.model.RlmsBranchMaster;
 import com.rlms.model.RlmsCompanyBranchMapDtls;
 import com.rlms.model.RlmsCompanyMaster;
 
@@ -86,6 +87,10 @@ public class CompanyDaoImpl implements CompanyDao{
 		q.setParameter("updatedDate", new Date());
 		q.setParameter("updatedBy", metaInfo.getUserId());
 		q.executeUpdate();
+	}
+	
+	public void updateBranchDetails(RlmsBranchMaster rlmsBranchMaster){
+		this.sessionFactory.getCurrentSession().update(rlmsBranchMaster);
 	}
 	
 	/*@SuppressWarnings("unchecked")

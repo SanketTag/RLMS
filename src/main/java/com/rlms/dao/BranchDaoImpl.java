@@ -114,4 +114,15 @@ public class BranchDaoImpl implements BranchDao{
 		 RlmsBranchCustomerMap branchCustomerMap =  (RlmsBranchCustomerMap) criteria.uniqueResult();
 		 return branchCustomerMap;
 	}
+	
+	@Override
+	public RlmsBranchMaster getBranchByBranchId(Integer branchId){
+		Session session = this.sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(RlmsBranchMaster.class);
+		criteria.add(Restrictions.eq("branchId", branchId));
+		criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		RlmsBranchMaster branchMaster = (RlmsBranchMaster) criteria.uniqueResult();
+		return branchMaster;
+		
+	}
 }

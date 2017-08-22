@@ -21,6 +21,12 @@ public class DateUtils {
 		return s;
 	}
 	
+	public static String convertDateTimestampToStringWithTime(Date inputDate){
+		Format formatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss a");
+		String s = formatter.format(inputDate);
+		return s;
+	}
+	
 	public static Date convertStringToDateWithoutTime(String inputDate) throws ParseException{
 		Format formatter = new SimpleDateFormat("dd-MMM-yyyy");
 		Date s = (Date) formatter.parseObject(inputDate);
