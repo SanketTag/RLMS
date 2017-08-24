@@ -678,8 +678,9 @@ angular.module('theme.demos.dashboard', [
     $scope.cancel = function () {
       $scope.modalInstance.dismiss('cancel');
     };
-    $scope.openDemoModal = function (size, currentModelOpen, complaintStatus) {
+    $scope.openDemoModal = function (size, currentModelOpen, complaintStatus,headerValue) {
       $scope.currentModel = currentModelOpen;
+      $scope.modalHeaderVal=headerValue;
       var complaintStatusArray = [];
       var str_array = complaintStatus.split(',');
 

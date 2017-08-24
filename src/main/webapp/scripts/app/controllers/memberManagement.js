@@ -35,7 +35,8 @@
 		    serviceApi.doPostWithData('/RLMS/admin/getAllBranchesForCompany',companyData)
 		    .then(function(response){
 		    	$scope.branches = response;
-		    	
+		    	$scope.selectedBranch.selected = undefined;
+		    	$scope.selectedCustomer.selected = undefined;
 		    });
 		}
 		$scope.loadCustomerData = function(){
@@ -52,6 +53,7 @@
   	    	serviceApi.doPostWithData('/RLMS/admin/getAllCustomersForBranch',branchData)
  	         .then(function(customerData) {
  	        	 $scope.cutomers = customerData;
+ 	        	 $scope.selectedCustomer.selected = undefined;
  	         })
 		}
 		//Show Member List

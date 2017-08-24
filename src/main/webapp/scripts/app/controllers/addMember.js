@@ -40,6 +40,8 @@
 			    serviceApi.doPostWithData('/RLMS/admin/getAllBranchesForCompany',data)
 			    .then(function(response){
 			    	$scope.branches = response;
+		    		$scope.selectedBranch.selected=undefined;
+		    		$scope.selectedCustomer.selected=undefined;
 			    	
 			    });
 			}
@@ -57,6 +59,7 @@
 	  	    	serviceApi.doPostWithData('/RLMS/admin/getAllCustomersForBranch',branchData)
 	 	         .then(function(customerData) {
 	 	        	 $scope.cutomers = customerData;
+	 	        	$scope.selectedCustomer.selected=undefined;
 	 	         })
 			}
 			//Post call add customer
