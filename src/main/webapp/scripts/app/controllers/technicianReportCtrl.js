@@ -50,7 +50,9 @@
 							companyData)
 					.then(function(response) {
 						$scope.branches = response;
-
+						$scope.selectedBranch.selected=undefined;
+						var emptySite=[];
+						$scope.siteViseReport=emptySite;
 					});
 		}
 		$scope.loadReportList = function(){
