@@ -24,7 +24,11 @@
 							companyData)
 					.then(function(response) {
 						$scope.branches = response;
-
+						$scope.selectedBranch.selected=undefined;
+						$scope.selectedCustomer.selected=undefined;
+						$scope.selectedStatus.selected=undefined;
+						var emptyReports=[];
+						$scope.siteViseReport=emptyReports;
 					});
 		}
 		function initReport(){
@@ -90,6 +94,8 @@
   	    	serviceApi.doPostWithData('/RLMS/admin/getAllCustomersForBranch',branchData)
  	         .then(function(customerData) {
  	        	 $scope.cutomers = customerData;
+ 	        	$scope.selectedCustomer.selected=undefined;
+				$scope.selectedStatus.selected=undefined;
  	         })
 		}
 		//Show Member List
