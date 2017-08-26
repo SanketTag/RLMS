@@ -7,6 +7,26 @@
 		$scope.goToAddAMC = function(){
 			window.location.hash = "#/add-amc";
 		}
+		$scope.loadBranchData = function() {
+			var companyData = {};
+			if ($scope.showCompany == true) {
+				companyData = {
+					companyId : $scope.selectedCompany.selected.companyId
+				}
+			} else {
+				companyData = {
+					companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+				}
+			}
+			serviceApi
+					.doPostWithData(
+							'/RLMS/admin/getAllBranchesForCompany',
+							companyData)
+					.then(function(response) {
+						$scope.branches = response;
+
+					});
+		}
 		function initReport(){
 			$scope.selectedCompany = {};
 			$scope.selectedBranch = {};
@@ -55,26 +75,7 @@
 						$scope.companies = response;
 					});
 		}
-		$scope.loadBranchData = function() {
-			var companyData = {};
-			if ($scope.showCompany == true) {
-				companyData = {
-					companyId : $scope.selectedCompany.selected.companyId
-				}
-			} else {
-				companyData = {
-					companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
-				}
-			}
-			serviceApi
-					.doPostWithData(
-							'/RLMS/admin/getAllBranchesForCompany',
-							companyData)
-					.then(function(response) {
-						$scope.branches = response;
-
-					});
-		}
+		
 		$scope.loadCustomerData = function(){
 			var branchData ={};
   	    	if($scope.showBranch == true){

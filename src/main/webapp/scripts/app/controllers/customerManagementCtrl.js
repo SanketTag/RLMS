@@ -34,7 +34,9 @@
 		    serviceApi.doPostWithData('/RLMS/admin/getAllBranchesForCompany',companyData)
 		    .then(function(response){
 		    	$scope.branches = response;
-		    	
+		    	$scope.selectedBranch.selected=undefined;
+		    	var emptyArray=[];
+		    	$scope.myData = emptyArray;
 		    });
 		}
 	    $scope.filterOptions = {
