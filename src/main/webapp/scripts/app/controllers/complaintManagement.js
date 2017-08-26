@@ -82,7 +82,10 @@
 													companyData)
 											.then(function(response) {
 												$scope.branches = response;
-
+												$scope.selectedBranch.selected=undefined;
+												$scope.selectedCustomer.selected=undefined;
+												var emptyComplaint=[];
+												$scope.myData=emptyComplaint;
 											});
 								}
 								$scope.loadCustomerData = function() {
@@ -109,6 +112,7 @@
 														$scope.cutomers = customerData;
 														$scope.cutomers
 																.unshift(tempAll);
+														$scope.selectedCustomer.selected=undefined;
 													})
 								}
 								$scope.loadLifts = function() {
