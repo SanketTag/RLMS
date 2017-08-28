@@ -184,6 +184,11 @@
 																			} else {
 																				userDetailsObj["Title"] = " - ";
 																			}
+																			if (!!largeLoad[i].remark) {
+																				userDetailsObj["Remark"] = largeLoad[i].remark;
+																			} else {
+																				userDetailsObj["Remark"] = " - ";
+																			}
 																		
 																			if (!!largeLoad[i].registrationDate) {
 																				userDetailsObj["Registration_Date"] = largeLoad[i].registrationDate;
@@ -279,6 +284,11 @@
 																				userDetailsObj["Title"] = largeLoad[i].title;
 																			} else {
 																				userDetailsObj["Title"] = " - ";
+																			}
+																			if (!!largeLoad[i].remark) {
+																				userDetailsObj["Remark"] = largeLoad[i].remark;
+																			} else {
+																				userDetailsObj["Remark"] = " - ";
 																			}
 																			
 																			if (!!largeLoad[i].registrationDateStr) {

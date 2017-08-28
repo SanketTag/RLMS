@@ -185,6 +185,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		dto.setCustomerName(complaintMaster.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getCustomerName());
 		dto.setLiftAddress(complaintMaster.getLiftCustomerMap().getLiftMaster().getAddress());
 		dto.setRegistrationDate(complaintMaster.getRegistrationDate());
+		dto.setRemark(complaintMaster.getRemark());
 		if(null != complaintMaster.getRegistrationDate()){
 			dto.setRegistrationDateStr(DateUtils.convertDateToStringWithoutTime(complaintMaster.getRegistrationDate()));
 		}
