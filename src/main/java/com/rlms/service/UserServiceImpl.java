@@ -456,8 +456,14 @@ public class UserServiceImpl implements UserService {
 
 		listOfUserRoles = this.getAllUserWithRoleForBranch(compBranchMapId,
 				SpocRoleConstants.TECHNICIAN.getSpocRoleId());
+		List<RlmsUserRoles> listOfActiveUserRoles = new ArrayList<RlmsUserRoles>();
+		for (RlmsUserRoles rlmsUserRoles : listOfUserRoles) {
+			if(rlmsUserRoles.getRlmsUserMaster().getActiveFlag().equals(RLMSConstants.ACTIVE.getId())){
+				listOfActiveUserRoles.add(rlmsUserRoles);
+			}
+		}
 
-		return listOfUserRoles;
+		return listOfActiveUserRoles;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
