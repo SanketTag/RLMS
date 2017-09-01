@@ -216,6 +216,8 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			dto.setStatus(Status.INPROGESS.getStatusMsg());
 		}else if(Status.COMPLETED.getStatusId().equals(complaintMaster.getStatus())){
 			dto.setStatus(Status.COMPLETED.getStatusMsg());
+		}else if(Status.RESOLVED.getStatusId().equals(complaintMaster.getStatus())){
+			dto.setStatus(Status.RESOLVED.getStatusMsg());
 		}
 		String complaintent = null;
 		if(RLMSConstants.COMPLAINT_REG_TYPE_ADMIN.getId() == complaintMaster.getRegistrationType()){

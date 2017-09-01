@@ -14,8 +14,9 @@
 							'$rootScope',
 							'$modal',
 							'$log',
+							'$window',
 							function($scope, $filter, serviceApi, $route,
-									$http, utility, $rootScope,$modal,$log) {
+									$http, utility, $rootScope,$modal,$log,$window) {
 								initCustomerList();
 								$scope.showCompany = false;
 								$scope.showBranch = false;
@@ -516,30 +517,35 @@
 								$rootScope.technicianDetails=[];
 								$rootScope.complaintStatusArray=['Pending','Assigned','Completed','In Progress'];
 								$scope.editThisRow=function(row){
-									$rootScope.editComplaint.complaintsNumber=row.Number.replace(/-/g, '');
-									$rootScope.editComplaint.complaintsTitle=row.Title.replace(/-/g, '');
-									$rootScope.editComplaint.complaintsRemark=row.Remark.replace(/-/g, '');
-									$rootScope.editComplaint.complaintsAddress=row.Address.replace(/-/g, '');
-									$rootScope.editComplaint.complaintsCity=row.City.replace(/-/g, '');
-									$rootScope.editComplaint.regDate=row.Registration_Date;
-									$rootScope.editComplaint.serviceEndDate=row.Service_End_Date;
-									$rootScope.editComplaint.serviceStartDate=row.Service_StartDate;
-									$rootScope.selectedComplaintStatus=row.Status;
-									//$rootScope.editComplaint.complaintsStatus=row.Status.replace(/-/g, '');
-									var dataToSend ={
-											complaintId:row.Number
-									}
-									serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
-									.then(function(data) {
-										$rootScope.techniciansForEditComplaints = data;
-										var technicianArray=$rootScope.techniciansForEditComplaints;
-										technicianArray.forEach(function(technician) {
-											if(row.Technician.includes(technician.name)){
-												$rootScope.selectedTechnician=technician;
-											}
+									if(row.Status==='Resolved' || row.Status==='Completed'){
+										$window.confirm('Complaint already completed or resolved');
+									}else{
+										$rootScope.editComplaint.complaintsNumber=row.Number.replace(/-/g, '');
+										$rootScope.editComplaint.complaintsTitle=row.Title.replace(/-/g, '');
+										$rootScope.editComplaint.complaintsRemark=row.Remark.replace(/-/g, '');
+										$rootScope.editComplaint.complaintsAddress=row.Address.replace(/-/g, '');
+										$rootScope.editComplaint.complaintsCity=row.City.replace(/-/g, '');
+										$rootScope.editComplaint.regDate=row.Registration_Date;
+										$rootScope.editComplaint.serviceEndDate=row.Service_End_Date;
+										$rootScope.editComplaint.serviceStartDate=row.Service_StartDate;
+										$rootScope.selectedComplaintStatus=row.Status;
+										//$rootScope.editComplaint.complaintsStatus=row.Status.replace(/-/g, '');
+										var dataToSend ={
+												complaintId:row.Number
+										}
+										serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
+										.then(function(data) {
+											$rootScope.techniciansForEditComplaints = data;
+											var technicianArray=$rootScope.techniciansForEditComplaints;
+											technicianArray.forEach(function(technician) {
+												if(row.Technician.includes(technician.name)){
+													$rootScope.selectedTechnician=technician;
+												}
+											});
+											window.location.hash = "#/edit-complaint";
 										});
-										window.location.hash = "#/edit-complaint";
-									});
+									}
+									
 								};
 //								 $scope.$watch('gridOptions.selectedItems', function(oldVal , newVal) {
 //								     console.log("________")
