@@ -38,6 +38,7 @@
 						 liftAddress:$scope.editComplaint.complaintsAddress + $scope.editComplaint.complaintsCity,
 						 status:$scope.selectedComplaintStatus,
 						 title:$scope.editComplaint.complaintsTitle,
+						 remark:$scope.editComplaint.complaintsRemark,
 						 technicianDtls:userName,
 						 userRoleId:userRole
 				};
@@ -66,8 +67,8 @@
 				//$scope.loadBranchData();
 			}*/
 		  	
-			$scope.resetaddComplaint = function(){
-				initAddComplaint();
+			$scope.resetEditComplaint = function(){
+				$window.history.back();
 			}
 			$scope.backPage =function(){
 				 $window.history.back();

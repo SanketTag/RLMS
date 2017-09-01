@@ -555,6 +555,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 				complaintMaster.setActualServiceEndDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getActualServiceEndDateStr()));
 			}
 			complaintMaster.setTitle(complaintsDto.getTitle());
+			complaintMaster.setRemark(complaintsDto.getRemark());
 			if("Assigned".equalsIgnoreCase(complaintsDto.getStatus()) && null!=complaintsDto.getUserRoleId()){
 				complaintMaster.setStatus(Status.ASSIGNED.getStatusId());		
 			}else if("Pending".equalsIgnoreCase(complaintsDto.getStatus())){

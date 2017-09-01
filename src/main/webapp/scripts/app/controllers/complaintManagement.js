@@ -518,6 +518,7 @@
 								$scope.editThisRow=function(row){
 									$rootScope.editComplaint.complaintsNumber=row.Number.replace(/-/g, '');
 									$rootScope.editComplaint.complaintsTitle=row.Title.replace(/-/g, '');
+									$rootScope.editComplaint.complaintsRemark=row.Remark.replace(/-/g, '');
 									$rootScope.editComplaint.complaintsAddress=row.Address.replace(/-/g, '');
 									$rootScope.editComplaint.complaintsCity=row.City.replace(/-/g, '');
 									$rootScope.editComplaint.regDate=row.Registration_Date;
