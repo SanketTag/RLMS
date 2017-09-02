@@ -37,6 +37,8 @@
 		    	$scope.branches = response;
 		    	$scope.selectedBranch.selected = undefined;
 		    	$scope.selectedCustomer.selected = undefined;
+		    	var emptyArray=[];
+		    	$scope.myData = emptyArray;
 		    });
 		}
 		$scope.loadCustomerData = function(){
@@ -54,6 +56,8 @@
  	         .then(function(customerData) {
  	        	 $scope.cutomers = customerData;
  	        	 $scope.selectedCustomer.selected = undefined;
+ 	        	var emptyArray=[];
+		    	$scope.myData = emptyArray;
  	         })
 		}
 		//Show Member List
