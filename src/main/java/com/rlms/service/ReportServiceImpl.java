@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.envers.Audited;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -203,11 +204,11 @@ public class ReportServiceImpl implements ReportService {
 	public RlmsLiftAmcDtls constructLiftAMCDtls(AMCDetailsDto dto, UserMetaInfo metaInfo) throws ParseException{
 		RlmsLiftAmcDtls liftAMCDtls = new RlmsLiftAmcDtls();
 		RlmsLiftCustomerMap liftCustomerMap = this.liftDao.getLiftCustomerMapById(dto.getLiftCustoMapId());
-		if(null != dto.getAmcEndDate()){
+		if(!StringUtils.isEmpty(dto.getAmcEndDate())){
 			dto.setAmcEdDate(DateUtils.convertStringToDateWithoutTime(dto.getAmcEndDate()));
 		}
 		
-		if(null != dto.getAmcStartDate()){
+		if(!StringUtils.isEmpty(dto.getAmcStartDate())){
 			dto.setAmcStDate(DateUtils.convertStringToDateWithoutTime(dto.getAmcStartDate()));
 		}
 		liftAMCDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
@@ -218,7 +219,7 @@ public class ReportServiceImpl implements ReportService {
 			liftAMCDtls.setAmcEndDate(dto.getAmcEdDate());
 		}
 		
-		if(null != dto.getAmcStartDate()){
+		if(null !=dto.getAmcStDate()){
 			liftAMCDtls.setAmcStartDate(dto.getAmcStDate());
 		}
 		
@@ -226,7 +227,7 @@ public class ReportServiceImpl implements ReportService {
 			liftAMCDtls.setLiftCustomerMap(liftCustomerMap);
 		}
 		
-		if(null != dto.getAmcStartDate() && null != dto.getAmcEndDate()){
+		if(!StringUtils.isEmpty(dto.getAmcStartDate()) && !StringUtils.isEmpty(dto.getAmcEndDate())){
 			Status amcStatus = this.calculateAMCStatus(dto.getAmcStDate(), dto.getAmcEdDate(), liftCustomerMap.getLiftMaster().getDateOfInstallation());
 			liftAMCDtls.setStatus(amcStatus.getStatusId());
 			
