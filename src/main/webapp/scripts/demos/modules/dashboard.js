@@ -242,7 +242,7 @@ angular.module('theme.demos.dashboard', [
       rowHeight: 40,
       enablePaging: true,
       showFooter: true,
-      totalServerItems: $scope.totalServerItemsForComplaints,
+      totalServerItems: 'totalServerItemsForComplaints',
       pagingOptions: $scope.pagingOptionsForComplaints,
       filterOptions: $scope.filterOptionsForModal,
       multiSelect: false,
@@ -679,6 +679,9 @@ angular.module('theme.demos.dashboard', [
       $scope.modalInstance.dismiss('cancel');
     };
     $scope.openDemoModal = function (size, currentModelOpen, complaintStatus,headerValue) {
+      var emptyComplaintsArray=[];
+      $scope.myComplaintsData=emptyComplaintsArray;
+      $scope.pagingOptionsForComplaints.currentPage=1;
       $scope.currentModel = currentModelOpen;
       $scope.modalHeaderVal=headerValue;
       var complaintStatusArray = [];

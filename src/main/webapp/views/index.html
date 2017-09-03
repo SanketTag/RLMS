@@ -1,3 +1,4 @@
+<div ng-controller="DashboardController">
 <div id="page-heading">
     <ol class="breadcrumb">
         <li><a href="#/">Home</a></li>
@@ -8,7 +9,7 @@
 </div>
 <div class="row">
 <ul class="nav navbar-nav pull-right toolbar">
-  <li class="dropdown hidden-xs" dropdown ng-controller="DashboardController" ng-show="isLoggedIn">
+  <li class="dropdown hidden-xs" dropdown ng-show="isLoggedIn">
 		<a href class="dropdown-toggle" dropdown-toggle>
 		 <i class="glyphicon glyphicon-envelope"></i>
 		 <span>Alerts</span>
@@ -36,7 +37,7 @@
 		  <li class="dd-footer"><a href="#" ng-click="setReadAll($event)">Mark all read</a></li>
 		</ul>
 	  </li>
-	  <li class="dropdown" dropdown ng-controller="DashboardController" ng-show="isLoggedIn">
+	  <li class="dropdown" dropdown ng-show="isLoggedIn">
 		<a href dropdown-toggle class="dropdown-toggle">
 		  <i class="glyphicon glyphicon-globe"></i>
 		  <span>Notifications</span>
@@ -66,9 +67,9 @@
 
 
 
-<div class="container-fluid" ng-controller="DashboardController">
+<div class="container-fluid">
 <script type="text/ng-template" id="demoModalContent.html">
-<div ng-controller="DashboardController">
+<div>
     <div class="modal-header">
         <h3 class="modal-title">{{modalHeaderVal}}</h3>
     </div>
@@ -187,3 +188,4 @@
 	    </div>
 	</div>
 </div> <!-- container-fluid -->
+</div>
