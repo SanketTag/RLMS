@@ -682,6 +682,7 @@ angular.module('theme.demos.dashboard', [
       var emptyComplaintsArray=[];
       $scope.myComplaintsData=emptyComplaintsArray;
       $scope.pagingOptionsForComplaints.currentPage=1;
+      $scope.totalServerItemsForComplaints = 0;
       $scope.currentModel = currentModelOpen;
       $scope.modalHeaderVal=headerValue;
       var complaintStatusArray = [];
