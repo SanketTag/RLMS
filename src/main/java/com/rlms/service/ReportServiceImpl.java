@@ -232,6 +232,11 @@ public class ReportServiceImpl implements ReportService {
 			liftAMCDtls.setStatus(amcStatus.getStatusId());
 			
 		}
+		if(null !=dto.getAmcStDate() && null !=dto.getAmcEdDate()){
+			Status amcStatus = this.calculateAMCStatus(dto.getAmcStDate(), dto.getAmcEdDate(), liftCustomerMap.getLiftMaster().getDateOfInstallation());
+			liftAMCDtls.setStatus(amcStatus.getStatusId());
+			
+		}
 		liftAMCDtls.setAmcAmount(dto.getAmcAmount());
 		liftAMCDtls.setAmcType(dto.getAmcType());
 		liftAMCDtls.setUpdatedBy(metaInfo.getUserId());
