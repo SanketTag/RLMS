@@ -452,6 +452,9 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		}else if(Status.COMPLETED.getStatusMsg().equalsIgnoreCase(dto.getStatus())){
 			statusId = Status.COMPLETED.getStatusId();
 			complaintMaster.setActualServiceEndDate(new Date());
+		}else if(Status.RESOLVED.getStatusMsg().equalsIgnoreCase(dto.getStatus())){
+			statusId = Status.RESOLVED.getStatusId();
+			complaintMaster.setActualServiceEndDate(new Date());
 		}
 		complaintMaster.setStatus(statusId);
 		this.complaintsDao.mergeComplaintM(complaintMaster);
