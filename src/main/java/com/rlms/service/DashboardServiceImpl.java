@@ -131,7 +131,7 @@ public class DashboardServiceImpl implements DashboardService {
 
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public List<AMCDetailsDto> getAMCDetailsForDashboard(List<Integer> liftCustomerMapId) {
+	public List<AMCDetailsDto> getAMCDetailsForDashboard(List<Integer> liftCustomerMapId,AMCDetailsDto amcDetailsDto) {
 		List<AMCDetailsDto> listOFAMCDetails = new ArrayList<AMCDetailsDto>();
 		List<Integer> listOfLiftsForAMCDtls = new ArrayList<Integer>();
 		List<RlmsLiftCustomerMap> listOFApplicableLifts = new ArrayList<RlmsLiftCustomerMap>();
@@ -143,7 +143,7 @@ public class DashboardServiceImpl implements DashboardService {
 		}
 
 		List<RlmsLiftAmcDtls> listOfAMCDtls = this.liftDao
-				.getAMCDetilsForLifts(listOfLiftsForAMCDtls, new AMCDetailsDto());
+				.getAMCDetilsForLifts(listOfLiftsForAMCDtls, amcDetailsDto);
 		Set<Integer> liftIds = new HashSet<Integer>();
 		for (RlmsLiftAmcDtls liftAmcDtls : listOfAMCDtls) {
 			liftIds.add(liftAmcDtls.getLiftCustomerMap().getLiftMaster()

@@ -57,7 +57,7 @@ public class DashBoardController extends BaseController {
 	@RequestMapping(value = "/getAMCDetails", method = RequestMethod.POST)
 	public @ResponseBody
 	List<AMCDetailsDto> getAMCDetailsForDashboard(
-			@RequestBody CompanyDtlsDTO companyDtlsDTO)
+			@RequestBody AMCDetailsDto amcDetailsDto)
 			throws RunTimeException, ValidationException {
 
 		List<AMCDetailsDto> listOFAmcDtls = null;
@@ -68,7 +68,7 @@ public class DashBoardController extends BaseController {
 		try {
 			logger.info("Method :: getAllBranchesForCompany");
 			listOfAllBranches = this.companyService
-					.getAllBranches(companyDtlsDTO.getCompanyId());
+					.getAllBranches(amcDetailsDto.getCompanyId());
 			for (RlmsCompanyBranchMapDtls companyBranchMap : listOfAllBranches) {
 				companyBranchIds.add(companyBranchMap.getCompanyBranchMapId());
 			}
@@ -87,7 +87,7 @@ public class DashBoardController extends BaseController {
 				}
 			}
 			listOFAmcDtls = this.dashboardService
-					.getAMCDetailsForDashboard(liftCustomerMapIds);
+					.getAMCDetailsForDashboard(liftCustomerMapIds,amcDetailsDto);
 
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getFullStackTrace(e));

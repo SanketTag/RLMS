@@ -14,7 +14,7 @@ import com.rlms.model.RlmsSiteVisitDtls;
 public interface DashboardService {
 
 	public List<AMCDetailsDto> getAMCDetailsForDashboard(
-			List<Integer> listOfApplicableBranchIds);
+			List<Integer> listOfApplicableBranchIds, AMCDetailsDto amcDetailsDto);
 
 	public List<ComplaintsDto> getListOfComplaintsBy(ComplaintsDtlsDto dto);
 

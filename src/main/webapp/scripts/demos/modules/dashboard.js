@@ -375,8 +375,14 @@ angular.module('theme.demos.dashboard', [
       }
     };
     function constructDataToSend() {
+    	var tempStatus =[];
+    	tempStatus.push(38);
+    	tempStatus.push(39);
+    	tempStatus.push(40);
+    	tempStatus.push(41);
       var data = {
-        companyId: $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+        companyId: $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId,
+        listOFStatusIds:tempStatus
       }
       return data;
     }
