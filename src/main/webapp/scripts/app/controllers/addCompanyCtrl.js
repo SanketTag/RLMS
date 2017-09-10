@@ -4,6 +4,7 @@
 	.controller('addCompanyCtrl', ['$scope', '$filter','serviceApi','$route','utility','pinesNotifications','$timeout','$window', function($scope, $filter,serviceApi,$route,utility,pinesNotifications,$timeout,$window) {
 		initAddCompany();
 		$scope.alert = { type: 'success', msg: 'You successfully Added Company.',close:true };
+		$scope.addUserAlert = { type: 'success', msg: 'You successfully Added User.',close:true };
 		//function to initialize addCompany Model
 		$scope.showAlert = false;
 		function initAddCompany(){
@@ -87,8 +88,8 @@
 				$scope.showAlert = true;
 				var key = Object.keys(response);
 				var successMessage = response[key[0]];
-				$scope.alert.msg = successMessage;
-				$scope.alert.type = "success";
+				$scope.addUserAlert.msg = successMessage;
+				$scope.addUserAlert.type = "success";
 				//utility.showMessage("",successMessage,"success");
 				initAddUser();
 				$scope.addUserForm.$setPristine();
@@ -96,8 +97,8 @@
 				
 			},function(error){
 				$scope.showAlert = true;
-				$scope.alert.msg = error.exceptionMessage;
-				$scope.alert.type = "danger";
+				$scope.addUserAlert.msg = error.exceptionMessage;
+				$scope.addUserAlert.type = "danger";
 			});
 		}
 		//rese add branch
