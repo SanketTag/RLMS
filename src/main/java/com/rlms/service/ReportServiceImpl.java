@@ -103,7 +103,7 @@ public class ReportServiceImpl implements ReportService {
 		for (Integer liftId : liftIds) {
 			List<RlmsLiftAmcDtls> listForLift = new ArrayList<RlmsLiftAmcDtls>(listOfAMCDtls);
 			CollectionUtils.filter(listForLift, new LiftPredicate(liftId));
-			listOFAMCDetails.addAll(this.constructListOFAMcDtos(listOfAMCDtls));
+			listOFAMCDetails.addAll(this.constructListOFAMcDtos(listForLift));
 		}
 		
 		
@@ -160,15 +160,16 @@ public class ReportServiceImpl implements ReportService {
 					}
 				}
 			}
-			
-			if(AMCType.COMPREHENSIVE.getId() == liftAmcDtls.getAmcType()){
-				dto.setAmcTypeStr(AMCType.COMPREHENSIVE.getType());
-			}else if(AMCType.NON_COMPREHENSIVE.getId() == liftAmcDtls.getAmcType()){
-				dto.setAmcTypeStr(AMCType.NON_COMPREHENSIVE.getType());
-			}else if(AMCType.ON_DEMAND.getId() == liftAmcDtls.getAmcType()){
-				dto.setAmcTypeStr(AMCType.ON_DEMAND.getType());
-			}else if(AMCType.OTHER.getId() == liftAmcDtls.getAmcType()){
-				dto.setAmcTypeStr(AMCType.OTHER.getType());
+			if(liftAmcDtls.getAmcType()!=null){
+				if(AMCType.COMPREHENSIVE.getId() == liftAmcDtls.getAmcType()){
+					dto.setAmcTypeStr(AMCType.COMPREHENSIVE.getType());
+				}else if(AMCType.NON_COMPREHENSIVE.getId() == liftAmcDtls.getAmcType()){
+					dto.setAmcTypeStr(AMCType.NON_COMPREHENSIVE.getType());
+				}else if(AMCType.ON_DEMAND.getId() == liftAmcDtls.getAmcType()){
+					dto.setAmcTypeStr(AMCType.ON_DEMAND.getType());
+				}else if(AMCType.OTHER.getId() == liftAmcDtls.getAmcType()){
+					dto.setAmcTypeStr(AMCType.OTHER.getType());
+				}
 			}
 			listOFDtos.add(dto);
 			i++;
