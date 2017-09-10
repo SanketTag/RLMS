@@ -4,7 +4,7 @@
 	.controller('addCustomerCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window', function($scope, $filter,serviceApi,$route,utility,$window) {
 	initAddCustomer();
 			loadCompayInfo();
-			$scope.alert = { type: 'success', msg: 'You successfully Added Branch.',close:true };
+			$scope.alert = { type: 'success', msg: 'You successfully Added Customer.',close:true };
 			//loadBranchListInfo();
 			$scope.showAlert = false;
 			$scope.companies = [];

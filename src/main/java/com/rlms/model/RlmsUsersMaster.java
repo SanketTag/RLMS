@@ -103,7 +103,7 @@ public class RlmsUsersMaster implements java.io.Serializable {
 		this.lastName = lastName;
 	}
 
-	@Column(name = "address", unique = true, nullable = false)
+	@Column(name = "address", unique = true, nullable = true)
 	public String getAddress() {
 		return address;
 	}
@@ -197,7 +197,7 @@ public class RlmsUsersMaster implements java.io.Serializable {
 		this.updatedBy = updatedBy;
 	}
 
-	@Column(name = "city", unique = true, nullable = false)
+	@Column(name = "city", unique = true, nullable = true)
 	public String getCity() {
 		return city;
 	}
@@ -206,7 +206,7 @@ public class RlmsUsersMaster implements java.io.Serializable {
 		this.city = city;
 	}
 
-	@Column(name = "area", unique = true, nullable = false)
+	@Column(name = "area", unique = true, nullable = true)
 	public String getArea() {
 		return area;
 	}
@@ -215,7 +215,7 @@ public class RlmsUsersMaster implements java.io.Serializable {
 		this.area = area;
 	}
 
-	@Column(name = "pincode", unique = true, nullable = false)
+	@Column(name = "pincode", unique = true, nullable = true)
 	public Integer getPincode() {
 		return pincode;
 	}
