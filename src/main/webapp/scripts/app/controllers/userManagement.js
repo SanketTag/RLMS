@@ -84,7 +84,11 @@
 	  	      }
 	  	    };
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
-	  	    	var companyData ={};
+	  	      setTimeout(function() {
+	  	        var data;
+	  	        if (searchText) {
+	  	          var ft = searchText.toLowerCase();
+	  	        var companyData ={};
 	  	    	if($scope.showCompany == true){
 	  	    		companyData = {
   						companyId : $scope.selectedCompany.selected.companyId
@@ -94,11 +98,6 @@
   						companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
   					}
 	  	    	}
-		  	    
-	  	      setTimeout(function() {
-	  	        var data;
-	  	        if (searchText) {
-	  	          var ft = searchText.toLowerCase();
 	  	        serviceApi.doPostWithData('/RLMS/admin/getAllRegisteredUsers',companyData)
 	  	         .then(function(largeLoad) {
 	  	        	$scope.showTable= true;
