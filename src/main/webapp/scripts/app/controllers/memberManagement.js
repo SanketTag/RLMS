@@ -25,7 +25,7 @@
 			var companyData={};
 			if($scope.showCompany == true){
   	    		companyData = {
-						companyId : $scope.selectedCompany.selected.companyId
+						companyId : $scope.selectedCompany.selected!=undefined?$scope.selectedCompany.selected.companyId:0
 					}
   	    	}else{
   	    		companyData = {
@@ -45,7 +45,7 @@
 			var branchData ={};
   	    	if($scope.showBranch == true){
   	    		branchData = {
-  	    			branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId
+  	    			branchCompanyMapId : $scope.selectedBranch.selected!=null?$scope.selectedBranch.selected.companyBranchMapId:0
 					}
   	    	}else{
   	    		branchData = {
@@ -138,7 +138,9 @@
 	  	        	var dataToSend = {
 	  	        			branchCustoMapId:0
 		  	    	}
-		  	    	dataToSend.branchCustoMapId= $scope.selectedCustomer.selected.branchCustomerMapId
+	  	        	if($scope.selectedCustomer.selected!=undefined){
+	  	        		dataToSend.branchCustoMapId= $scope.selectedCustomer.selected.branchCustomerMapId
+	  	        	}		  	    	
 	  	        	serviceApi.doPostWithData('/RLMS/admin/getListOfAllMemberDtls',dataToSend).then(function(largeLoad) {
 	  	        	  var details=[];
 	  	        	  for(var i=0;i<largeLoad.length;i++){
