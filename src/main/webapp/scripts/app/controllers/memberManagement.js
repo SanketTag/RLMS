@@ -84,13 +84,13 @@
 	  	      }
 	  	    };
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
-	  	    	var dataToSend = {
-	  	    			branchCustoMapId:0
-	  	    	}
-	  	    	dataToSend.branchCustoMapId= $scope.selectedCustomer.selected.branchCustomerMapId
 	  	      setTimeout(function() {
 	  	        var data;
 	  	        if (searchText) {
+	  	        	var dataToSend = {
+		  	    			branchCustoMapId:0
+		  	    	}
+		  	    	dataToSend.branchCustoMapId= $scope.selectedCustomer.selected.branchCustomerMapId
 	  	          var ft = searchText.toLowerCase();
 	  	        serviceApi.doPostWithData('/RLMS/admin/getListOfAllMemberDtls',dataToSend)
 	  	         .then(function(largeLoad) {
@@ -118,9 +118,9 @@
 	  	        			detailsObj["Address"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].city){
-	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        			detailsObj["City"] =largeLoad[i].city;
 	  	        		}else{
-	  	        			userDetailsObj["City"] =" - ";
+	  	        			detailsObj["City"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].branchName){
 	  	        			detailsObj["Branch"] =largeLoad[i].branchName;

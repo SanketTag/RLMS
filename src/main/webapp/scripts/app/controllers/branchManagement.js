@@ -46,16 +46,6 @@
 	  	      }
 	  	    };
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
-	  	    	var companyData ={};
-	  	    	if($scope.showCompany == true){
-	  	    		companyData = {
-  						companyId : $scope.selectedCompany.selected.companyId
-  					}
-	  	    	}else{
-	  	    		companyData = {
-  						companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
-  					}
-	  	    	}
 	  	      setTimeout(function() {
 	  	    	var companyData ={};
 	  	    	if($scope.showCompany == true){
@@ -69,6 +59,16 @@
 	  	    	}
 	  	        var data;
 	  	        if (searchText) {
+	  	        	var companyData ={};
+		  	    	if($scope.showCompany == true){
+		  	    		companyData = {
+	  						companyId : $scope.selectedCompany.selected.companyId
+	  					}
+		  	    	}else{
+		  	    		companyData = {
+	  						companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+	  					}
+		  	    	}
 	  	          var ft = searchText.toLowerCase();
 	  	          $http.post('/RLMS/admin/getListOfBranchDtls',companyData).success(function(largeLoad) {
 	  	        	$scope.showTable=true;

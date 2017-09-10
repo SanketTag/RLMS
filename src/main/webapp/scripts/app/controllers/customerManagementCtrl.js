@@ -58,19 +58,19 @@
 	  	      }
 	  	    };
 	  	    $scope.getPagedDataAsync = function(pageSize, page, searchText) {
-	  	    	var branchData ={};
-	  	    	if($scope.showBranch == true){
-	  	    		branchData = {
-	  	    			branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId
-  					}
-	  	    	}else{
-	  	    		branchData = {
-	  	    			branchCompanyMapId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId
-  					}
-	  	    	}
 	  	      setTimeout(function() {
 	  	        var data;
 	  	        if (searchText) {
+	  	        	var branchData ={};
+		  	    	if($scope.showBranch == true){
+		  	    		branchData = {
+		  	    			branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId
+	  					}
+		  	    	}else{
+		  	    		branchData = {
+		  	    			branchCompanyMapId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId
+	  					}
+		  	    	}
 	  	          var ft = searchText.toLowerCase();
 	  	        serviceApi.doPostWithData('/RLMS/admin/getListOfCustomerDtls',branchData)
 	  	         .then(function(largeLoad) {
