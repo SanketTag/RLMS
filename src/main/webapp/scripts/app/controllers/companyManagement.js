@@ -98,9 +98,9 @@
 	  	        			companyDetailsObj["Address"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].city){
-	  	        			userDetailsObj["City"] =largeLoad[i].city;
+	  	        			companyDetailsObj["City"] =largeLoad[i].city;
 	  	        		}else{
-	  	        			userDetailsObj["City"] =" - ";
+	  	        			companyDetailsObj["City"] =" - ";
 	  	        		}
 	  	        		if(!!largeLoad[i].emailId){
 	  	        			companyDetailsObj["Email_Id"] =largeLoad[i].emailId;
