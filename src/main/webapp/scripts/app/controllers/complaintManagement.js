@@ -432,6 +432,7 @@
 													}
 												}, true);
 
+								 var templateWithTooltip = '<div><span tooltip="{{row.getProperty(col.field)}}" tooltip-append-to-body="true" tooltip-placement="right" >{{row.getProperty(col.field)}}</span></div>';
 								$scope.gridOptions = {
 									data : 'myData',
 									rowHeight : 40,
@@ -466,7 +467,9 @@
 									}, {
 										field : "Remark",
 										displayName:"Details",
-										width : 120
+										width : 120,
+										cellTemplate: templateWithTooltip,
+										cellClass: 'cellToolTip'
 									}, {
 										field : "Registration_Date",
 										displayName:"Registration Date",
