@@ -34,7 +34,7 @@ public class DateUtils {
 	}
 	
 	public static Date convertStringToDateWithTime(String inputDate) throws ParseException{
-		Format formatter = new SimpleDateFormat("dd-MMM-yyyy hh:MM:ss a");
+		Format formatter = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss a");
 		Date s = (Date) formatter.parseObject(inputDate);
 		return s;
 	}
