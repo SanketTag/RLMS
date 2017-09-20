@@ -54,14 +54,14 @@
 			<div class="form-group col-sm-6">
 			<label class="col-sm-4 control-label">Status</label>
 				<div class="col-sm-6">
-					<select ng-model="selectedComplaintStatus" disabled ng-options="x for x in complaintStatusArray" class="form-control"></select>
+					<select ng-model="selectedComplaintStatus" ng-options="x for x in complaintStatusArray" class="form-control"></select>
 				</div>
 			</div>
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label">Technician</label>
 				<div class="col-sm-6">
 					<div class="select-container">
-						<select ng-model="selectedTechnician" disabled ng-options="x.name for x in techniciansForEditComplaints" class="form-control">
+						<select ng-model="selectedTechnician" ng-options="x.name for x in techniciansForEditComplaints" class="form-control">
 						</select>
 				</div>
 					<!-- <input name="complaintsTechnician" type="text" placeholder="Technician" ng-model="editComplaint.complaintsTechnician" class="form-control"> -->
