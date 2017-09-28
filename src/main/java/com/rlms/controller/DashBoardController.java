@@ -23,6 +23,7 @@ import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
+import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.dao.ComplaintsDao;
 import com.rlms.dao.LiftDao;
 import com.rlms.exception.ExceptionCode;
@@ -90,6 +91,7 @@ public class DashBoardController extends BaseController {
 					.getAMCDetailsForDashboard(liftCustomerMapIds,amcDetailsDto);
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(ExceptionUtils.getFullStackTrace(e));
 			throw new RunTimeException(
 					ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(),
@@ -98,6 +100,37 @@ public class DashBoardController extends BaseController {
 									.getMessage()));
 		}
 		return listOFAmcDtls;
+	}
+	
+	@RequestMapping(value = "/getListOfTechniciansForDashboard", method = RequestMethod.POST)
+	public @ResponseBody
+	List<UserRoleDtlsDTO> getListOfTechnicians(@RequestBody ComplaintsDtlsDto dto)
+			throws RunTimeException {
+		List<UserRoleDtlsDTO> listOfComplaints = null;
+		List<RlmsCompanyBranchMapDtls> listOfAllBranches = null;
+
+		List<Integer> companyBranchMapIds = new ArrayList<>();
+		List<Integer> branchCustomerMapIds = new ArrayList<>();
+		listOfAllBranches = this.companyService
+				.getAllBranches(dto.getCompanyId());
+		for (RlmsCompanyBranchMapDtls companyBranchMap : listOfAllBranches) {
+			companyBranchMapIds.add(companyBranchMap.getCompanyBranchMapId());
+		}
+		
+		try {
+			logger.info("Method :: getListOfComplaints");
+			listOfComplaints = this.dashboardService.getListOfTechnicians(companyBranchMapIds);
+
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getFullStackTrace(e));
+			throw new RunTimeException(
+					ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(),
+					PropertyUtils
+							.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS
+									.getMessage()));
+		}
+
+		return listOfComplaints;
 	}
 
 	@RequestMapping(value = "/getListOfComplaintsForDashboard", method = RequestMethod.POST)

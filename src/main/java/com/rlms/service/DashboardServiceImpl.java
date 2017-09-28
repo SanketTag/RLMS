@@ -14,13 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rlms.constants.AMCType;
 import com.rlms.constants.RLMSConstants;
+import com.rlms.constants.SpocRoleConstants;
 import com.rlms.constants.Status;
 import com.rlms.contract.AMCDetailsDto;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
-import com.rlms.contract.UserMetaInfo;
+import com.rlms.contract.UserAppDtls;
+import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.dao.BranchDao;
 import com.rlms.dao.ComplaintsDao;
 import com.rlms.dao.CustomerDao;
@@ -274,7 +276,8 @@ public class DashboardServiceImpl implements DashboardService {
 					.getName();
 		}
 		dto.setComplaintent(complaintent);
-
+		dto.setUpdatedDate(complaintMaster.getUpdatedDate());
+		dto.setCompanyName(complaintMaster.getLiftCustomerMap().getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyName());
 		return dto;
 	}
 
@@ -406,5 +409,41 @@ public class DashboardServiceImpl implements DashboardService {
 	public List<RlmsSiteVisitDtls> getAllVisitsForComnplaints(
 			Integer complaintTechMapId) {
 		return complaintsDao.getAllVisitsForComnplaints(complaintTechMapId);
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<UserRoleDtlsDTO> getListOfTechnicians(
+			List<Integer> companyBranchMapIds) {
+		List<UserRoleDtlsDTO> listOFUserAdtls = new ArrayList<UserRoleDtlsDTO>();
+		List<RlmsUserRoles> listOfAllTechnicians = this.getListOfTechniciansBy(companyBranchMapIds);
+		for (RlmsUserRoles rlmsUserRoles : listOfAllTechnicians) {
+			UserRoleDtlsDTO dto = new UserRoleDtlsDTO();
+			dto.setUserId(rlmsUserRoles.getRlmsUserMaster().getUserId());
+			dto.setCompanyBranchMapId(rlmsUserRoles.getRlmsCompanyBranchMapDtls().getCompanyBranchMapId());
+			dto.setCompanyName(rlmsUserRoles.getRlmsCompanyMaster().getCompanyName());
+			dto.setCity(rlmsUserRoles.getRlmsUserMaster().getCity());
+			dto.setName(rlmsUserRoles.getRlmsUserMaster().getFirstName() + " " + rlmsUserRoles.getRlmsUserMaster().getLastName());
+			dto.setContactNumber(rlmsUserRoles.getRlmsUserMaster().getContactNumber());
+			dto.setUserRoleId(rlmsUserRoles.getUserRoleId());
+			dto.setActiveFlag(rlmsUserRoles.getActiveFlag());
+	        listOFUserAdtls.add(dto);
+		}
+		return listOFUserAdtls;
+	}
+	public List<RlmsUserRoles> getListOfTechniciansBy(
+			List<Integer> compBranchMapId) {
+		List<RlmsUserRoles> listOfUserRoles = new ArrayList<RlmsUserRoles>();
+
+		listOfUserRoles = this.dashboardDao.getAllUserWithRoleFor(compBranchMapId,
+				SpocRoleConstants.TECHNICIAN.getSpocRoleId());
+		List<RlmsUserRoles> listOfActiveUserRoles = new ArrayList<RlmsUserRoles>();
+		for (RlmsUserRoles rlmsUserRoles : listOfUserRoles) {
+			if(rlmsUserRoles.getRlmsUserMaster().getActiveFlag().equals(RLMSConstants.ACTIVE.getId())){
+				listOfActiveUserRoles.add(rlmsUserRoles);
+			}
+		}
+
+		return listOfActiveUserRoles;
 	}
 }

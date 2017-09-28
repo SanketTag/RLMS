@@ -7,6 +7,7 @@ import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
+import com.rlms.model.RlmsUserRoles;
 
 public interface DashboardDao {
 
@@ -19,4 +20,5 @@ public interface DashboardDao {
 
 	public RlmsComplaintTechMapDtls getComplTechMapObjByComplaintId(
 			Integer complaintId);
+	public List<RlmsUserRoles> getAllUserWithRoleFor(List<Integer> commpBranchMapId, Integer spocRoleId);
 }

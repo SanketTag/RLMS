@@ -363,6 +363,7 @@
 	<script
 		src="scripts/demos/modules/ui-components/controllers/tilesController.js"></script>
 	<script src="scripts/demos/modules/vectorMaps.js"></script>
+	<script src="scripts/demos/modules/dashboardInditec.js"></script>
 	<script src="scripts/demos/modules/dashboard.js"></script>
 	<script src="scripts/demos/demos.js"></script>
 	<script src="scripts/app.js"></script>

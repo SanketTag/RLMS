@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rlms.constants.RLMSConstants;
-import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
+import com.rlms.model.RlmsUserRoles;
 
 @Repository
 public class DashboardDaoImpl implements DashboardDao {
@@ -71,5 +71,16 @@ public class DashboardDaoImpl implements DashboardDao {
 				 .add(Restrictions.eq("complaintMaster.complaintId", complaintId));
 		 RlmsComplaintTechMapDtls complaintMapDtls = (RlmsComplaintTechMapDtls) criteria.uniqueResult();
 		 return complaintMapDtls;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsUserRoles> getAllUserWithRoleFor(List<Integer> commpBranchMapId, Integer spocRoleId){
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsUserRoles.class)
+				 .add(Restrictions.in("rlmsCompanyBranchMapDtls.companyBranchMapId", commpBranchMapId))
+				 .add(Restrictions.eq("rlmsSpocRoleMaster.spocRoleId", spocRoleId));
+				 //.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 List<RlmsUserRoles> listOfAllTechnicians =  criteria.list();
+		 return listOfAllTechnicians;
 	}
 }

@@ -12,6 +12,7 @@ angular
     'theme.demos.boxed_layout',
     'theme.demos.horizontal_layout',
     'theme.demos.dashboard',
+    'theme.demos.dashboard.indi',
     'theme.demos.chatbox',
     'theme.demos.gallery',
     'theme.demos.editable_table',

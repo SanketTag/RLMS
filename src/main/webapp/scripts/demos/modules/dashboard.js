@@ -14,6 +14,16 @@ angular.module('theme.demos.dashboard', [
         $scope.loadingChartData = false;
       }, 2000);
     };
+    $scope.showDasboardForInditech=false;
+    $scope.showDasboardForCompany=false;
+    $scope.showDasboardForOthers=false;
+    if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+		$scope.showDasboardForInditech= true;
+		$scope.showDasboardForOthers=false;
+	}else{
+		$scope.showDasboardForOthers=true;
+		$scope.showDasboardForInditech=false;
+	}
 
     $scope.totalServerItemsForComplaints = 0;
 

@@ -11,6 +11,9 @@ public class UserRoleDtlsDTO {
 	private Integer countOfComplaintsAssigned;
 	private String currentAddress;
 	private Integer userRoleId;
+	private String companyName;
+	private String city;
+	private Integer activeFlag;
 	
 	public Integer getUserId() {
 		return userId;
@@ -65,6 +68,24 @@ public class UserRoleDtlsDTO {
 	}
 	public void setUserRoleId(Integer userRoleId) {
 		this.userRoleId = userRoleId;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public Integer getActiveFlag() {
+		return activeFlag;
+	}
+	public void setActiveFlag(Integer activeFlag) {
+		this.activeFlag = activeFlag;
 	}
 	
 	
