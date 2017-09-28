@@ -15,13 +15,17 @@ angular.module('theme.demos.dashboard.indi', [
     $scope.showDasboardForInditech=false;
     $scope.showDasboardForCompany=false;
     $scope.showDasboardForOthers=false;
-    if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
-		$scope.showDasboardForInditech= true;
-		$scope.showDasboardForOthers=false;
-	}else{
-		$scope.showDasboardForOthers=true;
-		$scope.showDasboardForInditech=false;
-	}
+    if($rootScope.loggedInUserInfo){
+    	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+    		$scope.showDasboardForInditech= true;
+    		$scope.showDasboardForOthers=false;
+    	}else{
+    		$scope.showDasboardForOthers=true;
+    		$scope.showDasboardForInditech=false;
+    	}
+    }else{
+    	$scope.showDasboardForOthers=true;
+    }
 
     $scope.technicianData = {
       totalTechnicians: {
