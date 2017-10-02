@@ -25,4 +25,6 @@ public interface LiftService {
 	public LiftDtlsDto getLiftMasterForType(LiftDtlsDto loftDtlsDto);
 	
 	public CustomerDtlsDto getAddressDetailsOfLift(Integer branchCustoMapId);
+	
+	public String updateLiftDetails(LiftDtlsDto dto, UserMetaInfo userMetaInfo);
 }

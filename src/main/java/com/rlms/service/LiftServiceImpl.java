@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -405,6 +406,62 @@ public class LiftServiceImpl implements LiftService{
 			dto.setPinCode(branchCustomerMap.getCustomerMaster().getPincode());
 		}
 		return dto;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String updateLiftDetails(LiftDtlsDto dto, UserMetaInfo userMetaInfo){
+		RlmsLiftCustomerMap liftCustomerMap = this.liftDao.getLiftCustomerMapById(dto.getLiftCustomerMapId());
+		RlmsLiftMaster liftMaster = liftCustomerMap.getLiftMaster();
+		if(!StringUtils.isEmpty(dto.getArea())){
+			liftMaster.setArea(dto.getArea());			
+		}if(!StringUtils.isEmpty(dto.getCity())){
+			liftMaster.setCity(dto.getCity());
+		}if(dto.getPinCode()!=null){
+			liftMaster.setPincode(dto.getPinCode());
+		}
+		if(!StringUtils.isEmpty(dto.getAmcAmount())){
+			liftMaster.setAmcAmount(dto.getAmcAmount());
+		}
+		if(!StringUtils.isEmpty(dto.getLatitude())){
+			liftMaster.setLatitude(dto.getLatitude());
+		}
+		
+		if(!StringUtils.isEmpty(dto.getLongitude())){
+			liftMaster.setLongitude(dto.getLongitude());
+		}
+		if(dto.getDoorType()!=null){
+			liftMaster.setDoorType(dto.getDoorType());
+		}
+		if(!StringUtils.isEmpty(dto.getNoOfStops())){
+			liftMaster.setNoOfStops(dto.getNoOfStops());
+		}
+		if(!StringUtils.isEmpty(dto.getMachineCapacity())){
+			liftMaster.setMachineCapacity(dto.getMachineCapacity());
+		}
+		if(!StringUtils.isEmpty(dto.getMachineCurrent())){
+			liftMaster.setMachineCurrent(dto.getMachineCurrent());
+		}
+		if(!StringUtils.isEmpty(dto.getMachineMake())){
+			liftMaster.setMachineMake(dto.getMachineMake());
+		}
+		if(!StringUtils.isEmpty(dto.getBreakVoltage())){
+			liftMaster.setBreakVoltage(dto.getBreakVoltage());
+		}
+		if(!StringUtils.isEmpty(dto.getPanelMake())){
+			liftMaster.setPanelMake(dto.getPanelMake());
+		}
+		if(!StringUtils.isEmpty(dto.getArd())){
+			liftMaster.setARD(dto.getArd());
+		}
+		if(!StringUtils.isEmpty(dto.getCopMake())){
+			liftMaster.setCOPMake(dto.getCopMake());
+		}
+		if(!StringUtils.isEmpty(dto.getLopMake())){
+			liftMaster.setLOPMake(dto.getLopMake());
+		}
+		this.liftDao.mergeLiftM(liftMaster);
+		return PropertyUtils.getPrpertyFromContext(RlmsErrorType.PHOTO_UPDATED.getMessage());	
+		
 	}
 	
 }

@@ -73,7 +73,13 @@ public class LiftDaoImpl implements LiftDao{
 	
 	@Override
 	public Integer mergeLiftM(RlmsLiftMaster liftMaster){
-		return (Integer)this.sessionFactory.getCurrentSession().merge(liftMaster);		
+		Integer status=1;
+		try {
+			this.sessionFactory.getCurrentSession().merge(liftMaster);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return status;		
 	}
 	
 	@Override

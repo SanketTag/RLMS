@@ -1,68 +1,22 @@
 package com.rlms.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.web.authentication.RememberMeServices;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.reflect.TypeToken;
+import com.google.api.client.util.Base64;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
 import com.rlms.contract.ComplaintsDtlsDto;
@@ -81,7 +35,6 @@ import com.rlms.model.RlmsUserRoles;
 import com.rlms.service.ComplaintsService;
 import com.rlms.service.CustomerService;
 import com.rlms.service.LiftService;
-import com.rlms.service.MessagingServiceImpl;
 import com.rlms.service.UserService;
 import com.rlms.utils.DateUtils;
 import com.rlms.utils.PropertyUtils;
@@ -412,4 +365,19 @@ public class RestControllerController  extends BaseController {
         }
     	return reponseDto;
     }
+    
+    @RequestMapping(value = "/lift/updateLiftDetails", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto validateAndUpdateLiftDetails(@RequestBody LiftDtlsDto dto) throws RunTimeException, ValidationException {
+	 ResponseDto reponseDto = new ResponseDto();
+        
+        try{
+        	reponseDto.setResponse(this.liftService.updateLiftDetails(dto, null));
+        	
+        }
+        catch(Exception e){
+        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        }
+ 
+        return reponseDto;
+  }
 }

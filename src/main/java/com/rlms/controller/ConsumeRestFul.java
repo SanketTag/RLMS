@@ -1,15 +1,17 @@
 package com.rlms.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Calendar;
+import java.nio.file.Files;
 import java.util.Date;
 
+import com.google.api.client.util.Base64;
 import com.rlms.utils.DateUtils;
 
 public class ConsumeRestFul {
@@ -17,10 +19,13 @@ public class ConsumeRestFul {
 	// http://localhost:8080/RESTfulExample/json/product/post
 		public static void main(String[] args) {
 			//submitVisitDetails();
-			getAllComplaintsByTech();
+			//getAllComplaintsByTech();
+			//uploadLiftPhoto();
+			updateLiftDetails();
 			//addNewComplaint();
 		//	getVisitDetails();
 		}
+		
 		  public static void getAllComplaintsByTech(){
 			  try{
 			  /* 1.*/ // URL url = new URL("http://139.162.5.222:8000/RLMS/API/getAllComplaintsAssigned"); //(userRoleId 17)*/ 
@@ -71,6 +76,89 @@ public class ConsumeRestFul {
 
 			 }
 		  }
+		  
+		  public static void uploadLiftPhoto(){
+			  try{
+				 URL url = new URL("http://localhost:9090/RLMS/API/lift/uploadPhoto");
+				 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				conn.setDoOutput(true); 
+				conn.setRequestMethod("POST");
+				conn.setRequestProperty("Content-Type", "application/json");
+				byte[] machinePhotoBytes = null;
+				File imgPath=new File("F:\\SpringProject\\RLMS\\src\\main\\java\\com\\rlms\\controller\\APP.jpg");
+				machinePhotoBytes=Files.readAllBytes(imgPath.toPath());
+				String base64String = Base64.encodeBase64String(machinePhotoBytes);
+				String input="{\"liftCustomerMapId\":\"7\",\"photoType\":\"1\",\"machinePhoto\":\""+base64String+"\"}";
+				
+				OutputStream os = conn.getOutputStream();
+				os.write(input.getBytes());
+				os.flush();
+
+				if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+				}
+
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						(conn.getInputStream())));
+
+				String output;
+				System.out.println("Output from Server .... \n");
+				while ((output = br.readLine()) != null) {
+					System.out.println(output);
+					
+				}
+
+				conn.disconnect();
+
+			  } catch (MalformedURLException e) {
+
+				e.printStackTrace();
+
+			  } catch (IOException e) {
+
+				e.printStackTrace();
+
+			 }
+		  }
+		  
+		  public static void updateLiftDetails(){
+			  try{
+				 URL url = new URL("http://localhost:9090/RLMS/API/lift/updateLiftDetails");
+				 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				conn.setDoOutput(true); 
+				conn.setRequestMethod("POST");
+				conn.setRequestProperty("Content-Type", "application/json");
+				String input="{\"liftCustomerMapId\":\"7\",\"area\":\"Hadapsar\",\"city\":\"Pune\",\"pinCode\":\"411028\",\"amcAmount\":\"800\"}";
+				
+				OutputStream os = conn.getOutputStream();
+				os.write(input.getBytes());
+				os.flush();
+
+				if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+				}
+
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						(conn.getInputStream())));
+
+				String output;
+				System.out.println("Output from Server .... \n");
+				while ((output = br.readLine()) != null) {
+					System.out.println(output);
+					
+				}
+
+				conn.disconnect();
+
+			  } catch (MalformedURLException e) {
+
+				e.printStackTrace();
+
+			  } catch (IOException e) {
+
+				e.printStackTrace();
+
+			 }
+		  }
+		  
 		public static void addNewComplaint(){
 
 
