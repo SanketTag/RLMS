@@ -47,5 +47,9 @@ public interface LiftDao {
 	public void mergeLiftAMCDtls(RlmsLiftAmcDtls liftAmcDtls);
 	
 	public List<RlmsLiftAmcDtls> getAllLiftsWithTodaysExpiryDate();
+	
+	public List<RlmsLiftAmcDtls> getAllAMCDetils(List<Integer> listOfLiftsForAMCDtls, AMCDetailsDto dto);
+	
+	public List<RlmsLiftCustomerMap> getAllLiftsStatusForBranchs(List<Integer> companyBranchIds);
 
 }

@@ -68,6 +68,7 @@ public class LiftDtlsDto {
 	private Integer photoType;
 	private Integer liftType;
 	private boolean isBlank;
+	private Integer activeFlag;
 	
 	
 	public String getLiftNumber() {
@@ -448,7 +449,10 @@ public class LiftDtlsDto {
 	public void setAmcEndDateStr(String amcEndDateStr) {
 		this.amcEndDateStr = amcEndDateStr;
 	}
-	
-	
-	 
+	public Integer getActiveFlag() {
+		return activeFlag;
+	}
+	public void setActiveFlag(Integer activeFlag) {
+		this.activeFlag = activeFlag;
+	}	 
 }

@@ -240,7 +240,34 @@ public class LiftDaoImpl implements LiftDao{
 		
 	}
 	
-	
-	
+	@SuppressWarnings("unchecked")
+	public List<RlmsLiftAmcDtls> getAllAMCDetils(List<Integer> listOfLiftsForAMCDtls, AMCDetailsDto dto){		
+		
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftAmcDtls.class);			
+			 		  criteria.createAlias("liftCustomerMap", "lcm");
+					  criteria.add(Restrictions.in("lcm.liftCustomerMapId", listOfLiftsForAMCDtls));
+					  if(null != dto.getListOFStatusIds() && !dto.getListOFStatusIds().isEmpty()){
+						  criteria.add(Restrictions.in("status", dto.getListOFStatusIds()));
+					  };
+					  
+					  /*criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()))*/
+					  criteria.addOrder(Order.asc("craetedDate"));
+			 List<RlmsLiftAmcDtls> listOFAMCdtlsForAllLifts = criteria.list();
+			 
+			 return listOFAMCdtlsForAllLifts;
+		
+	}	
+	@SuppressWarnings("unchecked")
+	public List<RlmsLiftCustomerMap> getAllLiftsStatusForBranchs(List<Integer> companyBranchIds){		
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftCustomerMap.class)
+					 .createAlias("branchCustomerMap.companyBranchMapDtls", "branchCompanyMap")
+					 .add(Restrictions.in("branchCompanyMap.companyBranchMapId", companyBranchIds));
+					 /*.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));*/
+			 List<RlmsLiftCustomerMap> listOfAllLifts = criteria.list();
+			 return listOfAllLifts;
+		
+	}	
 	
 }

@@ -33,4 +33,7 @@ public interface DashboardService {
 
 	public List<UserRoleDtlsDTO> getListOfTechnicians(
 			List<Integer> companyBranchMapIds);
+	
+	public List<AMCDetailsDto> getAllAMCDetails(
+			List<Integer> listOfApplicableBranchIds, AMCDetailsDto amcDetailsDto);
 }

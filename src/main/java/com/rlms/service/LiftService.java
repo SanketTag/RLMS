@@ -27,4 +27,6 @@ public interface LiftService {
 	public CustomerDtlsDto getAddressDetailsOfLift(Integer branchCustoMapId);
 	
 	public String updateLiftDetails(LiftDtlsDto dto, UserMetaInfo userMetaInfo);
+	
+	public List<LiftDtlsDto> getLiftStatusForBranch(List<Integer> companyBranchIds, UserMetaInfo metaInfo);
 }

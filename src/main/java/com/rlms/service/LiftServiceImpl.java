@@ -464,4 +464,54 @@ public class LiftServiceImpl implements LiftService{
 		
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<LiftDtlsDto> getLiftStatusForBranch(List<Integer> companyBranchIds, UserMetaInfo metaInfo){
+		List<RlmsLiftCustomerMap> listOFAllLifts = this.liftDao.getAllLiftsStatusForBranchs(companyBranchIds);
+		List<LiftDtlsDto> listOfAllDtos = new ArrayList<LiftDtlsDto>();
+		for (RlmsLiftCustomerMap liftCustomerMap : listOFAllLifts) {
+			RlmsLiftMaster liftM = liftCustomerMap.getLiftMaster();
+			LiftDtlsDto dto = new LiftDtlsDto();
+			dto.setActiveFlag(liftM.getActiveFlag());
+			dto.setAccessControl(liftM.getAccessControl());
+			dto.setAddress(liftM.getAddress());
+			dto.setArea(liftM.getArea());
+			dto.setPinCode(liftM.getPincode());
+			dto.setCity(liftM.getCity());
+			dto.setAlarm(liftM.getAlarm());
+			dto.setAlarmBattery(liftM.getAlarmBattery());
+			dto.setAmcAmount(liftM.getAmcAmount());
+			dto.setAmcStartDate(liftM.getAmcStartDate());
+			if(null != liftM.getAmcStartDate()){
+				dto.setAmcStartDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getAmcStartDate()));
+			}
+			dto.setAmcType(liftM.getAmcType());
+			dto.setArd(liftM.getARD());
+			dto.setArdPhoto(liftM.getARDPhoto());
+			dto.setAutoDoorHeaderPhoto(liftM.getAutoDoorHeaderPhoto());
+			dto.setBatteryCapacity(liftM.getBatteryCapacity());
+			dto.setBatteryMake(liftM.getBatteryMake());
+			dto.setBranchName(liftCustomerMap.getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());;
+			dto.setCustomerName(liftCustomerMap.getBranchCustomerMap().getCustomerMaster().getCustomerName());
+			dto.setDateOfInstallation(liftM.getDateOfInstallation());
+			if(null != liftM.getDateOfInstallation()){
+				dto.setDateOfInstallationStr(DateUtils.convertDateToStringWithoutTime(liftM.getDateOfInstallation()));
+			}
+			dto.setLiftNumber(liftM.getLiftNumber());
+			dto.setServiceStartDate(liftM.getServiceStartDate());
+			if(null != liftM.getServiceStartDate()){
+				dto.setServiceStartDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getServiceStartDate()));
+			}
+			dto.setServiceEndDate(liftM.getServiceEndDate());
+			if(null != liftM.getServiceEndDate()){
+				dto.setServiceEndDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getServiceEndDate()));
+			}
+			dto.setCompanyName(liftCustomerMap.getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyName());
+			dto.setLiftId(liftM.getLiftId());
+			listOfAllDtos.add(dto);
+		}
+		
+		return listOfAllDtos;
+		
+	}
+	
 }

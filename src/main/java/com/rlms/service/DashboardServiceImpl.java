@@ -156,7 +156,7 @@ public class DashboardServiceImpl implements DashboardService {
 			List<RlmsLiftAmcDtls> listForLift = new ArrayList<RlmsLiftAmcDtls>(
 					listOfAMCDtls);
 			CollectionUtils.filter(listForLift, new LiftPredicate(liftId));
-			listOFAMCDetails.addAll(this.constructListOFAMcDtos(listOfAMCDtls));
+			listOFAMCDetails.addAll(this.constructListOFAMcDtos(listForLift));
 		}
 
 		return listOFAMCDetails;
@@ -288,11 +288,13 @@ public class DashboardServiceImpl implements DashboardService {
 		for (RlmsLiftAmcDtls liftAmcDtls : listOFAMCs) {
 			AMCDetailsDto dto = new AMCDetailsDto();
 			if (null != liftAmcDtls.getAmcEndDate()) {
+				dto.setAmcEdDate(liftAmcDtls.getAmcEndDate());
 				dto.setAmcEndDate(DateUtils
 						.convertDateToStringWithoutTime(liftAmcDtls
 								.getAmcEndDate()));
 			}
 			if (null != liftAmcDtls.getAmcStartDate()) {
+				dto.setAmcStDate(liftAmcDtls.getAmcStartDate());
 				dto.setAmcStartDate(DateUtils
 						.convertDateToStringWithoutTime(liftAmcDtls
 								.getAmcStartDate()));
@@ -302,6 +304,7 @@ public class DashboardServiceImpl implements DashboardService {
 					.getBranchCustomerMap().getCustomerMaster()
 					.getCustomerName());
 			if (null != liftAmcDtls.getAmcDueDate()) {
+				dto.setAmcDueDate(liftAmcDtls.getAmcDueDate());
 				dto.setDueDate(DateUtils
 						.convertDateToStringWithoutTime(liftAmcDtls
 								.getAmcDueDate()));
@@ -358,17 +361,20 @@ public class DashboardServiceImpl implements DashboardService {
 					}
 				}
 			}
-
-			if (AMCType.COMPREHENSIVE.getId() == liftAmcDtls.getAmcType()) {
-				dto.setAmcTypeStr(AMCType.COMPREHENSIVE.getType());
-			} else if (AMCType.NON_COMPREHENSIVE.getId() == liftAmcDtls
-					.getAmcType()) {
-				dto.setAmcTypeStr(AMCType.NON_COMPREHENSIVE.getType());
-			} else if (AMCType.ON_DEMAND.getId() == liftAmcDtls.getAmcType()) {
-				dto.setAmcTypeStr(AMCType.ON_DEMAND.getType());
-			} else if (AMCType.OTHER.getId() == liftAmcDtls.getAmcType()) {
-				dto.setAmcTypeStr(AMCType.OTHER.getType());
+			if(liftAmcDtls.getAmcType()!=null){
+				if (AMCType.COMPREHENSIVE.getId() == liftAmcDtls.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.COMPREHENSIVE.getType());
+				} else if (AMCType.NON_COMPREHENSIVE.getId() == liftAmcDtls
+						.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.NON_COMPREHENSIVE.getType());
+				} else if (AMCType.ON_DEMAND.getId() == liftAmcDtls.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.ON_DEMAND.getType());
+				} else if (AMCType.OTHER.getId() == liftAmcDtls.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.OTHER.getType());
+				}
 			}
+			dto.setCompanyName(liftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyName());
+			dto.setActiveFlag(liftAmcDtls.getActiveFlag());
 			listOFDtos.add(dto);
 			i++;
 		}
@@ -445,5 +451,35 @@ public class DashboardServiceImpl implements DashboardService {
 		}
 
 		return listOfActiveUserRoles;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<AMCDetailsDto> getAllAMCDetails(List<Integer> liftCustomerMapId,AMCDetailsDto amcDetailsDto) {
+		List<AMCDetailsDto> listOFAMCDetails = new ArrayList<AMCDetailsDto>();
+		List<Integer> listOfLiftsForAMCDtls = new ArrayList<Integer>();
+		List<RlmsLiftCustomerMap> listOFApplicableLifts = new ArrayList<RlmsLiftCustomerMap>();
+
+		listOFApplicableLifts = this.liftDao.getAllLiftsByIds(liftCustomerMapId);
+		for (RlmsLiftCustomerMap rlmsLiftCustomerMap : listOFApplicableLifts) {
+			listOfLiftsForAMCDtls.add(rlmsLiftCustomerMap
+					.getLiftCustomerMapId());
+		}
+
+		List<RlmsLiftAmcDtls> listOfAMCDtls = this.liftDao
+				.getAllAMCDetils(listOfLiftsForAMCDtls, amcDetailsDto);
+		Set<Integer> liftIds = new HashSet<Integer>();
+		for (RlmsLiftAmcDtls liftAmcDtls : listOfAMCDtls) {
+			liftIds.add(liftAmcDtls.getLiftCustomerMap().getLiftMaster()
+					.getLiftId());
+		}
+
+		for (Integer liftId : liftIds) {
+			List<RlmsLiftAmcDtls> listForLift = new ArrayList<RlmsLiftAmcDtls>(
+					listOfAMCDtls);
+			CollectionUtils.filter(listForLift, new LiftPredicate(liftId));
+			listOFAMCDetails.addAll(this.constructListOFAMcDtos(listForLift));
+		}
+
+		return listOFAMCDetails;
 	}
 }

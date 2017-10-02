@@ -44,6 +44,47 @@ angular.module('theme.demos.dashboard.indi', [
         color: 'blue'
       }
     };
+    
+    $scope.liftStatus = {
+    	      totalInstalled: {
+    	        title: 'Total Installed',
+    	        text: '0',
+    	        color: 'red'
+    	      },
+    	      activeLiftStatus: {
+    	        title: 'Active',
+    	        text: '0',
+    	        color: 'amber'
+    	      },
+    	      inactiveLiftStatus: {
+    	        title: 'Inactive',
+    	        text: '0',
+    	        color: 'blue'
+    	      }
+    	    };
+    
+    $scope.amcDetailsData = {
+    	      totalRenewalForThisMonth: {
+    	        title: 'Total Renewal For This Month',
+    	        text: '0',
+    	        color: 'red'
+    	      },
+    	      activeAmc: {
+    	        title: 'Active',
+    	        text: '0',
+    	        color: 'amber'
+    	      },
+    	      inactiveAmc: {
+    	        title: 'Inactive',
+    	        text: '0',
+    	        color: 'blue'
+    	      },
+    	      expiredAmc: {
+      	        title: 'Expire',
+      	        text: '0',
+      	        color: 'blue'
+      	      }
+    	    };
 
     $scope.complaintsData = {
       totalComplaints: {
@@ -319,7 +360,22 @@ angular.module('theme.demos.dashboard.indi', [
 
     $scope.$watch('pagingOptionsForComplaints', function (newVal, oldVal) {
       if (newVal !== oldVal) {
-        $scope.getPagedDataAsyncForComplaints($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText, $scope.currentComplaintStatus, $scope.currentModel);
+    	  if($scope.currentModel==="complaints"){
+      		$scope
+              .getPagedDataAsyncForComplaints(
+              $scope.pagingOptionsForComplaints.pageSize,
+              $scope.pagingOptionsForComplaints.currentPage,
+              $scope.filterOptionsForModal.filterText,
+              $scope.currentComplaintStatus,
+              $scope.currentModel,
+              $scope.isTodaysData);
+      	}else if($scope.currentModel==="amcDetails"){
+      		$scope.getPagedDataAsyncForAllAMCDetails($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForAMC);
+      	}else if($scope.currentModel==="technician"){
+      		$scope.getPagedDataAsyncForTechnician($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForTechnician);
+      	}else if($scope.currentModel==="liftStatus"){
+      		$scope.getPagedDataAsyncForAllLiftStatus($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForLiftStatus);
+      	};
       }
     }, true);
     $scope
@@ -327,14 +383,23 @@ angular.module('theme.demos.dashboard.indi', [
       'filterOptionsForModal',
       function (newVal, oldVal) {
         if (newVal !== oldVal) {
-          $scope
-            .getPagedDataAsyncForComplaints(
-            $scope.pagingOptionsForComplaints.pageSize,
-            $scope.pagingOptionsForComplaints.currentPage,
-            $scope.filterOptionsForModal.filterText,
-            $scope.currentComplaintStatus,
-            $scope.currentModel,
-            $scope.isTodaysData);
+        	if($scope.currentModel==="complaints"){
+        		$scope
+                .getPagedDataAsyncForComplaints(
+                $scope.pagingOptionsForComplaints.pageSize,
+                $scope.pagingOptionsForComplaints.currentPage,
+                $scope.filterOptionsForModal.filterText,
+                $scope.currentComplaintStatus,
+                $scope.currentModel,
+                $scope.isTodaysData);
+        	}else if($scope.currentModel==="amcDetails"){
+        		$scope.getPagedDataAsyncForAllAMCDetails($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForAMC);
+        	}else if($scope.currentModel==="technician"){
+          		$scope.getPagedDataAsyncForTechnician($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForTechnician);
+          	}else if($scope.currentModel==="liftStatus"){
+          		$scope.getPagedDataAsyncForAllLiftStatus($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForLiftStatus);
+          	};
+          
         }
       }, true);
 
@@ -350,11 +415,7 @@ angular.module('theme.demos.dashboard.indi', [
     $scope.getPagedDataAsyncForComplaints = function (pageSize,
       page, searchText, complaintStatus, callingModel,isTodaysData) {
       var url;
-      if (callingModel == 'attemptedToday') {
-        url = '/RLMS/dashboard/getListOfComplaintsForSiteVisited';
-      } else {
-        url = '/RLMS/dashboard/getListOfComplaintsForDashboard';
-      }
+      url = '/RLMS/dashboard/getListOfComplaintsForDashboard';
       setTimeout(
         function () {
           var data;
@@ -509,9 +570,11 @@ angular.module('theme.demos.dashboard.indi', [
         $scope.myComplaintsData = emptyComplaintsArray;
         $scope.pagingOptionsForComplaints.currentPage = 1;
         $scope.totalServerItemsForComplaints = 0;
+        $scope.filterOptionsForModal.filterText='';
         $scope.currentModel = currentModelOpen;
         $scope.modalHeaderVal = headerValue;
-        $scope.getPagedDataAsyncForTechnician($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "",currentModelOpen,activeFlag); 
+        $scope.activeFlagForTechnician = activeFlag;
+        $scope.getPagedDataAsyncForTechnician($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "",activeFlag); 
         $scope.modalInstance = $modal.open({
           templateUrl: 'demoModalContent.html',
           scope: $scope
@@ -519,7 +582,7 @@ angular.module('theme.demos.dashboard.indi', [
       };
     
     $scope.getPagedDataAsyncForTechnician = function (pageSize,
-    	      page, searchText, callingModel, activeFlag) {
+    	      page, searchText, activeFlag) {
     	      var url;
     	      url = '/RLMS/dashboard/getListOfTechniciansForDashboard';
     	      setTimeout(
@@ -682,4 +745,430 @@ angular.module('theme.demos.dashboard.indi', [
         };
         return dataToSend;
       };
+      
+      $scope.constructDataToSendForAllAMCDetails=function() {
+      	var tempStatus =[];
+      	tempStatus.push(38);
+      	tempStatus.push(39);
+      	tempStatus.push(40);
+      	tempStatus.push(41);
+        var data = {
+          companyId: $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId,
+          listOFStatusIds:tempStatus
+        };
+        return data;
+      };
+      
+      $scope.openDemoModalForAllAMCDetails = function (currentModelOpen, headerValue, activeFlag) {
+          var emptyComplaintsArray = [];
+          $scope.myComplaintsData = emptyComplaintsArray;
+          $scope.pagingOptionsForComplaints.currentPage = 1;
+          $scope.totalServerItemsForComplaints = 0;
+          $scope.currentModel = currentModelOpen;
+          $scope.filterOptionsForModal.filterText='';
+          $scope.modalHeaderVal = headerValue;
+          $scope.activeFlagForAMC=activeFlag;
+          $scope.getPagedDataAsyncForAllAMCDetails($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "",activeFlag); 
+          $scope.modalInstance = $modal.open({
+            templateUrl: 'demoModalContent.html',
+            scope: $scope
+          });
+        };
+      
+      $scope.getPagedDataAsyncForAllAMCDetails = function (pageSize,
+    	      page, searchText, activeFlag) {
+    	      var url;
+    	      url = '/RLMS/dashboard/getAllAMCDetails';
+    	      setTimeout(
+    	        function () {
+    	          var data;
+    	          if (searchText) {
+    	            var ft = searchText
+    	              .toLowerCase();
+    	            var dataToSend = $scope
+    	              .constructDataToSendForAllAMCDetails();
+    	            serviceApi
+    	              .doPostWithData(url, dataToSend)
+    	              .then(
+    	              function (largeLoad) {
+    	                $scope.complaints = largeLoad;
+    	                $scope.showTable = true;
+    	                var userDetails = [];
+    	                if (activeFlag=="Active") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 1;
+      	                  });
+      	                }
+    	                if (activeFlag=="InActive") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 0;
+      	                  });
+      	                }
+    	                if(activeFlag==="Expire"){
+    	                	largeLoad = largeLoad.filter(function (item) {
+    	  	                    return (new Date(item.amcEdDate)).getTime() < $scope.todaysDate.getTime();
+    	  	                  });
+    	                }
+    	                for (var i = 0; i < largeLoad.length; i++) {
+    	                  var userDetailsObj = {};
+    	                  if (!!largeLoad[i].liftNumber) {
+      	                    userDetailsObj["No"] = largeLoad[i].liftNumber;
+      	                  } else {
+      	                    userDetailsObj["No"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].companyName) {
+      	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
+      	                  } else {
+      	                    userDetailsObj["CompanyName"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].customerName) {
+      	                    userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+      	                  } else {
+      	                    userDetailsObj["CustomerName"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].amcStartDate) {
+        	                userDetailsObj["AMCStartDate"] = largeLoad[i].amcStartDate;
+        	              } else {
+        	                userDetailsObj["AMCStartDate"] = " - ";
+        	              }
+      	                  if (!!largeLoad[i].amcEndDate) {
+          	                userDetailsObj["AMCEndDate"] = largeLoad[i].amcEndDate;
+          	              } else {
+          	                userDetailsObj["AMCEndDate"] = " - ";
+          	              }
+    	                  userDetails
+    	                    .push(userDetailsObj);
+    	                }
+    	                
+    	                data = userDetails
+    	                  .filter(function (
+    	                    item) {
+    	                    return JSON
+    	                      .stringify(
+    	                      item)
+    	                      .toLowerCase()
+    	                      .indexOf(
+    	                      ft) !== -1;
+    	                  });
+    	                $scope
+    	                  .setPagingDataForComplaints(
+    	                  data,
+    	                  page,
+    	                  pageSize);
+    	              });
+    	          } else {
+    	            var dataToSend = $scope
+    	              .constructDataToSendForAllAMCDetails();
+    	            serviceApi
+    	              .doPostWithData(url,
+    	              dataToSend)
+    	              .then(
+    	              function (
+    	                largeLoad) {
+    	                $scope.complaints = largeLoad;
+    	                $scope.showTable = true;
+    	                var userDetails = [];
+    	                if (activeFlag=="Active") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 1;
+      	                  });
+      	                }
+    	                if (activeFlag=="InActive") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 0;
+      	                  });
+      	                }
+    	                if(activeFlag==="Expire"){
+    	                	largeLoad = largeLoad.filter(function (item) {
+    	  	                    return (new Date(item.amcEdDate)).getTime() < $scope.todaysDate.getTime();
+    	  	                  });
+    	                }
+    	                for (var i = 0; i < largeLoad.length; i++) {
+      	                  var userDetailsObj = {};
+      	                if (!!largeLoad[i].liftNumber) {
+      	                    userDetailsObj["No"] = largeLoad[i].liftNumber;
+      	                  } else {
+      	                    userDetailsObj["No"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].companyName) {
+      	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
+      	                  } else {
+      	                    userDetailsObj["CompanyName"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].customerName) {
+      	                    userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+      	                  } else {
+      	                    userDetailsObj["CustomerName"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].amcStartDate) {
+        	                userDetailsObj["AMCStartDate"] = largeLoad[i].amcStartDate;
+        	              } else {
+        	                userDetailsObj["AMCStartDate"] = " - ";
+        	              }
+      	                  if (!!largeLoad[i].amcEndDate) {
+          	                userDetailsObj["AMCEndDate"] = largeLoad[i].amcEndDate;
+          	              } else {
+          	                userDetailsObj["AMCEndDate"] = " - ";
+          	              }
+      	                  userDetails
+      	                    .push(userDetailsObj);
+      	                }
+    	                $scope
+    	                  .setPagingDataForComplaints(
+    	                  userDetails,
+    	                  page,
+    	                  pageSize);
+    	              });
+
+    	          }
+    	        }, 100);
+    	    }; 
+      
+      
+      
+      $scope.getActiveAMCCount = function (amcStatus) {
+	        
+	        setTimeout(
+	          function () {
+	            var dataToSend = $scope
+	              .constructDataToSendForAllAMCDetails();
+	            serviceApi
+	              .doPostWithData(
+	              '/RLMS/dashboard/getAllAMCDetails',
+	              dataToSend)
+	              .then(
+	              function (
+	                largeLoad) {
+	                if (amcStatus=="Active") {
+	                  $scope.activeAMCDetails = largeLoad.filter(function (item) {
+	                    return item.activeFlag === 1;
+	                  });
+	                  $scope.amcDetailsData.activeAmc.text=$scope.activeAMCDetails.length;
+	                }
+	                if(amcStatus=="InActive"){
+	                	$scope.inactiveAMCDetails = largeLoad.filter(function (item) {
+  	                    return item.activeFlag === 0;
+  	                  });
+  	                  $scope.amcDetailsData.inactiveAmc.text=$scope.inactiveAMCDetails.length;
+	                }
+	                if(amcStatus=="Expire"){
+	                	$scope.expireAMC = largeLoad.filter(function (item) {
+  	                    return (new Date(item.amcEdDate)).getTime() < $scope.todaysDate.getTime();
+  	                  });
+  	                  $scope.amcDetailsData.expiredAmc.text=$scope.expireAMC.length;
+	                }
+	                /*if(amcStatus=="RenewalForThisMonth"){
+	                	$scope.renewalForThisMonthAMC = largeLoad.filter(function (item) {
+  	                    return (new Date(item.amcEdDate)).getTime() < $scope.todaysDate.getTime();
+  	                  });
+  	                  $scope.amcDetailsData.totalRenewalForThisMonth.text=$scope.renewalForThisMonthAMC.length;
+	                }*/
+	              });
+	          }, 100);
+	      };
+      
+      $scope.getActiveAMCCount("Active");
+      $scope.getActiveAMCCount("InActive");
+      $scope.getActiveAMCCount("Expire");
+      $scope.getActiveAMCCount("RenewalForThisMonth");
+      
+      
+      $scope.openDemoModalForAllLiftStatusDetails = function (currentModelOpen, headerValue, activeFlag) {
+          var emptyComplaintsArray = [];
+          $scope.myComplaintsData = emptyComplaintsArray;
+          $scope.pagingOptionsForComplaints.currentPage = 1;
+          $scope.totalServerItemsForComplaints = 0;
+          $scope.currentModel = currentModelOpen;
+          $scope.filterOptionsForModal.filterText='';
+          $scope.modalHeaderVal = headerValue;
+          $scope.activeFlagForLiftStatus=activeFlag;
+          $scope.getPagedDataAsyncForAllLiftStatus($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "",activeFlag); 
+          $scope.modalInstance = $modal.open({
+            templateUrl: 'demoModalContent.html',
+            scope: $scope
+          });
+        };
+      
+      $scope.getPagedDataAsyncForAllLiftStatus = function (pageSize,
+    	      page, searchText, activeFlag) {
+    	      var url;
+    	      url = '/RLMS/dashboard/getLiftStatus';
+    	      setTimeout(
+    	        function () {
+    	          var data;
+    	          if (searchText) {
+    	            var ft = searchText
+    	              .toLowerCase();
+    	            var dataToSend = $scope
+    	              .constructDataToSendForAllLiftStatus();
+    	            serviceApi
+    	              .doPostWithData(url, dataToSend)
+    	              .then(
+    	              function (largeLoad) {
+    	                $scope.complaints = largeLoad;
+    	                $scope.showTable = true;
+    	                var userDetails = [];
+    	                if (activeFlag=="Active") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 1;
+      	                  });
+      	                }
+    	                if (activeFlag=="InActive") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 0;
+      	                  });
+      	                }
+    	                for (var i = 0; i < largeLoad.length; i++) {
+    	                  var userDetailsObj = {};
+    	                  if (!!largeLoad[i].liftId) {
+      	                    userDetailsObj["No"] = largeLoad[i].liftId;
+      	                  } else {
+      	                    userDetailsObj["No"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].liftNumber) {
+      	                    userDetailsObj["LiftNumber"] = largeLoad[i].liftNumber;
+      	                  } else {
+      	                    userDetailsObj["LiftNumber"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].companyName) {
+      	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
+      	                  } else {
+      	                    userDetailsObj["CompanyName"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].customerName) {
+        	                userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+        	              } else {
+        	                userDetailsObj["CustomerName"] = " - ";
+        	              }
+      	                  if (!!largeLoad[i].dateOfInstallationStr) {
+          	                userDetailsObj["InstallationDate"] = largeLoad[i].dateOfInstallationStr;
+          	              } else {
+          	                userDetailsObj["InstallationDate"] = " - ";
+          	              }
+    	                  userDetails
+    	                    .push(userDetailsObj);
+    	                }
+    	                
+    	                data = userDetails
+    	                  .filter(function (
+    	                    item) {
+    	                    return JSON
+    	                      .stringify(
+    	                      item)
+    	                      .toLowerCase()
+    	                      .indexOf(
+    	                      ft) !== -1;
+    	                  });
+    	                $scope
+    	                  .setPagingDataForComplaints(
+    	                  data,
+    	                  page,
+    	                  pageSize);
+    	              });
+    	          } else {
+    	            var dataToSend = $scope
+    	              .constructDataToSendForAllLiftStatus();
+    	            serviceApi
+    	              .doPostWithData(url,
+    	              dataToSend)
+    	              .then(
+    	              function (
+    	                largeLoad) {
+    	                $scope.complaints = largeLoad;
+    	                $scope.showTable = true;
+    	                var userDetails = [];
+    	                if (activeFlag=="Active") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 1;
+      	                  });
+      	                }
+    	                if (activeFlag=="InActive") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 0;
+      	                  });
+      	                }
+    	                for (var i = 0; i < largeLoad.length; i++) {
+    	                	var userDetailsObj = {};
+    	                if (!!largeLoad[i].liftId) {
+      	                    userDetailsObj["No"] = largeLoad[i].liftId;
+      	                  } else {
+      	                    userDetailsObj["No"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].liftNumber) {
+      	                    userDetailsObj["LiftNumber"] = largeLoad[i].liftNumber;
+      	                  } else {
+      	                    userDetailsObj["LiftNumber"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].companyName) {
+      	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
+      	                  } else {
+      	                    userDetailsObj["CompanyName"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].customerName) {
+        	                userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+        	              } else {
+        	                userDetailsObj["CustomerName"] = " - ";
+        	              }
+      	                  if (!!largeLoad[i].dateOfInstallationStr) {
+          	                userDetailsObj["InstallationDate"] = largeLoad[i].dateOfInstallationStr;
+          	              } else {
+          	                userDetailsObj["InstallationDate"] = " - ";
+          	              }
+      	                  userDetails
+      	                    .push(userDetailsObj);
+      	                };
+    	                $scope
+    	                  .setPagingDataForComplaints(
+    	                  userDetails,
+    	                  page,
+    	                  pageSize);
+    	              });
+
+    	          }
+    	        }, 100);
+    	    }; 
+      
+      $scope.constructDataToSendForAllLiftStatus=function() {
+          var data = {
+            companyId: $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+          };
+          return data;
+        };
+      
+      $scope.getLiftStatusDetailsCount = function (liftStatus) {
+	        
+	        setTimeout(
+	          function () {
+	            var dataToSend = $scope
+	              .constructDataToSendForAllLiftStatus();
+	            serviceApi
+	              .doPostWithData(
+	              '/RLMS/dashboard/getLiftStatus',
+	              dataToSend)
+	              .then(
+	              function (
+	                largeLoad) {
+	                if (liftStatus=="Active") {
+	                  $scope.activeLiftStatus = largeLoad.filter(function (item) {
+	                    return item.activeFlag === 1;
+	                  });
+	                  $scope.liftStatus.activeLiftStatus.text=$scope.activeLiftStatus.length;
+	                }
+	                if(liftStatus=="InActive"){
+	                	$scope.inactiveLiftStatus = largeLoad.filter(function (item) {
+	                    return item.activeFlag === 0;
+	                  });
+	                  $scope.liftStatus.inactiveLiftStatus.text=$scope.inactiveLiftStatus.length;
+	                }
+	                if(liftStatus=="Total"){
+	                  $scope.liftStatus.totalInstalled.text=largeLoad.length;
+	                }
+	              });
+	          }, 100);
+	      };
+    
+      $scope.getLiftStatusDetailsCount("Active");
+      $scope.getLiftStatusDetailsCount("InActive");
+      $scope.getLiftStatusDetailsCount("Total");
+      
   }]);

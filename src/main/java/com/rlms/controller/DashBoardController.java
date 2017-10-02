@@ -35,6 +35,7 @@ import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsSiteVisitDtls;
 import com.rlms.service.CompanyService;
 import com.rlms.service.DashboardService;
+import com.rlms.service.LiftService;
 import com.rlms.utils.PropertyUtils;
 
 @Controller
@@ -51,6 +52,9 @@ public class DashBoardController extends BaseController {
 	
 	@Autowired
 	ComplaintsDao complaintsDao;
+	
+	@Autowired
+	private LiftService liftService;
 
 	private static final Logger logger = Logger
 			.getLogger(ComplaintController.class);
@@ -250,5 +254,84 @@ public class DashBoardController extends BaseController {
 			} 
 		}
  		return finalListOfComplaints;
+	}
+	
+	@RequestMapping(value = "/getAllAMCDetails", method = RequestMethod.POST)
+	public @ResponseBody
+	List<AMCDetailsDto> getAMCForDashboard(
+			@RequestBody AMCDetailsDto amcDetailsDto)
+			throws RunTimeException, ValidationException {
+
+		List<AMCDetailsDto> listOFAmcDtls = null;
+		List<RlmsCompanyBranchMapDtls> listOfAllBranches = null;
+
+		List<Integer> companyBranchIds = new ArrayList<>();
+
+		try {
+			logger.info("Method :: getAllBranchesForCompany");
+			listOfAllBranches = this.companyService
+					.getAllBranches(amcDetailsDto.getCompanyId());
+			for (RlmsCompanyBranchMapDtls companyBranchMap : listOfAllBranches) {
+				companyBranchIds.add(companyBranchMap.getCompanyBranchMapId());
+			}
+
+			List<CustomerDtlsDto> allCustomersForBranch = dashboardService
+					.getAllCustomersForBranch(companyBranchIds);
+			List<Integer> liftCustomerMapIds = new ArrayList<>();
+			for (CustomerDtlsDto customerDtlsDto : allCustomersForBranch) {
+				LiftDtlsDto dto = new LiftDtlsDto();
+				dto.setBranchCustomerMapId(customerDtlsDto
+						.getBranchCustomerMapId());
+				List<RlmsLiftCustomerMap> list=dashboardService.getAllLiftsForBranchsOrCustomer(dto);
+				for (RlmsLiftCustomerMap rlmsLiftCustomerMap : list) {
+					liftCustomerMapIds.add(rlmsLiftCustomerMap
+							.getLiftCustomerMapId());
+				}
+			}
+			listOFAmcDtls = this.dashboardService
+					.getAllAMCDetails(liftCustomerMapIds,amcDetailsDto);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(ExceptionUtils.getFullStackTrace(e));
+			throw new RunTimeException(
+					ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(),
+					PropertyUtils
+							.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS
+									.getMessage()));
+		}
+		return listOFAmcDtls;
+	}
+	
+	@RequestMapping(value = "/getLiftStatus", method = RequestMethod.POST)
+	public @ResponseBody
+	List<LiftDtlsDto> getLiftStatus(
+			@RequestBody LiftDtlsDto liftDtlsDto)
+			throws RunTimeException, ValidationException {
+
+		List<LiftDtlsDto> listOfLifts = new ArrayList<LiftDtlsDto>();
+		List<RlmsCompanyBranchMapDtls> listOfAllBranches = null;
+
+		List<Integer> companyBranchIds = new ArrayList<>();
+
+		try {
+			logger.info("Method :: getAllBranchesForCompany");
+			listOfAllBranches = this.companyService
+					.getAllBranches(liftDtlsDto.getCompanyId());
+			for (RlmsCompanyBranchMapDtls companyBranchMap : listOfAllBranches) {
+				companyBranchIds.add(companyBranchMap.getCompanyBranchMapId());
+			}
+			listOfLifts=liftService.getLiftStatusForBranch(companyBranchIds, this.getMetaInfo());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(ExceptionUtils.getFullStackTrace(e));
+			throw new RunTimeException(
+					ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(),
+					PropertyUtils
+							.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS
+									.getMessage()));
+		}
+		return listOfLifts;
 	}
 }

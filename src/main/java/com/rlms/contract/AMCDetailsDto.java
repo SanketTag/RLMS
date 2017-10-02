@@ -30,6 +30,8 @@ public class AMCDetailsDto {
 	private Date amcStDate;
 	private Date amcEdDate;
 	private Date amcDueDate;
+	private Integer activeFlag;
+	private String companyName;
 	
 	public Integer getCompanyId() {
 		return companyId;
@@ -181,7 +183,18 @@ public class AMCDetailsDto {
 	public void setAmcDueDate(Date amcDueDate) {
 		this.amcDueDate = amcDueDate;
 	}
-	
+	public Integer getActiveFlag() {
+		return activeFlag;
+	}
+	public void setActiveFlag(Integer activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 	
 	
 }
