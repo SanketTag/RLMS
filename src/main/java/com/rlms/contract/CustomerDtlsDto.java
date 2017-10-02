@@ -31,9 +31,11 @@ public class CustomerDtlsDto {
 	private String watchmenName;
 	private String watchmenNumber;
 	private String watchmenEmail;
+	private Integer activeFlag;
 	
 	private Integer branchCustomerMapId;
 	private Integer companyId;
+	private Integer customerId;
 	
 	public String getFirstName() {
 		return firstName;
@@ -220,6 +222,18 @@ public class CustomerDtlsDto {
 	}
 	public void setCompanyId(Integer companyId) {
 		this.companyId = companyId;
+	}
+	public Integer getActiveFlag() {
+		return activeFlag;
+	}
+	public void setActiveFlag(Integer activeFlag) {
+		this.activeFlag = activeFlag;
+	}
+	public Integer getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
 	}
 	
 	

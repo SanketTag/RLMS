@@ -34,6 +34,7 @@ import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsSiteVisitDtls;
 import com.rlms.service.CompanyService;
+import com.rlms.service.CustomerService;
 import com.rlms.service.DashboardService;
 import com.rlms.service.LiftService;
 import com.rlms.utils.PropertyUtils;
@@ -55,6 +56,9 @@ public class DashBoardController extends BaseController {
 	
 	@Autowired
 	private LiftService liftService;
+	
+	@Autowired
+	private CustomerService customerService;
 
 	private static final Logger logger = Logger
 			.getLogger(ComplaintController.class);
@@ -334,4 +338,29 @@ public class DashBoardController extends BaseController {
 		}
 		return listOfLifts;
 	}
+	
+	@RequestMapping(value = "/getListOfCustomerForDashboard", method = RequestMethod.POST)
+	 public @ResponseBody List<CustomerDtlsDto> getListOfCustomerDtls(@RequestBody CustomerDtlsDto customerDtlsDto) throws RunTimeException {
+		 	List<CustomerDtlsDto> listOfCustomers = null;
+			List<RlmsCompanyBranchMapDtls> listOfAllBranches = null;
+
+			List<Integer> companyBranchIds = new ArrayList<>();
+	        
+	        try{
+	        	logger.info("Method :: getAllBranchesForCompany");
+				listOfAllBranches = this.companyService
+						.getAllBranches(customerDtlsDto.getCompanyId());
+				for (RlmsCompanyBranchMapDtls companyBranchMap : listOfAllBranches) {
+					companyBranchIds.add(companyBranchMap.getCompanyBranchMapId());
+				}
+	        	listOfCustomers = this.customerService.getAllApplicableCustomersForDashboard(companyBranchIds, this.getMetaInfo());
+	        	
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        	
+	        }
+	 
+	        return listOfCustomers;
+	 }
 }

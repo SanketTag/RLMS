@@ -183,11 +183,14 @@ public class CustomerServiceImpl implements CustomerService{
 			dto.setWatchmenName(branchCustomerMap.getCustomerMaster().getWatchmenName());
 			dto.setWatchmenNumber(branchCustomerMap.getCustomerMaster().getWatchmenNumber());
 			dto.setWatchmenEmail(branchCustomerMap.getCustomerMaster().getWatchmenEmail());
+			dto.setCustomerId(branchCustomerMap.getCustomerMaster().getCustomerId());
+			dto.setActiveFlag(branchCustomerMap.getActiveFlag());
 			if(null != listOfLifts && !listOfLifts.isEmpty()){
 				dto.setTotalNumberOfLifts(listOfLifts.size());
 			}
 			dto.setBranchName(branchCustomerMap.getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());
 			dto.setCompanyName(branchCustomerMap.getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyName());
+			dto.setCustomerName(branchCustomerMap.getCustomerMaster().getCustomerName());
 			listOFDtos.add(dto);
 		}
 		return listOFDtos;
@@ -465,6 +468,12 @@ public class CustomerServiceImpl implements CustomerService{
 			}
 		}
 		return listOFCustomerDtls;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<CustomerDtlsDto> getAllApplicableCustomersForDashboard(List<Integer> companyBranchIds, UserMetaInfo metaInfo){
+		List<RlmsBranchCustomerMap> listOfAllCustomers = this.customerDao.getAllCustomersForDashboard(companyBranchIds);
+		return this.constructListOfCustomerDtlsDto(listOfAllCustomers);
 	}
 }
 

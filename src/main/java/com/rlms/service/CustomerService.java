@@ -27,4 +27,6 @@ public interface CustomerService {
 	public RlmsMemberMaster getMemberById(Integer memeberId);
 	public List<CustomerDtlsDto> getCustomerByName(String custoName, UserMetaInfo metaInfo);
 	public CustomerDtlsDto getCustomerDtlsById(Integer branchCustomerMapId);
+	public List<CustomerDtlsDto> getAllApplicableCustomersForDashboard(
+			List<Integer> companyBranchIds, UserMetaInfo metaInfo);
 }

@@ -85,6 +85,23 @@ angular.module('theme.demos.dashboard.indi', [
       	        color: 'blue'
       	      }
     	    };
+    $scope.customersDetails = {
+  	      totalCustomers: {
+  	        title: 'Total',
+  	        text: '0',
+  	        color: 'red'
+  	      },
+  	      activeCustomers: {
+  	        title: 'Active',
+  	        text: '0',
+  	        color: 'amber'
+  	      },
+  	      inactiveCustomers: {
+  	        title: 'Inactive',
+  	        text: '0',
+  	        color: 'blue'
+  	      }
+  	    };
 
     $scope.complaintsData = {
       totalComplaints: {
@@ -375,6 +392,8 @@ angular.module('theme.demos.dashboard.indi', [
       		$scope.getPagedDataAsyncForTechnician($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForTechnician);
       	}else if($scope.currentModel==="liftStatus"){
       		$scope.getPagedDataAsyncForAllLiftStatus($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForLiftStatus);
+      	}else if($scope.currentModel==="customerDetails"){
+      		$scope.getPagedDataAsyncForAllCustomers($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForCustomers);
       	};
       }
     }, true);
@@ -398,6 +417,8 @@ angular.module('theme.demos.dashboard.indi', [
           		$scope.getPagedDataAsyncForTechnician($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForTechnician);
           	}else if($scope.currentModel==="liftStatus"){
           		$scope.getPagedDataAsyncForAllLiftStatus($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForLiftStatus);
+          	}else if($scope.currentModel==="customerDetails"){
+          		$scope.getPagedDataAsyncForAllCustomers($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForCustomers);
           	};
           
         }
@@ -1170,5 +1191,186 @@ angular.module('theme.demos.dashboard.indi', [
       $scope.getLiftStatusDetailsCount("Active");
       $scope.getLiftStatusDetailsCount("InActive");
       $scope.getLiftStatusDetailsCount("Total");
+      
+      $scope.openDemoModalForAllCustomers = function (currentModelOpen, headerValue, activeFlag) {
+          var emptyComplaintsArray = [];
+          $scope.myComplaintsData = emptyComplaintsArray;
+          $scope.pagingOptionsForComplaints.currentPage = 1;
+          $scope.totalServerItemsForComplaints = 0;
+          $scope.currentModel = currentModelOpen;
+          $scope.filterOptionsForModal.filterText='';
+          $scope.modalHeaderVal = headerValue;
+          $scope.activeFlagForCustomers=activeFlag;
+          $scope.getPagedDataAsyncForAllCustomers($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "",activeFlag); 
+          $scope.modalInstance = $modal.open({
+            templateUrl: 'demoModalContent.html',
+            scope: $scope
+          });
+        };
+      
+      $scope.getPagedDataAsyncForAllCustomers = function (pageSize,
+    	      page, searchText, activeFlag) {
+    	      var url;
+    	      url = '/RLMS/dashboard/getListOfCustomerForDashboard';
+    	      setTimeout(
+    	        function () {
+    	          var data;
+    	          if (searchText) {
+    	            var ft = searchText
+    	              .toLowerCase();
+    	            var dataToSend = $scope
+    	              .constructDataToSendForAllLiftStatus();
+    	            serviceApi
+    	              .doPostWithData(url, dataToSend)
+    	              .then(
+    	              function (largeLoad) {
+    	                $scope.complaints = largeLoad;
+    	                $scope.showTable = true;
+    	                var userDetails = [];
+    	                if (activeFlag=="Active") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 1;
+      	                  });
+      	                }
+    	                if (activeFlag=="InActive") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 0;
+      	                  });
+      	                }
+    	                for (var i = 0; i < largeLoad.length; i++) {
+    	                  var userDetailsObj = {};
+    	                  if (!!largeLoad[i].customerId) {
+      	                    userDetailsObj["No"] = largeLoad[i].customerId;
+      	                  } else {
+      	                    userDetailsObj["No"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].companyName) {
+      	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
+      	                  } else {
+      	                    userDetailsObj["CompanyName"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].customerName) {
+        	                userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+        	              } else {
+        	                userDetailsObj["CustomerName"] = " - ";
+        	              }
+      	                  if (!!largeLoad[i].city) {
+          	                userDetailsObj["City"] = largeLoad[i].city;
+          	              } else {
+          	                userDetailsObj["City"] = " - ";
+          	              }
+    	                  userDetails
+    	                    .push(userDetailsObj);
+    	                }
+    	                
+    	                data = userDetails
+    	                  .filter(function (
+    	                    item) {
+    	                    return JSON
+    	                      .stringify(
+    	                      item)
+    	                      .toLowerCase()
+    	                      .indexOf(
+    	                      ft) !== -1;
+    	                  });
+    	                $scope
+    	                  .setPagingDataForComplaints(
+    	                  data,
+    	                  page,
+    	                  pageSize);
+    	              });
+    	          } else {
+    	            var dataToSend = $scope
+    	              .constructDataToSendForAllLiftStatus();
+    	            serviceApi
+    	              .doPostWithData(url,
+    	              dataToSend)
+    	              .then(
+    	              function (
+    	                largeLoad) {
+    	                $scope.complaints = largeLoad;
+    	                $scope.showTable = true;
+    	                var userDetails = [];
+    	                if (activeFlag=="Active") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 1;
+      	                  });
+      	                }
+    	                if (activeFlag=="InActive") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 0;
+      	                  });
+      	                }
+    	                for (var i = 0; i < largeLoad.length; i++) {
+    	                	var userDetailsObj = {};
+    	                	if (!!largeLoad[i].customerId) {
+          	                    userDetailsObj["No"] = largeLoad[i].customerId;
+          	                  } else {
+          	                    userDetailsObj["No"] = " - ";
+          	                  }
+          	                  if (!!largeLoad[i].companyName) {
+          	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
+          	                  } else {
+          	                    userDetailsObj["CompanyName"] = " - ";
+          	                  }
+          	                  if (!!largeLoad[i].customerName) {
+            	                userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+            	              } else {
+            	                userDetailsObj["CustomerName"] = " - ";
+            	              }
+          	                  if (!!largeLoad[i].city) {
+              	                userDetailsObj["City"] = largeLoad[i].city;
+              	              } else {
+              	                userDetailsObj["City"] = " - ";
+              	              }
+      	                  userDetails
+      	                    .push(userDetailsObj);
+      	                };
+    	                $scope
+    	                  .setPagingDataForComplaints(
+    	                  userDetails,
+    	                  page,
+    	                  pageSize);
+    	              });
+
+    	          }
+    	        }, 100);
+    	    }; 
+      
+      $scope.getCustomerDetailsCount = function (liftStatus) {
+	        
+	        setTimeout(
+	          function () {
+	            var dataToSend = $scope
+	              .constructDataToSendForAllLiftStatus();
+	            serviceApi
+	              .doPostWithData(
+	              '/RLMS/dashboard/getListOfCustomerForDashboard',
+	              dataToSend)
+	              .then(
+	              function (
+	                largeLoad) {
+	                if (liftStatus=="Active") {
+	                  $scope.activeCustomers = largeLoad.filter(function (item) {
+	                    return item.activeFlag === 1;
+	                  });
+	                  $scope.customersDetails.activeCustomers.text=$scope.activeCustomers.length;
+	                }
+	                if(liftStatus=="InActive"){
+	                	$scope.inactiveCustomers = largeLoad.filter(function (item) {
+	                    return item.activeFlag === 0;
+	                  });
+	                  $scope.customersDetails.inactiveCustomers.text=$scope.inactiveCustomers.length;
+	                }
+	                if(liftStatus=="Total"){
+	                  $scope.customersDetails.totalCustomers.text=largeLoad.length;
+	                }
+	              });
+	          }, 100);
+	      };
+      
+      $scope.getCustomerDetailsCount("Active");
+      $scope.getCustomerDetailsCount("InActive");
+      $scope.getCustomerDetailsCount("Total");
       
   }]);
