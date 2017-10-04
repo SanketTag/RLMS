@@ -579,29 +579,28 @@
         </div>
     </div>
     
-    <!--
     <div class="row">
-    	<h4><strong>Technician</strong></h4>
+    	<h4><strong>Companies</strong></h4>
  	    <hr class="separator">
         <div class="col-md-3 animated-content">
             <div class="row">
 				<div class="col-xs-6" style="color: red">
-					<a class="info-tiles tiles-{{pendingComplaints.color}}" ng-click="openDemoModal('pendingComplaints','2','Pending Complaints')">
+					<a class="info-tiles tiles-{{pendingComplaints.color}}" ng-click="openDemoModalForAllCompanies('companyDetails','Total','Total')">
 						<div class="tiles-heading">
-							<div class="text-center">{{pendingComplaints.title}}</div>
+							<div class="text-center">{{companiesData.totalCompanies.title}}</div>
 						</div>
 						<div class="tiles-body">
-							<div class="text-center" ng-show="pendingComplaints.text">{{pendingComplaints.text}}</div>
+							<div class="text-center" ng-show="pendingComplaints.text">{{companiesData.totalCompanies.text}}</div>
 						</div>
 					</a>
 				</div>
 				<div class="col-xs-6">
-				<a class="info-tiles tiles-{{assignedComplaints.color}}" ng-click="openDemoModal('assignedComplaints','3','Assigned Complaints')">
+				<a class="info-tiles tiles-{{assignedComplaints.color}}" ng-click="openDemoModalForAllCompanies('companyDetails','Active','Active')">
 						<div class="tiles-heading">
-							<div class="text-center">{{assignedComplaints.title}}</div>
+							<div class="text-center">{{companiesData.activeCompanies.title}}</div>
 						</div>
 						<div class="tiles-body">
-							<div class="text-center" ng-show="assignedComplaints.text">{{assignedComplaints.text}}</div>
+							<div class="text-center" ng-show="assignedComplaints.text">{{companiesData.activeCompanies.text}}</div>
 						</div>
 					</a>
                 </div>
@@ -611,54 +610,28 @@
             <div class="row">
                 
                 <div class="col-xs-6">
-                	<a class="info-tiles tiles-{{attemptedTodayComplaints.color}}" ng-click="openDemoModal('attemptedToday','2,3,4','Complaints Attempted Today')">
+                	<a class="info-tiles tiles-{{attemptedTodayComplaints.color}}" ng-click="openDemoModalForAllCompanies('companyDetails','InActive','InActive')">
 						<div class="tiles-heading">
-							<div class="text-center">{{attemptedTodayComplaints.title}}</div>
+							<div class="text-center">{{companiesData.inactiveCompanies.title}}</div>
 						</div>
 						<div class="tiles-body">
-							<div class="text-center" ng-show="attemptedTodayComplaints.text">{{attemptedTodayComplaints.text}}</div>
+							<div class="text-center" ng-show="attemptedTodayComplaints.text">{{companiesData.inactiveCompanies.text}}</div>
 						</div>
 					</a>
                 </div>
                 <div class="col-xs-6">
                 	<a class="info-tiles tiles-{{resolvedComplaints.color}}" ng-click="openDemoModal('resolvedComplaints','4','Resolved Complaints')">
 						<div class="tiles-heading">
-							<div class="text-center">{{resolvedComplaints.title}}</div>
+							<div class="text-center">{{companiesData.serviceRenewalDueCompanies.title}}</div>
 						</div>
 						<div class="tiles-body">
-							<div class="text-center" ng-show="resolvedComplaints.text">{{resolvedComplaints.text}}</div>
-						</div>
-					</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 animated-content">
-            <div class="row">
-                
-                <div class="col-xs-6">
-                	<a class="info-tiles tiles-{{totalComplaints.color}}" ng-click="openDemoModal('totalComplaints','2,3,4','Total Complaints')">
-						<div class="tiles-heading">
-							<div class="text-center">{{totalComplaints.title}}</div>
-						</div>
-						<div class="tiles-body">
-							<div class="text-center" ng-show="totalComplaints.text">{{totalComplaints.text}}</div>
-						</div>
-					</a>
-                </div>
-                <div class="col-xs-6">
-                	<a class="info-tiles tiles-{{newCustomerRegistered.color}}" ng-click="openDemoModal('newCustomerRegistered','','New Customers Registered')">
-						<div class="tiles-heading">
-							<div class="text-center">{{newCustomerRegistered.title}}</div>
-						</div>
-						<div class="tiles-body">
-							<div class="text-center" ng-show="newCustomerRegistered.text">{{newCustomerRegistered.text}}</div>
+							<div class="text-center" ng-show="resolvedComplaints.text">{{companiesData.serviceRenewalDueCompanies.text}}</div>
 						</div>
 					</a>
                 </div>
             </div>
         </div>
     </div>
-    -->
 </div> <!-- container-fluid -->
 </div>
 </div>

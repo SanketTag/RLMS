@@ -25,6 +25,7 @@ public class CompanyDtlsDTO {
 	private String city;
 	private String area;
 	private Integer pinCode;
+	private Integer activeFlag;
 	
 	
 	public Integer getCompanyId() {
@@ -146,6 +147,12 @@ public class CompanyDtlsDTO {
 	}
 	public void setOwnerEmail(String ownerEmail) {
 		this.ownerEmail = ownerEmail;
+	}
+	public Integer getActiveFlag() {
+		return activeFlag;
+	}
+	public void setActiveFlag(Integer activeFlag) {
+		this.activeFlag = activeFlag;
 	}
 	
 	

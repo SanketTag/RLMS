@@ -40,4 +40,7 @@ public interface CompanyService {
 	public String validateAndDeleteCompanyObj(CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo) throws ValidationException;
 	
 	public String editBranchInCompany(BranchDtlsDto dto,UserMetaInfo userMetaInfo);
+	
+	public List<CompanyDtlsDTO> getAllCompanyDetailsForDashboard(UserMetaInfo metaInfo);
+	
 }

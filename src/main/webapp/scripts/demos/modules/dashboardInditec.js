@@ -85,6 +85,30 @@ angular.module('theme.demos.dashboard.indi', [
       	        color: 'blue'
       	      }
     	    };
+   
+    $scope.companiesData = {
+  	      totalCompanies: {
+  	        title: 'Total',
+  	        text: '0',
+  	        color: 'red'
+  	      },
+  	      activeCompanies: {
+  	        title: 'Active',
+  	        text: '0',
+  	        color: 'amber'
+  	      },
+  	      inactiveCompanies: {
+  	        title: 'Inactive',
+  	        text: '0',
+  	        color: 'blue'
+  	      },
+  	      serviceRenewalDueCompanies: {
+    	        title: 'Service Renewal Due',
+    	        text: '0',
+    	        color: 'blue'
+    	      }
+  	    };
+    
     $scope.customersDetails = {
   	      totalCustomers: {
   	        title: 'Total',
@@ -394,6 +418,8 @@ angular.module('theme.demos.dashboard.indi', [
       		$scope.getPagedDataAsyncForAllLiftStatus($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForLiftStatus);
       	}else if($scope.currentModel==="customerDetails"){
       		$scope.getPagedDataAsyncForAllCustomers($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForCustomers);
+      	}else if($scope.currentModel==="companyDetails"){
+      		$scope.getPagedDataAsyncForAllCompanies($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForCompanies);
       	};
       }
     }, true);
@@ -419,6 +445,8 @@ angular.module('theme.demos.dashboard.indi', [
           		$scope.getPagedDataAsyncForAllLiftStatus($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForLiftStatus);
           	}else if($scope.currentModel==="customerDetails"){
           		$scope.getPagedDataAsyncForAllCustomers($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForCustomers);
+          	}else if($scope.currentModel==="companyDetails"){
+          		$scope.getPagedDataAsyncForAllCompanies($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, $scope.filterOptionsForModal.filterText,$scope.activeFlagForCompanies);
           	};
           
         }
@@ -1372,5 +1400,178 @@ angular.module('theme.demos.dashboard.indi', [
       $scope.getCustomerDetailsCount("Active");
       $scope.getCustomerDetailsCount("InActive");
       $scope.getCustomerDetailsCount("Total");
+      
+      $scope.openDemoModalForAllCompanies = function (currentModelOpen, headerValue, activeFlag) {
+          var emptyComplaintsArray = [];
+          $scope.myComplaintsData = emptyComplaintsArray;
+          $scope.pagingOptionsForComplaints.currentPage = 1;
+          $scope.totalServerItemsForComplaints = 0;
+          $scope.currentModel = currentModelOpen;
+          $scope.filterOptionsForModal.filterText='';
+          $scope.modalHeaderVal = headerValue;
+          $scope.activeFlagForCompanies=activeFlag;
+          $scope.getPagedDataAsyncForAllCompanies($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "",activeFlag); 
+          $scope.modalInstance = $modal.open({
+            templateUrl: 'demoModalContent.html',
+            scope: $scope
+          });
+        };
+      
+      $scope.getPagedDataAsyncForAllCompanies = function (pageSize,
+    	      page, searchText, activeFlag) {
+    	      var url;
+    	      url = '/RLMS/dashboard/getAllCompanyDetailsForDashboard';
+    	      setTimeout(
+    	        function () {
+    	          var data;
+    	          if (searchText) {
+    	            var ft = searchText
+    	              .toLowerCase();
+    	            serviceApi
+    	              .doPostWithData(url)
+    	              .then(
+    	              function (largeLoad) {
+    	                $scope.complaints = largeLoad;
+    	                $scope.showTable = true;
+    	                var userDetails = [];
+    	                if (activeFlag=="Active") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 1;
+      	                  });
+      	                }
+    	                if (activeFlag=="InActive") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 0;
+      	                  });
+      	                }
+    	                for (var i = 0; i < largeLoad.length; i++) {
+    	                  var userDetailsObj = {};
+    	                  if (!!largeLoad[i].companyId) {
+      	                    userDetailsObj["No"] = largeLoad[i].companyId;
+      	                  } else {
+      	                    userDetailsObj["No"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].companyName) {
+      	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
+      	                  } else {
+      	                    userDetailsObj["CompanyName"] = " - ";
+      	                  }
+      	                  if (!!largeLoad[i].city) {
+          	                userDetailsObj["City"] = largeLoad[i].city;
+          	              } else {
+          	                userDetailsObj["City"] = " - ";
+          	              }
+      	                  if (!!largeLoad[i].numberOfBranches) {
+            	                userDetailsObj["TotalBranches"] = largeLoad[i].numberOfBranches;
+            	              } else {
+            	                userDetailsObj["TotalBranches"] = " - ";
+            	              }
+
+    	                  userDetails
+    	                    .push(userDetailsObj);
+    	                }
+    	                
+    	                data = userDetails
+    	                  .filter(function (
+    	                    item) {
+    	                    return JSON
+    	                      .stringify(
+    	                      item)
+    	                      .toLowerCase()
+    	                      .indexOf(
+    	                      ft) !== -1;
+    	                  });
+    	                $scope
+    	                  .setPagingDataForComplaints(
+    	                  data,
+    	                  page,
+    	                  pageSize);
+    	              });
+    	          } else {
+    	            serviceApi
+    	              .doPostWithData(url)
+    	              .then(
+    	              function (
+    	                largeLoad) {
+    	                $scope.complaints = largeLoad;
+    	                $scope.showTable = true;
+    	                var userDetails = [];
+    	                if (activeFlag=="Active") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 1;
+      	                  });
+      	                }
+    	                if (activeFlag=="InActive") {
+    	                	largeLoad = largeLoad.filter(function (item) {
+      	                    return item.activeFlag === 0;
+      	                  });
+      	                }
+    	                for (var i = 0; i < largeLoad.length; i++) {
+    	                	var userDetailsObj = {};
+    	                	if (!!largeLoad[i].companyId) {
+          	                    userDetailsObj["No"] = largeLoad[i].companyId;
+          	                  } else {
+          	                    userDetailsObj["No"] = " - ";
+          	                  }
+          	                  if (!!largeLoad[i].companyName) {
+          	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
+          	                  } else {
+          	                    userDetailsObj["CompanyName"] = " - ";
+          	                  }
+          	                  if (!!largeLoad[i].city) {
+              	                userDetailsObj["City"] = largeLoad[i].city;
+              	              } else {
+              	                userDetailsObj["City"] = " - ";
+              	              }
+          	                  if (!!largeLoad[i].numberOfBranches) {
+                	                userDetailsObj["TotalBranches"] = largeLoad[i].numberOfBranches;
+                	              } else {
+                	                userDetailsObj["TotalBranches"] = " - ";
+                	              }
+      	                  userDetails
+      	                    .push(userDetailsObj);
+      	                };
+    	                $scope
+    	                  .setPagingDataForComplaints(
+    	                  userDetails,
+    	                  page,
+    	                  pageSize);
+    	              });
+
+    	          }
+    	        }, 100);
+    	    }; 
+      
+      $scope.getCompaniesCount = function (companyStatus) {
+	        
+	        setTimeout(
+	          function () {
+	            serviceApi
+	              .doPostWithData(
+	              '/RLMS/dashboard/getAllCompanyDetailsForDashboard')
+	              .then(
+	              function (
+	                largeLoad) {
+	                if (companyStatus=="Active") {
+	                  $scope.activeCompanies = largeLoad.filter(function (item) {
+	                    return item.activeFlag === 1;
+	                  });
+	                  $scope.companiesData.activeCompanies.text=$scope.activeCompanies.length;
+	                }
+	                if(companyStatus=="InActive"){
+	                	$scope.inactiveCompanies = largeLoad.filter(function (item) {
+	                    return item.activeFlag === 0;
+	                  });
+	                  $scope.companiesData.inactiveCompanies.text=$scope.inactiveCompanies.length;
+	                }
+	                if(companyStatus=="Total"){
+	                  $scope.companiesData.totalCompanies.text=largeLoad.length;
+	                }
+	              });
+	          }, 100);
+	      };
+      $scope.getCompaniesCount("Active");
+      $scope.getCompaniesCount("InActive");
+      $scope.getCompaniesCount("Total");
       
   }]);

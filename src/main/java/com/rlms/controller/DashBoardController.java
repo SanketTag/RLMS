@@ -30,6 +30,7 @@ import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
 import com.rlms.exception.ValidationException;
 import com.rlms.model.RlmsCompanyBranchMapDtls;
+import com.rlms.model.RlmsCompanyMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsSiteVisitDtls;
@@ -363,4 +364,20 @@ public class DashBoardController extends BaseController {
 	 
 	        return listOfCustomers;
 	 }
+	
+	@RequestMapping(value = "/getAllCompanyDetailsForDashboard", method = RequestMethod.POST)
+    public @ResponseBody List<CompanyDtlsDTO> getAllCompanyDetailsForDashboard() throws RunTimeException {
+        List<CompanyDtlsDTO> listOfApplicableCompaniesDetails = null;
+        
+        try{
+        	logger.info("Method :: getAllCompanyDetails");
+        	listOfApplicableCompaniesDetails =  this.companyService.getAllCompanyDetailsForDashboard(this.getMetaInfo());
+        	
+        }catch(Exception e){
+        	logger.error(ExceptionUtils.getFullStackTrace(e));
+        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        }
+ 
+        return listOfApplicableCompaniesDetails;
+    }
 }

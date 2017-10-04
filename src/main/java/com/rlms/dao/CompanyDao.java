@@ -21,4 +21,5 @@ public interface CompanyDao {
 	//public RlmsCompanyRoleMap getCompanyRole(Integer companyId, Integer spocRoleId);
 	public void deleteCompanyM(CompanyDtlsDTO companyDtlsDTO, UserMetaInfo metaInfo);
 	public void updateBranchDetails(RlmsBranchMaster rlmsBranchMaster);
+	public List<RlmsCompanyMaster> getAllCompaniesForDashboard(Integer companyId);
 }

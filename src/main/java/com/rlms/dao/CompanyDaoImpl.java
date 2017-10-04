@@ -101,4 +101,15 @@ public class CompanyDaoImpl implements CompanyDao{
 		RlmsCompanyRoleMap companyRoleMap = (RlmsCompanyRoleMap) criteria.uniqueResult();
 		return  companyRoleMap;
 	}*/
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsCompanyMaster> getAllCompaniesForDashboard(Integer companyId){
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(RlmsCompanyMaster.class);
+		if(null != companyId){
+			criteria.add(Restrictions.eq("companyId", companyId));
+		};
+		List<RlmsCompanyMaster> listOfAllCompanies = criteria.list();
+		return  listOfAllCompanies;
+	}
+	
 }
