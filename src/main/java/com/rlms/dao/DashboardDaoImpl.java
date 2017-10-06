@@ -3,7 +3,9 @@ package com.rlms.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -76,11 +78,24 @@ public class DashboardDaoImpl implements DashboardDao {
 	@SuppressWarnings("unchecked")
 	public List<RlmsUserRoles> getAllUserWithRoleFor(List<Integer> commpBranchMapId, Integer spocRoleId){
 		 Session session = this.sessionFactory.getCurrentSession();
-		 Criteria criteria = session.createCriteria(RlmsUserRoles.class)
+		 /*Criteria criteria = session.createCriteria(RlmsUserRoles.class)
 				 .add(Restrictions.in("rlmsCompanyBranchMapDtls.companyBranchMapId", commpBranchMapId))
 				 .add(Restrictions.eq("rlmsSpocRoleMaster.spocRoleId", spocRoleId));
 				 //.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
-		 List<RlmsUserRoles> listOfAllTechnicians =  criteria.list();
+		 List<RlmsUserRoles> listOfAllTechnicians =  criteria.list();*/
+		 String str="";
+		 for (Integer mapId : commpBranchMapId) {
+			 if(StringUtils.isEmpty(str)){
+				 str=str.concat(String.valueOf(mapId));
+			 }else{
+				 str=str.concat(","+mapId);
+			 }			
+		}
+		 
+		 String sql = "select a.* from rlms_db.rlms_user_roles a where (a.user_id,a.updated_date,a.company_branch_map_id,a.spoc_role_id) in (SELECT user_id,max(updated_date) max_date,company_branch_map_id,spoc_role_id FROM rlms_db.rlms_user_roles where company_branch_map_id in ("+str+") and spoc_role_id="+spocRoleId+" and user_id=a.user_id and updated_date < now() order by ABS(DATEDIFF( updated_date, now()))) group by a.user_id";
+		 SQLQuery query = session.createSQLQuery(sql);
+		 query.addEntity(RlmsUserRoles.class);
+		 List listOfAllTechnicians = query.list();
 		 return listOfAllTechnicians;
 	}
 }

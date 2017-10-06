@@ -31,17 +31,17 @@ angular.module('theme.demos.dashboard.indi', [
       totalTechnicians: {
         title: 'Total',
         text: '0',
-        color: 'red'
+        color: 'totalTechniciansColor'
       },
       activeTechnicians: {
         title: 'Active',
         text: '0',
-        color: 'amber'
+        color: 'activeTechnicianColor'
       },
       inactiveTechnicians: {
         title: 'Inactive',
         text: '0',
-        color: 'blue'
+        color: 'inactiveTechniciansColor'
       }
     };
     
@@ -131,27 +131,27 @@ angular.module('theme.demos.dashboard.indi', [
       totalComplaints: {
         title: 'Total',
         text: '0',
-        color: 'red'
+        color: 'totalComplaintsColor'
       },
       totalUnassignedComplaints: {
         title: 'Total Unassigned',
         text: '0',
-        color: 'amber'
+        color: 'totalUnassignedComplaintsColor'
       },
       totalAssignedComplaints: {
         title: 'Total Assigned',
         text: '0',
-        color: 'blue'
+        color: 'totalAssignedComplaintsColor'
       },
       totalResolvedComplaints: {
         title: 'Total Resolved',
         text: '0',
-        color: 'green'
+        color: 'totalResolvedComplaintsColor'
       },
       totalPendingComplaints: {
         title: 'Total Pending',
         text: '0',
-        color: 'indigo'
+        color: 'totalUnassignedComplaintsColor'
       },
       avgLogPerDay: {
         title: 'Avg Log Per Day',
@@ -166,22 +166,22 @@ angular.module('theme.demos.dashboard.indi', [
       todaysUnassignedComplaints: {
         title: 'Todays Unassigned',
         text: '0',
-        color: 'amber'
+        color: 'totalUnassignedComplaintsColor'
       },
       todaysAssignedComplaints: {
         title: 'Todays Assigned',
         text: '0',
-        color: 'blue'
+        color: 'totalAssignedComplaintsColor'
       },
       todaysResolvedComplaints: {
         title: 'Todays Resolved',
         text: '0',
-        color: 'green'
+        color: 'totalResolvedComplaintsColor'
       },
       todaysPandingComplaints: {
         title: 'Todays Pending',
         text: '0',
-        color: 'indigo'
+        color: 'totalUnassignedComplaintsColor'
       },
       avgResolvedPerDayRegistered: {
         title: 'Avg Resolved Per Day',
@@ -666,7 +666,7 @@ angular.module('theme.demos.dashboard.indi', [
     	                  } else {
     	                    userDetailsObj["No"] = " - ";
     	                  }
-    	                  if (!!largeLoad[i].title) {
+    	                  if (!!largeLoad[i].companyName) {
     	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
     	                  } else {
     	                    userDetailsObj["CompanyName"] = " - ";
@@ -725,7 +725,7 @@ angular.module('theme.demos.dashboard.indi', [
       	                  } else {
       	                    userDetailsObj["No"] = " - ";
       	                  }
-      	                  if (!!largeLoad[i].title) {
+      	                  if (!!largeLoad[i].companyName) {
       	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
       	                  } else {
       	                    userDetailsObj["CompanyName"] = " - ";
@@ -775,10 +775,7 @@ angular.module('theme.demos.dashboard.indi', [
         	                  $scope.technicianData.inactiveTechnicians.text=$scope.inactiveTechnicians.length;
     	                }
     	                if(technicianStatus=="TotalTechnician"){
-    	                	$scope.totalTechnicians = largeLoad.filter(function (item) {
-        	                    return item.activeFlag === 1;
-        	                  });
-        	                  $scope.technicianData.totalTechnicians.text=$scope.totalTechnicians.length;
+        	                  $scope.technicianData.totalTechnicians.text=largeLoad.length;
     	                }
     	              });
     	          }, 100);
@@ -845,7 +842,7 @@ angular.module('theme.demos.dashboard.indi', [
     	                var userDetails = [];
     	                if (activeFlag=="Active") {
     	                	largeLoad = largeLoad.filter(function (item) {
-      	                    return item.activeFlag === 1;
+      	                    return item.activeFlag === 1 && ((new Date(item.amcEdDate)).getTime() >= $scope.todaysDate.getTime());
       	                  });
       	                }
     	                if (activeFlag=="InActive") {
@@ -919,7 +916,7 @@ angular.module('theme.demos.dashboard.indi', [
     	                var userDetails = [];
     	                if (activeFlag=="Active") {
     	                	largeLoad = largeLoad.filter(function (item) {
-      	                    return item.activeFlag === 1;
+      	                    return item.activeFlag === 1 && ((new Date(item.amcEdDate)).getTime() >= $scope.todaysDate.getTime());
       	                  });
       	                }
     	                if (activeFlag=="InActive") {
@@ -990,7 +987,7 @@ angular.module('theme.demos.dashboard.indi', [
 	                largeLoad) {
 	                if (amcStatus=="Active") {
 	                  $scope.activeAMCDetails = largeLoad.filter(function (item) {
-	                    return item.activeFlag === 1;
+	                    return item.activeFlag === 1 && ((new Date(item.amcEdDate)).getTime() >= $scope.todaysDate.getTime());
 	                  });
 	                  $scope.amcDetailsData.activeAmc.text=$scope.activeAMCDetails.length;
 	                }

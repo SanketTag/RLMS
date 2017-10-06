@@ -20935,3 +20935,227 @@ ul.demo-btns > li {
     width: 400px; 
     height: 300px
 }
+
+/* Red  */
+.info-tiles.tiles-totalTechniciansColor {
+  color: #ffffff !important;
+}
+.info-tiles.tiles-totalTechniciansColor .tiles-heading {
+  background: #F5B7B1;
+}
+.info-tiles.tiles-totalTechniciansColor .tiles-body {
+  background: #F5B7B1;
+}
+.info-tiles.tiles-totalTechniciansColor .tiles-body-alt {
+  background: #F5B7B1;
+}
+.info-tiles.tiles-totalTechniciansColor .tiles-footer {
+  background: #F5B7B1;
+}
+.info-tiles.tiles-totalTechniciansColor:hover {
+  color: #ffffff;
+}
+.info-tiles.tiles-totalTechniciansColor:hover .tiles-heading {
+  background: #F5B7B1;
+}
+.info-tiles.tiles-totalTechniciansColor:hover .tiles-body {
+  background: #F5B7B1;
+}
+.info-tiles.tiles-totalTechniciansColor:hover .tiles-body-alt {
+  background: #F5B7B1;
+}
+.info-tiles.tiles-totalTechniciansColor:hover .tiles-footer {
+  background: #F5B7B1;
+}
+/* Color Change*/
+.info-tiles.tiles-activeTechnicianColor {
+  color: #ffffff !important;
+}
+.info-tiles.tiles-activeTechnicianColor .tiles-heading {
+  background: #7DCEA0;
+}
+.info-tiles.tiles-activeTechnicianColor .tiles-body {
+  background: #7DCEA0;
+}
+.info-tiles.tiles-activeTechnicianColor .tiles-body-alt {
+  background: #7DCEA0;
+}
+.info-tiles.tiles-activeTechnicianColor .tiles-footer {
+  background: #7DCEA0;
+}
+.info-tiles.tiles-activeTechnicianColor:hover {
+  color: #ffffff;
+}
+.info-tiles.tiles-activeTechnicianColor:hover .tiles-heading {
+  background: #7DCEA0;
+}
+.info-tiles.tiles-activeTechnicianColor:hover .tiles-body {
+  background: #7DCEA0;
+}
+.info-tiles.tiles-activeTechnicianColor:hover .tiles-body-alt {
+  background: #7DCEA0;
+}
+.info-tiles.tiles-activeTechnicianColor:hover .tiles-footer {
+  background: #7DCEA0;
+}
+
+/* Color Change*/
+.info-tiles.tiles-inactiveTechniciansColor {
+  color: #ffffff !important;
+}
+.info-tiles.tiles-inactiveTechniciansColor .tiles-heading {
+  background: #85C1E9;
+}
+.info-tiles.tiles-inactiveTechniciansColor .tiles-body {
+  background: #85C1E9;
+}
+.info-tiles.tiles-inactiveTechniciansColor .tiles-body-alt {
+  background: #85C1E9;
+}
+.info-tiles.tiles-inactiveTechniciansColor .tiles-footer {
+  background: #85C1E9;
+}
+.info-tiles.tiles-inactiveTechniciansColor:hover {
+  color: #ffffff;
+}
+.info-tiles.tiles-inactiveTechniciansColor:hover .tiles-heading {
+  background: #85C1E9;
+}
+.info-tiles.tiles-inactiveTechniciansColor:hover .tiles-body {
+  background: #85C1E9;
+}
+.info-tiles.tiles-inactiveTechniciansColor:hover .tiles-body-alt {
+  background: #85C1E9;
+}
+.info-tiles.tiles-inactiveTechniciansColor:hover .tiles-footer {
+  background: #85C1E9;
+}
+
+/* Color Change*/
+.info-tiles.tiles-totalComplaintsColor {
+  color: #ffffff !important;
+}
+.info-tiles.tiles-totalComplaintsColor .tiles-heading {
+  background: #886A08;
+}
+.info-tiles.tiles-totalComplaintsColor .tiles-body {
+  background: #886A08;
+}
+.info-tiles.tiles-totalComplaintsColor .tiles-body-alt {
+  background: #886A08;
+}
+.info-tiles.tiles-totalComplaintsColor .tiles-footer {
+  background: #886A08;
+}
+.info-tiles.tiles-totalComplaintsColor:hover {
+  color: #ffffff;
+}
+.info-tiles.tiles-totalComplaintsColor:hover .tiles-heading {
+  background: #886A08;
+}
+.info-tiles.tiles-totalComplaintsColor:hover .tiles-body {
+  background: #886A08;
+}
+.info-tiles.tiles-totalComplaintsColor:hover .tiles-body-alt {
+  background: #886A08;
+}
+.info-tiles.tiles-totalComplaintsColor:hover .tiles-footer {
+  background: #886A08;
+}
+
+
+/* Color Change*/
+.info-tiles.tiles-totalUnassignedComplaintsColor {
+  color: #ffffff !important;
+}
+.info-tiles.tiles-totalUnassignedComplaintsColor .tiles-heading {
+  background: #A9A9F5;
+}
+.info-tiles.tiles-totalUnassignedComplaintsColor .tiles-body {
+  background: #A9A9F5;
+}
+.info-tiles.tiles-totalUnassignedComplaintsColor .tiles-body-alt {
+  background: #A9A9F5;
+}
+.info-tiles.tiles-totalUnassignedComplaintsColor .tiles-footer {
+  background: #A9A9F5;
+}
+.info-tiles.tiles-totalUnassignedComplaintsColor:hover {
+  color: #ffffff;
+}
+.info-tiles.tiles-totalUnassignedComplaintsColor:hover .tiles-heading {
+  background: #A9A9F5;
+}
+.info-tiles.tiles-totalUnassignedComplaintsColor:hover .tiles-body {
+  background: #A9A9F5;
+}
+.info-tiles.tiles-totalUnassignedComplaintsColor:hover .tiles-body-alt {
+  background: #A9A9F5;
+}
+.info-tiles.tiles-totalUnassignedComplaintsColor:hover .tiles-footer {
+  background: #A9A9F5;
+}
+
+/* Color Change*/
+.info-tiles.tiles-totalAssignedComplaintsColor {
+  color: #ffffff !important;
+}
+.info-tiles.tiles-totalAssignedComplaintsColor .tiles-heading {
+  background: #2E64FE;
+}
+.info-tiles.tiles-totalAssignedComplaintsColor .tiles-body {
+  background: #2E64FE;
+}
+.info-tiles.tiles-totalAssignedComplaintsColor .tiles-body-alt {
+  background: #2E64FE;
+}
+.info-tiles.tiles-totalAssignedComplaintsColor .tiles-footer {
+  background: #2E64FE;
+}
+.info-tiles.tiles-totalAssignedComplaintsColor:hover {
+  color: #ffffff;
+}
+.info-tiles.tiles-totalAssignedComplaintsColor:hover .tiles-heading {
+  background: #2E64FE;
+}
+.info-tiles.tiles-totalAssignedComplaintsColor:hover .tiles-body {
+  background: #2E64FE;
+}
+.info-tiles.tiles-totalAssignedComplaintsColor:hover .tiles-body-alt {
+  background: #2E64FE;
+}
+.info-tiles.tiles-totalAssignedComplaintsColor:hover .tiles-footer {
+  background: #2E64FE;
+}
+
+/* Color Change*/
+.info-tiles.tiles-totalResolvedComplaintsColor {
+  color: #ffffff !important;
+}
+.info-tiles.tiles-totalResolvedComplaintsColor .tiles-heading {
+  background: #F7819F;
+}
+.info-tiles.tiles-totalResolvedComplaintsColor .tiles-body {
+  background: #F7819F;
+}
+.info-tiles.tiles-totalResolvedComplaintsColor .tiles-body-alt {
+  background: #F7819F;
+}
+.info-tiles.tiles-totalResolvedComplaintsColor .tiles-footer {
+  background: #F7819F;
+}
+.info-tiles.tiles-totalResolvedComplaintsColor:hover {
+  color: #ffffff;
+}
+.info-tiles.tiles-totalResolvedComplaintsColor:hover .tiles-heading {
+  background: #F7819F;
+}
+.info-tiles.tiles-totalResolvedComplaintsColor:hover .tiles-body {
+  background: #F7819F;
+}
+.info-tiles.tiles-totalResolvedComplaintsColor:hover .tiles-body-alt {
+  background: #F7819F;
+}
+.info-tiles.tiles-totalResolvedComplaintsColor:hover .tiles-footer {
+  background: #F7819F;
+}
