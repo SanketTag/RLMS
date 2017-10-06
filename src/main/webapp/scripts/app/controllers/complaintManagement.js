@@ -557,18 +557,22 @@
 								$scope.assignComplaint =function(){
 									//var selected = $filter('filter')($scope.complaints,{complaintId:$scope.gridOptions.selectedItems[0].complaintId});
 									if($scope.gridOptions.selectedItems[0].Status == "Pending"){
-										$scope.selectedComplaintId = $scope.gridOptions.selectedItems[0].complaintId;
-										var dataToSend ={
-												complaintId:$scope.selectedComplaintId
+										if($scope.gridOptions.selectedItems[0].Title.trim()==="" || $scope.gridOptions.selectedItems[0].Title.trim()==="-" || $scope.gridOptions.selectedItems[0].Remark.trim()==="" || $scope.gridOptions.selectedItems[0].Remark.trim()===""){
+											alert("Edit complaint first to add mendatory fields like title, details");
+										}else{
+											$scope.selectedComplaintId = $scope.gridOptions.selectedItems[0].complaintId;
+											var dataToSend ={
+													complaintId:$scope.selectedComplaintId
+											}
+											serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
+											.then(function(data) {
+												$scope.technicians = data;
+											})
+											$scope.modalInstance = $modal.open({
+										        templateUrl: 'assignComplaintTemplate',
+										        scope:$scope
+										     })
 										}
-										serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
-										.then(function(data) {
-											$scope.technicians = data;
-										})
-										$scope.modalInstance = $modal.open({
-									        templateUrl: 'assignComplaintTemplate',
-									        scope:$scope
-									     })
 									}else{
 										alert("Already Assigned Complaint");
 									}

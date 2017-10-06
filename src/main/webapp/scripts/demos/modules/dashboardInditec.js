@@ -1,9 +1,10 @@
 angular.module('theme.demos.dashboard.indi', [
   'angular-skycons',
   'theme.demos.forms',
-  'theme.demos.tasks'
+  'theme.demos.tasks',
+  'ngStorage'
 ])
-  .controller('DashboardControllerInditech', ['$scope', '$timeout', '$window', '$modal', 'serviceApi', '$filter', '$rootScope', function ($scope, $timeout, $window, $modal, serviceApi, $filter, $rootScope) {
+  .controller('DashboardControllerInditech', ['$scope', '$timeout', '$window', '$modal', 'serviceApi', '$filter', '$rootScope','$localStorage', function ($scope, $timeout, $window, $modal, serviceApi, $filter, $rootScope,$localStorage) {
     'use strict';
     $scope.totalServerItemsForComplaints = 0;
     $scope.pagingOptionsForComplaints = {
@@ -15,8 +16,8 @@ angular.module('theme.demos.dashboard.indi', [
     $scope.showDasboardForInditech=false;
     $scope.showDasboardForCompany=false;
     $scope.showDasboardForOthers=false;
-    if($rootScope.loggedInUserInfo){
-    	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+    if($localStorage.loggedInUserInfoForDashboard){
+    	if($localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
     		$scope.showDasboardForInditech= true;
     		$scope.showDasboardForOthers=false;
     	}else{
@@ -31,17 +32,17 @@ angular.module('theme.demos.dashboard.indi', [
       totalTechnicians: {
         title: 'Total',
         text: '0',
-        color: 'totalTechniciansColor'
+        color: 'red'
       },
       activeTechnicians: {
         title: 'Active',
         text: '0',
-        color: 'activeTechnicianColor'
+        color: 'amber'
       },
       inactiveTechnicians: {
         title: 'Inactive',
         text: '0',
-        color: 'inactiveTechniciansColor'
+        color: 'blue'
       }
     };
     
@@ -131,27 +132,27 @@ angular.module('theme.demos.dashboard.indi', [
       totalComplaints: {
         title: 'Total',
         text: '0',
-        color: 'totalComplaintsColor'
+        color: 'red'
       },
       totalUnassignedComplaints: {
         title: 'Total Unassigned',
         text: '0',
-        color: 'totalUnassignedComplaintsColor'
+        color: 'amber'
       },
       totalAssignedComplaints: {
         title: 'Total Assigned',
         text: '0',
-        color: 'totalAssignedComplaintsColor'
+        color: 'blue'
       },
       totalResolvedComplaints: {
         title: 'Total Resolved',
         text: '0',
-        color: 'totalResolvedComplaintsColor'
+        color: 'green'
       },
       totalPendingComplaints: {
         title: 'Total Pending',
         text: '0',
-        color: 'totalUnassignedComplaintsColor'
+        color: 'indigo'
       },
       avgLogPerDay: {
         title: 'Avg Log Per Day',
@@ -166,22 +167,22 @@ angular.module('theme.demos.dashboard.indi', [
       todaysUnassignedComplaints: {
         title: 'Todays Unassigned',
         text: '0',
-        color: 'totalUnassignedComplaintsColor'
+        color: 'amber'
       },
       todaysAssignedComplaints: {
         title: 'Todays Assigned',
         text: '0',
-        color: 'totalAssignedComplaintsColor'
+        color: 'blue'
       },
       todaysResolvedComplaints: {
         title: 'Todays Resolved',
         text: '0',
-        color: 'totalResolvedComplaintsColor'
+        color: 'green'
       },
       todaysPandingComplaints: {
         title: 'Todays Pending',
         text: '0',
-        color: 'totalUnassignedComplaintsColor'
+        color: 'indigo'
       },
       avgResolvedPerDayRegistered: {
         title: 'Avg Resolved Per Day',
@@ -608,7 +609,7 @@ angular.module('theme.demos.dashboard.indi', [
     $scope.construnctObjeToSend = function (complaintStatus) {
       var dataToSend = {
         statusList: [],
-        companyId: $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+        companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId
       };
       dataToSend["statusList"] = complaintStatus;
       return dataToSend;
@@ -787,7 +788,7 @@ angular.module('theme.demos.dashboard.indi', [
     
     $scope.construnctObjeToSendForTechnician = function () {
         var dataToSend = {
-          companyId: $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+          companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId
         };
         return dataToSend;
       };
@@ -799,7 +800,7 @@ angular.module('theme.demos.dashboard.indi', [
       	tempStatus.push(40);
       	tempStatus.push(41);
         var data = {
-          companyId: $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId,
+          companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId,
           listOFStatusIds:tempStatus
         };
         return data;
@@ -1176,7 +1177,7 @@ angular.module('theme.demos.dashboard.indi', [
       
       $scope.constructDataToSendForAllLiftStatus=function() {
           var data = {
-            companyId: $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+            companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId
           };
           return data;
         };

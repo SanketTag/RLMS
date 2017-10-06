@@ -1,9 +1,10 @@
 angular.module('theme.demos.dashboard', [
   'angular-skycons',
   'theme.demos.forms',
-  'theme.demos.tasks'
+  'theme.demos.tasks',
+  'ngStorage'
 ])
-  .controller('DashboardController', ['$scope', '$timeout', '$window', '$modal', 'serviceApi', '$filter', '$rootScope', function ($scope, $timeout, $window, $modal, serviceApi, $filter, $rootScope) {
+  .controller('DashboardController', ['$scope', '$timeout', '$window', '$modal', 'serviceApi', '$filter', '$rootScope','$localStorage', function ($scope, $timeout, $window, $modal, serviceApi, $filter, $rootScope,$localStorage) {
     'use strict';
     var moment = $window.moment;
     var _ = $window._;
@@ -17,8 +18,8 @@ angular.module('theme.demos.dashboard', [
     $scope.showDasboardForInditech=false;
     $scope.showDasboardForCompany=false;
     $scope.showDasboardForOthers=false;
-    if($rootScope.loggedInUserInfo){
-    	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+    if($localStorage.loggedInUserInfoForDashboard){
+    	if($localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
     		$scope.showDasboardForInditech= true;
     		$scope.showDasboardForOthers=false;
     	}else{
@@ -396,7 +397,7 @@ angular.module('theme.demos.dashboard', [
     	tempStatus.push(40);
     	tempStatus.push(41);
       var data = {
-        companyId: $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId,
+        companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId,
         listOFStatusIds:tempStatus
       }
       return data;
@@ -727,7 +728,7 @@ angular.module('theme.demos.dashboard', [
     $scope.construnctObjeToSend = function (complaintStatus) {
       var dataToSend = {
         statusList: [],
-        companyId: $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+        companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId
       };
       dataToSend["statusList"] = complaintStatus;
       return dataToSend;

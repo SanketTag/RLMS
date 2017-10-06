@@ -3,7 +3,10 @@
 	angular.module('rlmsApp')
 	.controller('technicainReportCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
 		initReport();
-
+		$scope.filterOptions = {
+		  	      filterText: '',
+		  	      useExternalFilter: true
+		  	    };
 		function initReport(){
 			$scope.selectedCompany = {};
 			$scope.selectedBranch = {};
@@ -55,12 +58,31 @@
 						$scope.siteViseReport=emptySite;
 					});
 		}
-		$scope.loadReportList = function(){
+		
+		$scope.filterOptions.filterText='';
+		$scope.$watch('filterOptions', function(newVal, oldVal) {
+	  	      if (newVal !== oldVal) {
+	  	        $scope.loadReportList($scope.filterOptions.filterText);
+	  	      }
+	  	    }, true);
+		
+		$scope.loadReportList = function(searchText){
+			if (searchText) {
+	  	          var ft = searchText.toLowerCase();
  	         var dataToSend = constructDataToSend();
  	         serviceApi.doPostWithData('/RLMS/report/getTechnicianWiseReport',dataToSend)
  	         .then(function(data) {
- 	        	 $scope.siteViseReport = data;
+ 	        	 $scope.siteViseReport = data.filter(function(item) {
+	  	              return JSON.stringify(item).toLowerCase().indexOf(ft) !== -1;
+	  	            });
  	         })
+			}else{
+				var dataToSend = constructDataToSend();
+	 	         serviceApi.doPostWithData('/RLMS/report/getTechnicianWiseReport',dataToSend)
+	 	         .then(function(data) {
+	 	        	 $scope.siteViseReport = data;
+	 	         })
+			}
 			$scope.showMembers = true;
 		}
 	   

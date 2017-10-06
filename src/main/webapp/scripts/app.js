@@ -2,7 +2,8 @@ angular
   .module('rlmsApp', [
     'theme',
     'theme.demos',
-    'base64'
+    'base64',
+    'ngStorage'
   ])
   .config(['$provide', '$routeProvider', function($provide, $routeProvider) {
     'use strict';
@@ -29,13 +30,14 @@ angular
         redirectTo: '#/'
       });
   }])
-  .run(['$http','$rootScope',function($http,$rootScope) {
+  .run(['$http','$rootScope','$localStorage',function($http,$rootScope,$localStorage) {
 	  $http({
 		  method: 'POST',
 		  url: '/RLMS/getLoggedInUser'
 		}).then(function successCallback(response) {
 		    console.log(response);
 		    $rootScope.loggedInUserInfo = response;
+		    $localStorage.loggedInUserInfoForDashboard=response;
 		  }, function errorCallback(response) {
 		  });
   }]);;
