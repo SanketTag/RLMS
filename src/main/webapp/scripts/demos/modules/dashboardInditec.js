@@ -4,7 +4,7 @@ angular.module('theme.demos.dashboard.indi', [
   'theme.demos.tasks',
   'ngStorage'
 ])
-  .controller('DashboardControllerInditech', ['$scope', '$timeout', '$window', '$modal', 'serviceApi', '$filter', '$rootScope','$localStorage', function ($scope, $timeout, $window, $modal, serviceApi, $filter, $rootScope,$localStorage) {
+  .controller('DashboardControllerInditech', ['$scope', '$timeout', '$window', '$modal', 'serviceApi', '$filter', '$rootScope','$localStorage','locker', function ($scope, $timeout, $window, $modal, serviceApi, $filter, $rootScope,$localStorage,locker) {
     'use strict';
     $scope.totalServerItemsForComplaints = 0;
     $scope.pagingOptionsForComplaints = {
@@ -16,8 +16,9 @@ angular.module('theme.demos.dashboard.indi', [
     $scope.showDasboardForInditech=false;
     $scope.showDasboardForCompany=false;
     $scope.showDasboardForOthers=false;
-    if($localStorage.loggedInUserInfoForDashboard){
-    	if($localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+    $scope.loggedInUser=locker.get('loggedInUserDataStored');
+    if($scope.loggedInUser){
+    	if($scope.loggedInUser.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
     		$scope.showDasboardForInditech= true;
     		$scope.showDasboardForOthers=false;
     	}else{
@@ -609,7 +610,7 @@ angular.module('theme.demos.dashboard.indi', [
     $scope.construnctObjeToSend = function (complaintStatus) {
       var dataToSend = {
         statusList: [],
-        companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId
+        companyId: $scope.loggedInUser.data.userRole.rlmsCompanyMaster.companyId
       };
       dataToSend["statusList"] = complaintStatus;
       return dataToSend;
@@ -788,7 +789,7 @@ angular.module('theme.demos.dashboard.indi', [
     
     $scope.construnctObjeToSendForTechnician = function () {
         var dataToSend = {
-          companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId
+          companyId: $scope.loggedInUser.data.userRole.rlmsCompanyMaster.companyId
         };
         return dataToSend;
       };
@@ -800,7 +801,7 @@ angular.module('theme.demos.dashboard.indi', [
       	tempStatus.push(40);
       	tempStatus.push(41);
         var data = {
-          companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId,
+          companyId: $scope.loggedInUser.data.userRole.rlmsCompanyMaster.companyId,
           listOFStatusIds:tempStatus
         };
         return data;
@@ -1177,7 +1178,7 @@ angular.module('theme.demos.dashboard.indi', [
       
       $scope.constructDataToSendForAllLiftStatus=function() {
           var data = {
-            companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId
+            companyId: $scope.loggedInUser.data.userRole.rlmsCompanyMaster.companyId
           };
           return data;
         };

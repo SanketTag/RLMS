@@ -4,7 +4,62 @@
 	.controller('addUserCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$window','pinesNotifications','$rootScope','$modal', function($scope, $filter,serviceApi,$route,$http,utility,$window,pinesNotifications,$rootScope,$modal) {
 		//initialize add Branch
 		initAddLift();
+		$scope.displayMachinePhoto=false;
+		$scope.displayPanelPhoto=false;
+		$scope.displayArdPhoto=false;
+		$scope.displayLopPhoto=false;
+		$scope.displayCopPhoto=false;
+		$scope.displayCarTopPhoto=false;
+		$scope.displayHeaderPhoto=false;
+		$scope.displayWiringPhoto=false;
+		$scope.displayLobbyPhoto=false;
+		
+		
 		//show popup for selecting lift
+		$scope.setMachinePhoto=function(element,photoType){
+			$scope.currentFile=element.files[0];
+			var reader=new FileReader();
+			reader.onload=function(event){
+				if(photoType==="Machine"){
+					$scope.image_source=event.target.result;
+					$scope.displayMachinePhoto=true;
+				}
+				if(photoType==="Panel"){
+					$scope.image_source1=event.target.result;
+					$scope.displayPanelPhoto=true;
+				}
+				if(photoType==="ARD"){
+					$scope.image_source2=event.target.result;
+					$scope.displayArdPhoto=true;
+				}
+				if(photoType==="LOP"){
+					$scope.image_source3=event.target.result;
+					$scope.displayLopPhoto=true;
+				}
+				if(photoType==="COP"){
+					$scope.image_source4=event.target.result;
+					$scope.displayCopPhoto=true;
+				}
+				if(photoType==="CarTop"){
+					$scope.image_source5=event.target.result;
+					$scope.displayCarTopPhoto=true;
+				}
+				if(photoType==="Header"){
+					$scope.image_source6=event.target.result;
+					$scope.displayHeaderPhoto=true;
+				}
+				if(photoType==="Wiring"){
+					$scope.image_source7=event.target.result;
+					$scope.displayWiringPhoto=true;
+				}
+				if(photoType==="Lobby"){
+					$scope.image_source8=event.target.result;
+					$scope.displayLobbyPhoto=true;
+				}
+				$scope.apply();
+			};
+			reader.readAsDataURL(element.files[0]);
+		};
 		
 		$scope.loadSelectedLiftTypeInfo = function(liftTypeId){
 			var datoToSend ={

@@ -287,10 +287,11 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="..." ng-model='addLift.machinePhoto' base-sixty-four-input>
+								<input type="file" name="..." ng-model='addLift.machinePhoto' base-sixty-four-input onchange="angular.element(this).scope().setMachinePhoto(this,'Machine')" accept="image/*">
 							</span>
-							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" ng-click="displayMachinePhoto=false;">Remove</a>
 						</div>
+						<img ng-src="{{image_source}}" height="200px" width="200px" ng-show="displayMachinePhoto">
 					</div>
 				</div>
 			</div>
@@ -305,11 +306,12 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="..." ng-model='addLift.panelPhoto' base-sixty-four-input>
+								<input type="file" name="..." ng-model='addLift.panelPhoto' base-sixty-four-input onchange="angular.element(this).scope().setMachinePhoto(this,'Panel')" accept="image/*">
 							</span>
-							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" ng-click="displayPanelPhoto = false;">Remove</a>
 						</div>
 						{{addLift.panelPhoto.size}}
+						<img ng-src="{{image_source1}}" height="200px" width="200px" ng-show="displayPanelPhoto">
 					</div>
 				</div>
 			</div>
@@ -324,11 +326,12 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="..." ng-model='addLift.ardPhoto' base-sixty-four-input>
+								<input type="file" name="..." ng-model='addLift.ardPhoto' base-sixty-four-input onchange="angular.element(this).scope().setMachinePhoto(this,'ARD')" accept="image/*">
 							</span>
-							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" ng-click="displayArdPhoto = false;">Remove</a>
 						</div>
 						{{addLift.ardPhoto.size}}
+						<img ng-src="{{image_source2}}" height="200px" width="200px" ng-show="displayArdPhoto">
 					</div>
 				</div>
 			</div>
@@ -343,12 +346,13 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="..." ng-model='addLift.lopPhoto' base-sixty-four-input>
+								<input type="file" name="..." ng-model='addLift.lopPhoto' base-sixty-four-input onchange="angular.element(this).scope().setMachinePhoto(this,'LOP')" accept="image/*">
 							</span>
-							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" ng-click="displayLopPhoto = false;">Remove</a>
 						</div>
 					</div>
 					{{addLift.lopPhoto.size}}
+					<img ng-src="{{image_source3}}" height="200px" width="200px" ng-show="displayLopPhoto">
 				</div>
 			</div>
 			<div class="form-group">
@@ -362,11 +366,12 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="..." ng-model='addLift.copPhoto' base-sixty-four-input>
+								<input type="file" name="..." ng-model='addLift.copPhoto' base-sixty-four-input onchange="angular.element(this).scope().setMachinePhoto(this,'COP')" accept="image/*">
 							</span>
-							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" ng-click="displayCopPhoto = false;">Remove</a>
 						</div>
 						{{addLift.copPhoto.size}}
+						<img ng-src="{{image_source4}}" height="200px" width="200px" ng-show="displayCopPhoto">
 					</div>
 				</div>
 			</div>
@@ -381,12 +386,13 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="..." ng-model='addLift.cartopPhoto' base-sixty-four-input>
+								<input type="file" name="..." ng-model='addLift.cartopPhoto' base-sixty-four-input onchange="angular.element(this).scope().setMachinePhoto(this,'CarTop')" accept="image/*">
 							</span>
-							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" ng-click="displayCarTopPhoto = false;">Remove</a>
 						</div>
 					</div>
 					{{addLift.cartopPhoto.size}}
+					<img ng-src="{{image_source5}}" height="200px" width="200px" ng-show="displayCarTopPhoto">
 				</div>
 			</div>
 			<div class="form-group">
@@ -400,12 +406,13 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="..." ng-model='addLift.autoDoorHeaderPhoto' base-sixty-four-input>
+								<input type="file" name="..." ng-model='addLift.autoDoorHeaderPhoto' base-sixty-four-input onchange="angular.element(this).scope().setMachinePhoto(this,'Header')" accept="image/*">
 							</span>
-							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" ng-click="displayHeaderPhoto = false;">Remove</a>
 						</div>
 					</div>
 					{{addLift.autoDoorHeaderPhoto.size}}
+					<img ng-src="{{image_source6}}" height="200px" width="200px" ng-show="displayHeaderPhoto">
 				</div>
 			</div>
 			<div class="form-group">
@@ -419,12 +426,13 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="..." ng-model='addLift.wiringPhoto' base-sixty-four-input>
+								<input type="file" name="..." ng-model='addLift.wiringPhoto' base-sixty-four-input onchange="angular.element(this).scope().setMachinePhoto(this,'Wiring')" accept="image/*">
 							</span>
-							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" ng-click="displayWiringPhoto = false;">Remove</a>
 						</div>
 					</div>
 					{{addLift.wiringPhoto.size}}
+					<img ng-src="{{image_source7}}" height="200px" width="200px" ng-show="displayWiringPhoto">
 				</div>
 			</div>
 			<div class="form-group">
@@ -438,13 +446,15 @@
 							<span class="input-group-addon btn btn-default btn-file">
 								<span class="fileinput-new">Select file</span>
 								<span class="fileinput-exists">Change</span>
-								<input type="file" name="..." ng-model='addLift.lobbyPhoto' base-sixty-four-input>
+								<input type="file" name="..." ng-model='addLift.lobbyPhoto' base-sixty-four-input onchange="angular.element(this).scope().setMachinePhoto(this,'Lobby')" accept="image/*">
 							</span>
-							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+							<a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput" ng-click="displayLobbyPhoto = false;">Remove</a>
 						</div>
 					</div>
+					{{addLift.lobbyPhoto.size}}
+				<img ng-src="{{image_source8}}" height="200px" width="200px" ng-show="displayLobbyPhoto">
 				</div>
-				{{addLift.lobbyPhoto.size}}
+				
 			</div>
 	</fieldset>
 	<input type="submit" ng-click="submitAddLift()" class="finish btn-success btn" value="Submit" />
@@ -460,13 +470,13 @@
 	    <div class="modal-body">
 	        <div class="form-group">
 				<div ng-click="loadSelectedLiftTypeInfo(35)">
-					<a class="lift-type">Type 1</a>
+					<a class="lift-type">Auto Door</a>
 				</div>
 				<div ng-click="loadSelectedLiftTypeInfo(36)">
-					<a class="lift-type">Type 2</a>
+					<a class="lift-type">Manual Door</a>
 				</div>
 				<div ng-click="loadSelectedLiftTypeInfo(37)">
-					<a class="lift-type">Type 3</a>
+					<a class="lift-type">Hydrolic</a>
 				</div>				
 			</div>
 			</div>	

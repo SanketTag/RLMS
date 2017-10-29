@@ -4,7 +4,7 @@ angular.module('theme.demos.dashboard', [
   'theme.demos.tasks',
   'ngStorage'
 ])
-  .controller('DashboardController', ['$scope', '$timeout', '$window', '$modal', 'serviceApi', '$filter', '$rootScope','$localStorage', function ($scope, $timeout, $window, $modal, serviceApi, $filter, $rootScope,$localStorage) {
+  .controller('DashboardController', ['$scope', '$timeout', '$window', '$modal', 'serviceApi', '$filter', '$rootScope','$localStorage','locker', function ($scope, $timeout, $window, $modal, serviceApi, $filter, $rootScope,$localStorage,locker) {
     'use strict';
     var moment = $window.moment;
     var _ = $window._;
@@ -18,8 +18,9 @@ angular.module('theme.demos.dashboard', [
     $scope.showDasboardForInditech=false;
     $scope.showDasboardForCompany=false;
     $scope.showDasboardForOthers=false;
-    if($localStorage.loggedInUserInfoForDashboard){
-    	if($localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+    $scope.loggedInUser=locker.get('loggedInUserDataStored');
+    if($scope.loggedInUser){
+    	if($scope.loggedInUser.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
     		$scope.showDasboardForInditech= true;
     		$scope.showDasboardForOthers=false;
     	}else{
@@ -397,7 +398,7 @@ angular.module('theme.demos.dashboard', [
     	tempStatus.push(40);
     	tempStatus.push(41);
       var data = {
-        companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId,
+        companyId: $scope.loggedInUser.data.userRole.rlmsCompanyMaster.companyId,
         listOFStatusIds:tempStatus
       }
       return data;
@@ -728,7 +729,7 @@ angular.module('theme.demos.dashboard', [
     $scope.construnctObjeToSend = function (complaintStatus) {
       var dataToSend = {
         statusList: [],
-        companyId: $localStorage.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId
+        companyId: $scope.loggedInUser.data.userRole.rlmsCompanyMaster.companyId
       };
       dataToSend["statusList"] = complaintStatus;
       return dataToSend;

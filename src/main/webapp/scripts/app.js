@@ -3,7 +3,8 @@ angular
     'theme',
     'theme.demos',
     'base64',
-    'ngStorage'
+    'ngStorage',
+    'angular-locker'
   ])
   .config(['$provide', '$routeProvider', function($provide, $routeProvider) {
     'use strict';
@@ -30,7 +31,7 @@ angular
         redirectTo: '#/'
       });
   }])
-  .run(['$http','$rootScope','$localStorage',function($http,$rootScope,$localStorage) {
+  .run(['$http','$rootScope','$localStorage','locker',function($http,$rootScope,$localStorage,locker) {
 	  $http({
 		  method: 'POST',
 		  url: '/RLMS/getLoggedInUser'
@@ -38,6 +39,7 @@ angular
 		    console.log(response);
 		    $rootScope.loggedInUserInfo = response;
 		    $localStorage.loggedInUserInfoForDashboard=response;
+		    locker.put('loggedInUserDataStored', response);
 		  }, function errorCallback(response) {
 		  });
   }]);;
