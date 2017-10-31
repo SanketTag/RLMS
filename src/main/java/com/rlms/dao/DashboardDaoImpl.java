@@ -92,7 +92,7 @@ public class DashboardDaoImpl implements DashboardDao {
 			 }			
 		}
 		 
-		 String sql = "select a.* from rlms_db.rlms_user_roles a where (a.user_id,a.updated_date,a.company_branch_map_id,a.spoc_role_id) in (SELECT user_id,max(updated_date) max_date,company_branch_map_id,spoc_role_id FROM rlms_db.rlms_user_roles where company_branch_map_id in ("+str+") and spoc_role_id="+spocRoleId+" and user_id=a.user_id and updated_date < now() order by ABS(DATEDIFF( updated_date, now()))) group by a.user_id";
+		 String sql = "select a.* from rlms_db.rlms_user_roles a where (a.user_id,a.updated_date,a.company_branch_map_id,a.spoc_role_id) in (SELECT user_id,max(updated_date) max_date,company_branch_map_id,spoc_role_id FROM rlms_db.rlms_user_roles where company_branch_map_id in ("+str+") and spoc_role_id="+spocRoleId+" and user_id=a.user_id and updated_date < now() order by ABS(DATEDIFF( updated_date, now()))) group by a.user_id,a.company_branch_map_id,a.spoc_role_id";
 		 SQLQuery query = session.createSQLQuery(sql);
 		 query.addEntity(RlmsUserRoles.class);
 		 List listOfAllTechnicians = query.list();

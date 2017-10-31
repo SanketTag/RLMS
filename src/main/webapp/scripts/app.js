@@ -38,8 +38,15 @@ angular
 		}).then(function successCallback(response) {
 		    console.log(response);
 		    $rootScope.loggedInUserInfo = response;
-		    $localStorage.loggedInUserInfoForDashboard=response;
-		    locker.put('loggedInUserDataStored', response);
+		    $rootScope.showDasboardForInditech=false;
+		    $rootScope.showDasboardForOthers=false;
+		    if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+	    		$rootScope.showDasboardForInditech= true;
+	    		$rootScope.showDasboardForOthers=false;
+	    	}else{
+	    		$rootScope.showDasboardForOthers=true;
+	    		$rootScope.showDasboardForInditech=false;
+	    	}	
 		  }, function errorCallback(response) {
 		  });
   }]);;

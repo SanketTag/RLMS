@@ -365,8 +365,6 @@
 	<script
 		src="scripts/demos/modules/ui-components/controllers/tilesController.js"></script>
 	<script src="scripts/demos/modules/vectorMaps.js"></script>
-	<script src="scripts/demos/modules/dashboardInditec.js"></script>
-	<script src="scripts/demos/modules/dashboard.js"></script>
 	<script src="scripts/demos/demos.js"></script>
 	<script src="scripts/app.js"></script>
 
@@ -397,8 +395,11 @@
 	<script src="scripts/app/controllers/addAmcCtrl.js"></script>
 	<script src="scripts/app/controllers/technicianReportCtrl.js"></script>
 	<script src="scripts/app/controllers/configureLiftController.js"></script>
+	<script src="scripts/demos/modules/dashboardInditec.js"></script>
+	<script src="scripts/demos/modules/dashboard.js"></script>
 	<script src="scripts/app/services/serviceApi.js"></script>
 	<script src="scripts/app/services/utility.js"></script>
+	
 	<!-- App-->
 </body>
 </html>
