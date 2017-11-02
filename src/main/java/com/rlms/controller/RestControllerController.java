@@ -380,4 +380,24 @@ public class RestControllerController  extends BaseController {
  
         return reponseDto;
   }
+    
+    @RequestMapping(value = "/deleteComplaint", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto deleteComplaint(@RequestBody ComplaintsDto complaintsDto) {
+    
+    	ObjectMapper mapper = new ObjectMapper();
+    	ResponseDto dto = new ResponseDto();
+    	
+    	 try {
+    		 
+    		 dto.setResponse(mapper.writeValueAsString(this.ComplaintsService.deleteComplaint(complaintsDto)));
+    		 dto.setStatus(true);
+    	 }catch(Exception e){
+    		 dto.setStatus(false);
+    		 log.error("some Unknown exception occurs.");
+    		 dto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+    	 }
+    	 
+    	 return dto;
+        
+    }
 }

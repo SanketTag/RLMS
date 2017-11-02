@@ -40,7 +40,8 @@ public enum RlmsErrorType {
 	USERNAME_ALREADY_USED(40,"username_already_used"),
 	USER_ALREADY_REGISTERED_SYSTEM(42,"user_already_registered_system"),
 	COMPANY_UPDATE_SUCCESFUL(43,"company_update_succesful"),
-	COMPANY_DELETE_SUCCESFUL(44,"company_delete_succesful");
+	COMPANY_DELETE_SUCCESFUL(44,"company_delete_succesful"),
+	COMPLAINT_DELETE_SUCCESFUL(45,"complaint_delete_succesful");
 	
 	private Integer code;
 	private String message;

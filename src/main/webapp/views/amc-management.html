@@ -29,7 +29,7 @@
 			<label class="control-label">Select Lift</label>
 			<div class="select-container">
 				  <ui-select multiple ng-model="selectedLift.selected" close-on-select="false" title="Choose lifts">
-				    <ui-select-match placeholder="Select lifts in the list...">{{$select.selected[$index].liftNumber}}</ui-select-match>
+				    <ui-select-match placeholder="Select lift from the List...">{{$select.selected[$index].liftNumber}}</ui-select-match>
 				    <ui-select-choices repeat="iterator in lifts | filter: $select.search">
 				      <span ng-bind-html="iterator.liftNumber | highlight: $select.search"></span>
 				    </ui-select-choices>

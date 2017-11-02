@@ -11,6 +11,7 @@
 		$scope.goToAddAMC = function(){
 			window.location.hash = "#/add-amc";
 		}
+		
 		$scope.loadBranchData = function() {
 			var companyData = {};
 			if ($scope.showCompany == true) {
@@ -102,6 +103,9 @@
 				$scope.selectedStatus.selected=undefined;
  	         })
 		}
+		if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 3) {
+			$scope.loadCustomerData();
+		}
 		//Show Member List
 		$scope.filterOptions.filterText='';
 		$scope.$watch('filterOptions', function(newVal, oldVal) {
@@ -164,9 +168,13 @@
 				}
 			}
 			
-
+			if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 3) {
+				$scope.companyBranchMapIdForCustomer=$rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId;
+			}else{
+				$scope.companyBranchMapIdForCustomer=$scope.selectedBranch.selected.companyBranchMapId;
+			}
 	  		var data = {
-	  				companyBranchMapId:$scope.selectedBranch.selected.companyBranchMapId,
+	  				companyBranchMapId:$scope.companyBranchMapIdForCustomer,
 	  				//companyId:9,
 	  				//listOfUserRoleIds:tempListOfUserRoleIds,
 	  				listOfStatusIds:tempStatus,

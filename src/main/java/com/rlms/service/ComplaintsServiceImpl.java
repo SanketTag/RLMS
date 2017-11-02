@@ -186,6 +186,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		dto.setLiftAddress(complaintMaster.getLiftCustomerMap().getLiftMaster().getAddress());
 		dto.setRegistrationDate(complaintMaster.getRegistrationDate());
 		dto.setRemark(complaintMaster.getRemark());
+		dto.setCity(complaintMaster.getLiftCustomerMap().getLiftMaster().getCity());
 		if(null != complaintMaster.getRegistrationDate()){
 			dto.setRegistrationDateStr(DateUtils.convertDateToStringWithoutTime(complaintMaster.getRegistrationDate()));
 		}
@@ -223,7 +224,9 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		if(RLMSConstants.COMPLAINT_REG_TYPE_ADMIN.getId() == complaintMaster.getRegistrationType()){
 			dto.setRegType(RLMSConstants.COMPLAINT_REG_TYPE_ADMIN.getName());
 			RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(complaintMaster.getCreatedBy());
-			complaintent = userRoles.getRlmsUserMaster().getFirstName() + " " + userRoles.getRlmsUserMaster().getLastName() + " (" + userRoles.getRlmsUserMaster().getContactNumber() + ")";
+			if(userRoles!=null){
+				complaintent = userRoles.getRlmsUserMaster().getFirstName() + " " + userRoles.getRlmsUserMaster().getLastName() + " (" + userRoles.getRlmsUserMaster().getContactNumber() + ")";
+			}
 		}else if(RLMSConstants.COMPLAINT_REG_TYPE_END_USER.getId() == complaintMaster.getRegistrationType()){
 			dto.setRegType(RLMSConstants.COMPLAINT_REG_TYPE_END_USER.getName());
 			RlmsMemberMaster memberMaster = this.customerService.getMemberById(complaintMaster.getCreatedBy());
@@ -596,4 +599,14 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	private void deleteComplaintsTechMapDetails(Integer complaintTechMapId) {
 		this.complaintsDao.deleteComplaintsTechMap(complaintTechMapId);
 	}	
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String deleteComplaint(ComplaintsDto dto){
+		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(dto.getComplaintId());
+		complaintMaster.setActiveFlag(RLMSConstants.INACTIVE.getId());
+		this.complaintsDao.mergeComplaintM(complaintMaster);
+		String resultMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_DELETE_SUCCESFUL.getMessage());
+		return resultMessage;
+		
+	}
 }

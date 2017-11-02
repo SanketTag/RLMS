@@ -89,7 +89,8 @@
 			$scope.submitaddAMC = function(){
 			//	$scope.addAMC.liftCustomerMapId =  $scope.selectedCustomer.selected.branchCustomerMapId;
 				$scope.addAMC.liftCustoMapId=$scope.selectedLift.selected.liftId;
-				$scope.addAMC.amcType=$scope.selectedAmc.selected.id;
+				//$scope.addAMC.amcType=$scope.selectedAmc.selected.id;
+				$scope.addAMC.amcType=42;
 				//$scope.addAMC.amcEdDate=$filter('date')($scope.addAMC.amcEdDate, "dd-MMM-yyyy");
 				//$scope.addAMC.amcStDate=$filter('date')($scope.addAMC.amcStDate, "dd-MMM-yyyy");
 				serviceApi.doPostWithData("/RLMS/report/addAMCDetailsForLift",$scope.addAMC)

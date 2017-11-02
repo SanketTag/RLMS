@@ -32,6 +32,7 @@ public class ComplaintsDto {
 	private Integer complaintTechMapId;
 	private Date updatedDate;
 	private String companyName;
+	private String city;
 	
 	public String getComplaintNumber() {
 		return complaintNumber;
@@ -239,6 +240,14 @@ public class ComplaintsDto {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 
 }

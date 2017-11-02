@@ -285,7 +285,7 @@ public class ReportServiceImpl implements ReportService {
 					siteVisitDto.setTotalTime(totalTime);
 				}
 				totalTimeForComplaint = totalTimeForComplaint + DateUtils.getDateDiff(rlmsSiteVisitDtls.getFromDate(), rlmsSiteVisitDtls.getToDate(), TimeUnit.SECONDS);
-				
+				siteVisitDto.setRemark(rlmsSiteVisitDtls.getRemark());
 				listOfAllVisists.add(siteVisitDto);
 			}
 			if(null != totalTimeForComplaint){

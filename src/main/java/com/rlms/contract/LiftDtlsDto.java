@@ -30,6 +30,7 @@ public class LiftDtlsDto {
 	private String amcStartDateStr;
 	private String amcEndDateStr;
 	private Integer amcType;
+	private String amcTypeStr;
 	private String amcAmount;
 	private Integer doorType;
 	private String noOfStops;
@@ -454,5 +455,12 @@ public class LiftDtlsDto {
 	}
 	public void setActiveFlag(Integer activeFlag) {
 		this.activeFlag = activeFlag;
+	}
+	public String getAmcTypeStr() {
+		return amcTypeStr;
+	}
+	public void setAmcTypeStr(String amcTypeStr) {
+		this.amcTypeStr = amcTypeStr;
 	}	 
+	
 }

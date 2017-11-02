@@ -32,4 +32,5 @@ public interface ComplaintsService {
 	public List<SiteVisitDtlsDto> getAllVisitsForComplaint(SiteVisitDtlsDto siteVisitDtlsDto);
 	public UserDtlsDto getTechnicianDtls(Integer complaintId);
 	public String validateAndUpdateComplaint(ComplaintsDto dto, UserMetaInfo metaInfo) throws ValidationException, ParseException;
+	public String deleteComplaint(ComplaintsDto dto);
 }

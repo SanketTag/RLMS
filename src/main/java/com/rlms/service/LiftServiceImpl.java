@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rlms.constants.AMCType;
 import com.rlms.constants.PhotoType;
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RlmsErrorType;
@@ -256,6 +257,20 @@ public class LiftServiceImpl implements LiftService{
 				dto.setAmcStartDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getAmcStartDate()));
 			}
 			dto.setAmcType(liftM.getAmcType());
+			
+			if(liftM.getAmcType()!=null){
+				if (AMCType.COMPREHENSIVE.getId() == liftM.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.COMPREHENSIVE.getType());
+				} else if (AMCType.NON_COMPREHENSIVE.getId() == liftM
+						.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.NON_COMPREHENSIVE.getType());
+				} else if (AMCType.ON_DEMAND.getId() == liftM.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.ON_DEMAND.getType());
+				} else if (AMCType.OTHER.getId() == liftM.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.OTHER.getType());
+				}
+			}
+			
 			dto.setArd(liftM.getARD());
 			dto.setArdPhoto(liftM.getARDPhoto());
 			dto.setAutoDoorHeaderPhoto(liftM.getAutoDoorHeaderPhoto());
