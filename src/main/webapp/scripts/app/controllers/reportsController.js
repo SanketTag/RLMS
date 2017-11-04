@@ -154,10 +154,18 @@
 	  	  }
 	  	  function constructDataToSend(){
 	  		var tempStatus = [];
-	  		if($scope.selectedStatus.selected.length){
-	  			for (var j = 0; j < $scope.selectedStatus.selected.length; j++) {
-					tempStatus.push($scope.selectedStatus.selected[j].id);
-				}
+	  		if($scope.selectedStatus.selected){
+	  			if($scope.selectedStatus.selected.length===0){
+	  				alert("Please select status");
+	  			}else{
+	  				if($scope.selectedStatus.selected.length){
+	  					for (var j = 0; j < $scope.selectedStatus.selected.length; j++) {
+	  						tempStatus.push($scope.selectedStatus.selected[j].id);
+	  					}
+	  				}
+	  			}
+	  		}else{
+	  			alert("Please select status");
 	  		}
 	  		
 			

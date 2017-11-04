@@ -176,9 +176,9 @@
 																		for (var i = 0; i < largeLoad.length; i++) {
 																			var userDetailsObj = {};
 																			if (!!largeLoad[i].complaintNumber) {
-																				userDetailsObj["Complaint_Number"] = largeLoad[i].complaintNumber;
+																				userDetailsObj["Number"] = largeLoad[i].complaintNumber;
 																			} else {
-																				userDetailsObj["Complaint_Number"] = " - ";
+																				userDetailsObj["Number"] = " - ";
 																			}
 																			if (!!largeLoad[i].title) {
 																				userDetailsObj["Title"] = largeLoad[i].title;
@@ -190,14 +190,14 @@
 																			} else {
 																				userDetailsObj["Remark"] = " - ";
 																			}
-																		
-																			if (!!largeLoad[i].registrationDate) {
-																				userDetailsObj["Registration_Date"] = largeLoad[i].registrationDate;
+																			
+																			if (!!largeLoad[i].registrationDateStr) {
+																				userDetailsObj["Registration_Date"] = largeLoad[i].registrationDateStr;
 																			} else {
 																				userDetailsObj["Registration_Date"] = " - ";
 																			}
-																			if (!!largeLoad[i].serviceStartDate) {
-																				userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDate;
+																			if (!!largeLoad[i].serviceStartDateStr) {
+																				userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDateStr;
 																			} else {
 																				userDetailsObj["Service_StartDate"] = " - ";
 																			}
@@ -225,11 +225,6 @@
 																				userDetailsObj["Status"] = largeLoad[i].status;
 																			} else {
 																				userDetailsObj["Status"] = " - ";
-																			}
-																			if (!!largeLoad[i].technicianDtls) {
-																				userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
-																			} else {
-																				userDetailsObj["Technician"] = " - ";
 																			}
 																			if (!!largeLoad[i].technicianDtls) {
 																				userDetailsObj["Technician"] = largeLoad[i].technicianDtls;

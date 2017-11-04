@@ -33,7 +33,7 @@
 					<label class="col-sm-3  control-label">AMC Type  </label>
 					<div class="col-sm-6 select-container">
 						  <ui-select ng-model="selectedAmc.selected" title="Choose a AMC status">
-						    <ui-select-match placeholder="Select Amc Status">{{$select.selected.name}}</ui-select-match>
+						    <ui-select-match placeholder="Select AMC Type">{{$select.selected.name}}</ui-select-match>
 						    <ui-select-choices repeat="iterator in amcTypes | filter: $select.search">
 						      <span ng-bind-html="iterator.name | highlight: $select.search"></span>
 						    </ui-select-choices>

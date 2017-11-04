@@ -7,6 +7,11 @@
 		};
 		$scope.alert = { type: 'success', msg: 'You successfully Deleted Company.',close:true };
 		$scope.showAlert = false;
+		if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+			$scope.showCompany= true;
+		}else{
+			$scope.showCompany= false;
+		}
 		//-------Company Details Table---------
 	    $scope.filterOptions = {
 	  	      filterText: '',
