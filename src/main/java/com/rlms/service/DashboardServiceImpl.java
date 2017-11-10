@@ -17,11 +17,14 @@ import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.SpocRoleConstants;
 import com.rlms.constants.Status;
 import com.rlms.contract.AMCDetailsDto;
+import com.rlms.contract.BranchDtlsDto;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.UserAppDtls;
+import com.rlms.contract.UserDtlsDto;
+import com.rlms.contract.UserMetaInfo;
 import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.dao.BranchDao;
 import com.rlms.dao.ComplaintsDao;
@@ -29,6 +32,7 @@ import com.rlms.dao.CustomerDao;
 import com.rlms.dao.DashboardDao;
 import com.rlms.dao.LiftDao;
 import com.rlms.model.RlmsBranchCustomerMap;
+import com.rlms.model.RlmsCompanyBranchMapDtls;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
@@ -257,9 +261,11 @@ public class DashboardServiceImpl implements DashboardService {
 			dto.setRegType(RLMSConstants.COMPLAINT_REG_TYPE_ADMIN.getName());
 			RlmsUserRoles userRoles = this.userService
 					.getUserRoleObjhById(complaintMaster.getCreatedBy());
-			complaintent = userRoles.getRlmsUserMaster().getFirstName() + " "
-					+ userRoles.getRlmsUserMaster().getLastName() + " ("
-					+ userRoles.getRlmsUserMaster().getContactNumber() + ")";
+			if(userRoles!=null){
+				complaintent = userRoles.getRlmsUserMaster().getFirstName() + " "
+						+ userRoles.getRlmsUserMaster().getLastName() + " ("
+						+ userRoles.getRlmsUserMaster().getContactNumber() + ")";
+			}
 		} else if (RLMSConstants.COMPLAINT_REG_TYPE_END_USER.getId() == complaintMaster
 				.getRegistrationType()) {
 			dto.setRegType(RLMSConstants.COMPLAINT_REG_TYPE_END_USER.getName());
@@ -481,5 +487,49 @@ public class DashboardServiceImpl implements DashboardService {
 		}
 
 		return listOFAMCDetails;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<RlmsCompanyBranchMapDtls> getAllBranchesForDashBoard(Integer companyId){
+		return this.dashboardDao.getAllBranchesForDashboard(companyId);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<BranchDtlsDto> getListOfBranchDtlsForDashboard(Integer companyId, UserMetaInfo metaInfo){
+		List<Integer> listOfAllApplicableCompanies = new ArrayList<Integer>();
+		List<Integer> listOFApplicableBranches = new ArrayList<Integer>();
+		listOfAllApplicableCompanies.add(companyId);
+		 List<RlmsCompanyBranchMapDtls> listOfAllBranches = this.dashboardDao.getAllBranchDtlsForDashboard(listOfAllApplicableCompanies);
+		  for (RlmsCompanyBranchMapDtls rlmsCompanyBranchMapDtls : listOfAllBranches) {
+			  listOFApplicableBranches.add(rlmsCompanyBranchMapDtls.getCompanyBranchMapId());
+		  }
+		  
+		
+		List<BranchDtlsDto> listOFBranchDtls = new ArrayList<BranchDtlsDto>();
+		for (Integer companyBranchMapId : listOFApplicableBranches) {
+			BranchDtlsDto branchDtlsDto = new BranchDtlsDto();
+			RlmsCompanyBranchMapDtls rlmsCompanyBranchMapDtls = this.dashboardDao.getCompanyBranchMapDtlsForDashboard(companyBranchMapId);
+			branchDtlsDto.setId(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchId());
+			branchDtlsDto.setBranchName(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchName());
+			branchDtlsDto.setBranchAddress(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getBranchAddress());
+			branchDtlsDto.setArea(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getArea());
+			branchDtlsDto.setCity(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getCity());
+			branchDtlsDto.setPinCode(rlmsCompanyBranchMapDtls.getRlmsBranchMaster().getPincode());
+			branchDtlsDto.setCompanyName(rlmsCompanyBranchMapDtls.getRlmsCompanyMaster().getCompanyName());
+			/*List<UserDtlsDto> listOfAllTech = this.getListOFAllTEchnicians(companyBranchMapId);
+			branchDtlsDto.setListOfAllTechnicians(listOfAllTech);
+			if(null != listOfAllTech && !listOfAllTech.isEmpty()){
+				branchDtlsDto.setNumberOfTechnicians(listOfAllTech.size());
+			}*/
+			/*List<LiftDtlsDto> listOfAllLifts = this.getListOfAllLifts(companyBranchMapId);
+			if(null != listOfAllLifts){
+				branchDtlsDto.setListOfAllLifts(listOfAllLifts);
+			}
+			if(null != listOfAllLifts){
+				branchDtlsDto.setNumberOfLifts(listOfAllLifts.size());
+			}*/
+			listOFBranchDtls.add(branchDtlsDto);			
+		}
+		return listOFBranchDtls;
 	}
 }

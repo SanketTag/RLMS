@@ -40,7 +40,7 @@ angular
 		    $rootScope.loggedInUserInfo = response;
 		    $rootScope.showDasboardForInditech=false;
 		    $rootScope.showDasboardForOthers=false;
-		    if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+		    if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1 || $rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsSpocRoleMaster.roleLevel == 2){
 	    		$rootScope.showDasboardForInditech= true;
 	    		$rootScope.showDasboardForOthers=false;
 	    	}else{

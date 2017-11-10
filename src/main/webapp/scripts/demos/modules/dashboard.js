@@ -23,7 +23,7 @@ angular.module('theme.demos.dashboard', [
 		  url: '/RLMS/getLoggedInUser'
 		}).then(function successCallback(response) {
 			$rootScope.loggedInUserInfoForDashboard=response;
-			if($rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+			if($rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsSpocRoleMaster.roleLevel == 1 || $rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsSpocRoleMaster.roleLevel == 2){
 				$rootScope.showDasboardForInditech= true;
 				$rootScope.showDasboardForOthers=false;
 			}else{
@@ -207,7 +207,7 @@ angular.module('theme.demos.dashboard', [
               if (complaintStatusArray.includes('3') && complaintStatusArray.length == 1 && largeLoad.length > 0) {
                 $scope.assignedComplaints.text = largeLoad.length;
               }
-              if (complaintStatusArray.includes('4') && complaintStatusArray.length == 1 && largeLoad.length > 0) {
+              if (complaintStatusArray.includes('5') && complaintStatusArray.length == 1 && largeLoad.length > 0) {
                 $scope.resolvedComplaints.text = largeLoad.length;
               }
               if (complaintStatusArray.includes('2') && complaintStatusArray.length == 3 && largeLoad.length > 0) {
@@ -250,9 +250,9 @@ angular.module('theme.demos.dashboard', [
 
     $scope.getComplaintsCount('2');
     $scope.getComplaintsCount('3');
-    $scope.getComplaintsCount('4');
-    $scope.getComplaintsCount('2,3,4');
-    $scope.getComplaintsCountForSiteVisited('2,3,4');
+    $scope.getComplaintsCount('5');
+    $scope.getComplaintsCount('2,3,5');
+    $scope.getComplaintsCountForSiteVisited('2,3,5');
 
     $scope.gridOptionsForComplaints = {
       data: 'myComplaintsData',

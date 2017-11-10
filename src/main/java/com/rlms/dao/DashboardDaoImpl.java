@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.rlms.constants.RLMSConstants;
+import com.rlms.model.RlmsCompanyBranchMapDtls;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
@@ -97,5 +98,36 @@ public class DashboardDaoImpl implements DashboardDao {
 		 query.addEntity(RlmsUserRoles.class);
 		 List listOfAllTechnicians = query.list();
 		 return listOfAllTechnicians;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsCompanyBranchMapDtls> getAllBranchesForDashboard(Integer companyId){
+		Session session = this.sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(RlmsCompanyBranchMapDtls.class);
+		criteria.add(Restrictions.eq("rlmsCompanyMaster.companyId", companyId));
+		//criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		List<RlmsCompanyBranchMapDtls> listOfAllBranches = criteria.list();
+		return listOfAllBranches;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<RlmsCompanyBranchMapDtls> getAllBranchDtlsForDashboard(List<Integer> ListOfCompanyIds){
+		Session session = this.sessionFactory.getCurrentSession();
+		Criteria criteria = session.createCriteria(RlmsCompanyBranchMapDtls.class);
+		criteria.add(Restrictions.in("rlmsCompanyMaster.companyId", ListOfCompanyIds));
+		//criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		List<RlmsCompanyBranchMapDtls> listOfAllBranches = criteria.list();
+		return listOfAllBranches;
+		
+	}
+	
+	public RlmsCompanyBranchMapDtls getCompanyBranchMapDtlsForDashboard(Integer compBranchMapId){
+		 Session session = this.sessionFactory.getCurrentSession();
+		 Criteria criteria = session.createCriteria(RlmsCompanyBranchMapDtls.class)
+				 .add(Restrictions.eq("companyBranchMapId", compBranchMapId));
+		 //.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId())
+		 RlmsCompanyBranchMapDtls companyBranchMapDtls =  (RlmsCompanyBranchMapDtls) criteria.uniqueResult();
+		 return companyBranchMapDtls;
 	}
 }

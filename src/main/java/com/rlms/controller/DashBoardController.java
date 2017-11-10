@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.contract.AMCDetailsDto;
+import com.rlms.contract.BranchDtlsDto;
 import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
@@ -380,4 +381,38 @@ public class DashBoardController extends BaseController {
  
         return listOfApplicableCompaniesDetails;
     }
+	
+	@RequestMapping(value = "/getAllBranchesForDashboard", method = RequestMethod.POST)
+    public @ResponseBody List<RlmsCompanyBranchMapDtls> getAllBranchesForDashboard(@RequestBody CompanyDtlsDTO companyDtlsDTO) throws RunTimeException {
+        List<RlmsCompanyBranchMapDtls> listOfAllBranches = null;
+        
+        try{
+        	logger.info("Method :: getAllBranchesForCompany");
+        	listOfAllBranches =  this.dashboardService.getAllBranchesForDashBoard(companyDtlsDTO.getCompanyId());
+        	
+        }catch(Exception e){
+        	logger.error(ExceptionUtils.getFullStackTrace(e));
+        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        }
+ 
+        return listOfAllBranches;
+    }
+	
+	
+	@RequestMapping(value = "/getListOfBranchDtlsForDashboard", method = RequestMethod.POST)
+	 public @ResponseBody List<BranchDtlsDto> getListOfBranchDtls(@RequestBody BranchDtlsDto dto) throws RunTimeException{
+		 List<BranchDtlsDto> listOfBranches = null;
+	        
+	        try{
+	        	logger.info("Method :: getListOfBranchDtls");
+	        	listOfBranches = this.dashboardService.getListOfBranchDtlsForDashboard(dto.getCompanyId(), this.getMetaInfo());
+	        	
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        	
+	        }
+	 
+	        return listOfBranches;
+	 }
 }

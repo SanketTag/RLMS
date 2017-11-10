@@ -105,8 +105,18 @@
 		<div class="form-group">
 			<label for="amcType" class="col-md-3 control-label">Amc Type</label>
 			<!-- <div class="col-md-6"><input ng-model="addLift.amcType" class="form-control"  type="number" name="amcType"></div> -->
+			<!-- <div class="col-sm-6">
+					  <ui-select ng-model="selectedAMCType.selected" title="Choose a AMC Type" ng-required="true">
+					    <ui-select-match placeholder="Select a AMC Type in the list...">{{$select.selected.name}}</ui-select-match> <ui-select-choices
+								repeat="iterator in AMCType| filter: $select.search">
+							<span
+								ng-bind-html="iterator.name | highlight: $select.search"></span>
+							</ui-select-choices>
+					  </ui-select>
+				</div> -->
+				
 			<div class="col-sm-6">
-					  <ui-select ng-model="selectedAMCType.selected" title="Choose a AMC Type">
+					  <ui-select ng-model="selectedAMCType.selected" title="Choose a AMC Type" ng-required="true" name="amctype" ng-required="true">
 					    <ui-select-match placeholder="Select a AMC Type in the list...">{{$select.selected.name}}</ui-select-match> <ui-select-choices
 								repeat="iterator in AMCType| filter: $select.search">
 							<span
@@ -114,6 +124,7 @@
 							</ui-select-choices>
 					  </ui-select>
 				</div>
+				
 		</div>
 		<div class="form-group">
 			<label for="amcAmount" class="col-md-3 control-label">Amc Amount</label>

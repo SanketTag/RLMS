@@ -23,38 +23,47 @@
 				if(photoType==="Machine"){
 					$scope.image_source=event.target.result;
 					$scope.displayMachinePhoto=true;
+					$scope.addLift.machinePhoto=$scope.currentFile;
 				}
 				if(photoType==="Panel"){
 					$scope.image_source1=event.target.result;
 					$scope.displayPanelPhoto=true;
+					$scope.addLift.panelPhoto=$scope.currentFile;
 				}
 				if(photoType==="ARD"){
 					$scope.image_source2=event.target.result;
 					$scope.displayArdPhoto=true;
+					$scope.addLift.ardPhoto=$scope.currentFile;
 				}
 				if(photoType==="LOP"){
 					$scope.image_source3=event.target.result;
 					$scope.displayLopPhoto=true;
+					$scope.addLift.lopPhoto=$scope.currentFile;
 				}
 				if(photoType==="COP"){
 					$scope.image_source4=event.target.result;
 					$scope.displayCopPhoto=true;
+					$scope.addLift.copPhoto=$scope.currentFile;
 				}
 				if(photoType==="CarTop"){
 					$scope.image_source5=event.target.result;
 					$scope.displayCarTopPhoto=true;
+					$scope.addLift.cartopPhoto=$scope.currentFile;
 				}
 				if(photoType==="Header"){
 					$scope.image_source6=event.target.result;
 					$scope.displayHeaderPhoto=true;
+					$scope.addLift.autoDoorHeaderPhoto=$scope.currentFile;
 				}
 				if(photoType==="Wiring"){
 					$scope.image_source7=event.target.result;
 					$scope.displayWiringPhoto=true;
+					$scope.addLift.wiringPhoto=$scope.currentFile;
 				}
 				if(photoType==="Lobby"){
 					$scope.image_source8=event.target.result;
 					$scope.displayLobbyPhoto=true;
+					$scope.addLift.lobbyPhoto=$scope.currentFile;
 				}
 				$scope.apply();
 			};
@@ -377,9 +386,6 @@
 			if($scope.addLift.machinePhoto != ''){
 				$scope.addLift.machinePhoto = $scope.addLift.machinePhoto.base64;
 			}
-			if($scope.addLift.machinePhoto != ''){
-				$scope.addLift.machinePhoto = $scope.addLift.machinePhoto.base64;
-			}
 			if($scope.addLift.panelPhoto != ''){
 				$scope.addLift.panelPhoto = $scope.addLift.panelPhoto.base64;
 			}
@@ -391,9 +397,6 @@
 			}
 			if($scope.addLift.copPhoto != ''){
 				$scope.addLift.copPhoto = $scope.addLift.copPhoto.base64;
-			}
-			if($scope.addLift.cartopPhoto != ''){
-				$scope.addLift.cartopPhoto = $scope.addLift.cartopPhoto.base64;
 			}
 			if($scope.addLift.cartopPhoto != ''){
 				$scope.addLift.cartopPhoto = $scope.addLift.cartopPhoto.base64;

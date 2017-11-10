@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.rlms.model.RlmsBranchCustomerMap;
+import com.rlms.model.RlmsCompanyBranchMapDtls;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
@@ -21,4 +22,7 @@ public interface DashboardDao {
 	public RlmsComplaintTechMapDtls getComplTechMapObjByComplaintId(
 			Integer complaintId);
 	public List<RlmsUserRoles> getAllUserWithRoleFor(List<Integer> commpBranchMapId, Integer spocRoleId);
+	public List<RlmsCompanyBranchMapDtls> getAllBranchesForDashboard(Integer companyId);
+	public List<RlmsCompanyBranchMapDtls> getAllBranchDtlsForDashboard(List<Integer> ListOfCompanyIds);
+	public RlmsCompanyBranchMapDtls getCompanyBranchMapDtlsForDashboard(Integer compBranchMapId);
 }
