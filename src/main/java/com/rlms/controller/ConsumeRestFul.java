@@ -21,9 +21,10 @@ public class ConsumeRestFul {
 			//submitVisitDetails();
 			//getAllComplaintsByTech();
 			//uploadLiftPhoto();
-			updateLiftDetails();
+			//updateLiftDetails();
 			//addNewComplaint();
 		//	getVisitDetails();
+			addEvent();
 		}
 		
 		  public static void getAllComplaintsByTech(){
@@ -383,5 +384,49 @@ public class ConsumeRestFul {
 
 			  //{"status":true,"response":"Visit details updated successfully.","jsonElement":null,"jsonArray":null}
 
+		}
+		
+		public static void addEvent(){
+
+
+			  try {
+
+				URL url = new URL("http://localhost:9090/RLMS/API/addEvents"); 
+				
+				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				conn.setDoOutput(true);
+				conn.setRequestMethod("POST");
+				conn.setRequestProperty("Content-Type", "application/json");
+			
+				String input = "{\"eventType\":\"In\",\"eventDescription\":\"In event created\", \"liftCustomerMapId\":\"1\", \"generatedDateStr\":\""+DateUtils.convertDateToStringWithTime(new Date())+"\", \"generatedBy\":\"1\", \"updatedDateStr\":\""+DateUtils.convertDateToStringWithTime(new Date())+"\", \"updatedBy\":\"1\", \"activeFlag\":\"1\"}";
+
+				OutputStream os = conn.getOutputStream();
+				os.write(input.getBytes());
+				os.flush();
+
+				if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+				}
+
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						(conn.getInputStream())));
+
+				String output;
+				System.out.println("Output from Server .... \n");
+				while ((output = br.readLine()) != null) {
+					System.out.println(output);
+					
+				}
+
+				conn.disconnect();
+
+			  } catch (MalformedURLException e) {
+
+				e.printStackTrace();
+
+			  } catch (IOException e) {
+
+				e.printStackTrace();
+
+			 }
 		}
 }

@@ -7,11 +7,13 @@ import com.rlms.contract.BranchDtlsDto;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.CustomerDtlsDto;
+import com.rlms.contract.EventDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.model.RlmsCompanyBranchMapDtls;
 import com.rlms.model.RlmsComplaintTechMapDtls;
+import com.rlms.model.RlmsEventDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsSiteVisitDtls;
 
@@ -43,4 +45,9 @@ public interface DashboardService {
 	public List<RlmsCompanyBranchMapDtls> getAllBranchesForDashBoard(Integer companyId);
 	
 	public List<BranchDtlsDto> getListOfBranchDtlsForDashboard(Integer companyId, UserMetaInfo metaInfo);
+
+	public List<RlmsEventDtls> getListOfEvetnDetails(List<Integer> companyBranchIds,
+			UserMetaInfo metaInfo);
+
+	public String addEvent(EventDtlsDto eventDetailsDto);
 }

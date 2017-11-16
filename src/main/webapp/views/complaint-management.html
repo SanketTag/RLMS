@@ -35,6 +35,16 @@
 				    </ui-select-choices>
 				  </ui-select>
 			</div>
+			<br><br>
+			<label class="control-label">Select Call Type</label>
+			<div class="select-container">
+				  <ui-select ng-model="selectedCalltype.selected" title="Choose a call type"  on-select="showWizardFun()">
+				    <ui-select-match placeholder="Select call type">{{$select.selected.type}}</ui-select-match>
+				    <ui-select-choices repeat="callTypeIterator in callType| filter: $select.search">
+				      <span ng-bind-html="callTypeIterator.type | highlight: $select.search"></span>
+				    </ui-select-choices>
+				  </ui-select>
+			</div>
 			<div class="advance-filter-container">
 				<span ng-click="toggleAdvanceFilter()">Show Advance Filter</span>
 			</div>

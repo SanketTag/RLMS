@@ -244,7 +244,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<ComplaintsDto> getListOfComplaintsBy(ComplaintsDtlsDto dto){
 		List<ComplaintsDto> listOfAllComplaints = new ArrayList<ComplaintsDto>();
-		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate());
+		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate(),dto.getServiceCallType());
 		for (RlmsComplaintMaster rlmsComplaintMaster : listOfComplaints) {
 			ComplaintsDto complaintsDto = this.constructComplaintDto(rlmsComplaintMaster);
 			listOfAllComplaints.add(complaintsDto);
@@ -255,7 +255,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(ComplaintsDtlsDto dto){
-		return this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate());
+		return this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate(),0);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -281,7 +281,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	private RlmsComplaintTechMapDtls constructComplaintTechMapDtlsDto(ComplaintsDto complaintsDto, UserMetaInfo metaInfo){
 		RlmsComplaintTechMapDtls complaintTechMapDtls = new RlmsComplaintTechMapDtls();
-		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDto.getComplaintId());
+		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDto.getComplaintId(),0);
 		RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(complaintsDto.getUserRoleId());
 		complaintTechMapDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
 		complaintTechMapDtls.setAssignedDate(new Date());
@@ -381,9 +381,9 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public List<ComplaintsDto> getAllComplaintsByMember(Integer memberId){
+	public List<ComplaintsDto> getAllComplaintsByMember(Integer memberId,Integer serviceCall){
 		List<ComplaintsDto> listOfComplDtls = new ArrayList<ComplaintsDto>();
-		List<RlmsComplaintMaster> listOfAllComplByMember = this.complaintsDao.getAllComplaintsByMemberId(memberId);
+		List<RlmsComplaintMaster> listOfAllComplByMember = this.complaintsDao.getAllComplaintsByMemberId(memberId,serviceCall);
 		
 		for (RlmsComplaintMaster rlmsComplaintMaster : listOfAllComplByMember) {
 			ComplaintsDto dto = new ComplaintsDto();
@@ -415,7 +415,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<UserRoleDtlsDTO> getAllTechniciansToAssignComplaint(ComplaintsDtlsDto complaintsDtlsDto){
    	 
-		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDtlsDto.getComplaintId());
+		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDtlsDto.getComplaintId(),0);
 		List<UserRoleDtlsDTO> listOFUserAdtls = new ArrayList<UserRoleDtlsDTO>();
 		List<RlmsUserRoles> listOfAllTechnicians = this.userService.getListOfTechniciansForBranch(complaintMaster.getLiftCustomerMap().getBranchCustomerMap().getCompanyBranchMapDtls().getCompanyBranchMapId());
 		for (RlmsUserRoles rlmsUserRoles : listOfAllTechnicians) {
@@ -446,7 +446,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public String updateComplaintStatus(ComplaintsDto dto){
-		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(dto.getComplaintId());
+		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(dto.getComplaintId(),0);
 		Integer statusId = 0;
 		if(Status.PENDING.getStatusMsg().equalsIgnoreCase(dto.getStatus())){
 			statusId = Status.PENDING.getStatusId();
@@ -554,7 +554,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		if(null==complaintTechMapDtls && "Assigned".equalsIgnoreCase(complaintsDto.getStatus()) && null!=complaintsDto.getUserRoleId()){
 			this.assignComplaint(complaintsDto, metaInfo);
 		}else{			
-			RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDto.getComplaintId());			
+			RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDto.getComplaintId(),0);			
 			if(complaintsDto.getRegistrationDateStr()!=null && !(" - ".equals(complaintsDto.getRegistrationDateStr()))){
 				complaintMaster.setRegistrationDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getRegistrationDateStr()));
 			}if(complaintsDto.getServiceStartDateStr()!=null && !(" - ".equals(complaintsDto.getServiceStartDateStr()))){
@@ -602,7 +602,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public String deleteComplaint(ComplaintsDto dto){
-		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(dto.getComplaintId());
+		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(dto.getComplaintId(),0);
 		complaintMaster.setActiveFlag(RLMSConstants.INACTIVE.getId());
 		this.complaintsDao.mergeComplaintM(complaintMaster);
 		String resultMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_DELETE_SUCCESFUL.getMessage());

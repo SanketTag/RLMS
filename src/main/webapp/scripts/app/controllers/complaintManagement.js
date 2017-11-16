@@ -35,8 +35,10 @@
 									$scope.selectedCompany = {};
 									$scope.selectedBranch = {};
 									$scope.selectedCustomer = {};
+									$scope.selectedCalltype = {};
 									$scope.selectedLifts = {};
 									$scope.branches = [];
+									$scope.callType = [{type:"Complaints"},{type:"Service Calls"}];
 									$scope.selectedlifts = {};
 									$scope.selectedStatus = {};
 									$scope.selectedTechnician = {};
@@ -350,9 +352,15 @@
 											branchCompanyMapId:0,
 											branchCustomerMapId:0,
 											listOfLiftCustoMapId:[],
-											statusList:[]
+											statusList:[],
+											serviceCallType:0
 											
 									};
+									if($scope.selectedCalltype.selected.type=="Complaints"){
+										dataToSend["serviceCallType"]=0;
+									}else{
+										dataToSend["serviceCallType"]=1;
+									}
 									if ($scope.showBranch == true) {
 										dataToSend["branchCompanyMapId"] = $scope.selectedBranch.selected.companyBranchMapId
 									} else {

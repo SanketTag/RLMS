@@ -3,6 +3,8 @@ package com.rlms.contract;
 import java.util.Date;
 import java.util.List;
 
+import com.rlms.model.ServiceCall;
+
 public class AMCDetailsDto {
 
 	private Integer companyId;
@@ -32,6 +34,7 @@ public class AMCDetailsDto {
 	private Date amcDueDate;
 	private Integer activeFlag;
 	private String companyName;
+	private List<ServiceCall> amcServiceCalls;
 	
 	public Integer getCompanyId() {
 		return companyId;
@@ -195,6 +198,13 @@ public class AMCDetailsDto {
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
+	public List<ServiceCall> getAmcServiceCalls() {
+		return amcServiceCalls;
+	}
+	public void setAmcServiceCalls(List<ServiceCall> amcServiceCalls) {
+		this.amcServiceCalls = amcServiceCalls;
+	}
+	
 	
 	
 }

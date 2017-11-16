@@ -2,6 +2,7 @@ package com.rlms.service;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -11,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.envers.Audited;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -23,7 +23,6 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
 import com.rlms.constants.Status;
 import com.rlms.contract.AMCDetailsDto;
-import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.SiteVisitDtlsDto;
 import com.rlms.contract.SiteVisitReportDto;
 import com.rlms.contract.TechnicianWiseReportDTO;
@@ -40,11 +39,10 @@ import com.rlms.model.RlmsLiftAmcDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsSiteVisitDtls;
 import com.rlms.model.RlmsUserRoles;
+import com.rlms.model.ServiceCall;
 import com.rlms.predicates.LiftPredicate;
 import com.rlms.utils.DateUtils;
 import com.rlms.utils.PropertyUtils;
-import com.telesist.email.EmailService;
-import com.telesist.email.EmailTemplateEnum;
 
 @Service("ReportService")
 public class ReportServiceImpl implements ReportService {
@@ -205,6 +203,10 @@ public class ReportServiceImpl implements ReportService {
 	public RlmsLiftAmcDtls constructLiftAMCDtls(AMCDetailsDto dto, UserMetaInfo metaInfo) throws ParseException{
 		RlmsLiftAmcDtls liftAMCDtls = new RlmsLiftAmcDtls();
 		RlmsLiftCustomerMap liftCustomerMap = this.liftDao.getLiftCustomerMapById(dto.getLiftCustoMapId());
+		List<ServiceCall> amacServiceCalls=dto.getAmcServiceCalls();
+		for (ServiceCall serviceCall : amacServiceCalls) {
+			createServiceCalls(serviceCall,metaInfo, liftCustomerMap);
+		}
 		if(!StringUtils.isEmpty(dto.getAmcEndDate())){
 			dto.setAmcEdDate(DateUtils.convertStringToDateWithoutTime(dto.getAmcEndDate()));
 		}
@@ -248,6 +250,27 @@ public class ReportServiceImpl implements ReportService {
 		return liftAMCDtls;
 		
 		
+	}
+
+	private void createServiceCalls(ServiceCall serviceCall, UserMetaInfo metaInfo,
+			RlmsLiftCustomerMap liftCustomerMap) throws ParseException {
+		RlmsComplaintMaster complaintMaster = new RlmsComplaintMaster();
+		complaintMaster.setActiveFlag(RLMSConstants.ACTIVE.getId());
+		complaintMaster.setComplaintNumber(String.valueOf(Math.random()));
+		complaintMaster.setLiftCustomerMap(liftCustomerMap);
+		complaintMaster.setRegistrationDate(new Date());
+		//complaintMaster.setRegistrationType(dto.getRegistrationType());
+		//complaintMaster.setRemark(dto.getComplaintsRemark());
+		complaintMaster.setStatus(Status.PENDING.getStatusId());
+		complaintMaster.setTitle(serviceCall.getTitle());
+    	complaintMaster.setCreatedBy(metaInfo.getUserId());				
+		complaintMaster.setUpdatedBy(metaInfo.getUserId());				
+		complaintMaster.setUpdatedDate(new Date());
+		complaintMaster.setCreatedDate(serviceCall.getServiceDate());
+		complaintMaster.setCallType(1);		
+		Integer complaintId = this.complaintsDao.saveComplaintM(complaintMaster);
+		complaintMaster.setComplaintNumber(complaintId.toString());
+		this.complaintsDao.mergeComplaintM(complaintMaster);
 	}
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<SiteVisitReportDto> getSiteVisitReport(SiteVisitReportDto dto){

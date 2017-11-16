@@ -18,6 +18,7 @@ public class ComplaintsDtlsDto {
 	private Date fromDate;
 	private Date toDate;
 	private Integer memberId;
+	private Integer serviceCallType;
 	
 	public Integer getLiftCustomerMapId() {
 		return liftCustomerMapId;
@@ -97,6 +98,12 @@ public class ComplaintsDtlsDto {
 	}
 	public void setMemberId(Integer memberId) {
 		this.memberId = memberId;
+	}
+	public Integer getServiceCallType() {
+		return serviceCallType;
+	}
+	public void setServiceCallType(Integer serviceCallType) {
+		this.serviceCallType = serviceCallType;
 	}
 	
 	

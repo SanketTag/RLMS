@@ -37,6 +37,7 @@ public class RlmsComplaintMaster implements Serializable{
 	private Integer createdByRef;
 	private Date updatedDate;
 	private Integer updatedBy;
+	private Integer callType;
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -56,7 +57,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.complaintNumber = complaintNumber;
 	}
 	
-	@Column(name = "registration_date", unique = true, nullable = false)
+	@Column(name = "registration_date")
 	public Date getRegistrationDate() {
 		return registrationDate;
 	}
@@ -64,7 +65,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.registrationDate = registrationDate;
 	}
 	
-	@Column(name = "service_start_date", unique = true, nullable = true)
+	@Column(name = "service_start_date")
 	public Date getServiceStartDate() {
 		return serviceStartDate;
 	}
@@ -72,7 +73,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.serviceStartDate = serviceStartDate;
 	}
 	
-	@Column(name = "actual_service_end_date", unique = true, nullable = true)
+	@Column(name = "actual_service_end_date")
 	public Date getActualServiceEndDate() {
 		return actualServiceEndDate;
 	}
@@ -89,7 +90,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.liftCustomerMap = liftCustomerMap;
 	}
 	
-	@Column(name = "registration_type", unique = true, nullable = false)
+	@Column(name = "registration_type")
 	public Integer getRegistrationType() {
 		return registrationType;
 	}
@@ -97,7 +98,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.registrationType = registrationType;
 	}
 	
-	@Column(name = "remark", unique = true, nullable = false)
+	@Column(name = "remark")
 	public String getRemark() {
 		return remark;
 	}
@@ -105,7 +106,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.remark = remark;
 	}
 	
-	@Column(name = "status", unique = true, nullable = false)
+	@Column(name = "status")
 	public Integer getStatus() {
 		return status;
 	}
@@ -113,7 +114,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.status = status;
 	}
 	
-	@Column(name = "active_flag", unique = true, nullable = false)
+	@Column(name = "active_flag")
 	public Integer getActiveFlag() {
 		return activeFlag;
 	}
@@ -122,7 +123,7 @@ public class RlmsComplaintMaster implements Serializable{
 	}
 	
 	
-	@Column(name = "created_date", unique = true, nullable = false)
+	@Column(name = "created_date")
 	public Date getCreatedDate() {
 		return createdDate;
 	}
@@ -130,7 +131,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.createdDate = createdDate;
 	}
 	
-	@Column(name = "created_by", unique = true, nullable = false)
+	@Column(name = "created_by")
 	public Integer getCreatedBy() {
 		return createdBy;
 	}
@@ -138,7 +139,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.createdBy = createdBy;
 	}
 	
-	@Column(name = "updated_date", unique = true, nullable = false)
+	@Column(name = "updated_date")
 	public Date getUpdatedDate() {
 		return updatedDate;
 	}
@@ -146,7 +147,7 @@ public class RlmsComplaintMaster implements Serializable{
 		this.updatedDate = updatedDate;
 	}
 	
-	@Column(name = "updated_by", unique = true, nullable = false)
+	@Column(name = "updated_by")
 	public Integer getUpdatedBy() {
 		return updatedBy;
 	}
@@ -154,12 +155,20 @@ public class RlmsComplaintMaster implements Serializable{
 		this.updatedBy = updatedBy;
 	}
 	
-	@Column(name = "title", unique = true, nullable = true)
+	@Column(name = "title")
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	@Column(name = "call_type", nullable = true)	
+	public Integer getCallType() {
+		return callType;
+	}
+	public void setCallType(Integer callType) {
+		this.callType = callType;
 	}
 	
 	

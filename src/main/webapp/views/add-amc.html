@@ -44,6 +44,14 @@
 				<label class="col-sm-3 control-label">Ammount</label>
 					<div class="col-md-6"><input type="text" class="form-control datepicker" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : this.value.length<45" ng-model="addAMC.amcAmount"/></div>
 			</div>
+			<!-- <div class="form-group">
+				<label class="col-sm-3 control-label">No Of Service Calls</label>
+					<div class="col-md-6"><input type="text" class="form-control datepicker" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : this.value.length<45" ng-model="addAMC.amcServiceCalls"/></div>
+			</div> -->
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Add Service Calls</label>
+					<button class="btn-primary btn" ng-click="addServiceCall()">Add</button>
+			</div>
 			<div class="form-group">
 				<label class="col-sm-3 control-label">From Date</label>
 					<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'fromDate')" is-open="openFlag.fromDate" ng-model="addAMC.amcStDate"/></div>
@@ -71,5 +79,42 @@
 		
 	</panel> 	
 	</div>
+	<script type="text/ng-template" id="addServiceCallsTemplate">
+	    <div class="modal-header">
+	        <h3 class="modal-title">Add Service Calls</h3>
+	    </div>
+	    <div class="modal-body">
+			<alert ng-show="showAlert" type="{{alert.type}}">
+			<span ng-bind-html="alert.msg | safe_html"></alert>
+	        <div class="form-group">
+				
+			</div>
+		<table class="table table-bordered">
+            <tr>
+                <th>Title</th>
+                <th>Service Date</th>
+                <th></th>
+            </tr>
+            <tbody ng-repeat="m in callTypesArray">
+                <tr>
+                    <td>{{m.title}}</td>
+                    <td>{{m.serviceDate}}</td>
+                    <td><input type="button" ng-click="Remove($index)" value="Remove" /></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td><input type="text" class="form-control datepicker" ng-model="newCallTypes.title" title="Enter service title" placeholder="Enter service title"/></td>
+					<td><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" placeholder="Enter service date" title="Enter service date" ng-click="open($event,'serviceDate')" is-open="openFlag.serviceDate" ng-model="newCallTypes.serviceDate"/></td>
+                    <td><input type="button" ng-click="Add()" value="Add" /></td>
+                </tr>
+            </tfoot>
+        </table>
+	    </div>
+	    <div class="modal-footer">
+	        <button class="btn btn-primary" ng-click="cancelAssign()">Done</button>
+	        <button class="btn btn-warning" ng-click="cancelAssign()">Cancel</button>
+	    </div>
+	</script>
 </div>
 </div>
