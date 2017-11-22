@@ -266,7 +266,7 @@ public class ReportServiceImpl implements ReportService {
     	complaintMaster.setCreatedBy(metaInfo.getUserId());				
 		complaintMaster.setUpdatedBy(metaInfo.getUserId());				
 		complaintMaster.setUpdatedDate(new Date());
-		complaintMaster.setCreatedDate(serviceCall.getServiceDate());
+		complaintMaster.setServiceStartDate(serviceCall.getServiceDate());
 		complaintMaster.setCallType(1);		
 		Integer complaintId = this.complaintsDao.saveComplaintM(complaintMaster);
 		complaintMaster.setComplaintNumber(complaintId.toString());
@@ -287,14 +287,18 @@ public class ReportServiceImpl implements ReportService {
 			if(null != rlmsComplaintTechMapDtls.getPlannedEndDate()){
 				complaintwiseSiteVisitReport.setComplaintResolveDate(DateUtils.convertDateToStringWithTime(rlmsComplaintTechMapDtls.getPlannedEndDate()));
 			}
-			
-			
+			complaintwiseSiteVisitReport.setMessage(rlmsComplaintTechMapDtls.getComplaintMaster().getTitle());
+			complaintwiseSiteVisitReport.setAddress(rlmsComplaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftMaster().getAddress());
+			complaintwiseSiteVisitReport.setCity(rlmsComplaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftMaster().getCity());
 			complaintwiseSiteVisitReport.setComplaintStatus(Status.getStringFromID(rlmsComplaintTechMapDtls.getStatus()));
 			complaintwiseSiteVisitReport.setComplNumber(rlmsComplaintTechMapDtls.getComplaintMaster().getComplaintNumber());
 			complaintwiseSiteVisitReport.setCustomerName(rlmsComplaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getCustomerName());
 			complaintwiseSiteVisitReport.setLiftNumber(rlmsComplaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftMaster().getLiftNumber());
 			complaintwiseSiteVisitReport.setTechName(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName());
 			complaintwiseSiteVisitReport.setTechNumber(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber());
+			if(rlmsComplaintTechMapDtls.getComplaintMaster().getServiceStartDate()!=null){
+				complaintwiseSiteVisitReport.setSericeDate(DateUtils.convertDateToStringWithTime(rlmsComplaintTechMapDtls.getComplaintMaster().getServiceStartDate()));
+			}
 			if(null != listOfAllVisits &&  !listOfAllVisits.isEmpty()){
 				complaintwiseSiteVisitReport.setTotalNoOfVisits(listOfAllVisits.size());
 			}

@@ -50,4 +50,6 @@ public interface DashboardService {
 			UserMetaInfo metaInfo);
 
 	public String addEvent(EventDtlsDto eventDetailsDto);
+	
+	public List<ComplaintsDto> getListOfAmcCallsBy(ComplaintsDtlsDto dto);
 }

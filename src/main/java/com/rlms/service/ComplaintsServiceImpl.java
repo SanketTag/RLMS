@@ -155,6 +155,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		complaintMaster.setRemark(dto.getComplaintsRemark());
 		complaintMaster.setStatus(Status.PENDING.getStatusId());
 		complaintMaster.setTitle(dto.getComplaintsTitle());
+		complaintMaster.setCallType(0);
 		if(RLMSConstants.COMPLAINT_REG_TYPE_ADMIN.getId() == dto.getRegistrationType()){
 				complaintMaster.setCreatedBy(metaInfo.getUserId());				
 				complaintMaster.setUpdatedBy(metaInfo.getUserId());				
@@ -281,7 +282,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	private RlmsComplaintTechMapDtls constructComplaintTechMapDtlsDto(ComplaintsDto complaintsDto, UserMetaInfo metaInfo){
 		RlmsComplaintTechMapDtls complaintTechMapDtls = new RlmsComplaintTechMapDtls();
-		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDto.getComplaintId(),0);
+		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDto.getComplaintId(),complaintsDto.getServiceCallType());
 		RlmsUserRoles userRoles = this.userService.getUserRoleObjhById(complaintsDto.getUserRoleId());
 		complaintTechMapDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
 		complaintTechMapDtls.setAssignedDate(new Date());
@@ -415,7 +416,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<UserRoleDtlsDTO> getAllTechniciansToAssignComplaint(ComplaintsDtlsDto complaintsDtlsDto){
    	 
-		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDtlsDto.getComplaintId(),0);
+		RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDtlsDto.getComplaintId(),complaintsDtlsDto.getServiceCallType());
 		List<UserRoleDtlsDTO> listOFUserAdtls = new ArrayList<UserRoleDtlsDTO>();
 		List<RlmsUserRoles> listOfAllTechnicians = this.userService.getListOfTechniciansForBranch(complaintMaster.getLiftCustomerMap().getBranchCustomerMap().getCompanyBranchMapDtls().getCompanyBranchMapId());
 		for (RlmsUserRoles rlmsUserRoles : listOfAllTechnicians) {
@@ -554,7 +555,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		if(null==complaintTechMapDtls && "Assigned".equalsIgnoreCase(complaintsDto.getStatus()) && null!=complaintsDto.getUserRoleId()){
 			this.assignComplaint(complaintsDto, metaInfo);
 		}else{			
-			RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDto.getComplaintId(),0);			
+			RlmsComplaintMaster complaintMaster = this.complaintsDao.getComplaintMasterObj(complaintsDto.getComplaintId(),complaintsDto.getServiceCallType());			
 			if(complaintsDto.getRegistrationDateStr()!=null && !(" - ".equals(complaintsDto.getRegistrationDateStr()))){
 				complaintMaster.setRegistrationDate(DateUtils.convertStringToDateWithoutTime(complaintsDto.getRegistrationDateStr()));
 			}if(complaintsDto.getServiceStartDateStr()!=null && !(" - ".equals(complaintsDto.getServiceStartDateStr()))){

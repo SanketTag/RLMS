@@ -65,6 +65,11 @@ angular.module('theme.demos.dashboard.indi', [
     	        color: 'red'
     	      }
     	    };
+    $scope.amcSeriveCalls = {
+    	        title: 'AMC Service Calls',
+    	        text: '0',
+    	        color: 'red'
+    	    };
     
     $scope.liftStatus = {
     	      totalInstalled: {
@@ -1934,4 +1939,45 @@ angular.module('theme.demos.dashboard.indi', [
         };
         
         $scope.getCountForEvent("InOut");
+        
+        $scope.getCountAmcSrviceCalls = function (eventName) {
+	        setTimeout(
+	          function () {
+	            serviceApi
+	              .doPostWithData(
+	              '/RLMS/dashboard/getListOfAmcServiceCalls',$scope.construnctObjeToSendForAmcCalls())
+	              .then(
+	              function (
+	                largeLoad) {
+	                  $scope.amcSeriveCalls.text=largeLoad.length;
+	              });
+	          }, 100);
+	      };
+	      
+	      $scope.construnctObjeToSendForAmcCalls = function () {
+	          var dataToSend = {
+	            statusList: [],
+	            companyId: $rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId
+	          };
+	          //dataToSend["statusList"] = complaintStatus;
+	          return dataToSend;
+	        };
+        
+        $scope.openDemoModalForEvents = function (currentModelOpen, headerValue, activeFlag) {
+            var emptyComplaintsArray = [];
+            $scope.myComplaintsData = emptyComplaintsArray;
+            $scope.pagingOptionsForComplaints.currentPage = 1;
+            $scope.totalServerItemsForComplaints = 0;
+            $scope.filterOptionsForModal.filterText='';
+            $scope.currentModel = currentModelOpen;
+            $scope.modalHeaderVal = headerValue;
+            $scope.activeFlagForTechnician = activeFlag;
+            $scope.getPagedDataAsyncForEvents($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "",activeFlag); 
+            $scope.modalInstance = $modal.open({
+              templateUrl: 'demoModalContent.html',
+              scope: $scope
+            });
+          };
+          
+          $scope.getCountAmcSrviceCalls("AmcServiceCall");
   }]);

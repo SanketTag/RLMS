@@ -177,6 +177,7 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 		 criteria.createAlias("lcm.branchCustomerMap", "bcm");
 		 criteria.createAlias("bcm.companyBranchMapDtls", "cbm");
 		 criteria.createAlias("userRoles", "role");
+		 criteria.createAlias("complaintMaster", "ccm");
 		 
 				 if(null != dto.getCompanyBranchMapId()){
 					 criteria.add(Restrictions.eq("cbm.companyBranchMapId", dto.getCompanyBranchMapId()));
@@ -195,6 +196,7 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 				 if(null != dto.getListOfStatusIds() && !dto.getListOfStatusIds().isEmpty()){
 					 criteria.add(Restrictions.in("status", dto.getListOfStatusIds()));
 				 }
+				 criteria.add(Restrictions.eq("ccm.callType", dto.getServiceCallType()));
 				 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 		 List<RlmsComplaintTechMapDtls> listOfAllcomplaints = criteria.list();
 		 return listOfAllcomplaints;

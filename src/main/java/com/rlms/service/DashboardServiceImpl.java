@@ -576,4 +576,21 @@ public class DashboardServiceImpl implements DashboardService {
 	public void saveEventDtls(RlmsEventDtls eventDtls){
 		this.dashboardDao.saveEventDtls(eventDtls);
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<ComplaintsDto> getListOfAmcCallsBy(ComplaintsDtlsDto dto) {
+		List<ComplaintsDto> listOfAllComplaints = new ArrayList<ComplaintsDto>();
+		List<RlmsComplaintMaster> listOfComplaints = this.dashboardDao
+				.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(),
+						dto.getBranchCustomerMapId(),
+						dto.getListOfLiftCustoMapId(), dto.getStatusList(),
+						dto.getFromDate(), dto.getToDate(),1);
+		for (RlmsComplaintMaster rlmsComplaintMaster : listOfComplaints) {
+			ComplaintsDto complaintsDto = this
+					.constructComplaintDto(rlmsComplaintMaster);
+			listOfAllComplaints.add(complaintsDto);
+		}
+
+		return listOfAllComplaints;
+	}
 }

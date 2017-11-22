@@ -503,4 +503,52 @@ public class DashBoardController extends BaseController {
 
 		return listOfEvents;
 	}
+	
+	@RequestMapping(value = "/getListOfAmcServiceCalls", method = RequestMethod.POST)
+	public @ResponseBody
+	List<ComplaintsDto> getListOfAmcServiceCalls(@RequestBody ComplaintsDtlsDto dto)
+			throws RunTimeException {
+		List<ComplaintsDto> listOfComplaints = null;
+		List<RlmsCompanyBranchMapDtls> listOfAllBranches = null;
+
+		List<Integer> companyBranchMapIds = new ArrayList<>();
+		List<Integer> branchCustomerMapIds = new ArrayList<>();
+		listOfAllBranches = this.companyService.getAllBranches(dto
+				.getCompanyId());
+		for (RlmsCompanyBranchMapDtls companyBranchMap : listOfAllBranches) {
+			companyBranchMapIds.add(companyBranchMap.getCompanyBranchMapId());
+		}
+
+		List<CustomerDtlsDto> allCustomersForBranch = dashboardService
+				.getAllCustomersForBranch(companyBranchMapIds);
+
+		List<Integer> liftCustomerMapIds = new ArrayList<>();
+		for (CustomerDtlsDto customerDtlsDto : allCustomersForBranch) {
+			LiftDtlsDto dtoToGetLifts = new LiftDtlsDto();
+			dtoToGetLifts.setBranchCustomerMapId(customerDtlsDto
+					.getBranchCustomerMapId());
+			List<RlmsLiftCustomerMap> list = dashboardService
+					.getAllLiftsForBranchsOrCustomer(dtoToGetLifts);
+			for (RlmsLiftCustomerMap rlmsLiftCustomerMap : list) {
+				liftCustomerMapIds.add(rlmsLiftCustomerMap
+						.getLiftCustomerMapId());
+			}
+		}
+
+		dto.setListOfLiftCustoMapId(liftCustomerMapIds);
+		try {
+			logger.info("Method :: getListOfComplaints");
+			listOfComplaints = this.dashboardService.getListOfComplaintsBy(dto);
+
+		} catch (Exception e) {
+			logger.error(ExceptionUtils.getFullStackTrace(e));
+			throw new RunTimeException(
+					ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(),
+					PropertyUtils
+							.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS
+									.getMessage()));
+		}
+
+		return listOfComplaints;
+	}
 }

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('reportCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
+	.controller('lmsAlertsCtrl', ['$scope', '$filter','serviceApi','$route','$http','utility','$rootScope', function($scope, $filter,serviceApi,$route,$http,utility,$rootScope) {
 		initReport();
 		$scope.cutomers=[];
 		$scope.filterOptions = {
@@ -189,7 +189,7 @@
 //	  				fromDate:"",
 //	  				toDate:"",
 	  				listOfBranchCustoMapIds:tempbranchCustomerMapIds,
-	  				serviceCallType:0
+	  				serviceCallType:1
 	  		};
 	  		return data;
 	  	  }

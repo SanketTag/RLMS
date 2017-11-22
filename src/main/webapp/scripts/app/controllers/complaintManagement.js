@@ -357,8 +357,10 @@
 											
 									};
 									if($scope.selectedCalltype.selected.type=="Complaints"){
+										$rootScope.serviceCallTypeSelect=0;
 										dataToSend["serviceCallType"]=0;
 									}else{
+										$rootScope.serviceCallTypeSelect=1;
 										dataToSend["serviceCallType"]=1;
 									}
 									if ($scope.showBranch == true) {
@@ -543,6 +545,13 @@
 										var dataToSend ={
 												complaintId:row.Number
 										}
+										if($scope.selectedCalltype.selected.type=="Complaints"){
+											$rootScope.serviceCallTypeSelect=0;
+											dataToSend["serviceCallType"]=0;
+										}else{
+											$rootScope.serviceCallTypeSelect=1;
+											dataToSend["serviceCallType"]=1;
+										}
 										serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
 										.then(function(data) {
 											$rootScope.techniciansForEditComplaints = data;
@@ -571,6 +580,13 @@
 											var dataToSend ={
 													complaintId:$scope.selectedComplaintId
 											}
+											if($scope.selectedCalltype.selected.type=="Complaints"){
+												$rootScope.serviceCallTypeSelect=0;
+												dataToSend["serviceCallType"]=0;
+											}else{
+												$rootScope.serviceCallTypeSelect=1;
+												dataToSend["serviceCallType"]=1;
+											}
 											serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
 											.then(function(data) {
 												$scope.technicians = data;
@@ -590,7 +606,8 @@
 								$scope.submitAssign = function() {
 									var dataToSend ={
 											complaintId:$scope.selectedComplaintId,
-											userRoleId:$scope.selectedTechnician.selected.userRoleId
+											userRoleId:$scope.selectedTechnician.selected.userRoleId,
+											serviceCallType:$rootScope.serviceCallTypeSelect
 									}
 									serviceApi.doPostWithData('/RLMS/complaint/assignComplaint',dataToSend)
 									.then(function(response) {

@@ -675,7 +675,7 @@
             </div>
         </div>
     </div>
-    <div class="row" ng-show="showCompanies">
+    <div class="row">
     	<h4><strong>Events</strong></h4>
  	    <hr class="separator">
         <div class="col-md-3 animated-content">
@@ -687,6 +687,25 @@
 						</div>
 						<div class="tiles-body">
 							<div class="text-center" ng-show="event.inout.text">{{event.inout.text}}</div>
+						</div>
+					</a>
+				</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row" ng-show="showCompanies">
+    	<h4><strong>AMC Service Calls</strong></h4>
+ 	    <hr class="separator">
+        <div class="col-md-3 animated-content">
+            <div class="row">
+				<div class="col-xs-6" style="color: red">
+					<a class="info-tiles tiles-{{pendingComplaints.color}}" ng-click="openDemoModalForAmcServiceCalls('amcServiceCall','AMC Service Call','AMCServiceCall')">
+						<div class="tiles-heading">
+							<div class="text-center">{{amcSeriveCalls.title}}</div>
+						</div>
+						<div class="tiles-body">
+							<div class="text-center" ng-show="amcSeriveCalls.text">{{amcSeriveCalls.text}}</div>
 						</div>
 					</a>
 				</div>
