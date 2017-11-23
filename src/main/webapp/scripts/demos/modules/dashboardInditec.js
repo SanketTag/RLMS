@@ -58,6 +58,19 @@ angular.module('theme.demos.dashboard.indi', [
       }
     };
     
+    $scope.event = {
+    		inout: {
+    	        title: 'In-Out Event',
+    	        text: '0',
+    	        color: 'red'
+    	      }
+    	    };
+    $scope.amcSeriveCalls = {
+    	        title: 'AMC Service Calls',
+    	        text: '0',
+    	        color: 'red'
+    	    };
+    
     $scope.liftStatus = {
     	      totalInstalled: {
     	        title: 'Total Installed',
@@ -1788,5 +1801,183 @@ angular.module('theme.demos.dashboard.indi', [
 	      };
       $scope.getCompaniesCount("Active");
       $scope.getCompaniesCount("InActive");
-      $scope.getCompaniesCount("Total");      
+      $scope.getCompaniesCount("Total");
+      
+      $scope.getCountForEvent = function (eventName) {
+	        setTimeout(
+	          function () {
+	            serviceApi
+	              .doPostWithData(
+	              '/RLMS/dashboard/getAllInOutEventsData',
+	              {companyId:$rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId})
+	              .then(
+	              function (
+	                largeLoad) {
+	                  $scope.event.inout.text=largeLoad.length;
+	              });
+	          }, 100);
+	      };
+      
+      $scope.getPagedDataAsyncForEvents = function (pageSize,
+    	      page, searchText, activeFlag) {
+    	      var url;
+    	      url = '/RLMS/dashboard/getAllInOutEventsData';
+    	      setTimeout(
+    	        function () {
+    	          var data;
+    	          if (searchText) {
+    	            var ft = searchText
+    	              .toLowerCase();
+    	            serviceApi
+    	              .doPostWithData(url,{companyId:$rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId})
+    	              .then(
+    	              function (largeLoad) {
+    	                $scope.complaints = largeLoad;
+    	                $scope.showTable = true;
+    	                var userDetails = [];
+    	                for (var i = 0; i < largeLoad.length; i++) {
+        	                  var userDetailsObj = {};
+        	                  if (!!largeLoad[i].eventId) {
+          	                    userDetailsObj["Id"] = largeLoad[i].eventId;
+          	                  } else {
+          	                    userDetailsObj["Id"] = " - ";
+          	                  }
+          	                  if (!!largeLoad[i].eventDescription) {
+          	                    userDetailsObj["EventDescription"] = largeLoad[i].eventDescription;
+          	                  } else {
+          	                    userDetailsObj["EventDescription"] = " - ";
+          	                  }
+          	                  if (!!largeLoad[i].generatedDateStr) {
+              	                userDetailsObj["GeneratedDate"] = largeLoad[i].generatedDateStr;
+              	              } else {
+              	                userDetailsObj["GeneratedDate"] = " - ";
+              	              }
+          	                 if (!!largeLoad[i].generatedBy) {
+              	                userDetailsObj["GeneratedBy"] = largeLoad[i].generatedBy;
+              	              } else {
+              	                userDetailsObj["GeneratedBy"] = " - ";
+              	              }
+        	                  userDetails
+        	                    .push(userDetailsObj);
+        	                }
+    	                
+    	                data = userDetails
+    	                  .filter(function (
+    	                    item) {
+    	                    return JSON
+    	                      .stringify(
+    	                      item)
+    	                      .toLowerCase()
+    	                      .indexOf(
+    	                      ft) !== -1;
+    	                  });
+    	                $scope
+    	                  .setPagingDataForComplaints(
+    	                  data,
+    	                  page,
+    	                  pageSize);
+    	              });
+    	          } else {
+    	            serviceApi
+    	              .doPostWithData(url,{companyId:$rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId})
+    	              .then(
+    	              function (
+    	                largeLoad) {
+    	                $scope.complaints = largeLoad;
+    	                $scope.showTable = true;
+    	                var userDetails = [];
+    	                for (var i = 0; i < largeLoad.length; i++) {
+      	                  var userDetailsObj = {};
+      	                  if (!!largeLoad[i].eventId) {
+        	                    userDetailsObj["Id"] = largeLoad[i].eventId;
+        	                  } else {
+        	                    userDetailsObj["Id"] = " - ";
+        	                  }
+        	                  if (!!largeLoad[i].eventDescription) {
+        	                    userDetailsObj["EventDescription"] = largeLoad[i].eventDescription;
+        	                  } else {
+        	                    userDetailsObj["EventDescription"] = " - ";
+        	                  }
+        	                  if (!!largeLoad[i].generatedDateStr) {
+            	                userDetailsObj["GeneratedDate"] = largeLoad[i].generatedDateStr;
+            	              } else {
+            	                userDetailsObj["GeneratedDate"] = " - ";
+            	              }
+        	                 if (!!largeLoad[i].generatedBy) {
+            	                userDetailsObj["GeneratedBy"] = largeLoad[i].generatedBy;
+            	              } else {
+            	                userDetailsObj["GeneratedBy"] = " - ";
+            	              }
+      	                  userDetails
+      	                    .push(userDetailsObj);
+      	                }
+    	                $scope
+    	                  .setPagingDataForComplaints(
+    	                  userDetails,
+    	                  page,
+    	                  pageSize);
+    	              });
+
+    	          }
+    	        }, 100);
+    	    }; 
+      
+      $scope.openDemoModalForEvents = function (currentModelOpen, headerValue, activeFlag) {
+          var emptyComplaintsArray = [];
+          $scope.myComplaintsData = emptyComplaintsArray;
+          $scope.pagingOptionsForComplaints.currentPage = 1;
+          $scope.totalServerItemsForComplaints = 0;
+          $scope.filterOptionsForModal.filterText='';
+          $scope.currentModel = currentModelOpen;
+          $scope.modalHeaderVal = headerValue;
+          $scope.activeFlagForTechnician = activeFlag;
+          $scope.getPagedDataAsyncForEvents($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "",activeFlag); 
+          $scope.modalInstance = $modal.open({
+            templateUrl: 'demoModalContent.html',
+            scope: $scope
+          });
+        };
+        
+        $scope.getCountForEvent("InOut");
+        
+        $scope.getCountAmcSrviceCalls = function (eventName) {
+	        setTimeout(
+	          function () {
+	            serviceApi
+	              .doPostWithData(
+	              '/RLMS/dashboard/getListOfAmcServiceCalls',$scope.construnctObjeToSendForAmcCalls())
+	              .then(
+	              function (
+	                largeLoad) {
+	                  $scope.amcSeriveCalls.text=largeLoad.length;
+	              });
+	          }, 100);
+	      };
+	      
+	      $scope.construnctObjeToSendForAmcCalls = function () {
+	          var dataToSend = {
+	            statusList: [],
+	            companyId: $rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId
+	          };
+	          //dataToSend["statusList"] = complaintStatus;
+	          return dataToSend;
+	        };
+        
+        $scope.openDemoModalForEvents = function (currentModelOpen, headerValue, activeFlag) {
+            var emptyComplaintsArray = [];
+            $scope.myComplaintsData = emptyComplaintsArray;
+            $scope.pagingOptionsForComplaints.currentPage = 1;
+            $scope.totalServerItemsForComplaints = 0;
+            $scope.filterOptionsForModal.filterText='';
+            $scope.currentModel = currentModelOpen;
+            $scope.modalHeaderVal = headerValue;
+            $scope.activeFlagForTechnician = activeFlag;
+            $scope.getPagedDataAsyncForEvents($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "",activeFlag); 
+            $scope.modalInstance = $modal.open({
+              templateUrl: 'demoModalContent.html',
+              scope: $scope
+            });
+          };
+          
+          $scope.getCountAmcSrviceCalls("AmcServiceCall");
   }]);

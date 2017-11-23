@@ -7,6 +7,30 @@
 			$scope.alert = { type: 'success', msg: 'You successfully Added AMC details.',close:true };
 			$scope.showAlert = false;
 			$scope.companies = [];
+			$scope.newCallTypes={};
+			$scope.callTypesArray = [];
+
+			                $scope.Add = function () {
+			                    //Add the new item to the Array.
+			                    var customer = {};
+			                    customer.title = $scope.newCallTypes.title;
+			                    customer.serviceDate = $scope.newCallTypes.serviceDate;
+			                    $scope.callTypesArray.push(customer);
+
+			                    //Clear the TextBoxes.
+			                    $scope.newCallTypes.title = "";
+			                    $scope.newCallTypes.serviceDate = "";
+			                };
+
+			                $scope.Remove = function (index) {
+			                    //Find the record using Index from Array.
+			                    var name = $scope.callTypesArray[index].title;
+			                    if ($window.confirm("Do you want to delete: " + name)) {
+			                        //Remove the item from Array using Index.
+			                        $scope.callTypesArray.splice(index, 1);
+			                    }
+			                }
+			
 			function initAddAMC() {
 				$scope.customerSelected = false;
 				$scope.selectedCustomer = {};
@@ -58,7 +82,8 @@
 			}
 			$scope.openFlag={
 					fromDate:false,
-					toDate:false
+					toDate:false,
+					serviceDate:false
 			}
 			$scope.open = function($event,which) {
 			      $event.preventDefault();
@@ -85,11 +110,22 @@
 							$scope.branchName = data.branchName
 						})
 			}
+			$scope.addServiceCall=function(){
+				$scope.callTypesArray = [];
+				$scope.modalInstance = $modal.open({
+					templateUrl: 'addServiceCallsTemplate',
+					scope:$scope
+				})
+			}
+			 $scope.cancelAssign = function(){
+	        	  $scope.modalInstance.dismiss('cancel');
+	          }
 			//Post call add customer
 			$scope.submitaddAMC = function(){
 			//	$scope.addAMC.liftCustomerMapId =  $scope.selectedCustomer.selected.branchCustomerMapId;
 				$scope.addAMC.liftCustoMapId=$scope.selectedLift.selected.liftId;
 				$scope.addAMC.amcType=$scope.selectedAmc.selected.id;
+				$scope.addAMC.amcServiceCalls=$scope.callTypesArray;
 				//$scope.addAMC.amcType=42;
 				//$scope.addAMC.amcEdDate=$filter('date')($scope.addAMC.amcEdDate, "dd-MMM-yyyy");
 				//$scope.addAMC.amcStDate=$filter('date')($scope.addAMC.amcStDate, "dd-MMM-yyyy");

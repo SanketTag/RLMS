@@ -1,10 +1,12 @@
 package com.rlms.service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rlms.constants.AMCType;
 import com.rlms.constants.RLMSConstants;
+import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
 import com.rlms.constants.Status;
 import com.rlms.contract.AMCDetailsDto;
@@ -21,9 +24,9 @@ import com.rlms.contract.BranchDtlsDto;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
 import com.rlms.contract.CustomerDtlsDto;
+import com.rlms.contract.EventDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
-import com.rlms.contract.UserAppDtls;
-import com.rlms.contract.UserDtlsDto;
+import com.rlms.contract.SiteVisitDtlsDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.dao.BranchDao;
@@ -35,6 +38,7 @@ import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsCompanyBranchMapDtls;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
+import com.rlms.model.RlmsEventDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsMemberMaster;
@@ -42,6 +46,7 @@ import com.rlms.model.RlmsSiteVisitDtls;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.predicates.LiftPredicate;
 import com.rlms.utils.DateUtils;
+import com.rlms.utils.PropertyUtils;
 
 @Service
 public class DashboardServiceImpl implements DashboardService {
@@ -173,7 +178,7 @@ public class DashboardServiceImpl implements DashboardService {
 				.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(),
 						dto.getBranchCustomerMapId(),
 						dto.getListOfLiftCustoMapId(), dto.getStatusList(),
-						dto.getFromDate(), dto.getToDate());
+						dto.getFromDate(), dto.getToDate(),0);
 		for (RlmsComplaintMaster rlmsComplaintMaster : listOfComplaints) {
 			ComplaintsDto complaintsDto = this
 					.constructComplaintDto(rlmsComplaintMaster);
@@ -531,5 +536,61 @@ public class DashboardServiceImpl implements DashboardService {
 			listOFBranchDtls.add(branchDtlsDto);			
 		}
 		return listOFBranchDtls;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<RlmsEventDtls> getListOfEvetnDetails(List<Integer> companyBranchIds,
+			UserMetaInfo metaInfo) {
+		List<RlmsEventDtls> allEvent = this.dashboardDao.getAllEventDtlsForDashboard(companyBranchIds);
+		return allEvent;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String addEvent(EventDtlsDto eventDetailsDto) {
+		RlmsEventDtls eventDtls = null;
+		try {
+			eventDtls = this.constructVisitDtls(eventDetailsDto);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		this.saveEventDtls(eventDtls);
+		return PropertyUtils.getPrpertyFromContext(RlmsErrorType.VISIT_UPDATED_SUCCESS.getMessage());
+	}
+	
+	private RlmsEventDtls constructVisitDtls(EventDtlsDto dto) throws ParseException{
+		RlmsEventDtls eventDtls = new RlmsEventDtls();
+		eventDtls.setEventType(dto.getEventType());
+		eventDtls.setEventDescription(dto.getEventDescription());
+		eventDtls.setLiftCustomerMapId(dto.getLiftCustomerMapId());
+		eventDtls.setGeneratedDate(DateUtils.convertStringToDateWithTime(dto.getGeneratedDateStr()));
+		eventDtls.setGeneratedBy(dto.getGeneratedBy());
+		eventDtls.setUpdatedDate(DateUtils.convertStringToDateWithTime(dto.getUpdatedDateStr()));
+		eventDtls.setUpdatedBy(dto.getUpdatedBy());
+		eventDtls.setActiveFlag(dto.getActiveFlag());
+		return eventDtls;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void saveEventDtls(RlmsEventDtls eventDtls){
+		this.dashboardDao.saveEventDtls(eventDtls);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<ComplaintsDto> getListOfAmcCallsBy(ComplaintsDtlsDto dto) {
+		List<ComplaintsDto> listOfAllComplaints = new ArrayList<ComplaintsDto>();
+		List<RlmsComplaintMaster> listOfComplaints = this.dashboardDao
+				.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(),
+						dto.getBranchCustomerMapId(),
+						dto.getListOfLiftCustoMapId(), dto.getStatusList(),
+						dto.getFromDate(), dto.getToDate(),1);
+		for (RlmsComplaintMaster rlmsComplaintMaster : listOfComplaints) {
+			ComplaintsDto complaintsDto = this
+					.constructComplaintDto(rlmsComplaintMaster);
+			listOfAllComplaints.add(complaintsDto);
+		}
+
+		return listOfAllComplaints;
 	}
 }

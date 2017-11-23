@@ -24,7 +24,7 @@ public interface ComplaintsService {
 	public String assignComplaint(ComplaintsDto complaintsDto, UserMetaInfo metaInfo) throws ValidationException;
 	public List<LiftDtlsDto> getAllLiftsForBranchsOrCustomer(LiftDtlsDto dto);
 	public List<UserAppDtls> getRegIdsOfAllApplicableUsers(Integer complaintId);
-	public List<ComplaintsDto> getAllComplaintsByMember(Integer memberId);
+	public List<ComplaintsDto> getAllComplaintsByMember(Integer memberId,Integer serviceCall);
 	public List<UserRoleDtlsDTO> getAllTechniciansToAssignComplaint(ComplaintsDtlsDto complaintsDtlsDto);
 	public String updateComplaintStatus(ComplaintsDto dto);
 	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(ComplaintsDtlsDto dto);

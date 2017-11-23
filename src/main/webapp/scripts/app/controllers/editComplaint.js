@@ -40,7 +40,8 @@
 						 title:$scope.editComplaint.complaintsTitle,
 						 remark:$scope.editComplaint.complaintsRemark,
 						 technicianDtls:userName,
-						 userRoleId:userRole
+						 userRoleId:userRole,
+						 serviceCallType:$rootScope.serviceCallTypeSelect
 				};
 				serviceApi.doPostWithData("/RLMS/complaint/validateAndUpdateComplaint",complaintsData)
 				.then(function(response){

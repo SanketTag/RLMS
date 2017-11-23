@@ -39,6 +39,15 @@ public class DateUtils {
 		return s;
 	}
 	
+	public static Date convertStringToDateWithTimezone(String inputDate) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date d = sdf.parse(inputDate);
+		return d;
+	}
+	
+	
+	
 	public static Date addDaysToDate(Date date, int days){
 		Calendar c = Calendar.getInstance();
 		c.setTime(date); // Now use today date.

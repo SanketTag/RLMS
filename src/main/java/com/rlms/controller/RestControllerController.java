@@ -21,6 +21,7 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
+import com.rlms.contract.EventDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.LoginDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
@@ -31,9 +32,11 @@ import com.rlms.contract.UserMetaInfo;
 import com.rlms.exception.ExceptionCode;
 import com.rlms.exception.RunTimeException;
 import com.rlms.exception.ValidationException;
+import com.rlms.model.RlmsEventDtls;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.service.ComplaintsService;
 import com.rlms.service.CustomerService;
+import com.rlms.service.DashboardService;
 import com.rlms.service.LiftService;
 import com.rlms.service.UserService;
 import com.rlms.utils.DateUtils;
@@ -57,6 +60,9 @@ public class RestControllerController  extends BaseController {
 	
 	@Autowired
 	private LiftService liftService;
+	
+	@Autowired
+	DashboardService dashboardService;
 	
 	private static final Logger log = Logger.getLogger(RestControllerController.class);
 	   
@@ -275,7 +281,7 @@ public class RestControllerController  extends BaseController {
     	ObjectMapper mapper = new ObjectMapper();
         try{
         	log.info("Method :: getAllComplaintsByMembers");
-        	listOfAllComplaints =  this.ComplaintsService.getAllComplaintsByMember(memberDtlsDto.getMemberId());
+        	listOfAllComplaints =  this.ComplaintsService.getAllComplaintsByMember(memberDtlsDto.getMemberId(),0);
         	reponseDto.setResponse(mapper.writeValueAsString(listOfAllComplaints));
         	reponseDto.setStatus(true);
         }
@@ -442,5 +448,22 @@ public class RestControllerController  extends BaseController {
         }
  
         return reponseDto;
+    }
+    @RequestMapping(value = "/addEvents", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto addEvents(@RequestBody EventDtlsDto eventDetailsDto) {
+    
+    	ObjectMapper mapper = new ObjectMapper();
+    	ResponseDto dto = new ResponseDto();
+    	
+    	 try {
+    		 dto.setResponse(mapper.writeValueAsString(this.dashboardService.addEvent(eventDetailsDto)));
+    		 dto.setStatus(true);
+    	 }catch(Exception e){
+    		 dto.setStatus(false);
+    		 log.error("some Unknown exception occurs.");
+    		 dto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+    	 }
+    	 
+    	 return dto;
     }
 }

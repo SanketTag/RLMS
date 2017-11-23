@@ -27,6 +27,11 @@ public class SiteVisitReportDto {
 	private Integer totalNoOfVisits;
 	private Integer userRating;
 	private List<SiteVisitDtlsDto> listOFAllVisits;
+	private Integer serviceCallType;
+	private String address;
+	private String city;
+	private String sericeDate;
+	private String message;
 	
 	
 	public Integer getCompanyBranchMapId() {
@@ -154,6 +159,36 @@ public class SiteVisitReportDto {
 	}
 	public void setUserRating(Integer userRating) {
 		this.userRating = userRating;
+	}
+	public Integer getServiceCallType() {
+		return serviceCallType;
+	}
+	public void setServiceCallType(Integer serviceCallType) {
+		this.serviceCallType = serviceCallType;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getSericeDate() {
+		return sericeDate;
+	}
+	public void setSericeDate(String sericeDate) {
+		this.sericeDate = sericeDate;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 	

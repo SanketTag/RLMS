@@ -33,6 +33,7 @@ public class ComplaintsDto {
 	private Date updatedDate;
 	private String companyName;
 	private String city;
+	private Integer serviceCallType;
 	
 	public String getComplaintNumber() {
 		return complaintNumber;
@@ -248,6 +249,14 @@ public class ComplaintsDto {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public Integer getServiceCallType() {
+		return serviceCallType;
+	}
+
+	public void setServiceCallType(Integer serviceCallType) {
+		this.serviceCallType = serviceCallType;
 	}
 
 }

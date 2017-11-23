@@ -392,6 +392,7 @@
 	<script src="scripts/app/controllers/editComplaint.js"></script>	
 	<script src="scripts/app/controllers/amcManagement.js"></script>
 	<script src="scripts/app/controllers/reportsController.js"></script>
+	<script src="scripts/app/controllers/lmsAlertsController.js"></script>
 	<script src="scripts/app/controllers/addAmcCtrl.js"></script>
 	<script src="scripts/app/controllers/technicianReportCtrl.js"></script>
 	<script src="scripts/app/controllers/configureLiftController.js"></script>

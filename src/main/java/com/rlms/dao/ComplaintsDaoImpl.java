@@ -44,7 +44,7 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 		 return listOfAllcomplaints;
 	}
 	
-	public List<RlmsComplaintMaster> getAllComplaintsForBranchOrCustomer(Integer branchCompanyMapId, Integer branchCustomerMapId, List<Integer> statusList){
+	public List<RlmsComplaintMaster> getAllComplaintsForBranchOrCustomer(Integer branchCompanyMapId, Integer branchCustomerMapId, List<Integer> statusList,Integer callType){
 		 Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsComplaintMaster.class);
 		 criteria.createAlias("liftCustomerMap.branchCustomerMap", "bcm");
@@ -57,6 +57,9 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 				 }
 				 criteria.add(Restrictions.in("status", statusList));
 				 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+				 if(null != callType){
+					 criteria.add(Restrictions.eq("callType", callType));
+				 }
 		 List<RlmsComplaintMaster> listOfAllcomplaints = criteria.list();
 		 return listOfAllcomplaints;
 	}
@@ -79,7 +82,7 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(Integer branchCompanyMapId, Integer branchCustomerMapId,List<Integer> listOfLiftCustoMapId,  List<Integer> statusList, Date fromDate, Date toDate){
+	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(Integer branchCompanyMapId, Integer branchCustomerMapId,List<Integer> listOfLiftCustoMapId,  List<Integer> statusList, Date fromDate, Date toDate,Integer callType){
 		 Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsComplaintMaster.class);
 		 criteria.createAlias("liftCustomerMap.branchCustomerMap", "bcm");
@@ -99,6 +102,9 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 				 }
 				 if(null != statusList && !statusList.isEmpty()){
 					 criteria.add(Restrictions.in("status", statusList));
+				 }
+				 if(null != callType){
+					 criteria.add(Restrictions.eq("callType", callType));
 				 }
 				 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 		 List<RlmsComplaintMaster> listOfAllcomplaints = criteria.list();
@@ -137,22 +143,28 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 	
 	
 	
-	public RlmsComplaintMaster getComplaintMasterObj(Integer complaintId){
+	public RlmsComplaintMaster getComplaintMasterObj(Integer complaintId, Integer callType){
 		 Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsComplaintMaster.class)
 				 .add(Restrictions.eq("complaintId", complaintId))
 				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 if(null != callType){
+			 criteria.add(Restrictions.eq("callType", callType));
+		 }
 		 RlmsComplaintMaster complaintMaster = (RlmsComplaintMaster) criteria.uniqueResult();
 		 return complaintMaster;
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public List<RlmsComplaintMaster> getAllComplaintsByMemberId(Integer memberId){
+	public List<RlmsComplaintMaster> getAllComplaintsByMemberId(Integer memberId,Integer callType){
 		 Session session = this.sessionFactory.getCurrentSession();
 		 Criteria criteria = session.createCriteria(RlmsComplaintMaster.class)
 				 .add(Restrictions.eq("createdBy", memberId))
 				 .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
+		 if(null != callType){
+			 criteria.add(Restrictions.eq("callType", callType));
+		 }
 		 List<RlmsComplaintMaster> listOfAllComplaints =  criteria.list();
 		 return listOfAllComplaints;
 	}
@@ -165,6 +177,7 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 		 criteria.createAlias("lcm.branchCustomerMap", "bcm");
 		 criteria.createAlias("bcm.companyBranchMapDtls", "cbm");
 		 criteria.createAlias("userRoles", "role");
+		 criteria.createAlias("complaintMaster", "ccm");
 		 
 				 if(null != dto.getCompanyBranchMapId()){
 					 criteria.add(Restrictions.eq("cbm.companyBranchMapId", dto.getCompanyBranchMapId()));
@@ -183,6 +196,7 @@ public class ComplaintsDaoImpl implements ComplaintsDao{
 				 if(null != dto.getListOfStatusIds() && !dto.getListOfStatusIds().isEmpty()){
 					 criteria.add(Restrictions.in("status", dto.getListOfStatusIds()));
 				 }
+				 criteria.add(Restrictions.eq("ccm.callType", dto.getServiceCallType()));
 				 criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 		 List<RlmsComplaintTechMapDtls> listOfAllcomplaints = criteria.list();
 		 return listOfAllcomplaints;

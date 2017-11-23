@@ -69,6 +69,9 @@ angular
    	      },{
    	   	        label: 'Technician Wise Report',
    	   	        url: '#/technician-wise-report'
+   	      },{
+   	   	        label: 'LMS Alerts Report',
+   	   	        url: '#/lms-alerts-report'
    	      }]
    	    },
    	 {
