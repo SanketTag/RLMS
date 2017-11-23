@@ -572,5 +572,21 @@ public class UserServiceImpl implements UserService {
 		statusMesage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPANY_DELETE_SUCCESFUL.getMessage());
 		return statusMesage;
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public String updateTechnicianLocation(UserDtlsDto dto,
+			UserMetaInfo metaInfo) {
+		RlmsUserApplicationMapDtls existingAppDtl = this.customerDao
+				.getUserAppDtls(dto.getUserId(),
+						RLMSConstants.USER_ROLE_TYPE.getId());
+		existingAppDtl.setLatitude(dto.getLatitude());
+		existingAppDtl.setLongitude(dto.getLongitude());
+		existingAppDtl.setUpdatedBy(metaInfo.getUserId());
+		existingAppDtl.setUpdatedDate(new Date());
+		this.userRoleDao.mergeUserAppDlts(existingAppDtl);
+		return PropertyUtils.getPrpertyFromContext(RlmsErrorType.TECHNICIAN_LOCATION_UPDATED
+				.getMessage());
+
+	}
 
 }

@@ -41,7 +41,8 @@ public enum RlmsErrorType {
 	USER_ALREADY_REGISTERED_SYSTEM(42,"user_already_registered_system"),
 	COMPANY_UPDATE_SUCCESFUL(43,"company_update_succesful"),
 	COMPANY_DELETE_SUCCESFUL(44,"company_delete_succesful"),
-	COMPLAINT_DELETE_SUCCESFUL(45,"complaint_delete_succesful");
+	COMPLAINT_DELETE_SUCCESFUL(45,"complaint_delete_succesful"),
+	TECHNICIAN_LOCATION_UPDATED(46,"location_updated");
 	
 	private Integer code;
 	private String message;

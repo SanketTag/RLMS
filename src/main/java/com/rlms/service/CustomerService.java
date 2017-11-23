@@ -29,4 +29,5 @@ public interface CustomerService {
 	public CustomerDtlsDto getCustomerDtlsById(Integer branchCustomerMapId);
 	public List<CustomerDtlsDto> getAllApplicableCustomersForDashboard(
 			List<Integer> companyBranchIds, UserMetaInfo metaInfo);
+	public List<LiftDtlsDto> getAllLiftParameters(Integer liftCustomerMapId);
 }

@@ -63,4 +63,7 @@ public interface UserService {
 	public String validateAndEditUser(UserDtlsDto userDto, UserMetaInfo metaInfo)
 			throws ValidationException;
 	public String deleteUserObj(UserDtlsDto dto, UserMetaInfo metaInfo);
+
+	public String updateTechnicianLocation(UserDtlsDto userDtlsDto,
+			UserMetaInfo metaInfo);
 }

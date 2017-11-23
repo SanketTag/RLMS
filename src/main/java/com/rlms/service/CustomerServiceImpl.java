@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mysql.fabric.xmlrpc.base.Array;
+import com.rlms.constants.AMCType;
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
@@ -38,6 +39,7 @@ import com.rlms.model.RlmsMemberMaster;
 import com.rlms.model.RlmsUserApplicationMapDtls;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.model.RlmsUsersMaster;
+import com.rlms.utils.DateUtils;
 import com.rlms.utils.PropertyUtils;
 
 @Service("customerService")
@@ -474,6 +476,94 @@ public class CustomerServiceImpl implements CustomerService{
 	public List<CustomerDtlsDto> getAllApplicableCustomersForDashboard(List<Integer> companyBranchIds, UserMetaInfo metaInfo){
 		List<RlmsBranchCustomerMap> listOfAllCustomers = this.customerDao.getAllCustomersForDashboard(companyBranchIds);
 		return this.constructListOfCustomerDtlsDto(listOfAllCustomers);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<LiftDtlsDto> getAllLiftParameters(Integer liftCustomerMapId){
+		List<LiftDtlsDto> listOfLiftDtls = new ArrayList<LiftDtlsDto>();
+		List<Integer> liftCustMapIds = new ArrayList<>();
+		liftCustMapIds.add(liftCustomerMapId);
+		List<RlmsLiftCustomerMap> allLiftsForCustomes = this.liftDao
+				.getAllLiftsByIds(liftCustMapIds);
+		for (RlmsLiftCustomerMap liftCustomerMap : allLiftsForCustomes) {
+			RlmsLiftMaster liftM = liftCustomerMap.getLiftMaster();
+			LiftDtlsDto dto = new LiftDtlsDto();
+			dto.setAccessControl(liftM.getAccessControl());
+			dto.setAddress(liftM.getAddress());
+			dto.setArea(liftM.getArea());
+			dto.setPinCode(liftM.getPincode());
+			dto.setCity(liftM.getCity());
+			dto.setAlarm(liftM.getAlarm());
+			dto.setAlarmBattery(liftM.getAlarmBattery());
+			dto.setAmcAmount(liftM.getAmcAmount());
+			dto.setAmcStartDate(liftM.getAmcStartDate());
+			dto.setDoorType(liftM.getDoorType());
+			dto.setLatitude(liftM.getLatitude());
+			dto.setLongitude(liftM.getLongitude());
+			dto.setNoOfStops(liftM.getNoOfStops());
+			dto.setEngineType(liftM.getEngineType());
+			dto.setMachineMake(liftM.getMachineMake());
+			dto.setMachineCapacity(liftM.getMachineCapacity());
+			dto.setMachineCurrent(liftM.getMachineCurrent());
+			dto.setMachinePhoto(liftM.getMachinePhoto());
+			dto.setBreakVoltage(liftM.getBreakVoltage());
+			dto.setPanelMake(liftM.getPanelMake());
+			dto.setPanelPhoto(liftM.getPanelPhoto());
+			dto.setNoOfBatteries(liftM.getNoOfBatteries());
+			dto.setCopMake(liftM.getCOPMake());
+			dto.setCopPhoto(liftM.getCOPPhoto());
+			dto.setLopMake(liftM.getLOPMake());
+			dto.setLopPhoto(liftM.getLOPPhoto());
+			dto.setCollectiveType(liftM.getCollectiveType());
+			dto.setSimplexDuplex(liftM.getSimplexDuplex());
+			dto.setCartopPhoto(liftM.getCartopPhoto());
+			dto.setAutoDoorMake(liftM.getAutoDoorMake());
+			dto.setWiringShceme(liftM.getWiringShceme());
+			dto.setWiringPhoto(liftM.getWiringPhoto());
+			dto.setFireMode(liftM.getFireMode());
+			dto.setIntercomm(liftM.getIntercomm());
+			dto.setLobbyPhoto(liftM.getLobbyPhoto());
+			if(null != liftM.getAmcStartDate()){
+				dto.setAmcStartDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getAmcStartDate()));
+			}
+			dto.setAmcType(liftM.getAmcType());
+			
+			if(liftM.getAmcType()!=null){
+				if (AMCType.COMPREHENSIVE.getId() == liftM.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.COMPREHENSIVE.getType());
+				} else if (AMCType.NON_COMPREHENSIVE.getId() == liftM
+						.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.NON_COMPREHENSIVE.getType());
+				} else if (AMCType.ON_DEMAND.getId() == liftM.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.ON_DEMAND.getType());
+				} else if (AMCType.OTHER.getId() == liftM.getAmcType()) {
+					dto.setAmcTypeStr(AMCType.OTHER.getType());
+				}
+			}
+			
+			dto.setArd(liftM.getARD());
+			dto.setArdPhoto(liftM.getARDPhoto());
+			dto.setAutoDoorHeaderPhoto(liftM.getAutoDoorHeaderPhoto());
+			dto.setBatteryCapacity(liftM.getBatteryCapacity());
+			dto.setBatteryMake(liftM.getBatteryMake());
+			dto.setBranchName(liftCustomerMap.getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());;
+			dto.setCustomerName(liftCustomerMap.getBranchCustomerMap().getCustomerMaster().getCustomerName());
+			dto.setDateOfInstallation(liftM.getDateOfInstallation());
+			if(null != liftM.getDateOfInstallation()){
+				dto.setDateOfInstallationStr(DateUtils.convertDateToStringWithoutTime(liftM.getDateOfInstallation()));
+			}
+			dto.setLiftNumber(liftM.getLiftNumber());
+			dto.setServiceStartDate(liftM.getServiceStartDate());
+			if(null != liftM.getServiceStartDate()){
+				dto.setServiceStartDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getServiceStartDate()));
+			}
+			dto.setServiceEndDate(liftM.getServiceEndDate());
+			if(null != liftM.getServiceEndDate()){
+				dto.setServiceEndDateStr(DateUtils.convertDateToStringWithoutTime(liftM.getServiceEndDate()));
+			}
+			listOfLiftDtls.add(dto);
+		}
+		return listOfLiftDtls;
 	}
 }
 
