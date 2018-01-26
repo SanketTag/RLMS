@@ -68,6 +68,98 @@
 												$scope.companies = response;
 											});
 								}
+
+								function loadDefaultComplaintData() {
+									var dataToSend = {
+										branchCompanyMapId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId,
+										branchCustomerMapId : -1,
+										listOfLiftCustoMapId : [],
+										statusList : [],
+										serviceCallType : 0
+									};
+									serviceApi
+											.doPostWithData('/RLMS/complaint/getListOfComplaints', dataToSend)
+											.then(
+													function(largeLoad) {
+														$scope.complaints = largeLoad;
+														$scope.showTable = true;
+														var userDetails = [];
+														for (var i = 0; i < largeLoad.length; i++) {
+															var userDetailsObj = {};
+															if (!!largeLoad[i].complaintNumber) {
+																userDetailsObj["Number"] = largeLoad[i].complaintNumber;
+															} else {
+																userDetailsObj["Number"] = " - ";
+															}
+															if (!!largeLoad[i].title) {
+																userDetailsObj["Title"] = largeLoad[i].title;
+															} else {
+																userDetailsObj["Title"] = " - ";
+															}
+															if (!!largeLoad[i].remark) {
+																userDetailsObj["Remark"] = largeLoad[i].remark;
+															} else {
+																userDetailsObj["Remark"] = " - ";
+															}
+															if (!!largeLoad[i].registrationDateStr) {
+																userDetailsObj["Registration_Date"] = largeLoad[i].registrationDateStr;
+															} else {
+																userDetailsObj["Registration_Date"] = " - ";
+															}
+															if (!!largeLoad[i].serviceStartDateStr) {
+																userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDateStr;
+															} else {
+																userDetailsObj["Service_StartDate"] = " - ";
+															}
+															if (!!largeLoad[i].serviceStartDateStr) {
+																userDetailsObj["Service_Start_Date"] = largeLoad[i].serviceStartDateStr;
+															} else {
+																userDetailsObj["Service_Start_Date"] = " - ";
+															}
+															if (!!largeLoad[i].actualServiceEndDateStr) {
+																userDetailsObj["Service_End_Date"] = largeLoad[i].actualServiceEndDateStr;
+															} else {
+																userDetailsObj["Service_End_Date"] = " - ";
+															}
+															if (!!largeLoad[i].liftAddress) {
+																userDetailsObj["Address"] = largeLoad[i].liftAddress;
+															} else {
+																userDetailsObj["Address"] = " - ";
+															}
+															if (!!largeLoad[i].city) {
+																userDetailsObj["City"] = largeLoad[i].city;
+															} else {
+																userDetailsObj["City"] = " - ";
+															}
+															if (!!largeLoad[i].status) {
+																userDetailsObj["Status"] = largeLoad[i].status;
+															} else {
+																userDetailsObj["Status"] = " - ";
+															}
+															if (!!largeLoad[i].technicianDtls) {
+																userDetailsObj["Technician"] = largeLoad[i].technicianDtls;
+															} else {
+																userDetailsObj["Technician"] = " - ";
+															}
+															if (!!largeLoad[i].complaintId) {
+																userDetailsObj["complaintId"] = largeLoad[i].complaintId;
+															} else {
+																userDetailsObj["complaintId"] = " - ";
+															}
+															userDetails.push(userDetailsObj);
+															}
+														$scope.totalServerItems = 0;
+														$scope.pagingOptions = {
+															pageSizes : [10, 20, 50],
+															pageSize : 10,
+															currentPage : 1
+														};
+
+														$scope.setPagingData(userDetails, 1, 10);
+													});
+
+								}
+
 								$scope.loadBranchData = function() {
 									var companyData = {};
 									if ($scope.showCompany == true) {
@@ -400,6 +492,7 @@
 								if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1) {
 									$scope.showCompany = true;
 									loadCompanyData();
+									loadDefaultComplaintData();
 								} else {
 									$scope.showCompany = false;
 									$scope.loadBranchData();
