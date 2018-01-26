@@ -1,37 +1,41 @@
-## Welcome to GitHub Pages
+## Run Project Locally
 
-You can use the [editor on GitHub](https://github.com/amitbidwai26/RLMS/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+###Software Required:
+1. Eclipse 
+  Download from https://projects.eclipse.org/releases/oxygen
+2. Apache Maven
+  Download from https://maven.apache.org/
+3: MySQL 
+  Download from https://www.mysql.com/
+4: JAVA
+  Download from https://java.com/en/download/
+  
+###Envoirnmant Setup
+MAC Users:
+1. Java Setup:
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+2. Eclipse Setup
 
-### Markdown
+3. Maven Setup
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+4. Database Setup
 
-```markdown
-Syntax highlighted code block
+Windows Users:
+1. Java Setup:
 
-# Header 1
-## Header 2
-### Header 3
+2. Eclipse Setup
 
-- Bulleted
-- List
+3. Maven Setup
 
-1. Numbered
-2. List
+4. Database Setup
 
-**Bold** and _Italic_ and `Code` text
+###Database Import Required Table
 
-[Link](url) and ![Image](src)
-```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+###Eclipse Import Project and Run Locally on dev mode
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/amitbidwai26/RLMS/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
+###Production Deployment 
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+
