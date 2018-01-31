@@ -124,7 +124,4 @@ public class RlmsUserApplicationMapDtls {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-    
-    
-    
 }

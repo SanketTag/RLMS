@@ -422,10 +422,18 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		for (RlmsUserRoles rlmsUserRoles : listOfAllTechnicians) {
 			UserRoleDtlsDTO dto = new UserRoleDtlsDTO();
 			dto.setUserId(rlmsUserRoles.getRlmsUserMaster().getUserId());
+			
+			
 			dto.setCompanyBranchMapId(rlmsUserRoles.getRlmsCompanyBranchMapDtls().getCompanyBranchMapId());
 			dto.setName(rlmsUserRoles.getRlmsUserMaster().getFirstName() + " " + rlmsUserRoles.getRlmsUserMaster().getLastName());
 			dto.setContactNumber(rlmsUserRoles.getRlmsUserMaster().getContactNumber());
 			dto.setUserRoleId(rlmsUserRoles.getUserRoleId());
+			
+			
+			
+			dto.setLongitude(rlmsUserRoles.getRlmsUserApplicationMapDetails().getLongitude());
+			dto.setLatitude(rlmsUserRoles.getRlmsUserApplicationMapDetails().getLatitude());
+			
 			
 			 List<Integer> statusList = new ArrayList<Integer>();
 		   	 statusList.add(Status.ASSIGNED.getStatusId());

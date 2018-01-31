@@ -1,5 +1,7 @@
 package com.rlms.contract;
 
+import javax.persistence.Column;
+
 public class UserRoleDtlsDTO {
 
 	private Integer userId;
@@ -14,6 +16,8 @@ public class UserRoleDtlsDTO {
 	private String companyName;
 	private String city;
 	private Integer activeFlag;
+	private Double latitude;
+	private Double longitude;
 	
 	public Integer getUserId() {
 		return userId;
@@ -86,6 +90,22 @@ public class UserRoleDtlsDTO {
 	}
 	public void setActiveFlag(Integer activeFlag) {
 		this.activeFlag = activeFlag;
+	}
+
+	
+	public Double getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+	
+	
+	public Double getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
 	}
 	
 	

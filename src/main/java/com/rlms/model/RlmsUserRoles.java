@@ -34,6 +34,7 @@ public class RlmsUserRoles implements java.io.Serializable {
 	private RlmsCompanyMaster rlmsCompanyMaster;
 	private RlmsSpocRoleMaster rlmsSpocRoleMaster;
 	private RlmsCompanyBranchMapDtls rlmsCompanyBranchMapDtls;
+	private RlmsUserApplicationMapDtls rlmsUserApplicationMapDtls;
 	private String username;
 	private String role;
 	private Integer activeFlag;
@@ -178,6 +179,15 @@ public class RlmsUserRoles implements java.io.Serializable {
 		this.rlmsCompanyBranchMapDtls = rlmsCompanyBranchMapDtls;
 	}
 	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "user_app_map_id")
+	public RlmsUserApplicationMapDtls getRlmsUserApplicationMapDetails() {
+		return rlmsUserApplicationMapDtls;
+	}
 
+	public void setRlmsUserApplicationMapDetails(
+			RlmsUserApplicationMapDtls rlmsUserApplicationMapDtls) {
+		this.rlmsUserApplicationMapDtls = rlmsUserApplicationMapDtls;
+	}
 
 }
