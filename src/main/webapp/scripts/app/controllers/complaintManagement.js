@@ -638,13 +638,13 @@
 										var dataToSend ={
 												complaintId:row.Number
 										}
-										if($scope.selectedCalltype.selected.type=="Complaints"){
+									//	if($scope.selectedCalltype.selected.type=="Complaints"){
 											$rootScope.serviceCallTypeSelect=0;
 											dataToSend["serviceCallType"]=0;
-										}else{
-											$rootScope.serviceCallTypeSelect=1;
-											dataToSend["serviceCallType"]=1;
-										}
+//										}else{
+//											$rootScope.serviceCallTypeSelect=1;
+//											dataToSend["serviceCallType"]=1;
+//										}
 										serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
 										.then(function(data) {
 											$rootScope.techniciansForEditComplaints = data;
@@ -673,15 +673,17 @@
 											var dataToSend ={
 													complaintId:$scope.selectedComplaintId
 											}
-											if($scope.selectedCalltype.selected.type=="Complaints"){
+//											if($scope.selectedCalltype.selected.type=="Complaints"){
 												$rootScope.serviceCallTypeSelect=0;
 												dataToSend["serviceCallType"]=0;
-											}else{
-												$rootScope.serviceCallTypeSelect=1;
-												dataToSend["serviceCallType"]=1;
-											}
+//											}else{
+//												$rootScope.serviceCallTypeSelect=1;
+//												dataToSend["serviceCallType"]=1;
+//											}
 											serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
 											.then(function(data) {
+											console.log("DATA /RLMS/complaint/getAllTechniciansToAssignComplaint :",JSON.stringify(data));
+
 												$scope.technicians = data;
 											})
 											$scope.modalInstance = $modal.open({
@@ -694,8 +696,28 @@
 									}
 										
 							}
-				
-									
+								
+								$scope.loadMap =function(){
+									var dataINPOPUP = "<p><b>Technician Location</b><br>Name: "+$scope.selectedTechnician.selected.name+"<br>Contact Number: "+$scope.selectedTechnician.selected.contactNumber+"<br>Assigned Complaint: "+$scope.selectedTechnician.selected.countOfComplaintsAssigned+"<br>Latitude: "+$scope.selectedTechnician.selected.latitude+"<br>Longitude: "+$scope.selectedTechnician.selected.longitude+"</p>";
+									$scope.map = new GMaps({
+						    div: '#map',
+						    lat: $scope.selectedTechnician.selected.latitude,
+						    lng: $scope.selectedTechnician.selected.longitude
+						    });
+									$scope.map.addMarker({
+									 lat: $scope.selectedTechnician.selected.latitude,
+						    lng: $scope.selectedTechnician.selected.longitude,
+						    title: 'Technician Location',
+					     click: function(e) {
+					     	content: dataINPOPUP
+					     },
+					    	infoWindow: {
+					    	 content: dataINPOPUP
+									}
+					   });		
+								}
+							
+								
 								$scope.submitAssign = function() {
 									var dataToSend ={
 											complaintId:$scope.selectedComplaintId,
@@ -711,9 +733,7 @@
 										$scope.alert.type = "success";
 										$scope.loadComplaintsList();
 									})
-									setTimeout(function(){ $scope.modalInstance.dismiss(); }, 1000);
-									
-						            
+									setTimeout(function(){ $scope.modalInstance.dismiss(); }, 1000)					            
 						          };
 						          $scope.cancelAssign = function(){
 						        	  $scope.modalInstance.dismiss('cancel');

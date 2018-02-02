@@ -16,6 +16,16 @@ body, .form-control{
 	color:red;
 }
 
+#map {
+	display: block;
+    width: 100%;
+    height: 100% important!;
+}
+
+#map {
+    background: #58B;
+}
+
 .formcontainer{
 	background-color: #DAE8E8;
 	padding: 20px;

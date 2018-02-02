@@ -296,7 +296,7 @@
 							<div class="form-group">
 								<label class="control-label">Select Technician</label>
 								<div class="select-container">
-									<ui-select ng-model="selectedTechnician.selected" title="Choose a Technician">
+									<ui-select ng-model="selectedTechnician.selected" title="Choose a Technician" on-select="loadMap()">
 										<ui-select-match placeholder="Select Branch">{{$select.selected.name}}</ui-select-match>
 										<ui-select-choices repeat="iterator in technicians| filter: $select.search">
 											<span ng-bind-html="iterator.name| highlight: $select.search"></span>
@@ -319,8 +319,9 @@
 										<td>{{selectedTechnician.selected.countOfComplaintsAssigned}}</td>
 									</tr>
 								</tbody>
-								<table>
+								</table>
 								</div>
+								<div class="col-lg-06" id="map"><br><br><br><br><br><br><br><br><br><br></div>
 								<div class="modal-footer">
 									<button class="btn btn-primary" ng-click="submitAssign()">Assign</button>
 									<button class="btn btn-warning" ng-click="cancelAssign()">Cancel</button>

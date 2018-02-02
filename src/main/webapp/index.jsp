@@ -25,6 +25,9 @@
 	  <script type="text/javascript" src="bower_components/flot/excanvas.min.js"></script>
 	  <script type='text/javascript' src='assets/plugins/misc/placeholdr.js'></script>
 	  <script type="text/javascript" src="assets/plugins/misc/media.match.min.js"></script>
+	  <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+	  <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+  	  <script type="text/javascript" src="js/maps.js"></script>
 	<![endif]-->
 
 	<!-- The following CSS are included as plugins and can be removed if unused-->
@@ -169,8 +172,7 @@
 	<script src="bower_components/json3/lib/json3.min.js"></script>
 	<![endif]-->
 
-	<script type='text/javascript'
-		src='http://maps.google.com/maps/api/js?sensor=true'></script>
+<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyASJa9SqRvfN3oCsBjCjDxHwug61C7hwuE'></script>
 
 	<!-- build:js scripts/vendor.js -->
 	<!-- bower:js -->
@@ -186,8 +188,7 @@
 	<script src="bower_components/angular-route/angular-route.js"></script>
 	<script src="bower_components/angular-animate/angular-animate.js"></script>
 	<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-	<script
-		src="bower_components/seiyria-bootstrap-slider/js/bootstrap-slider.js"></script>
+	<script src="bower_components/seiyria-bootstrap-slider/js/bootstrap-slider.js"></script>
 	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 	<script src="bower_components/jquery.ui/ui/jquery.ui.core.js"></script>
 	<script src="bower_components/jquery.ui/ui/jquery.ui.widget.js"></script>
@@ -400,6 +401,7 @@
 	<script src="scripts/demos/modules/dashboard.js"></script>
 	<script src="scripts/app/services/serviceApi.js"></script>
 	<script src="scripts/app/services/utility.js"></script>
+	<script src="scripts/app/controllers/mapCtrl.js"></script>
 	
 	<!-- App-->
 </body>
