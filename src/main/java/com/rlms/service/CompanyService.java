@@ -43,4 +43,6 @@ public interface CompanyService {
 	
 	public List<CompanyDtlsDTO> getAllCompanyDetailsForDashboard(UserMetaInfo metaInfo);
 	
+	public List<RlmsCompanyBranchMapDtls> getAllApplicableBranches(Integer companyId, Integer branchId);
+	
 }

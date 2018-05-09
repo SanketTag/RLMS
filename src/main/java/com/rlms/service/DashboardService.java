@@ -46,10 +46,12 @@ public interface DashboardService {
 	
 	public List<BranchDtlsDto> getListOfBranchDtlsForDashboard(Integer companyId, UserMetaInfo metaInfo);
 
-	public List<RlmsEventDtls> getListOfEvetnDetails(List<Integer> companyBranchIds,
+	public List<EventDtlsDto> getListOfEvetnDetails(List<Integer> companyBranchIds,
 			UserMetaInfo metaInfo);
 
 	public String addEvent(EventDtlsDto eventDetailsDto);
 	
 	public List<ComplaintsDto> getListOfAmcCallsBy(ComplaintsDtlsDto dto);
+	
+	public void saveEventDtls(RlmsEventDtls eventDtls);
 }

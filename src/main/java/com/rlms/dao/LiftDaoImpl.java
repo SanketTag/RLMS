@@ -43,6 +43,17 @@ public class LiftDaoImpl implements LiftDao{
 	}
 	
 	@SuppressWarnings("unchecked")
+	public RlmsLiftMaster getLiftById(Integer liftId){		
+			 Session session = this.sessionFactory.getCurrentSession();
+			 Criteria criteria = session.createCriteria(RlmsLiftMaster.class)					 
+					 .add(Restrictions.eq("liftId", liftId));
+					 
+			 RlmsLiftMaster liftM = (RlmsLiftMaster)criteria.uniqueResult();
+			 return liftM;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<RlmsLiftCustomerMap> getAllLiftsToBeApproved(){		
 			 Session session = this.sessionFactory.getCurrentSession();

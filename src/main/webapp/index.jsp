@@ -172,7 +172,7 @@
 	<script src="bower_components/json3/lib/json3.min.js"></script>
 	<![endif]-->
 
-<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyASJa9SqRvfN3oCsBjCjDxHwug61C7hwuE'></script>
+<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyD9uI7N7C_ljQvy5DO0y9iRRSdX-GiOZik'></script>
 
 	<!-- build:js scripts/vendor.js -->
 	<!-- bower:js -->
@@ -402,6 +402,8 @@
 	<script src="scripts/app/services/serviceApi.js"></script>
 	<script src="scripts/app/services/utility.js"></script>
 	<script src="scripts/app/controllers/mapCtrl.js"></script>
+	
+	
 	
 	<!-- App-->
 </body>

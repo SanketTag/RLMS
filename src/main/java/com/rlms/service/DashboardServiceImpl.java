@@ -204,6 +204,7 @@ public class DashboardServiceImpl implements DashboardService {
 			dto.setRegistrationTypeStr(RLMSConstants.COMPLAINT_REG_TYPE_LIFT_EVENT
 					.getName());
 		}
+		dto.setLiftNumber(complaintMaster.getLiftCustomerMap().getLiftMaster().getLiftNumber());
 		dto.setComplaintId(complaintMaster.getComplaintId());
 		dto.setComplaintNumber(complaintMaster.getComplaintNumber());
 		dto.setCustomerName(complaintMaster.getLiftCustomerMap()
@@ -287,7 +288,7 @@ public class DashboardServiceImpl implements DashboardService {
 					.getName();
 		}
 		dto.setComplaintent(complaintent);
-		dto.setUpdatedDate(complaintMaster.getUpdatedDate());
+		dto.setUpdatedDate(complaintMaster.getRegistrationDate());
 		dto.setCompanyName(complaintMaster.getLiftCustomerMap().getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsCompanyMaster().getCompanyName());
 		return dto;
 	}
@@ -444,6 +445,7 @@ public class DashboardServiceImpl implements DashboardService {
 			dto.setContactNumber(rlmsUserRoles.getRlmsUserMaster().getContactNumber());
 			dto.setUserRoleId(rlmsUserRoles.getUserRoleId());
 			dto.setActiveFlag(rlmsUserRoles.getActiveFlag());
+			dto.setBranchName(rlmsUserRoles.getRlmsCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());
 	        listOFUserAdtls.add(dto);
 		}
 		return listOFUserAdtls;
@@ -540,10 +542,29 @@ public class DashboardServiceImpl implements DashboardService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public List<RlmsEventDtls> getListOfEvetnDetails(List<Integer> companyBranchIds,
+	public List<EventDtlsDto> getListOfEvetnDetails(List<Integer> companyBranchIds,
 			UserMetaInfo metaInfo) {
 		List<RlmsEventDtls> allEvent = this.dashboardDao.getAllEventDtlsForDashboard(companyBranchIds);
-		return allEvent;
+		
+		List<EventDtlsDto> listOFDto = new ArrayList<EventDtlsDto>();
+		for (RlmsEventDtls rlmsEventDtls : allEvent) {
+			//RlmsUserRoles userRoles = null;
+			//this.
+			RlmsLiftCustomerMap liftCustomerMap = this.liftDao.getLiftCustomerMapById(rlmsEventDtls.getLiftCustomerMapId());
+					
+			EventDtlsDto dto = new EventDtlsDto();
+			dto.setEventId(rlmsEventDtls.getEventId());
+			dto.setEventType(rlmsEventDtls.getEventType());
+			dto.setEventDescription(rlmsEventDtls.getEventDescription());
+			dto.setGeneratedDate(rlmsEventDtls.getGeneratedDate());
+			dto.setLiftNumber(liftCustomerMap.getLiftMaster().getLiftNumber());
+			dto.setLiftAddress(liftCustomerMap.getLiftMaster().getAddress());
+			dto.setCustomerName(liftCustomerMap.getBranchCustomerMap().getCustomerMaster().getCustomerName());
+			
+			listOFDto.add(dto);
+			
+		}
+		return listOFDto;
 	}
 
 	@Override

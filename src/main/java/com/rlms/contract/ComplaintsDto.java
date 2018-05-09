@@ -34,6 +34,9 @@ public class ComplaintsDto {
 	private String companyName;
 	private String city;
 	private Integer serviceCallType;
+	private String address;
+	private String branch;
+	private String customer;
 	
 	public String getComplaintNumber() {
 		return complaintNumber;
@@ -259,4 +262,29 @@ public class ComplaintsDto {
 		this.serviceCallType = serviceCallType;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
+	public String getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+
+	
 }

@@ -44,10 +44,10 @@ angular
    	      ]
    	    },
    	    {
- 	      label: 'Complaints',
+ 	      label: 'Operations',
    	      iconClasses: 'glyphicon glyphicon-user ',
    	      children: [{
-   	          label: 'Manage Complaint',
+   	          label: 'Manage Operations',
    	          url: '#/complaint-management'
    	      }
    	      ]

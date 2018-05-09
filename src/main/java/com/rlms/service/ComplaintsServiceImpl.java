@@ -19,11 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mysql.fabric.xmlrpc.base.Array;
 import com.mysql.jdbc.Messages;
+import com.rlms.constants.CallType;
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RLMSMessages;
 //import com.rlms.constants.RLMSMessages;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
+import com.rlms.constants.UserType;
 //import com.rlms.constants.XMPPServerDetails;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
@@ -95,6 +97,9 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			dto.setServiceStartDate(complaintTechMapDtls.getComplaintMaster().getServiceStartDate());
 			dto.setComplaintId(complaintTechMapDtls.getComplaintMaster().getComplaintId());
 			dto.setComplaintTechMapId(complaintTechMapDtls.getComplaintTechMapId());
+			dto.setAddress(complaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftMaster().getAddress());
+			dto.setTitle(complaintTechMapDtls.getComplaintMaster().getTitle());
+			
 			if(Status.PENDING.getStatusId().equals(complaintTechMapDtls.getComplaintMaster().getStatus())){
 				dto.setStatus(Status.PENDING.getStatusMsg());
 			}else if(Status.ASSIGNED.getStatusId().equals(complaintTechMapDtls.getComplaintMaster().getStatus())){
@@ -237,18 +242,29 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			complaintent = RLMSConstants.COMPLAINT_REG_TYPE_LIFT_EVENT.getName();
 		}
 		dto.setComplaintent(complaintent);
-		
+		dto.setBranch(complaintMaster.getLiftCustomerMap().getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());
+		dto.setCustomerName(complaintMaster.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getCustomerName());
 		
 		return dto;
 	}
 	
+	private boolean isServiceCallToShow(Date regDate){
+		Date pivotDate = DateUtils.addDaysToDate(new Date(), 8);
+		return DateUtils.isBeforeOrEqualToDate(regDate, pivotDate);
+	}
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<ComplaintsDto> getListOfComplaintsBy(ComplaintsDtlsDto dto){
 		List<ComplaintsDto> listOfAllComplaints = new ArrayList<ComplaintsDto>();
-		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate(),dto.getServiceCallType());
+		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getCompanyId(),dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate(),dto.getServiceCallType());
 		for (RlmsComplaintMaster rlmsComplaintMaster : listOfComplaints) {
-			ComplaintsDto complaintsDto = this.constructComplaintDto(rlmsComplaintMaster);
-			listOfAllComplaints.add(complaintsDto);
+			boolean isToShow = true;
+			if(CallType.Amc_Service_Call.getId() == rlmsComplaintMaster.getCallType()){
+				isToShow = this.isServiceCallToShow(rlmsComplaintMaster.getRegistrationDate());
+			}
+			if(isToShow){
+				ComplaintsDto complaintsDto = this.constructComplaintDto(rlmsComplaintMaster);
+				listOfAllComplaints.add(complaintsDto);
+			}
 		}
 		
 		return listOfAllComplaints;
@@ -256,7 +272,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(ComplaintsDtlsDto dto){
-		return this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate(),0);
+		return this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getCompanyId(), dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate(),0);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -270,6 +286,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		this.complaintsDao.saveComplaintTechMapDtls(complaintTechMapDtls);
 		RlmsComplaintMaster complaintMaster = complaintTechMapDtls.getComplaintMaster();
 		complaintMaster.setStatus(Status.ASSIGNED.getStatusId());
+		complaintMaster.setServiceStartDate(new Date());
 		complaintMaster.setUpdatedBy(metaInfo.getUserId());
 		complaintMaster.setUpdatedDate(new Date());
 		this.complaintsDao.mergeComplaintM(complaintMaster);
@@ -343,7 +360,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void sendNotificationsAboutComplaintAssign(RlmsComplaintTechMapDtls complaintTechMapDtls){
 		this.notifyTechnician(complaintTechMapDtls);
-		this.sendNotificationsToMembers(complaintTechMapDtls);
+	 //	this.sendNotificationsToMembers(complaintTechMapDtls);
 	}
 	
 	private void notifyTechnician(RlmsComplaintTechMapDtls complaintTechMapDtls){
@@ -413,6 +430,35 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		return listOfComplDtls;
 	}
 	
+	
+	private  double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
+		double theta = lon1 - lon2;
+		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+		dist = Math.acos(dist);
+		dist = rad2deg(dist);
+		dist = dist * 60 * 1.1515;
+		if (unit == "K") {
+			dist = dist * 1.609344;
+		} else if (unit == "N") {
+			dist = dist * 0.8684;
+		}
+
+		return (dist);
+	}
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	/*::	This function converts decimal degrees to radians						 :*/
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	private static double deg2rad(double deg) {
+		return (deg * Math.PI / 180.0);
+	}
+
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	/*::	This function converts radians to decimal degrees						 :*/
+	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
+	private static double rad2deg(double rad) {
+		return (rad * 180 / Math.PI);
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<UserRoleDtlsDTO> getAllTechniciansToAssignComplaint(ComplaintsDtlsDto complaintsDtlsDto){
    	 
@@ -429,11 +475,27 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			dto.setContactNumber(rlmsUserRoles.getRlmsUserMaster().getContactNumber());
 			dto.setUserRoleId(rlmsUserRoles.getUserRoleId());
 			
+			if(null != complaintMaster.getLiftCustomerMap().getLiftMaster().getAddress() && !complaintMaster.getLiftCustomerMap().getLiftMaster().getAddress().isEmpty()){
+				dto.setLiftAdd(complaintMaster.getLiftCustomerMap().getLiftMaster().getAddress());
+			}
+			if(null != complaintMaster.getLiftCustomerMap().getLiftMaster().getLatitude() && !complaintMaster.getLiftCustomerMap().getLiftMaster().getLatitude().isEmpty()){
+				dto.setLiftLatitude(Double.valueOf(complaintMaster.getLiftCustomerMap().getLiftMaster().getLatitude()));
+			}
 			
+			if(null != complaintMaster.getLiftCustomerMap().getLiftMaster().getLongitude() && !complaintMaster.getLiftCustomerMap().getLiftMaster().getLatitude().isEmpty()){
+				dto.setLiftLongitude(Double.valueOf(complaintMaster.getLiftCustomerMap().getLiftMaster().getLongitude()));
+			}
 			
-			dto.setLongitude(rlmsUserRoles.getRlmsUserApplicationMapDetails().getLongitude());
-			dto.setLatitude(rlmsUserRoles.getRlmsUserApplicationMapDetails().getLatitude());
+			RlmsUserApplicationMapDtls appMapDtls = this.userService.getUserAppDetails(rlmsUserRoles.getUserRoleId(), UserType.TECHNICIAN.getId());
+			if(null != appMapDtls){
+				dto.setLongitude(appMapDtls.getLongitude());
+				dto.setLatitude(appMapDtls.getLatitude());
+			}
 			
+			if(null != dto.getLiftLatitude() && null != dto.getLiftLongitude() && null != dto.getLatitude() && null != dto.getLongitude()){
+				Double di = this.distance(dto.getLiftLatitude(), dto.getLiftLongitude(), dto.getLatitude(), dto.getLongitude(), "K");
+				dto.setDistance(di.intValue());
+			}
 			
 			 List<Integer> statusList = new ArrayList<Integer>();
 		   	 statusList.add(Status.ASSIGNED.getStatusId());

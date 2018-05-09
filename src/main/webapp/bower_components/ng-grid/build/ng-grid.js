@@ -843,8 +843,8 @@ var ngColumn = function (config, $scope, grid, domUtilityService, $templateCache
         self.originalIndex = fromCol.originalIndex;
         self.sortDirection = fromCol.sortDirection;
         self.sortingAlgorithm = fromCol.sortingAlgorithm;
-        self.headerClass = fromCol.headerClass;
         self.headerCellTemplate = fromCol.headerCellTemplate;
+        self.headerClass = fromCol.headerClass;
         self.cellTemplate = fromCol.cellTemplate;
         self.cellEditTemplate = fromCol.cellEditTemplate;
     };

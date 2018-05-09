@@ -51,5 +51,7 @@ public interface LiftDao {
 	public List<RlmsLiftAmcDtls> getAllAMCDetils(List<Integer> listOfLiftsForAMCDtls, AMCDetailsDto dto);
 	
 	public List<RlmsLiftCustomerMap> getAllLiftsStatusForBranchs(List<Integer> companyBranchIds);
+	
+	public RlmsLiftMaster getLiftById(Integer liftId);
 
 }

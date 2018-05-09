@@ -13,6 +13,51 @@ angular.module('theme.demos.dashboard.indi', [
       currentPage: 1
     };
     
+    
+    
+    
+    //spinner
+    var app = angular.module("MyApp", ["ngResource"]);
+
+    app.config(function ($httpProvider) {
+      $httpProvider.responseInterceptors.push('myHttpInterceptor');
+
+      var spinnerFunction = function spinnerFunction(data, headersGetter) {
+        $("#spinner").show();
+        return data;
+      };
+
+      $httpProvider.defaults.transformRequest.push(spinnerFunction);
+    });
+
+    app.factory('myHttpInterceptor', function ($q, $window) {
+      return function (promise) {
+        return promise.then(function (response) {
+          $("#spinner").hide();
+          return response;
+        }, function (response) {
+          $("#spinner").hide();
+          return $q.reject(response);
+        });
+      };
+    });
+    
+    
+    //spinner end
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     $scope.showCompanies=true;
     $scope.showAmc=true;
     $scope.showBranches=true;
@@ -266,6 +311,11 @@ angular.module('theme.demos.dashboard.indi', [
       text: '0',
       color: 'grey'
     };
+    $scope.event = {
+    	      title: 'In-Out Events',
+    	      text: '0',
+    	      color: 'grey'
+    	    };
     $scope.gridOptionsForComplaints = {
       data: 'myComplaintsData',
       rowHeight: 40,
@@ -298,6 +348,7 @@ angular.module('theme.demos.dashboard.indi', [
         complaintStatusArray.push(str_array[i]);
       }
       $scope.testComplaintValue="After";
+      $scope.loading = true;
       setTimeout(
         function () {
           var dataToSend = $scope
@@ -352,6 +403,7 @@ angular.module('theme.demos.dashboard.indi', [
                   $scope.complaintsData.todaysTotalComplaints.text = $scope.todaysTotalComplaints.length;
                 }
               }
+              $scope.loading = false;
             });
         }, 100);
     };
@@ -538,38 +590,56 @@ angular.module('theme.demos.dashboard.indi', [
                 for (var i = 0; i < largeLoad.length; i++) {
                   var userDetailsObj = {};
                   if (!!largeLoad[i].complaintNumber) {
-                    userDetailsObj["No"] = largeLoad[i].complaintNumber;
-                  } else {
-                    userDetailsObj["No"] = " - ";
-                  }
-                  if (!!largeLoad[i].title) {
-                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
-                  } else {
-                    userDetailsObj["CompanyName"] = " - ";
-                  }
-                  if (complaintStatus.includes("2") && complaintStatus.includes("3") && complaintStatus.includes("5")) {
-                      if (!!largeLoad[i].status) {
-                        userDetailsObj["Status"] = largeLoad[i].status;
-                      } else {
-                        userDetailsObj["Status"] = " - ";
-                      }
-                    } else {
-                    if (!!largeLoad[i].title) {
-                      userDetailsObj["Title"] = largeLoad[i].title;
-                    } else {
-                      userDetailsObj["Title"] = " - ";
-                    }
-                  }
-                  if (!!largeLoad[i].title) {
-                    userDetailsObj["Title"] = largeLoad[i].title;
-                  } else {
-                    userDetailsObj["Title"] = " - ";
-                  }
-                  if (!!largeLoad[i].city) {
-                    userDetailsObj["City"] = largeLoad[i].city;
-                  } else {
-                    userDetailsObj["City"] = " - ";
-                  }
+	                    userDetailsObj["CallId"] = largeLoad[i].complaintNumber;
+	                  } else {
+	                    userDetailsObj["CallId"] = " - ";
+	                  }
+               	  if (!!largeLoad[i].status) {
+	                    userDetailsObj["Status"] = largeLoad[i].status;
+	                  } else {
+	                    userDetailsObj["Status"] = " - ";
+	                  }
+               	  
+               	 if (!!largeLoad[i].title) {
+ 	                userDetailsObj["Title"] = largeLoad[i].title;
+ 	              } else {
+ 	                userDetailsObj["Title"] = " - ";
+ 	              }
+               	  
+               	 if (!!largeLoad[i].remark) {
+  	                userDetailsObj["Remark"] = largeLoad[i].remark;
+  	              } else {
+  	                userDetailsObj["Remark"] = " - ";
+  	              }
+               	 
+               	  if (!!largeLoad[i].liftNumber) {
+	                    userDetailsObj["LiftNumber"] = largeLoad[i].liftNumber;
+	                  } else {
+	                    userDetailsObj["LiftNumber"] = " - ";
+	                  }
+	                  
+	                  if (!!largeLoad[i].customerName) {
+	                    userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+	                  } else {
+	                    userDetailsObj["CustomerName"] = " - ";
+	                  }
+	                  
+	                  if (!!largeLoad[i].liftAddress) {
+	                    userDetailsObj["LiftAddress"] = largeLoad[i].liftAddress;
+	                  } else {
+	                    userDetailsObj["LiftAddress"] = " - ";
+	                  }
+	                  if (!!largeLoad[i].registrationDate) {
+  	                userDetailsObj["RegistrationDate"] = largeLoad[i].registrationDateStr;
+  	              } else {
+  	                userDetailsObj["RegistrationDate"] = " - ";
+  	              }
+	                 if (!!largeLoad[i].actualServiceEndDate) {
+  	                userDetailsObj["ActualServiceEndDate"] = largeLoad[i].actualServiceEndDate;
+  	              } else {
+  	                userDetailsObj["ActualServiceEndDate"] = " - ";
+  	              }
+	              
                   userDetails
                     .push(userDetailsObj);
                 }
@@ -609,34 +679,58 @@ angular.module('theme.demos.dashboard.indi', [
                 }
                 for (var i = 0; i < largeLoad.length; i++) {
                   var userDetailsObj = {};
-                  if (!!largeLoad[i].complaintNumber) {
-                    userDetailsObj["No"] = largeLoad[i].complaintNumber;
-                  } else {
-                    userDetailsObj["No"] = " - ";
-                  }
-                  if (!!largeLoad[i].title) {
-                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
-                  } else {
-                    userDetailsObj["CompanyName"] = " - ";
-                  }
-                  if (complaintStatus.includes("2") && complaintStatus.includes("3") && complaintStatus.includes("5")) {
-                    if (!!largeLoad[i].status) {
-                      userDetailsObj["Status"] = largeLoad[i].status;
-                    } else {
-                      userDetailsObj["Status"] = " - ";
-                    }
-                  } else {
-                    if (!!largeLoad[i].title) {
-                      userDetailsObj["Title"] = largeLoad[i].title;
-                    } else {
-                      userDetailsObj["Title"] = " - ";
-                    }
-                  }
-                  if (!!largeLoad[i].city) {
-                    userDetailsObj["City"] = largeLoad[i].city;
-                  } else {
-                    userDetailsObj["City"] = " - ";
-                  }
+                 	  if (!!largeLoad[i].complaintNumber) {
+	                    userDetailsObj["CallId"] = largeLoad[i].complaintNumber;
+	                  } else {
+	                    userDetailsObj["CallId"] = " - ";
+	                  }
+                 	  if (!!largeLoad[i].status) {
+  	                    userDetailsObj["Status"] = largeLoad[i].status;
+  	                  } else {
+  	                    userDetailsObj["Status"] = " - ";
+  	                  }
+                 	  
+                 	 if (!!largeLoad[i].title) {
+        	                userDetailsObj["Title"] = largeLoad[i].title;
+        	              } else {
+        	                userDetailsObj["Title"] = " - ";
+        	              }
+                 	 
+                 	  
+                 	 if (!!largeLoad[i].remark) {
+        	                userDetailsObj["Remark"] = largeLoad[i].remark;
+        	              } else {
+        	                userDetailsObj["Remark"] = " - ";
+        	              }
+                 	 
+                 	  if (!!largeLoad[i].liftNumber) {
+ 	                    userDetailsObj["LiftNumber"] = largeLoad[i].liftNumber;
+ 	                  } else {
+ 	                    userDetailsObj["LiftNumber"] = " - ";
+ 	                  }
+	                  
+	                  if (!!largeLoad[i].customerName) {
+  	                    userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+  	                  } else {
+  	                    userDetailsObj["CustomerName"] = " - ";
+  	                  }
+	                  
+	                  if (!!largeLoad[i].liftAddress) {
+	                    userDetailsObj["LiftAddress"] = largeLoad[i].liftAddress;
+	                  } else {
+	                    userDetailsObj["LiftAddress"] = " - ";
+	                  }
+	                  if (!!largeLoad[i].registrationDate) {
+    	                userDetailsObj["RegistrationDate"] = largeLoad[i].registrationDateStr;
+    	              } else {
+    	                userDetailsObj["RegistrationDate"] = " - ";
+    	              }
+	                 if (!!largeLoad[i].actualServiceEndDate) {
+    	                userDetailsObj["ActualServiceEndDate"] = largeLoad[i].actualServiceEndDate;
+    	              } else {
+    	                userDetailsObj["ActualServiceEndDate"] = " - ";
+    	              }
+	              
                   userDetails
                     .push(userDetailsObj);
                 }
@@ -711,21 +805,26 @@ angular.module('theme.demos.dashboard.indi', [
       	                }
     	                for (var i = 0; i < largeLoad.length; i++) {
     	                  var userDetailsObj = {};
-    	                  if (!!largeLoad[i].userId) {
-    	                    userDetailsObj["No"] = largeLoad[i].userId;
+    	                  if (!!largeLoad[i].name) {
+    	                    userDetailsObj["Name"] = largeLoad[i].name;
     	                  } else {
-    	                    userDetailsObj["No"] = " - ";
+    	                    userDetailsObj["Name"] = " - ";
+    	                  }
+    	                  if (!!largeLoad[i].contactNumber) {
+    	                    userDetailsObj["ContactNumber"] = largeLoad[i].contactNumber;
+    	                  } else {
+    	                    userDetailsObj["ContactNumber"] = " - ";
     	                  }
     	                  if (!!largeLoad[i].companyName) {
-    	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
+    	                    userDetailsObj["Company"] = largeLoad[i].companyName;
     	                  } else {
-    	                    userDetailsObj["CompanyName"] = " - ";
+    	                    userDetailsObj["Company"] = " - ";
     	                  }
-    	                  if (!!largeLoad[i].city) {
-    	                    userDetailsObj["City"] = largeLoad[i].city;
-    	                  } else {
-    	                    userDetailsObj["City"] = " - ";
-    	                  }
+    	                  if (!!largeLoad[i].branchName) {
+      	                    userDetailsObj["Branch"] = largeLoad[i].branchName;
+      	                  } else {
+      	                    userDetailsObj["Branch"] = " - ";
+      	                  }
     	                  userDetails
     	                    .push(userDetailsObj);
     	                }
@@ -770,20 +869,25 @@ angular.module('theme.demos.dashboard.indi', [
       	                }
     	                for (var i = 0; i < largeLoad.length; i++) {
       	                  var userDetailsObj = {};
-      	                  if (!!largeLoad[i].userId) {
-      	                    userDetailsObj["No"] = largeLoad[i].userId;
+      	                if (!!largeLoad[i].name) {
+    	                    userDetailsObj["Name"] = largeLoad[i].name;
+    	                  } else {
+    	                    userDetailsObj["Name"] = " - ";
+    	                  }
+    	                  if (!!largeLoad[i].contactNumber) {
+    	                    userDetailsObj["ContactNumber"] = largeLoad[i].contactNumber;
+    	                  } else {
+    	                    userDetailsObj["ContactNumber"] = " - ";
+    	                  }
+    	                  if (!!largeLoad[i].companyName) {
+    	                    userDetailsObj["Company"] = largeLoad[i].companyName;
+    	                  } else {
+    	                    userDetailsObj["Company"] = " - ";
+    	                  }
+    	                  if (!!largeLoad[i].branchName) {
+      	                    userDetailsObj["Branch"] = largeLoad[i].branchName;
       	                  } else {
-      	                    userDetailsObj["No"] = " - ";
-      	                  }
-      	                  if (!!largeLoad[i].companyName) {
-      	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
-      	                  } else {
-      	                    userDetailsObj["CompanyName"] = " - ";
-      	                  }
-      	                  if (!!largeLoad[i].city) {
-      	                    userDetailsObj["City"] = largeLoad[i].city;
-      	                  } else {
-      	                    userDetailsObj["City"] = " - ";
+      	                    userDetailsObj["Branch"] = " - ";
       	                  }
       	                  userDetails
       	                    .push(userDetailsObj);
@@ -1316,26 +1420,37 @@ angular.module('theme.demos.dashboard.indi', [
       	                }
     	                for (var i = 0; i < largeLoad.length; i++) {
     	                  var userDetailsObj = {};
-    	                  if (!!largeLoad[i].customerId) {
-      	                    userDetailsObj["No"] = largeLoad[i].customerId;
-      	                  } else {
-      	                    userDetailsObj["No"] = " - ";
-      	                  }
+    	                  if (!!largeLoad[i].customerName) {
+          	                userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+          	              } else {
+          	                userDetailsObj["CustomerName"] = " - ";
+          	              }
+    	                  if (!!largeLoad[i].branchName) {
+        	                    userDetailsObj["BranchName"] = largeLoad[i].branchName;
+        	                  } else {
+        	                    userDetailsObj["BranchName"] = " - ";
+        	                  }
+    	                  
       	                  if (!!largeLoad[i].companyName) {
       	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
       	                  } else {
       	                    userDetailsObj["CompanyName"] = " - ";
       	                  }
-      	                  if (!!largeLoad[i].customerName) {
-        	                userDetailsObj["CustomerName"] = largeLoad[i].customerName;
-        	              } else {
-        	                userDetailsObj["CustomerName"] = " - ";
-        	              }
-      	                  if (!!largeLoad[i].city) {
-          	                userDetailsObj["City"] = largeLoad[i].city;
+      	                  
+      	                  if (!!largeLoad[i].address) {
+          	                userDetailsObj["Address"] = largeLoad[i].address;
           	              } else {
-          	                userDetailsObj["City"] = " - ";
+          	                userDetailsObj["Address"] = " - ";
           	              }
+      	                  
+      	                if (!!largeLoad[i].emailID) {
+          	                userDetailsObj["EmailID"] = largeLoad[i].emailID;
+          	              } else {
+          	                userDetailsObj["EmailID"] = " - ";
+          	              }
+      	                
+      	                
+      	              
     	                  userDetails
     	                    .push(userDetailsObj);
     	                }
@@ -1380,25 +1495,33 @@ angular.module('theme.demos.dashboard.indi', [
       	                }
     	                for (var i = 0; i < largeLoad.length; i++) {
     	                	var userDetailsObj = {};
-    	                	if (!!largeLoad[i].customerId) {
-          	                    userDetailsObj["No"] = largeLoad[i].customerId;
-          	                  } else {
-          	                    userDetailsObj["No"] = " - ";
-          	                  }
+    	                	if (!!largeLoad[i].customerName) {
+              	                userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+              	              } else {
+              	                userDetailsObj["CustomerName"] = " - ";
+              	              }
+        	                  if (!!largeLoad[i].branchName) {
+            	                    userDetailsObj["BranchName"] = largeLoad[i].branchName;
+            	                  } else {
+            	                    userDetailsObj["BranchName"] = " - ";
+            	                  }
+        	                  
           	                  if (!!largeLoad[i].companyName) {
           	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
           	                  } else {
           	                    userDetailsObj["CompanyName"] = " - ";
           	                  }
-          	                  if (!!largeLoad[i].customerName) {
-            	                userDetailsObj["CustomerName"] = largeLoad[i].customerName;
-            	              } else {
-            	                userDetailsObj["CustomerName"] = " - ";
-            	              }
-          	                  if (!!largeLoad[i].city) {
-              	                userDetailsObj["City"] = largeLoad[i].city;
+          	                  
+          	                  if (!!largeLoad[i].address) {
+              	                userDetailsObj["Address"] = largeLoad[i].address;
               	              } else {
-              	                userDetailsObj["City"] = " - ";
+              	                userDetailsObj["Address"] = " - ";
+              	              }
+          	                  
+          	                if (!!largeLoad[i].emailID) {
+              	                userDetailsObj["EmailID"] = largeLoad[i].emailID;
+              	              } else {
+              	                userDetailsObj["EmailID"] = " - ";
               	              }
       	                  userDetails
       	                    .push(userDetailsObj);
@@ -1675,27 +1798,48 @@ angular.module('theme.demos.dashboard.indi', [
       	                }
     	                for (var i = 0; i < largeLoad.length; i++) {
     	                  var userDetailsObj = {};
-    	                  if (!!largeLoad[i].companyId) {
-      	                    userDetailsObj["No"] = largeLoad[i].companyId;
-      	                  } else {
-      	                    userDetailsObj["No"] = " - ";
-      	                  }
+    	                 
       	                  if (!!largeLoad[i].companyName) {
       	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
       	                  } else {
       	                    userDetailsObj["CompanyName"] = " - ";
       	                  }
-      	                  if (!!largeLoad[i].city) {
-          	                userDetailsObj["City"] = largeLoad[i].city;
+      	                  if (!!largeLoad[i].contactNumber) {
+          	                userDetailsObj["ContactNumber"] = largeLoad[i].contactNumber;
           	              } else {
-          	                userDetailsObj["City"] = " - ";
+          	                userDetailsObj["ContactNumber"] = " - ";
           	              }
-      	                  if (!!largeLoad[i].numberOfBranches) {
-            	                userDetailsObj["TotalBranches"] = largeLoad[i].numberOfBranches;
+      	                  if (!!largeLoad[i].address) {
+            	                userDetailsObj["Address"] = largeLoad[i].address;
             	              } else {
-            	                userDetailsObj["TotalBranches"] = " - ";
+            	                userDetailsObj["Address"] = " - ";
             	              }
-
+      	                if (!!largeLoad[i].emailId) {
+          	                userDetailsObj["EmailId"] = largeLoad[i].emailId;
+          	              } else {
+          	                userDetailsObj["EmailId"] = " - ";
+          	              }
+      	                if (!!largeLoad[i].city) {
+        	                userDetailsObj["City"] = largeLoad[i].city;
+        	              } else {
+        	                userDetailsObj["City"] = " - ";
+        	              }
+      	              if (!!largeLoad[i].ownerName) {
+      	                userDetailsObj["OwnerName"] = largeLoad[i].ownerName;
+      	              } else {
+      	                userDetailsObj["OwnerName"] = " - ";
+      	              }
+      	           	 
+      	           	  if (!!largeLoad[i].numberOfBranches) {
+      	                userDetailsObj["TotalBranches"] = largeLoad[i].numberOfBranches;
+      	              } else {
+      	                userDetailsObj["TotalBranches"] = " - ";
+      	              }
+      	            if (!!largeLoad[i].numberOfTech) {
+      	                userDetailsObj["TotalTechnicians"] = largeLoad[i].numberOfTech;
+      	              } else {
+      	                userDetailsObj["TotalTechnicians"] = " - ";
+      	              }
     	                  userDetails
     	                    .push(userDetailsObj);
     	                }
@@ -1737,26 +1881,47 @@ angular.module('theme.demos.dashboard.indi', [
       	                }
     	                for (var i = 0; i < largeLoad.length; i++) {
     	                	var userDetailsObj = {};
-    	                	if (!!largeLoad[i].companyId) {
-          	                    userDetailsObj["No"] = largeLoad[i].companyId;
-          	                  } else {
-          	                    userDetailsObj["No"] = " - ";
-          	                  }
-          	                  if (!!largeLoad[i].companyName) {
+    	                	if (!!largeLoad[i].companyName) {
           	                    userDetailsObj["CompanyName"] = largeLoad[i].companyName;
           	                  } else {
           	                    userDetailsObj["CompanyName"] = " - ";
           	                  }
-          	                  if (!!largeLoad[i].city) {
-              	                userDetailsObj["City"] = largeLoad[i].city;
+          	                  if (!!largeLoad[i].contactNumber) {
+              	                userDetailsObj["ContactNumber"] = largeLoad[i].contactNumber;
               	              } else {
-              	                userDetailsObj["City"] = " - ";
+              	                userDetailsObj["ContactNumber"] = " - ";
               	              }
-          	                  if (!!largeLoad[i].numberOfBranches) {
-                	                userDetailsObj["TotalBranches"] = largeLoad[i].numberOfBranches;
+          	                  if (!!largeLoad[i].address) {
+                	                userDetailsObj["Address"] = largeLoad[i].address;
                 	              } else {
-                	                userDetailsObj["TotalBranches"] = " - ";
+                	                userDetailsObj["Address"] = " - ";
                 	              }
+          	                if (!!largeLoad[i].emailId) {
+              	                userDetailsObj["EmailId"] = largeLoad[i].emailId;
+              	              } else {
+              	                userDetailsObj["EmailId"] = " - ";
+              	              }
+          	                if (!!largeLoad[i].city) {
+            	                userDetailsObj["City"] = largeLoad[i].city;
+            	              } else {
+            	                userDetailsObj["City"] = " - ";
+            	              }
+          	              if (!!largeLoad[i].ownerName) {
+          	                userDetailsObj["OwnerName"] = largeLoad[i].ownerName;
+          	              } else {
+          	                userDetailsObj["OwnerName"] = " - ";
+          	              }
+          	           	 
+          	           	  if (!!largeLoad[i].numberOfBranches) {
+          	                userDetailsObj["TotalBranches"] = largeLoad[i].numberOfBranches;
+          	              } else {
+          	                userDetailsObj["TotalBranches"] = " - ";
+          	              }
+          	            if (!!largeLoad[i].numberOfTech) {
+          	                userDetailsObj["TotalTechnicians"] = largeLoad[i].numberOfTech;
+          	              } else {
+          	                userDetailsObj["TotalTechnicians"] = " - ";
+          	              }
       	                  userDetails
       	                    .push(userDetailsObj);
       	                };
@@ -1842,6 +2007,13 @@ angular.module('theme.demos.dashboard.indi', [
           	                  } else {
           	                    userDetailsObj["Id"] = " - ";
           	                  }
+        	                  
+        	                  if (!!largeLoad[i].eventDescription) {
+            	                    userDetailsObj["EventType"] = largeLoad[i].eventType;
+            	                  } else {
+            	                    userDetailsObj["EventType"] = " - ";
+            	                  }
+        	                  
           	                  if (!!largeLoad[i].eventDescription) {
           	                    userDetailsObj["EventDescription"] = largeLoad[i].eventDescription;
           	                  } else {
@@ -1857,6 +2029,23 @@ angular.module('theme.demos.dashboard.indi', [
               	              } else {
               	                userDetailsObj["GeneratedBy"] = " - ";
               	              }
+          	               if (!!largeLoad[i].generatedBy) {
+             	                userDetailsObj["LiftNumber"] = largeLoad[i].liftNumber;
+             	              } else {
+             	                userDetailsObj["LiftNumber"] = " - ";
+             	              }
+          	               
+          	             if (!!largeLoad[i].generatedBy) {
+           	                userDetailsObj["LiftAddress"] = largeLoad[i].liftAddress;
+           	              } else {
+           	                userDetailsObj["LiftAddress"] = " - ";
+           	              }
+          	             
+          	           if (!!largeLoad[i].generatedBy) {
+         	                userDetailsObj["Customer"] = largeLoad[i].customerName;
+         	              } else {
+         	                userDetailsObj["Customer"] = " - ";
+         	              }
         	                  userDetails
         	                    .push(userDetailsObj);
         	                }
@@ -1893,6 +2082,12 @@ angular.module('theme.demos.dashboard.indi', [
         	                  } else {
         	                    userDetailsObj["Id"] = " - ";
         	                  }
+      	                if (!!largeLoad[i].eventType) {
+    	                    userDetailsObj["EventType"] = largeLoad[i].eventType;
+    	                  } else {
+    	                    userDetailsObj["EventType"] = " - ";
+    	                  }
+	                  
         	                  if (!!largeLoad[i].eventDescription) {
         	                    userDetailsObj["EventDescription"] = largeLoad[i].eventDescription;
         	                  } else {
@@ -1908,6 +2103,23 @@ angular.module('theme.demos.dashboard.indi', [
             	              } else {
             	                userDetailsObj["GeneratedBy"] = " - ";
             	              }
+        	                 if (!!largeLoad[i].liftNumber) {
+              	                userDetailsObj["LiftNumber"] = largeLoad[i].liftNumber;
+              	              } else {
+              	                userDetailsObj["LiftNumber"] = " - ";
+              	              }
+           	               
+           	             if (!!largeLoad[i].liftAddress) {
+            	                userDetailsObj["LiftAddress"] = largeLoad[i].liftAddress;
+            	              } else {
+            	                userDetailsObj["LiftAddress"] = " - ";
+            	              }
+           	             
+           	           if (!!largeLoad[i].customerName) {
+          	                userDetailsObj["Customer"] = largeLoad[i].customerName;
+          	              } else {
+          	                userDetailsObj["Customer"] = " - ";
+          	              }
       	                  userDetails
       	                    .push(userDetailsObj);
       	                }
@@ -1963,7 +2175,7 @@ angular.module('theme.demos.dashboard.indi', [
 	          return dataToSend;
 	        };
         
-        $scope.openDemoModalForEvents = function (currentModelOpen, headerValue, activeFlag) {
+        $scope.openDemoModalForAmcServiceCalls = function (currentModelOpen, headerValue, activeFlag) {
             var emptyComplaintsArray = [];
             $scope.myComplaintsData = emptyComplaintsArray;
             $scope.pagingOptionsForComplaints.currentPage = 1;
@@ -1972,7 +2184,7 @@ angular.module('theme.demos.dashboard.indi', [
             $scope.currentModel = currentModelOpen;
             $scope.modalHeaderVal = headerValue;
             $scope.activeFlagForTechnician = activeFlag;
-            $scope.getPagedDataAsyncForEvents($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "",activeFlag); 
+            $scope.getPagedDataAsyncForAMCCalls($scope.pagingOptionsForComplaints.pageSize, $scope.pagingOptionsForComplaints.currentPage, "",activeFlag); 
             $scope.modalInstance = $modal.open({
               templateUrl: 'demoModalContent.html',
               scope: $scope
@@ -1980,4 +2192,149 @@ angular.module('theme.demos.dashboard.indi', [
           };
           
           $scope.getCountAmcSrviceCalls("AmcServiceCall");
+          
+          $scope.getPagedDataAsyncForAMCCalls = function (pageSize,
+        	      page, searchText, activeFlag) {
+        	      var url;
+        	      url = '/RLMS/dashboard/getListOfAmcServiceCalls';
+        	      setTimeout(
+        	        function () {
+        	          var data;
+        	          if (searchText) {
+        	            var ft = searchText
+        	              .toLowerCase();
+        	            serviceApi
+        	              .doPostWithData(url,{companyId:$rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId})
+        	              .then(
+        	              function (largeLoad) {
+        	                $scope.complaints = largeLoad;
+        	                $scope.showTable = true;
+        	                var userDetails = [];
+        	                for (var i = 0; i < largeLoad.length; i++) {
+            	                  var userDetailsObj = {};
+            	                  if (!!largeLoad[i].complaintNumber) {
+              	                    userDetailsObj["CallId"] = largeLoad[i].complaintNumber;
+              	                  } else {
+              	                    userDetailsObj["CallId"] = " - ";
+              	                  }
+            	                  
+            	                  if (!!largeLoad[i].customerName) {
+                	                    userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+                	                  } else {
+                	                    userDetailsObj["CustomerName"] = " - ";
+                	                  }
+            	                  
+              	                  if (!!largeLoad[i].liftAddress) {
+              	                    userDetailsObj["LiftAddress"] = largeLoad[i].liftAddress;
+              	                  } else {
+              	                    userDetailsObj["LiftAddress"] = " - ";
+              	                  }
+              	                  if (!!largeLoad[i].registrationDate) {
+                  	                userDetailsObj["RegistrationDate"] = largeLoad[i].registrationDateStr;
+                  	              } else {
+                  	                userDetailsObj["RegistrationDate"] = " - ";
+                  	              }
+              	                 if (!!largeLoad[i].actualServiceEndDate) {
+                  	                userDetailsObj["ActualServiceEndDate"] = largeLoad[i].actualServiceEndDate;
+                  	              } else {
+                  	                userDetailsObj["ActualServiceEndDate"] = " - ";
+                  	              }
+              	               if (!!largeLoad[i].remark) {
+                 	                userDetailsObj["Remark"] = largeLoad[i].remark;
+                 	              } else {
+                 	                userDetailsObj["Remark"] = " - ";
+                 	              }
+              	               
+              	             if (!!largeLoad[i].title) {
+               	                userDetailsObj["Title"] = largeLoad[i].title;
+               	              } else {
+               	                userDetailsObj["Title"] = " - ";
+               	              }
+              	             
+              	         
+            	                  userDetails
+            	                    .push(userDetailsObj);
+            	                }
+        	                
+        	                data = userDetails
+        	                  .filter(function (
+        	                    item) {
+        	                    return JSON
+        	                      .stringify(
+        	                      item)
+        	                      .toLowerCase()
+        	                      .indexOf(
+        	                      ft) !== -1;
+        	                  });
+        	                $scope
+        	                  .setPagingDataForComplaints(
+        	                  data,
+        	                  page,
+        	                  pageSize);
+        	              });
+        	          } else {
+        	            serviceApi
+        	              .doPostWithData(url,{companyId:$rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsCompanyMaster.companyId})
+        	              .then(
+        	              function (
+        	                largeLoad) {
+        	                $scope.complaints = largeLoad;
+        	                $scope.showTable = true;
+        	                var userDetails = [];
+        	                for (var i = 0; i < largeLoad.length; i++) {
+          	                  var userDetailsObj = {};
+          	                if (!!largeLoad[i].complaintNumber) {
+          	                    userDetailsObj["CallId"] = largeLoad[i].complaintNumber;
+          	                  } else {
+          	                    userDetailsObj["CallId"] = " - ";
+          	                  }
+        	                  
+        	                  if (!!largeLoad[i].customerName) {
+            	                    userDetailsObj["CustomerName"] = largeLoad[i].customerName;
+            	                  } else {
+            	                    userDetailsObj["CustomerName"] = " - ";
+            	                  }
+        	                  
+          	                  if (!!largeLoad[i].liftAddress) {
+          	                    userDetailsObj["LiftAddress"] = largeLoad[i].liftAddress;
+          	                  } else {
+          	                    userDetailsObj["LiftAddress"] = " - ";
+          	                  }
+          	                  if (!!largeLoad[i].registrationDate) {
+              	                userDetailsObj["RegistrationDate"] = largeLoad[i].registrationDateStr;
+              	              } else {
+              	                userDetailsObj["RegistrationDate"] = " - ";
+              	              }
+          	                 if (!!largeLoad[i].actualServiceEndDate) {
+              	                userDetailsObj["ActualServiceEndDate"] = largeLoad[i].actualServiceEndDate;
+              	              } else {
+              	                userDetailsObj["ActualServiceEndDate"] = " - ";
+              	              }
+          	               if (!!largeLoad[i].remark) {
+             	                userDetailsObj["Remark"] = largeLoad[i].remark;
+             	              } else {
+             	                userDetailsObj["Remark"] = " - ";
+             	              }
+          	               
+          	             if (!!largeLoad[i].title) {
+           	                userDetailsObj["Title"] = largeLoad[i].title;
+           	              } else {
+           	                userDetailsObj["Title"] = " - ";
+           	              }
+          	             
+          	          
+        	                  
+          	                  userDetails
+          	                    .push(userDetailsObj);
+          	                }
+        	                $scope
+        	                  .setPagingDataForComplaints(
+        	                  userDetails,
+        	                  page,
+        	                  pageSize);
+        	              });
+
+        	          }
+        	        }, 100);
+        	    }; 
   }]);

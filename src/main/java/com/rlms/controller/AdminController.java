@@ -33,6 +33,7 @@ import com.rlms.exception.ValidationException;
 import com.rlms.model.RlmsBranchMaster;
 import com.rlms.model.RlmsCompanyBranchMapDtls;
 import com.rlms.model.RlmsCompanyMaster;
+import com.rlms.model.RlmsLiftMaster;
 import com.rlms.model.RlmsSpocRoleMaster;
 import com.rlms.model.RlmsUsersMaster;
 import com.rlms.service.CompanyService;
@@ -545,4 +546,36 @@ public class AdminController extends BaseController{
 	 
 	        return reponseDto;
 	 }
+	 
+	 @RequestMapping(value = "/getLiftById", method = RequestMethod.POST)
+	 public @ResponseBody ResponseDto getLiftById(@RequestBody Integer liftId) throws RunTimeException{
+		 ResponseDto reponseDto = new ResponseDto();
+	        
+	        try{
+	        	logger.info("Method :: addNewBranchInCompany");
+	        	reponseDto.setResponse(this.liftService.getLiftById(liftId));
+	        	
+	        }catch(Exception e){
+	        	logger.error(ExceptionUtils.getFullStackTrace(e));
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
+	 }
+	 
+	 @RequestMapping(value = "/lift/updateLiftParams", method = RequestMethod.POST)
+	    public @ResponseBody ResponseDto validateAndUpdateLiftDetails(@RequestBody RlmsLiftMaster dto) throws RunTimeException, ValidationException {
+		 ResponseDto reponseDto = new ResponseDto();
+	        
+	        try{
+	        	
+	        	this.liftService.updateLiftParams(dto);
+	        	
+	        }
+	        catch(Exception e){
+	        	throw new RunTimeException(ExceptionCode.RUNTIME_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+	        }
+	 
+	        return reponseDto;
+	  }
 }

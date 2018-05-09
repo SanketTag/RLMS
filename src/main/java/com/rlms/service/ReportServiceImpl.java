@@ -23,6 +23,7 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
 import com.rlms.constants.Status;
 import com.rlms.contract.AMCDetailsDto;
+import com.rlms.contract.EventDtlsDto;
 import com.rlms.contract.SiteVisitDtlsDto;
 import com.rlms.contract.SiteVisitReportDto;
 import com.rlms.contract.TechnicianWiseReportDTO;
@@ -35,6 +36,7 @@ import com.rlms.dao.UserRoleDao;
 import com.rlms.model.RlmsBranchCustomerMap;
 import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
+import com.rlms.model.RlmsEventDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
 import com.rlms.model.RlmsLiftCustomerMap;
 import com.rlms.model.RlmsSiteVisitDtls;
@@ -61,6 +63,9 @@ public class ReportServiceImpl implements ReportService {
 	
 	@Autowired
 	private UserRoleDao userRoleDao;
+	
+	@Autowired
+	private DashboardService dashboardService;
 	
 
 	@Autowired
@@ -141,7 +146,7 @@ public class ReportServiceImpl implements ReportService {
 			Date tempEndDate = listOFAMCs.get(listOFAMCs.size() - 1).getLiftCustomerMap().getLiftMaster().getAmcEndDate();
 			Date tempDateOfInstallation = listOFAMCs.get(listOFAMCs.size() - 1).getLiftCustomerMap().getLiftMaster().getDateOfInstallation();
 			dto.setStatus(this.calculateAMCStatus(tempStartDate, tempEndDate, tempDateOfInstallation).getStatusMsg());
-			dto.setAmcAmount(liftAmcDtls.getLiftCustomerMap().getLiftMaster().getAmcAmount());
+			dto.setAmcAmount(liftAmcDtls.getAmcAmount());
 			
 			if(i > 0 ){
 				
@@ -204,8 +209,10 @@ public class ReportServiceImpl implements ReportService {
 		RlmsLiftAmcDtls liftAMCDtls = new RlmsLiftAmcDtls();
 		RlmsLiftCustomerMap liftCustomerMap = this.liftDao.getLiftCustomerMapById(dto.getLiftCustoMapId());
 		List<ServiceCall> amacServiceCalls=dto.getAmcServiceCalls();
-		for (ServiceCall serviceCall : amacServiceCalls) {
-			createServiceCalls(serviceCall,metaInfo, liftCustomerMap);
+		if(null != amacServiceCalls){
+			for (ServiceCall serviceCall : amacServiceCalls) {
+				createServiceCalls(serviceCall,metaInfo, liftCustomerMap);
+			}
 		}
 		if(!StringUtils.isEmpty(dto.getAmcEndDate())){
 			dto.setAmcEdDate(DateUtils.convertStringToDateWithoutTime(dto.getAmcEndDate()));
@@ -258,7 +265,7 @@ public class ReportServiceImpl implements ReportService {
 		complaintMaster.setActiveFlag(RLMSConstants.ACTIVE.getId());
 		complaintMaster.setComplaintNumber(String.valueOf(Math.random()));
 		complaintMaster.setLiftCustomerMap(liftCustomerMap);
-		complaintMaster.setRegistrationDate(new Date());
+		complaintMaster.setRegistrationDate(serviceCall.getServiceDate());
 		//complaintMaster.setRegistrationType(dto.getRegistrationType());
 		//complaintMaster.setRemark(dto.getComplaintsRemark());
 		complaintMaster.setStatus(Status.PENDING.getStatusId());
@@ -287,15 +294,23 @@ public class ReportServiceImpl implements ReportService {
 			if(null != rlmsComplaintTechMapDtls.getPlannedEndDate()){
 				complaintwiseSiteVisitReport.setComplaintResolveDate(DateUtils.convertDateToStringWithTime(rlmsComplaintTechMapDtls.getPlannedEndDate()));
 			}
+			
 			complaintwiseSiteVisitReport.setMessage(rlmsComplaintTechMapDtls.getComplaintMaster().getTitle());
 			complaintwiseSiteVisitReport.setAddress(rlmsComplaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftMaster().getAddress());
 			complaintwiseSiteVisitReport.setCity(rlmsComplaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftMaster().getCity());
-			complaintwiseSiteVisitReport.setComplaintStatus(Status.getStringFromID(rlmsComplaintTechMapDtls.getStatus()));
+			complaintwiseSiteVisitReport.setComplaintStatus(Status.getStringFromID(rlmsComplaintTechMapDtls.getComplaintMaster().getStatus()));
 			complaintwiseSiteVisitReport.setComplNumber(rlmsComplaintTechMapDtls.getComplaintMaster().getComplaintNumber());
 			complaintwiseSiteVisitReport.setCustomerName(rlmsComplaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getCustomerName());
 			complaintwiseSiteVisitReport.setLiftNumber(rlmsComplaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftMaster().getLiftNumber());
 			complaintwiseSiteVisitReport.setTechName(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName());
 			complaintwiseSiteVisitReport.setTechNumber(rlmsComplaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber());
+			
+			if(0 == rlmsComplaintTechMapDtls.getComplaintMaster().getCallType()){
+				complaintwiseSiteVisitReport.setCallType("Complaints");
+			}else{
+				complaintwiseSiteVisitReport.setCallType("Service Calls");
+			}
+			
 			if(rlmsComplaintTechMapDtls.getComplaintMaster().getServiceStartDate()!=null){
 				complaintwiseSiteVisitReport.setSericeDate(DateUtils.convertDateToStringWithTime(rlmsComplaintTechMapDtls.getComplaintMaster().getServiceStartDate()));
 			}
@@ -422,6 +437,25 @@ public class ReportServiceImpl implements ReportService {
 			toList.add(rlmsLiftAmcDtls.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getEmailID());
 			this.messagingService.sendAMCMail(listOfDynamicValues, toList, com.rlms.constants.EmailTemplateEnum.AMC_RENEWAL.getTemplateId());
 		}
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void validateAndRegisterNewEvent(EventDtlsDto eventDtlsDto){
+		RlmsEventDtls eventDtls = this.constructRlmsEventDtls(eventDtlsDto);
+		this.dashboardService.saveEventDtls(eventDtls);
+	}
+	
+	private RlmsEventDtls constructRlmsEventDtls(EventDtlsDto dto){
+		RlmsEventDtls eventDtls = new RlmsEventDtls();
+		eventDtls.setActiveFlag(RLMSConstants.ACTIVE.getId());
+		eventDtls.setEventDescription(dto.getEventDescription());
+		eventDtls.setEventType(dto.getEventType());
+		eventDtls.setGeneratedBy(RLMSConstants.EVENT_BY_LIFT.getId());
+		eventDtls.setGeneratedDate(new Date());
+		eventDtls.setLiftCustomerMapId(dto.getLiftCustomerMapId());
+		eventDtls.setUpdatedBy(RLMSConstants.EVENT_BY_LIFT.getId());
+		eventDtls.setUpdatedDate(new Date());
+		return eventDtls;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)

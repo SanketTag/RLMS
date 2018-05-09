@@ -75,6 +75,7 @@ public class RlmsLiftMaster implements Serializable{
 	private Integer createdBy;
 	private Date updatedDate;
 	private Integer updatedBy;
+	private String liftImei;
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -515,6 +516,14 @@ public class RlmsLiftMaster implements Serializable{
 		this.amcEndDate = amcEndDate;
 	}
 	
-
+	@Column(name = "imei", unique = true, nullable = false)
+	public String getLiftImei() {
+		return liftImei;
+	}
+	public void setLiftImei(String liftImei) {
+		this.liftImei = liftImei;
+	}
+	
+	
 	
 }

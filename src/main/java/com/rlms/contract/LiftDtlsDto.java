@@ -15,6 +15,7 @@ public class LiftDtlsDto {
 	private Integer companyId;
 	private Integer branchCompanyMapId;
 	private Integer branchCustomerMapId;
+	private String liftImei;
 	
 	private Integer liftId;
 	private String latitude;
@@ -461,6 +462,12 @@ public class LiftDtlsDto {
 	}
 	public void setAmcTypeStr(String amcTypeStr) {
 		this.amcTypeStr = amcTypeStr;
+	}
+	public String getLiftImei() {
+		return this.liftImei;
+	}
+	public void setLiftImei(String liftImei) {
+		this.liftImei = liftImei;
 	}	 
 	
 }

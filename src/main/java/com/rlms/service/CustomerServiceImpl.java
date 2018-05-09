@@ -165,7 +165,7 @@ public class CustomerServiceImpl implements CustomerService{
 			listOfCustomer.add(branchCustomerMap.getCustomerMaster().getCustomerId());
 			CustomerDtlsDto dto = new CustomerDtlsDto();
 			List<RlmsLiftCustomerMap> listOfLifts = this.liftDao.getAllLiftsForCustomers(listOfCustomer);
-			dto.setAddress(branchCustomerMap.getCustomerMaster().getAddress());
+			dto.setAddress(branchCustomerMap.getCustomerMaster().getAddress() + ", " + branchCustomerMap.getCustomerMaster().getArea() + ", " + branchCustomerMap.getCustomerMaster().getCity());
 			dto.setArea(branchCustomerMap.getCustomerMaster().getArea());
 			dto.setCity(branchCustomerMap.getCustomerMaster().getCity());
 			dto.setPinCode(branchCustomerMap.getCustomerMaster().getPincode());

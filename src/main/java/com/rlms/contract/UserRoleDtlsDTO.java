@@ -18,6 +18,12 @@ public class UserRoleDtlsDTO {
 	private Integer activeFlag;
 	private Double latitude;
 	private Double longitude;
+	private Double liftLatitude;
+	private Double liftLongitude;
+	private Integer distance;
+	private String liftAdd;
+	private String branchName;
+	
 	
 	public Integer getUserId() {
 		return userId;
@@ -106,6 +112,36 @@ public class UserRoleDtlsDTO {
 	}
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+	public Double getLiftLatitude() {
+		return liftLatitude;
+	}
+	public void setLiftLatitude(Double liftLatitude) {
+		this.liftLatitude = liftLatitude;
+	}
+	public Double getLiftLongitude() {
+		return liftLongitude;
+	}
+	public void setLiftLongitude(Double liftLongitude) {
+		this.liftLongitude = liftLongitude;
+	}
+	public Integer getDistance() {
+		return distance;
+	}
+	public void setDistance(Integer distance) {
+		this.distance = distance;
+	}
+	public String getLiftAdd() {
+		return liftAdd;
+	}
+	public void setLiftAdd(String liftAdd) {
+		this.liftAdd = liftAdd;
+	}
+	public String getBranchName() {
+		return branchName;
+	}
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
 	}
 	
 	

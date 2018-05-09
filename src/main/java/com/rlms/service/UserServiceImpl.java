@@ -589,4 +589,11 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public RlmsUserApplicationMapDtls getUserAppDetails(Integer userId,
+			Integer userRefType) {
+		// TODO Auto-generated method stub
+		return this.userRoleDao.getUserAppDetails(userId, userRefType);
+	}
+
 }

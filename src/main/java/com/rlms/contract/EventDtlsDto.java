@@ -17,6 +17,11 @@ public class EventDtlsDto {
 	private String updatedDateStr;
 	private Integer updatedBy;
 	private Integer activeFlag;
+	private String liftNumber;
+	private String liftAddress;
+	private String customerName;
+	private String technicianName;
+	private String techNumber;
 	public Integer getUserRoleId() {
 		return userRoleId;
 	}
@@ -95,5 +100,38 @@ public class EventDtlsDto {
 	public void setActiveFlag(Integer activeFlag) {
 		this.activeFlag = activeFlag;
 	}
+	public String getLiftNumber() {
+		return liftNumber;
+	}
+	public void setLiftNumber(String liftNumber) {
+		this.liftNumber = liftNumber;
+	}
+	public String getLiftAddress() {
+		return liftAddress;
+	}
+	public void setLiftAddress(String liftAddress) {
+		this.liftAddress = liftAddress;
+	}
+	public String getCustomerName() {
+		return customerName;
+	}
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+	public String getTechnicianName() {
+		return technicianName;
+	}
+	public void setTechnicianName(String technicianName) {
+		this.technicianName = technicianName;
+	}
+	public String getTechNumber() {
+		return techNumber;
+	}
+	public void setTechNumber(String techNumber) {
+		this.techNumber = techNumber;
+	}
+	
+	
+	
 	
 }

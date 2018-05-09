@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.util.List;
 
 import com.rlms.contract.AMCDetailsDto;
+import com.rlms.contract.EventDtlsDto;
 import com.rlms.contract.SiteVisitReportDto;
 import com.rlms.contract.TechnicianWiseReportDTO;
 import com.rlms.contract.UserMetaInfo;
@@ -17,4 +18,5 @@ public interface ReportService {
 	public List<TechnicianWiseReportDTO> getTechnicianWiseReport(TechnicianWiseReportDTO dto);
 	public void changeStatusToAMCRenewalAndNotifyUser() throws UnsupportedEncodingException;
 	public void changeStatusToAMCExpiryAndNotifyUser() throws UnsupportedEncodingException;
+	public void validateAndRegisterNewEvent(EventDtlsDto eventDtlsDto);
 }

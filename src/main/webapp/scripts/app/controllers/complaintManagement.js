@@ -70,9 +70,14 @@
 								}
 
 								function loadDefaultComplaintData() {
+									var branchCompanyMapId;
+									if(null != $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls && undefined != $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls){
+										branchCompanyMapId = $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId;
+									}
 									var dataToSend = {
-										branchCompanyMapId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId,
-										branchCustomerMapId : -1,
+										branchCompanyMapId :branchCompanyMapId,
+										companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId,
+									//	branchCustomerMapId : -1,
 										listOfLiftCustoMapId : [],
 										statusList : [],
 										serviceCallType : 0
@@ -101,11 +106,27 @@
 															} else {
 																userDetailsObj["Remark"] = " - ";
 															}
+															if (!!largeLoad[i].remark) {
+																userDetailsObj["Branch"] = largeLoad[i].branch;
+															} else {
+																userDetailsObj["Branch"] = " - ";
+															}
+															if (!!largeLoad[i].remark) {
+																userDetailsObj["Customer"] = largeLoad[i].customerName;
+															} else {
+																userDetailsObj["Customer"] = " - ";
+															}
 															if (!!largeLoad[i].registrationDateStr) {
 																userDetailsObj["Registration_Date"] = largeLoad[i].registrationDateStr;
 															} else {
 																userDetailsObj["Registration_Date"] = " - ";
 															}
+															if (!!largeLoad[i].complaintent) {
+																userDetailsObj["Complaint_Registered_By"] = largeLoad[i].complaintent;
+															} else {
+																userDetailsObj["Complaint_Registered_By"] = " - ";
+															}
+															
 															if (!!largeLoad[i].serviceStartDateStr) {
 																userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDateStr;
 															} else {
@@ -284,12 +305,28 @@
 																			} else {
 																				userDetailsObj["Remark"] = " - ";
 																			}
+																			if (!!largeLoad[i].remark) {
+																				userDetailsObj["Branch"] = largeLoad[i].branch;
+																			} else {
+																				userDetailsObj["Branch"] = " - ";
+																			}
+																			if (!!largeLoad[i].remark) {
+																				userDetailsObj["Customer"] = largeLoad[i].customerName;
+																			} else {
+																				userDetailsObj["Customer"] = " - ";
+																			}
 																			
 																			if (!!largeLoad[i].registrationDateStr) {
 																				userDetailsObj["Registration_Date"] = largeLoad[i].registrationDateStr;
 																			} else {
 																				userDetailsObj["Registration_Date"] = " - ";
 																			}
+																			if (!!largeLoad[i].complaintent) {
+																				userDetailsObj["Complaint_Registered_By"] = largeLoad[i].complaintent;
+																			} else {
+																				userDetailsObj["Complaint_Registered_By"] = " - ";
+																			}
+																			
 																			if (!!largeLoad[i].serviceStartDateStr) {
 																				userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDateStr;
 																			} else {
@@ -380,12 +417,28 @@
 																			} else {
 																				userDetailsObj["Remark"] = " - ";
 																			}
+																			if (!!largeLoad[i].remark) {
+																				userDetailsObj["Branch"] = largeLoad[i].branch;
+																			} else {
+																				userDetailsObj["Branch"] = " - ";
+																			}
+																			if (!!largeLoad[i].remark) {
+																				userDetailsObj["Customer"] = largeLoad[i].customerName;
+																			} else {
+																				userDetailsObj["Customer"] = " - ";
+																			}
 																			
 																			if (!!largeLoad[i].registrationDateStr) {
 																				userDetailsObj["Registration_Date"] = largeLoad[i].registrationDateStr;
 																			} else {
 																				userDetailsObj["Registration_Date"] = " - ";
 																			}
+																			if (!!largeLoad[i].complaintent) {
+																				userDetailsObj["Complaint_Registered_By"] = largeLoad[i].complaintent;
+																			} else {
+																				userDetailsObj["Complaint_Registered_By"] = " - ";
+																			}
+																			
 																			if (!!largeLoad[i].serviceStartDateStr) {
 																				userDetailsObj["Service_StartDate"] = largeLoad[i].serviceStartDateStr;
 																			} else {
@@ -448,15 +501,20 @@
 											serviceCallType:0
 											
 									};
-									if($scope.selectedCalltype.selected.type=="Complaints"){
-										$rootScope.serviceCallTypeSelect=0;
-										dataToSend["serviceCallType"]=0;
-									}else{
-										$rootScope.serviceCallTypeSelect=1;
-										dataToSend["serviceCallType"]=1;
-									}
+									
+									if(null != $scope.selectedCalltype.selected && undefined != $scope.selectedCalltype.selected){
+										if($scope.selectedCalltype.selected.type=="Complaints"){
+											$rootScope.serviceCallTypeSelect=0;
+											dataToSend["serviceCallType"]=0;
+										}else{
+											$rootScope.serviceCallTypeSelect=1;
+											dataToSend["serviceCallType"]=1;
+										}
+								}
 									if ($scope.showBranch == true) {
 										dataToSend["branchCompanyMapId"] = $scope.selectedBranch.selected.companyBranchMapId
+
+									
 									} else {
 										dataToSend["branchCompanyMapId"] = $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyBranchMapDtls.companyBranchMapId
 									}
@@ -492,12 +550,12 @@
 								if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1) {
 									$scope.showCompany = true;
 									loadCompanyData();
-									loadDefaultComplaintData();
+									
 								} else {
 									$scope.showCompany = false;
 									$scope.loadBranchData();
 								}
-
+								loadDefaultComplaintData();
 								// showBranch Flag
 								if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel < 3) {
 									$scope.showBranch = true;
@@ -573,17 +631,31 @@
 										cellTemplate: templateWithTooltip,
 										cellClass: 'cellToolTip'
 									}, {
+										field : "Branch",
+										displayName:"Branch",
+										width : 120
+									}, {
+										field : "Customer",
+										displayName:"Customer",
+										width : 120
+									}, {
 										field : "Registration_Date",
 										displayName:"Registration Date",
 										width : 120
+									},
+									{
+										field : "Complaint_Registered_By",
+										displayName:"Complaint Registered By",
+										width : 180
 									}
+									
 									, {
 										field : "Service_StartDate",
-										displayName:"Service Start Date",
-										width : 160
+										displayName:"Call Start Date",
+										width : 120
 									}, {
 										field : "Service_End_Date",
-										displayName:"Service End Date",
+										displayName:"Call End Date",
 										width : 120
 									}
 									, {
@@ -663,11 +735,80 @@
 //								     console.log("________")
 //								    		 console.log(newVal);
 //								    });
+								$scope.loadMap =function(){
+									
+									var bounds = new google.maps.LatLngBounds();
+									var lift = {lat: $scope.technicians[0].liftLatitude, lng: $scope.technicians[0].liftLongitude};
+									
+									$scope.map = new google.maps.Map(document.getElementById('map'), {
+								          center: lift,
+								          zoom: 11
+								        });
+								
+									
+									
+									
+									 var image = {
+									          url: 'assets/img/lift_Icon.png',
+									          // This marker is 20 pixels wide by 32 pixels high.
+									          size: new google.maps.Size(20, 32),
+									          // The origin for this image is (0, 0).
+									          origin: new google.maps.Point(0, 0),
+									          // The anchor for this image is the base of the flagpole at (0, 32).
+									          anchor: new google.maps.Point(0, 32)
+									        };
+									 var liftInfowindow = new google.maps.InfoWindow({
+								          content: "<p><b>Lift Address</b>: "+$scope.technicians[0].lifAdd
+								        });
+									 
+									var liftMarker = new google.maps.Marker({
+								          position: lift,
+								          map: $scope.map,
+								          icon: {
+								              path: google.maps.SymbolPath.CIRCLE,
+								              scale: 10
+								            },
+								          scaledSize: new google.maps.Size(10, 10)
+								        });
+									
+									liftMarker.addListener('click', function() {
+										liftInfowindow.open(map, liftMarker);
+								        });
+									
+									bounds.extend(liftMarker.getPosition());
+									 
+									for(var i = 0; i < $scope.technicians.length; i++){
+										
+										var uluru = {lat: $scope.technicians[i].latitude, lng: $scope.technicians[i].longitude};
+										
+										var infowindow = new google.maps.InfoWindow({
+									          content: "<p><b>Technician Location</b><br>Name: "+$scope.technicians[i].name+"<br>Contact Number: "+$scope.technicians[i].contactNumber+"<br>Assigned Complaint: "+$scope.technicians[i].countOfComplaintsAssigned+"<br>Latitude: "+$scope.technicians[i].latitude+"<br>Longitude: "+$scope.technicians[i].longitude+"<br>Distance from Lift: "+$scope.technicians[i].distance+" Kilometers </p>"
+									        });
+										
+										var marker = new google.maps.Marker({
+									          position: uluru,
+									          map: $scope.map
+									        });
+										marker.addListener('click', function() {
+									          infowindow.open(map, marker);
+									        });
+										
+										bounds.extend(marker.getPosition());
+									}
+									
+									$scope.map.fitBounds(bounds);
+											
+								}
+										 
+								
 								$scope.assignComplaint =function(){
 									//var selected = $filter('filter')($scope.complaints,{complaintId:$scope.gridOptions.selectedItems[0].complaintId});
 									if($scope.gridOptions.selectedItems[0].Status == "Pending"){
 										if($scope.gridOptions.selectedItems[0].Title.trim()==="" || $scope.gridOptions.selectedItems[0].Title.trim()==="-" || $scope.gridOptions.selectedItems[0].Remark.trim()==="" || $scope.gridOptions.selectedItems[0].Remark.trim()==="-"){
-											alert("Edit complaint first to add mendatory fields like title, details");
+											//alert("Edit complaint first to add mendatory fields like title, details");
+											$scope.showAlert = true;
+											$scope.alert.msg = "Edit complaint first to add mendatory fields like title, details";
+											$scope.alert.type = "danger";
 										}else{
 											$scope.selectedComplaintId = $scope.gridOptions.selectedItems[0].complaintId;
 											var dataToSend ={
@@ -683,8 +824,12 @@
 											serviceApi.doPostWithData('/RLMS/complaint/getAllTechniciansToAssignComplaint',dataToSend)
 											.then(function(data) {
 											console.log("DATA /RLMS/complaint/getAllTechniciansToAssignComplaint :",JSON.stringify(data));
-
 												$scope.technicians = data;
+												console.log("in rest call");
+
+												$scope.loadMap();
+												console.log("load map calling done");
+
 											})
 											$scope.modalInstance = $modal.open({
 										        templateUrl: 'assignComplaintTemplate',
@@ -692,29 +837,25 @@
 										     })
 										}
 									}else{
-										alert("Already Assigned Complaint");
+									//	alert("Already Assigned Complaint");
+										$scope.showAlert = true;
+										$scope.alert.msg = "Already Assigned Complaint";
+										$scope.alert.type = "danger";
 									}
 										
 							}
 								
-								$scope.loadMap =function(){
-									var dataINPOPUP = "<p><b>Technician Location</b><br>Name: "+$scope.selectedTechnician.selected.name+"<br>Contact Number: "+$scope.selectedTechnician.selected.contactNumber+"<br>Assigned Complaint: "+$scope.selectedTechnician.selected.countOfComplaintsAssigned+"<br>Latitude: "+$scope.selectedTechnician.selected.latitude+"<br>Longitude: "+$scope.selectedTechnician.selected.longitude+"</p>";
+								
+		
+								
+								$scope.loadEmptyMap =function(){
+									//var dataINPOPUP = "<p><b>Technician Location</b><br>Name: "+$scope.selectedTechnician.selected.name+"<br>Contact Number: "+$scope.selectedTechnician.selected.contactNumber+"<br>Assigned Complaint: "+$scope.selectedTechnician.selected.countOfComplaintsAssigned+"<br>Latitude: "+$scope.selectedTechnician.selected.latitude+"<br>Longitude: "+$scope.selectedTechnician.selected.longitude+"</p>";
 									$scope.map = new GMaps({
-						    div: '#map',
-						    lat: $scope.selectedTechnician.selected.latitude,
-						    lng: $scope.selectedTechnician.selected.longitude
+						    div: '#map'
+						   // lat: $scope.selectedTechnician.selected.latitude,
+						    //lng: $scope.selectedTechnician.selected.longitude
 						    });
-									$scope.map.addMarker({
-									 lat: $scope.selectedTechnician.selected.latitude,
-						    lng: $scope.selectedTechnician.selected.longitude,
-						    title: 'Technician Location',
-					     click: function(e) {
-					     	content: dataINPOPUP
-					     },
-					    	infoWindow: {
-					    	 content: dataINPOPUP
-									}
-					   });		
+										
 								}
 							
 								

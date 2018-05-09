@@ -38,6 +38,7 @@ import com.rlms.service.ComplaintsService;
 import com.rlms.service.CustomerService;
 import com.rlms.service.DashboardService;
 import com.rlms.service.LiftService;
+import com.rlms.service.ReportService;
 import com.rlms.service.UserService;
 import com.rlms.utils.DateUtils;
 import com.rlms.utils.PropertyUtils;
@@ -63,6 +64,9 @@ public class RestControllerController  extends BaseController {
 	
 	@Autowired
 	DashboardService dashboardService;
+	
+	@Autowired
+	private ReportService reportService;
 	
 	private static final Logger log = Logger.getLogger(RestControllerController.class);
 	   
@@ -301,7 +305,7 @@ public class RestControllerController  extends BaseController {
         try{
         	log.info("Method :: uploadPhoto");
         	reponseDto.setResponse(this.liftService.uploadPhoto(dto));        	
-       
+        	reponseDto.setStatus(true);
         }catch(Exception e){
         	log.error(ExceptionUtils.getFullStackTrace(e));
         	reponseDto.setStatus(false);
@@ -466,4 +470,43 @@ public class RestControllerController  extends BaseController {
     	 
     	 return dto;
     }
+    
+    @RequestMapping(value = "/lift/getApplicableLifts", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto getAllLiftsForTechnician(@RequestBody UserDtlsDto dto){
+    	ObjectMapper mapper = new ObjectMapper();
+    	ResponseDto reponseDto = new ResponseDto();
+    	try{
+    	 List<LiftDtlsDto> listOfApplicableLift = this.liftService.getAllLiftsForTechnician(dto.getUserRoleId());
+    	 reponseDto.setStatus(true);
+    	 reponseDto.setResponse(mapper.writeValueAsString(listOfApplicableLift));
+    	}catch(Exception e){
+        	log.error(ExceptionUtils.getFullStackTrace(e));
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        
+        }
+    	return reponseDto;
+    }
+    
+    @RequestMapping(value = "/event/validateAndRegisterNewEvent", method = RequestMethod.POST)
+    public @ResponseBody ResponseDto validateAndRegisterNewEvent(@RequestBody String imei,  @RequestBody String message){
+    	
+    	ResponseDto reponseDto = new ResponseDto();
+    	try{
+    	//this.reportService.validateAndRegisterNewEvent(dto);
+    		log.debug("validateAndRegisterNewEvent - Message :: " + message);
+    		
+    		log.debug("validateAndRegisterNewEvent - IMEI :: " + imei);
+    	 reponseDto.setStatus(true);
+    	 reponseDto.setResponse("Suucessfully registered Event");
+    	}catch(Exception e){
+        	log.error(ExceptionUtils.getFullStackTrace(e));
+        	reponseDto.setStatus(false);
+        	reponseDto.setResponse(PropertyUtils.getPrpertyFromContext(RlmsErrorType.UNNKOWN_EXCEPTION_OCCHURS.getMessage()));
+        
+        }
+    	return reponseDto;
+    }
+    
+    
 }

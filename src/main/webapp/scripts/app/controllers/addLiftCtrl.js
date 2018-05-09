@@ -65,7 +65,7 @@
 					$scope.displayLobbyPhoto=true;
 					$scope.addLift.lobbyPhoto=$scope.currentFile;
 				}
-				$scope.apply();
+				$scope.$apply();
 			};
 			reader.readAsDataURL(element.files[0]);
 		};
@@ -411,6 +411,36 @@
 				$scope.addLift.lobbyPhoto = $scope.addLift.lobbyPhoto.base64;
 			}
 		}
+		
+		 $scope.parseBase64Edit=function(){
+			if(undefined != $scope.editLift.machinePhoto && $scope.editLift.machinePhoto != ''){
+				$scope.editLift.machinePhoto = $scope.editLift.machinePhoto.base64;
+			}
+			if(undefined != $scope.editLift.panelPhoto && $scope.editLift.panelPhoto != ''){
+				$scope.editLift.panelPhoto = $scope.editLift.panelPhoto.base64;
+			}
+			if($scope.editLift.ardphoto != ''){
+				$scope.editLift.ardphoto = $scope.editLift.ardphoto.base64;
+			}
+			if($scope.editLift.lopphoto != ''){
+				$scope.editLift.lopphoto = $scope.editLift.lopphoto.base64;
+			}
+			if($scope.editLift.copphoto != ''){
+				$scope.editLift.copphoto = $scope.editLift.copphoto.base64;
+			}
+			if($scope.editLift.cartopPhoto != ''){
+				$scope.editLift.cartopPhoto = $scope.editLift.cartopPhoto.base64;
+			}
+			if($scope.editLift.autoDoorHeaderPhoto != ''){
+				$scope.editLift.autoDoorHeaderPhoto = $scope.editLift.autoDoorHeaderPhoto.base64;
+			}
+			if($scope.editLift.wiringPhoto != ''){
+				$scope.editLift.wiringPhoto = $scope.editLift.wiringPhoto.base64;
+			}
+			if($scope.editLift.lobbyPhoto != ''){
+				$scope.editLift.lobbyPhoto = $scope.addLift.lobbyPhoto.base64;
+			}
+		}
 		$scope.submitAddLift = function(){
 			parseBase64();
 			//addLift.customerType = $scope.selectedCustomerType;
@@ -443,6 +473,30 @@
 				$scope.alert.type = "danger";
 			});
 		}
+		
+		$scope.submitEditLift = function(){
+			parseBase64Edit();
+			//addLift.customerType = $scope.selectedCustomerType;
+		
+			//$scope.addLift.branchCustomerMapId = $scope.selectedCustomer.selected.branchCustomerMapId
+			serviceApi.doPostWithData("/RLMS/admin/lift/updateLiftParams",$scope.editLift)
+			.then(function(response){
+				$scope.showAlert = true;
+				var key = Object.keys(response);
+				var successMessage = response[key[0]];
+				$scope.alert.msg = successMessage;
+				$scope.alert.type = "success";
+				//initAddLift();
+				$scope.addLiftForm.$setPristine();
+				$scope.addLiftForm.$setUntouched();
+				
+			},function(error){
+				$scope.showAlert = true;
+				$scope.alert.msg = error.exceptionMessage;
+				$scope.alert.type = "danger";
+			});
+		}
+		
 		$scope.showWizardFun = function(){
 			$scope.modalInstance = $modal.open({
 		        templateUrl: 'selectLiftType',

@@ -13,6 +13,7 @@ import com.rlms.contract.UserRoleDtlsDTO;
 import com.rlms.exception.ValidationException;
 import com.rlms.model.RlmsCompanyRoleMap;
 import com.rlms.model.RlmsSpocRoleMaster;
+import com.rlms.model.RlmsUserApplicationMapDtls;
 import com.rlms.model.RlmsUserRoles;
 import com.rlms.model.RlmsUsersMaster;
 import com.rlms.model.User;
@@ -66,4 +67,6 @@ public interface UserService {
 
 	public String updateTechnicianLocation(UserDtlsDto userDtlsDto,
 			UserMetaInfo metaInfo);
+	
+	public RlmsUserApplicationMapDtls getUserAppDetails(Integer userId, Integer userRefType);
 }
