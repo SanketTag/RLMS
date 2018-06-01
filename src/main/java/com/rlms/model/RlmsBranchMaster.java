@@ -15,9 +15,6 @@ import javax.persistence.Table;
 @Table(name = "rlms_branch_master")
 public class RlmsBranchMaster implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Integer branchId;
 	private String branchName;
@@ -33,9 +30,7 @@ public class RlmsBranchMaster implements Serializable{
 	
 	public RlmsBranchMaster() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "branch_id", unique = true, nullable = false)

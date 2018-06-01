@@ -18,7 +18,7 @@ public enum RlmsErrorType {
 	INVALID_COMPANY_NAME(12,"invalid_company_name"),
 	INVALID_BRANCH_NAME(12,"invalid_branch_name"),
 	COMPANY_REG_SUCCESFUL(13,"company_reg_succesful"),
-	LIFT_ADDED_SUCCESSFULLY(14,"lift_added_successfully"),
+	LIFT_ADDED_SUCCESSFULLY(14,"lift added successfully"),
 	LIFT_APPROVED(15,"lift_approved"),
 	COMPLAINT_TITLE_BLANK(16,"complaint_title_blank"),
 	COMPLAINT_REMARK_BLANK(17,"complaint_remark_blank"),
@@ -46,6 +46,8 @@ public enum RlmsErrorType {
 	
 	private Integer code;
 	private String message;
+	
+	
 	private RlmsErrorType(int code, String message){
 		this.code = code;
 		this.message = message;

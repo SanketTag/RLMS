@@ -11,7 +11,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.Date;
 
-import com.google.api.client.util.Base64;
+import org.apache.commons.codec.binary.Base64;
+
 import com.rlms.utils.DateUtils;
 
 public class ConsumeRestFul {
@@ -24,8 +25,7 @@ public class ConsumeRestFul {
 			//updateLiftDetails();
 			//addNewComplaint();
 		//	getVisitDetails();
-		//	addEvent();
-			uploadLiftPhoto();
+			addEvent();
 		}
 		
 		  public static void getAllComplaintsByTech(){
@@ -81,17 +81,16 @@ public class ConsumeRestFul {
 		  
 		  public static void uploadLiftPhoto(){
 			  try{
-				  URL url = new URL("http://139.162.5.222:8000/RLMS/API/lift/uploadPhoto");
-				// URL url = new URL("http://localhost:9090/RLMS/API/lift/uploadPhoto");
+				 URL url = new URL("http://localhost:9090/RLMS/API/lift/uploadPhoto");
 				 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setDoOutput(true); 
 				conn.setRequestMethod("POST");
 				conn.setRequestProperty("Content-Type", "application/json");
 				byte[] machinePhotoBytes = null;
-				File imgPath=new File("C:\\Users\\Sanket\\Desktop\\lift_Icon.png");
+				File imgPath=new File("F:\\SpringProject\\RLMS\\src\\main\\java\\com\\rlms\\controller\\APP.jpg");
 				machinePhotoBytes=Files.readAllBytes(imgPath.toPath());
 				String base64String = Base64.encodeBase64String(machinePhotoBytes);
-				String input="{\"liftCustomerMapId\":\"32\",\"photoType\":\"1\",\"machinePhoto\":\""+base64String+"\"}";
+				String input="{\"liftCustomerMapId\":\"7\",\"photoType\":\"1\",\"machinePhoto\":\""+base64String+"\"}";
 				
 				OutputStream os = conn.getOutputStream();
 				os.write(input.getBytes());

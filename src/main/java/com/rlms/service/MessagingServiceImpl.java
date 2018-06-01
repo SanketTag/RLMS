@@ -1,7 +1,10 @@
 package com.rlms.service;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -9,13 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.ehcache.util.PropertyUtil;
+import javax.annotation.Resource;
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.SmackException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,14 +43,6 @@ import com.telesist.email.EmailService;
 import com.telesist.email.MailDTO;
 import com.telesist.xmpp.AndroidNotificationService;
 import com.telesist.xmpp.FCMMessaging;
-
-import javax.annotation.Resource;
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 
 @Service("MessagingService")
@@ -261,10 +263,71 @@ public class MessagingServiceImpl implements MessagingService{
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void sendNotification(String appRegId, Map<String, String> dataPayload) throws SmackException, IOException{
-		String fcmProjectSenderId = PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_PROJECT_SENDER_ID.getMessage());
-		String fcmServerKey = PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_SERVER_KEY.getMessage());
-		this.androidNotificationService.sendNotification(appRegId, dataPayload, fcmProjectSenderId, fcmServerKey);
+	public void sendUserNotification(String appRegId, JSONObject dataPayload) throws SmackException, IOException{
+	//	String fcmProjectSenderId = PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_PROJECT_SENDER_ID.getMessage());
+	//	String fcmServerKey = PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_SERVER_KEY.getMessage());
+		String fcmApiUrl =PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_API_URL.getMessage());
+		String authKey =PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_USER_APP_AUTH_KEY.getMessage());
+		JSONObject json = new JSONObject();
+    	try {
+				json.put("to",appRegId);
+				json.put("notification", dataPayload);
+				json.put("priority", "high");
+			//	json.put("data",jsonObject);
+				json.put("content_available", true);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			pushFCMNotification(json,fcmApiUrl,authKey);
+		//	this.androidNotificationService.sendNotification(appRegId, dataPayload, fcmProjectSenderId, fcmServerKey);
 	}
+	
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void sendTechnicianNotification(String appRegId, JSONObject dataPayload) throws SmackException, IOException{
+	//	String fcmProjectSenderId = PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_PROJECT_SENDER_ID.getMessage());
+	//	String fcmServerKey = PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_SERVER_KEY.getMessage());
+		String fcmApiUrl =PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_API_URL.getMessage());
+		String authKey =PropertyUtils.getPrpertyFromContext(XMPPServerDetails.FCM_TECH_APP_AUTH_KEY.getMessage());
+		JSONObject json = new JSONObject();
+    	try {
+				json.put("to",appRegId);
+				json.put("notification", dataPayload);
+				json.put("priority", "high");
+			//	json.put("data",jsonObject);
+				json.put("content_available", true);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			pushFCMNotification(json,fcmApiUrl,authKey);
+	
+	//	this.androidNotificationService.sendNotification(appRegId, dataPayload, fcmProjectSenderId, fcmServerKey);
+	}
+	
+	public static void pushFCMNotification(JSONObject json,String fcmApiUrl,String authKey) {
+		log.trace("::start::FirebaseUtil:::::pushFCMNotification:::");
+		try {
+
+			URL url = new URL(fcmApiUrl);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setUseCaches(false);
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Authorization", "key="+authKey);
+			conn.setRequestProperty("Content-Type", "application/json");
+			OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+			log.debug("Json Sending To User Mobile Phones" + json.toString());
+			System.out.println(json.toString());
+			wr.write(json.toString());
+			log.info("Write json.string");
+			wr.flush();
+			log.info("Flush writer");
+			conn.getInputStream();
+			log.info("conn.getInputStream()");
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.error("::Error::::pushFCMNotification:::", e);
+		}
+	}
 }

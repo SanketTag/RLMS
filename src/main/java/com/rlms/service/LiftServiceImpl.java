@@ -1,9 +1,12 @@
 package com.rlms.service;
 
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +23,11 @@ import com.rlms.constants.Status;
 import com.rlms.contract.AMCDetailsDto;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
+import com.rlms.contract.ResponseDto;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.dao.BranchDao;
 import com.rlms.dao.CustomerDao;
+import com.rlms.dao.DashboardDao;
 import com.rlms.dao.FyaDao;
 import com.rlms.dao.LiftDao;
 import com.rlms.dao.UserRoleDao;
@@ -71,28 +76,17 @@ public class LiftServiceImpl implements LiftService{
 		}
 		return liftsForBranch;
 	}
-	@Transactional(propagation = Propagation.REQUIRED)
-	public List<LiftDtlsDto> getAllLiftsForTechnician(Integer userRoleId){
-		List<LiftDtlsDto> listOfDtos = new ArrayList<LiftDtlsDto>();
-		RlmsUserRoles userRole = this.userRoleDao.getUserRole(userRoleId);
-		List<RlmsLiftCustomerMap> listOfLifts = this.getAllLiftsForBranch(userRole.getRlmsCompanyBranchMapDtls().getCompanyBranchMapId());
-		for (RlmsLiftCustomerMap rlmsLiftCustomerMap : listOfLifts) {
-			LiftDtlsDto dto = new LiftDtlsDto();
-			dto.setLiftId(rlmsLiftCustomerMap.getLiftMaster().getLiftId());
-			dto.setLiftNumber(rlmsLiftCustomerMap.getLiftMaster().getLiftNumber());
-			dto.setLiftCustomerMapId(rlmsLiftCustomerMap.getLiftCustomerMapId());
-			listOfDtos.add(dto);
-		}
-		return listOfDtos;
-	}
 	
+	@SuppressWarnings("unused")
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
-	public String validateAndAddNewLiftDtls(LiftDtlsDto dto, UserMetaInfo metaInfo) throws ParseException{
+	public ResponseDto validateAndAddNewLiftDtls(LiftDtlsDto dto, UserMetaInfo metaInfo) throws ParseException{
+		ResponseDto ResponseDto = new ResponseDto();
+	    RlmsLiftMaster liftMaster = liftDao.getLiftByLiftNumber(dto.getLiftNumber());
+	   if(liftMaster==null) {
 		RlmsLiftMaster liftM = this.constructLiftMaster(dto, metaInfo);
 		Integer liftId = this.liftDao.saveLiftM(liftM);
 		liftM.setLiftId(liftId);
-		
 		
 		RlmsLiftCustomerMap liftCustomerMap = this.constructLiftCustomerMap(liftM, dto, metaInfo);
 		Integer liftCustomerMapID = this.liftDao.saveLiftCustomerMap(liftCustomerMap);
@@ -103,20 +97,29 @@ public class LiftServiceImpl implements LiftService{
 		
 		RlmsFyaTranDtls fyaTranDtls = this.constructFyaTranDtls(liftCustomerMap, metaInfo);
 		this.fyaDao.saveFyaTranDtls(fyaTranDtls);
-		return PropertyUtils.getPrpertyFromContext(RlmsErrorType.LIFT_ADDED_SUCCESSFULLY.getMessage());
-		
+		ResponseDto.setStatus(true);
+		ResponseDto.setResponse(RlmsErrorType.LIFT_ADDED_SUCCESSFULLY.getMessage());
+		return ResponseDto;
+
+	     }
+		ResponseDto.setStatus(true);
+		ResponseDto.setResponse("Duplicate lift number");
+    	return ResponseDto;
 	}
 	
 	private AMCDetailsDto constructAMCDtlsDto(RlmsLiftCustomerMap liftCustomerMap){
 		AMCDetailsDto dto = new AMCDetailsDto();
+		if(liftCustomerMap.getLiftMaster().getAmcStartDate()!=null) {
 		dto.setAmcAmount(liftCustomerMap.getLiftMaster().getAmcAmount());
 		dto.setAmcStartDate(DateUtils.convertDateToStringWithoutTime(liftCustomerMap.getLiftMaster().getAmcStartDate()));
 		dto.setAmcEndDate(DateUtils.convertDateToStringWithoutTime(liftCustomerMap.getLiftMaster().getAmcEndDate()));
 		Date amcDueDate = DateUtils.addDaysToDate(liftCustomerMap.getLiftMaster().getAmcEndDate(), -30);
 		dto.setAmcDueDate(amcDueDate);
+		dto.setAmcType(liftCustomerMap.getLiftMaster().getAmcType());
+		}
 		dto.setLiftCustoMapId(liftCustomerMap.getLiftCustomerMapId());
 		dto.setLiftNumber(liftCustomerMap.getLiftMaster().getLiftNumber());
-		dto.setAmcType(liftCustomerMap.getLiftMaster().getAmcType());
+		
 		return dto;
 		
 	}
@@ -207,11 +210,11 @@ public class LiftServiceImpl implements LiftService{
 		liftM.setCreatedDate(new Date());
 		liftM.setAmcEndDate(dto.getAmcEndDate());
 		liftM.setAmcType(dto.getAmcType());
-		liftM.setLiftImei(dto.getLiftImei());
-		return liftM;
+		liftM.setImei(dto.getImei());
+		liftM.setLmsEventContactNumber(dto.getLmsEventFromContactNo());
 		
+		return liftM;
 	}
-	
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<LiftDtlsDto> getLiftsToBeApproved(){
@@ -259,7 +262,6 @@ public class LiftServiceImpl implements LiftService{
 		for (RlmsLiftCustomerMap liftCustomerMap : listOFAllLifts) {
 			RlmsLiftMaster liftM = liftCustomerMap.getLiftMaster();
 			LiftDtlsDto dto = new LiftDtlsDto();
-			dto.setLiftId(liftM.getLiftId());
 			dto.setAccessControl(liftM.getAccessControl());
 			dto.setAddress(liftM.getAddress());
 			dto.setArea(liftM.getArea());
@@ -443,99 +445,6 @@ public class LiftServiceImpl implements LiftService{
 	public String updateLiftDetails(LiftDtlsDto dto, UserMetaInfo userMetaInfo){
 		RlmsLiftCustomerMap liftCustomerMap = this.liftDao.getLiftCustomerMapById(dto.getLiftCustomerMapId());
 		RlmsLiftMaster liftMaster = liftCustomerMap.getLiftMaster();
-		
-		if(null != dto.getAccessControl() && !dto.getAccessControl().isEmpty()){
-			liftMaster.setAccessControl(dto.getAccessControl());
-		}
-		if(null != dto.getAddress() && !dto.getAddress().isEmpty()){
-			liftMaster.setAddress(dto.getAddress());
-		}
-		if(null != dto.getAlarm()){
-			liftMaster.setAlarm(dto.getAlarm());
-		}
-		if(null != dto.getAmcType()){
-			liftMaster.setAmcType(dto.getAmcType());
-		}
-		if(null != dto.getCollectiveType()){
-			liftMaster.setCollectiveType(dto.getCollectiveType());
-		}
-		if(null != dto.getEngineType()){
-			liftMaster.setEngineType(dto.getEngineType());
-		}
-		if(null != dto.getFireMode()){
-			liftMaster.setFireMode(dto.getFireMode());
-		}
-		if(null != dto.getLiftType()){
-			liftMaster.setLiftType(dto.getLiftType());
-		}
-		if(null != dto.getNoOfBatteries()){
-			liftMaster.setNoOfBatteries(dto.getNoOfBatteries());
-		}
-		if(null != dto.getSimplexDuplex()){
-			liftMaster.setSimplexDuplex(dto.getSimplexDuplex());
-		}
-		if(null != dto.getWiringShceme()){
-			liftMaster.setWiringShceme(dto.getWiringShceme());
-		}
-		if(null != dto.getAmcEndDate()){
-			liftMaster.setAmcEndDate(dto.getAmcEndDate());
-		}
-		if(null != dto.getAmcStartDate()){
-			liftMaster.setAmcStartDate(dto.getAmcStartDate());
-		}
-		if(null != dto.getArdPhoto()){
-			liftMaster.setARDPhoto(dto.getArdPhoto());
-		}
-		if(null != dto.getAutoDoorHeaderPhoto()){
-			liftMaster.setAutoDoorHeaderPhoto(dto.getAutoDoorHeaderPhoto());
-		}
-		if(null != dto.getAutoDoorMake() && !dto.getAutoDoorMake().isEmpty()){
-			liftMaster.setAutoDoorMake(dto.getAutoDoorMake());
-		}
-		
-		if(null != dto.getBatteryCapacity() && !dto.getBatteryCapacity().isEmpty()){
-			liftMaster.setBatteryCapacity(dto.getBatteryCapacity());
-		}
-		if(null != dto.getBatteryMake() && !dto.getBatteryCapacity().isEmpty()){
-			liftMaster.setBatteryCapacity(dto.getBatteryCapacity());
-		}
-		if(null != dto.getBatteryMake() && !dto.getBatteryMake().isEmpty()){
-			liftMaster.setBatteryMake(dto.getBatteryMake());
-		}
-		if(null != dto.getCartopPhoto()){
-			liftMaster.setCartopPhoto(dto.getCartopPhoto());
-		}
-		if(null != dto.getCopPhoto()){
-			liftMaster.setCOPPhoto(dto.getCopPhoto());
-		}
-		if(null != dto.getDateOfInstallation()){
-			liftMaster.setDateOfInstallation(dto.getDateOfInstallation());
-		}
-		if(null != dto.getIntercomm() && !dto.getIntercomm().isEmpty()){
-			liftMaster.setIntercomm(dto.getIntercomm());
-		}
-		if(null != dto.getLiftImei() && !dto.getLiftImei().isEmpty()){
-			liftMaster.setLiftImei(dto.getLiftImei());
-		}
-		if(null != dto.getLiftNumber() && !dto.getLiftNumber().isEmpty()){
-			liftMaster.setLiftNumber(dto.getLiftNumber());
-		}
-		if(null != dto.getLobbyPhoto()){
-			liftMaster.setLobbyPhoto(dto.getLobbyPhoto());
-		}
-		if(null != dto.getLopPhoto()){
-			liftMaster.setLOPPhoto(dto.getLopPhoto());
-		}
-		if(null != dto.getPanelPhoto()){
-			liftMaster.setPanelPhoto(dto.getPanelPhoto());
-		}
-		if(null != dto.getServiceEndDate()){
-			liftMaster.setServiceEndDate(dto.getServiceEndDate());
-		}
-		if(null != dto.getServiceStartDate()){
-			liftMaster.setServiceStartDate(dto.getServiceStartDate());
-		}
-		
 		if(!StringUtils.isEmpty(dto.getArea())){
 			liftMaster.setArea(dto.getArea());			
 		}if(!StringUtils.isEmpty(dto.getCity())){
@@ -589,205 +498,10 @@ public class LiftServiceImpl implements LiftService{
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void updateLiftParams(RlmsLiftMaster liftMaster){
-		
-		RlmsLiftMaster liftM = this.liftDao.getLiftById(liftMaster.getLiftId());
-		
-		if(null != liftM){
-			if(null != liftMaster.getAccessControl() && !liftMaster.getAccessControl().isEmpty()){
-				liftM.setAccessControl(liftMaster.getAccessControl());
-			}
-			
-			if(null != liftMaster.getAlarm() ){
-				liftM.setAlarm(liftMaster.getAlarm());
-			}
-			
-			if(null != liftMaster.getAmcType()){
-				liftM.setAmcType(liftMaster.getAmcType());
-			}
-			
-			if(null != liftMaster.getCollectiveType()){
-				liftM.setCollectiveType(liftMaster.getCollectiveType());
-			}
-			
-			if(null != liftMaster.getDoorType() ){
-				liftM.setDoorType(liftMaster.getDoorType());
-			}
-			
-			if(null != liftMaster.getEngineType()){
-				liftM.setEngineType(liftMaster.getEngineType());
-			}
-			
-			if(null != liftMaster.getFireMode()){
-				liftM.setFireMode(liftMaster.getFireMode());
-			}
-			
-			if(null != liftMaster.getLiftType()){
-				liftM.setLiftType(liftMaster.getLiftType());
-			}
-			
-			if(null != liftMaster.getNoOfBatteries()){
-				liftM.setNoOfBatteries(liftMaster.getNoOfBatteries());
-			}
-			
-			
-			if(null != liftMaster.getPincode()){
-				liftM.setPincode(liftMaster.getPincode());
-			}
-			
-			
-			if(null != liftMaster.getSimplexDuplex()){
-				liftM.setSimplexDuplex(liftMaster.getSimplexDuplex());
-			}
-			
-			
-			if(null != liftMaster.getStatus()){
-				liftM.setStatus(liftMaster.getStatus());
-			}
-			
-			if(null != liftMaster.getWiringShceme()){
-				liftM.setWiringShceme(liftMaster.getWiringShceme());
-			}
-			if(null != liftMaster.getAddress() && !liftMaster.getAddress().isEmpty()){
-				liftM.setAddress(liftMaster.getAddress());
-			}
-			if(null != liftMaster.getAlarmBattery() && !liftMaster.getAlarmBattery().isEmpty()){
-				liftM.setAlarmBattery(liftMaster.getAlarmBattery());
-			}
-			if(null != liftMaster.getAmcAmount()){
-				liftM.setAmcAmount(liftMaster.getAmcAmount());
-			}
-			if(null != liftMaster.getAmcEndDate()){
-				liftM.setAmcEndDate(liftMaster.getAmcEndDate());
-			}
-			if(null != liftMaster.getAmcStartDate()){
-				liftM.setAmcStartDate(liftMaster.getAmcStartDate());
-			}
-			if(null != liftMaster.getARD() && !liftMaster.getARD().isEmpty() ){
-				liftM.setARD(liftMaster.getARD());
-			}
-			if(null != liftMaster.getARDPhoto()){
-				liftM.setARDPhoto(liftMaster.getARDPhoto());
-			}
-			if(null != liftMaster.getArea() && !liftMaster.getArea().isEmpty()){
-				liftM.setArea(liftMaster.getArea());
-			}
-			if(null != liftMaster.getAutoDoorHeaderPhoto()){
-				liftM.setAutoDoorHeaderPhoto(liftMaster.getAutoDoorHeaderPhoto());
-			}
-			if(null != liftMaster.getAutoDoorMake() && !liftMaster.getAutoDoorMake().isEmpty()){
-				liftM.setAutoDoorMake(liftMaster.getAutoDoorMake());
-			}
-			if(null != liftMaster.getBatteryCapacity() && !liftMaster.getBatteryCapacity().isEmpty()){
-				liftM.setBatteryCapacity(liftMaster.getBatteryCapacity());
-			}
-			
-			if(null != liftMaster.getBatteryMake() && !liftMaster.getBatteryMake().isEmpty()){
-				liftM.setBatteryMake(liftMaster.getBatteryMake());
-			}
-			if(null != liftMaster.getBreakVoltage() && !liftMaster.getBreakVoltage().isEmpty()){
-				liftM.setBreakVoltage(liftMaster.getBreakVoltage());
-			}
-			if(null != liftMaster.getCartopPhoto()){
-				liftM.setCartopPhoto(liftMaster.getCartopPhoto());
-			}
-			if(null != liftMaster.getCity() && !liftMaster.getCity().isEmpty()){
-				liftM.setCity(liftMaster.getCity());
-			}
-			if(null != liftMaster.getCOPMake() && !liftMaster.getCOPMake().isEmpty()){
-				liftM.setCOPMake(liftMaster.getCOPMake());
-			}
-			if(null != liftMaster.getCOPPhoto()){
-				liftM.setCOPPhoto(liftMaster.getCOPPhoto());
-			}
-			if(null != liftMaster.getDateOfInstallation()){
-				liftM.setDateOfInstallation(liftMaster.getDateOfInstallation());
-			}
-			
-			if(null != liftMaster.getIntercomm() && !liftMaster.getIntercomm().isEmpty()){
-				liftM.setIntercomm(liftMaster.getIntercomm());
-			}
-			if(null != liftMaster.getLatitude() && !liftMaster.getLatitude().isEmpty()){
-				liftM.setLatitude(liftMaster.getLatitude());
-			}
-			
-			
-			if(null != liftMaster.getLiftNumber() && !liftMaster.getLiftNumber().isEmpty()){
-				liftM.setLiftNumber(liftMaster.getLiftNumber());
-			}
-			
-			
-			if(null != liftMaster.getLobbyPhoto()){
-				liftM.setLobbyPhoto(liftMaster.getLobbyPhoto());
-			}
-			
-			if(null != liftMaster.getLongitude() && !liftMaster.getLongitude().isEmpty()){
-				liftM.setLongitude(liftMaster.getLongitude());
-			}
-			if(null != liftMaster.getLOPMake() && !liftMaster.getLOPMake().isEmpty()){
-				liftM.setLOPMake(liftMaster.getLOPMake());
-			}
-			if(null != liftMaster.getLOPPhoto()){
-				liftM.setLOPPhoto(liftMaster.getLOPPhoto());
-			}
-			if(null != liftMaster.getMachineCapacity() && !liftMaster.getMachineCapacity().isEmpty()){
-				liftM.setMachineCapacity(liftMaster.getMachineCapacity());
-			}
-			if(null != liftMaster.getMachineCurrent() && !liftMaster.getMachineCurrent().isEmpty()){
-				liftM.setMachineCurrent(liftMaster.getMachineCurrent());
-			}
-			if(null != liftMaster.getMachineMake() && !liftMaster.getMachineMake().isEmpty()){
-				liftM.setMachineMake(liftMaster.getMachineMake());
-			}
-			if(null != liftMaster.getMachinePhoto()){
-				liftM.setMachinePhoto(liftMaster.getMachinePhoto());
-			}
-			
-			if(null != liftMaster.getNoOfStops() && !liftMaster.getNoOfStops().isEmpty()){
-				liftM.setNoOfStops(liftMaster.getNoOfStops());
-			}
-			if(null != liftMaster.getPanelMake() && !liftMaster.getPanelMake().isEmpty()){
-				liftM.setPanelMake(liftMaster.getPanelMake());
-			}
-			if(null != liftMaster.getPanelPhoto()){
-				liftM.setPanelPhoto(liftMaster.getPanelPhoto());
-			}
-			if(null != liftMaster.getServiceEndDate()){
-				liftM.setServiceEndDate(liftMaster.getServiceEndDate());
-			}
-			if(null != liftMaster.getServiceStartDate()){
-				liftM.setServiceStartDate(liftMaster.getServiceStartDate());
-			}
-			
-			if(null != liftMaster.getWiringPhoto() ){
-				liftM.setWiringPhoto(liftMaster.getWiringPhoto());
-			}
-			
-			if(null != liftMaster.getLiftImei() ){
-				liftM.setLiftImei(liftMaster.getLiftImei());
-			}
-			
-			
-			this.liftDao.mergeLiftM(liftM);
-			
-			}
-			
-			
-		
-	   
-		
-	}
-	
-	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer mergeLiftM(RlmsLiftMaster liftMaster){
-		return this.liftDao.mergeLiftM(liftMaster);
-	}
-	
-	
-	@Transactional(propagation = Propagation.REQUIRED)
 	public List<LiftDtlsDto> getLiftStatusForBranch(List<Integer> companyBranchIds, UserMetaInfo metaInfo){
 		List<RlmsLiftCustomerMap> listOFAllLifts = this.liftDao.getAllLiftsStatusForBranchs(companyBranchIds);
 		List<LiftDtlsDto> listOfAllDtos = new ArrayList<LiftDtlsDto>();
+		Set<RlmsBranchCustomerMap> branchCustomerMapIdList = new HashSet<RlmsBranchCustomerMap>();
 		for (RlmsLiftCustomerMap liftCustomerMap : listOFAllLifts) {
 			RlmsLiftMaster liftM = liftCustomerMap.getLiftMaster();
 			LiftDtlsDto dto = new LiftDtlsDto();
@@ -829,14 +543,38 @@ public class LiftServiceImpl implements LiftService{
 			dto.setLiftId(liftM.getLiftId());
 			listOfAllDtos.add(dto);
 		}
-		
 		return listOfAllDtos;
 		
 	}
-	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public RlmsLiftMaster getLiftById(Integer liftId){
-		return this.liftDao.getLiftById(liftId);
+	public List<LiftDtlsDto> getLiftCountForBranch(List<Integer> companyBranchIds, UserMetaInfo metaInfo){
+		List<RlmsLiftCustomerMap> listOFAllLifts = this.liftDao.getAllLiftsStatusForBranchs(companyBranchIds);
+		List<LiftDtlsDto> listOfAllDtos = new ArrayList<LiftDtlsDto>();
+		Set<RlmsBranchCustomerMap> branchCustomerMapIdList = new HashSet<RlmsBranchCustomerMap>();
+		for (RlmsLiftCustomerMap liftCustomerMap : listOFAllLifts) {
+			//new code
+			branchCustomerMapIdList.add(liftCustomerMap.getBranchCustomerMap());
+		}
+		for (RlmsBranchCustomerMap rlmsBranchCustomerMap : branchCustomerMapIdList) {
+			   List<Object []> liftCountObj =  liftDao.liftCountByBranchCustomerMapId(rlmsBranchCustomerMap.getBranchCustoMapId());
+		
+		            for (Object[] objects : liftCountObj) {
+		            	//RlmsLiftMaster liftMaster = new RlmsLiftMaster();
+		    			LiftDtlsDto dto = new LiftDtlsDto();
+
+		            	RlmsBranchCustomerMap  branchCustomerMap = new RlmsBranchCustomerMap();
+		            	BigInteger liftCount =  (BigInteger) objects[1];
+		            	
+		            	branchCustomerMap = liftDao.getBranchCustomerMapByBranchCustomerMapId((int)objects[0]);
+		            	dto.setBranchName(branchCustomerMap.getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());
+		            	dto.setCustomerName(branchCustomerMap.getCustomerMaster().getCustomerName());
+		            	dto.setCity(branchCustomerMap.getCustomerMaster().getCity());
+		            	dto.setTotalLiftCountForCustomer(liftCount);
+     	            	listOfAllDtos.add(dto);
+                         }
+			}
+        return listOfAllDtos;
+		
 	}
 	
 }

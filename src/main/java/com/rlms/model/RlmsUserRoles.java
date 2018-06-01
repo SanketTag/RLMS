@@ -179,7 +179,7 @@ public class RlmsUserRoles implements java.io.Serializable {
 		this.rlmsCompanyBranchMapDtls = rlmsCompanyBranchMapDtls;
 	}
 	
-	/*@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "user_app_map_id")
 	public RlmsUserApplicationMapDtls getRlmsUserApplicationMapDetails() {
 		return rlmsUserApplicationMapDtls;
@@ -188,6 +188,6 @@ public class RlmsUserRoles implements java.io.Serializable {
 	public void setRlmsUserApplicationMapDetails(
 			RlmsUserApplicationMapDtls rlmsUserApplicationMapDtls) {
 		this.rlmsUserApplicationMapDtls = rlmsUserApplicationMapDtls;
-	}*/
+	}
 
 }

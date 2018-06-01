@@ -2,8 +2,10 @@ angular
   .module('theme.core.navigation_controller', ['theme.core.services'])
   .controller('NavigationController', ['$scope', '$location', '$timeout','$rootScope', function($scope, $location, $timeout,$rootScope) {
     'use strict';
-    $scope.menu = [ {
-	        label: 'Dashboard',
+  
+    $scope.menu = [
+        	{
+           label: 'Dashboard',
 	        iconClasses: 'glyphicon glyphicon-home',
 	        url: '#/index'
    	      },{
@@ -44,10 +46,10 @@ angular
    	      ]
    	    },
    	    {
- 	      label: 'Operations',
+ 	      label: 'Complaints',
    	      iconClasses: 'glyphicon glyphicon-user ',
    	      children: [{
-   	          label: 'Manage Operations',
+   	          label: 'Manage Complaint',
    	          url: '#/complaint-management'
    	      }
    	      ]
@@ -83,9 +85,7 @@ angular
    	      }]
    	    }
 ];
-
-
-    var setParent = function(children, parent) {
+     var setParent = function(children, parent) {
       angular.forEach(children, function(child) {
         child.parent = parent;
         if (child.children !== undefined) {

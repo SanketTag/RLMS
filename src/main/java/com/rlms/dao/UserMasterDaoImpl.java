@@ -21,6 +21,8 @@ import com.rlms.model.RlmsUsersMaster;
 
 @Repository("cbUserMasterDao")
 public class UserMasterDaoImpl implements
+
+
 UserMasterDao{
    
 	@Autowired

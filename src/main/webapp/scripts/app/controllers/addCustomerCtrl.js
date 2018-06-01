@@ -1,12 +1,13 @@
 (function () {
     'use strict';
 	angular.module('rlmsApp')
-	.controller('addCustomerCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window', function($scope, $filter,serviceApi,$route,utility,$window) {
+	.controller('addCustomerCtrl', ['$scope', '$filter','serviceApi','$route','utility','$window','$rootScope', function($scope, $filter,serviceApi,$route,utility,$window,$rootScope) {
 	initAddCustomer();
 			loadCompayInfo();
-			$scope.alert = { type: 'success', msg: 'You successfully Added Customer.',close:true };
-			//loadBranchListInfo();
+			$scope.alert = { type: 'success', msg: 'You successfully Added Customer.',close:true };			
 			$scope.showAlert = false;
+			$scope.showCompany=false;
+			$scope.showBranch=false;
 			$scope.companies = [];
 			$scope.branches = [];
 			function initAddCustomer(){
@@ -42,6 +43,7 @@
 						watchmenName :'',
 						watchmenNumber :'',
 						watchmenEmail :'',
+					//	gstNumber:'',
 						
 						
 				};	
@@ -51,11 +53,11 @@
 						id:15
 					},
 					{
-						name:"COMMERTIAL",
+						name:"COMMERCIAL",
 						id:16
 					},
 					{
-						name:"BUNGLO",
+						name:"BUNGLOW",
 						id:17
 					},
 					{
@@ -72,6 +74,7 @@
 					}
 				]
 			}
+			
 			//load compay dropdown data
 			function loadCompayInfo(){
 				serviceApi.doPostWithoutData('/RLMS/admin/getAllApplicableCompanies')
@@ -79,19 +82,39 @@
 			    		$scope.companies = response;
 			    });
 			};
+			
 			$scope.loadBranchData = function(){
-				var data = {
-					companyId : $scope.selectedCompany.selected.companyId
-				}
-			    serviceApi.doPostWithData('/RLMS/admin/getAllBranchesForCompany',data)
+				var companyData={};
+				if($scope.showCompany == true){
+	  	    		companyData = {
+							companyId : $scope.selectedCompany.selected!=undefined?$scope.selectedCompany.selected.companyId:0
+						}
+	  	    	}else{
+	  	    		companyData = {
+							companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+						}
+	  	    	}
+			    serviceApi.doPostWithData('/RLMS/admin/getAllBranchesForCompany',companyData)
 			    .then(function(response){
 			    	$scope.branches = response;
-			    	
+			    	$scope.selectedBranch.selected = undefined;
+			    	$scope.selectedCustomer.selected = undefined;
+			    	var emptyArray=[];
+			    	$scope.myData = emptyArray;
 			    });
 			}
+			
+			if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+				$scope.showCompany= true;
+				loadCompanyData();
+			}else{
+				$scope.showCompany= false;
+				$scope.loadBranchData();
+			}		  			
+			
 			//Post call add customer
 			$scope.submitAddCustomer = function(){
-				$scope.addCustomer.companyName = $scope.selectedCompany.selected.companyName;
+				//$scope.addCustomer.companyName = $scope.selectedCompany.selected.companyName;
 				$scope.addCustomer.branchName = $scope.selectedBranch.selected.rlmsBranchMaster.branchName;
 				$scope.addCustomer.branchCompanyMapId = $scope.selectedBranch.selected.companyBranchMapId;
 				$scope.addCustomer.customerType =$scope.selectedCustomerTypes.selected.id;

@@ -269,41 +269,42 @@
 	  	      filterOptions: $scope.filterOptions,
 	  	      multiSelect: false,
 	  	      gridFooterHeight:35,
-	  	      columnDefs : [ {
+	  	    columnDefs : [ {
 				field : "Name",
-				displayName:"Name"
-			}, {
-				field : "Company",
-				displayName:"Company"
-			}, {
-				field : "Contact_Number",
-				displayName:"Contact_Number"
-			}, {
+				displayName:"Name",
+				width: "160"
+			},{
 				field : "Address",
-				displayName:"Address"
-			}
-			, {
-				field : "City",
-				displayName:"City"
+				displayName:"Address",
+				width: "160"
 			}, {
 				field : "Branch",
-				displayName:"Branch"
-			}
-			, {
+				displayName:"Branch",
+				width: "160"
+			},{
+				field : "City",
+				displayName:"City",
+				width: "140"
+			},{
 				field : "Role",
-				displayName:"Role"
-			}
-			, {
+				displayName:"Role",
+				width: "170"
+			},{
+				field : "Contact_Number",
+				displayName:"Contact Number",
+				width: "170"
+			},  {
 				field : "Email_Id",
-				displayName:"Email_Id"
+				displayName:"Email_Id",
+				width: "190"
 			},{
 				cellTemplate :  
-		             '<button ng-click="$event.stopPropagation(); editThisUser(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
-				width : 30
+		             '<button ng-click="$event.stopPropagation(); editThisUser(row.entity);" title="Edit" style="margin-top: 6px;height: 38px;width: 38px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
+				width : 40
 			},{
 				cellTemplate :  
-		             '<button ng-click="$event.stopPropagation(); deleteUserDetails(row.entity);" title="Delete" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-remove"></span></button>',
-				width : 30
+		             '<button ng-click="$event.stopPropagation(); deleteUserDetails(row.entity);" title="Delete" style="margin-top: 6px;height: 38px;width: 38px;" class="btn-sky"><span class="glyphicon glyphicon-remove"></span></button>',
+				width : 40
 			}
 			]
 	  	    };

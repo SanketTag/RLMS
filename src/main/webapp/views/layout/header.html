@@ -19,7 +19,7 @@
 
 
 	<div class="navbar-header pull-left">
-		<a class="navbar-brand" href="#/">Inditech</a>
+			<a class="navbar-brand" href="#/">Inditech</a>
 	</div>
 
 <!-- 	<div id="search-inline"
@@ -33,14 +33,36 @@
 			<i class="glyphicon glyphicon-remove remove visible-xs-inline-block" ng-click="toggleSearchBar($event)"></i>
 		</div>
 	</div> -->
+	
+	<!-- 
+	
+	<ul class="nav navbar-nav pull-left toolbar">
+	 <li>
+	  		<a href ="#" id="inditechImg"><img src="http://inditechsystems.com/wp-content/uploads/2017/05/NewLogo17-2.png" alt="inditech" /></a>
+	  
+	  </li>
+	  </ul> -->
 
 	<ul class="nav navbar-nav pull-right toolbar">
 	  <li class="dropdown" ng-show="!isLoggedIn">
 		<a href="#/extras-login2" style="font-size: 14px"><i class="fa fa-sign-in"></i> Log in</a>
 	  </li>
+	 
+	  <li >
+	          <a href class="dropdown-toggle" data-toggle="dropdown">{{loggedInuserDetails.userName.firstName}}</a>
+	          <ul class="dropdown-menu">
+     			 	<li><a href="#">{{loggedInuserDetails.userCompany.companyName}} (Company)</a></li>
+      				<li><a href="#">{{loggedInuserDetails.userRole.roleName}}(Role)</a></li>
+      				<li><a href="#">Edit Profile <i class="pull-right glyphicon glyphicon-pencil"></i></a></li>
+		 			<li><a href="#">Account <i class="pull-right glyphicon glyphicon-user"></i></a></li>
+		 			<li><a href="#">Settings <i class="pull-right glyphicon glyphicon-cog"></i></a></li>
+      				<li><a href="login">Sign out</a></li>
+   			 </ul>
+	  </li>
 	  <li class="dropdown">
-		<a href class="dropdown-toggle username" dropdown-toggle><img src="assets/demo/avatar/dangerfield.png" alt="Dangerfield" /></a>
-		<ul class="dropdown-menu animated userinfo arrow">
+	  
+		<a href class="dropdown-toggle username" dropdown-toggle><img src="assets/demo/avatar/userIcon.png" alt="user" /></a>
+		<!-- <ul class="dropdown-menu animated userinfo arrow">
 		  <li class="userlinks">
 			<ul class="dropdown-menu">
 			  <li><a href="#">Edit Profile <i class="pull-right glyphicon glyphicon-pencil"></i></a></li>
@@ -54,7 +76,7 @@
 			  <li><a href="" class="text-right" ng-click="logOut()">Sign Out</a></li>
 			</ul>
 		  </li>
-		</ul>
+		</ul> -->
 	  </li>
 <!-- 	  <li class="dropdown hidden-xs" dropdown ng-controller="MessagesController" ng-show="isLoggedIn">
 		<a href class="dropdown-toggle" dropdown-toggle>

@@ -1,5 +1,7 @@
 package com.rlms.service;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +18,7 @@ import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.SpocRoleConstants;
 import com.rlms.contract.AddNewUserDto;
 import com.rlms.contract.CompanyDtlsDTO;
+import com.rlms.contract.CustomerCountDtls;
 import com.rlms.contract.CustomerDtlsDto;
 import com.rlms.contract.LiftDtlsDto;
 import com.rlms.contract.MemberDtlsDto;
@@ -157,6 +160,19 @@ public class CustomerServiceImpl implements CustomerService{
 		List<RlmsBranchCustomerMap> listOfAllCustomers = this.customerDao.getAllCustomersForBranches(listOfApplicableBranchIds);
 		return this.constructListOfCustomerDtlsDto(listOfAllCustomers);
 	}
+	private List<CustomerCountDtls> constructListOfCustomerCountDtlsDto(List<RlmsBranchCustomerMap> listOfCustomers){
+		
+		List<CustomerCountDtls> listOFCountDtos = new ArrayList<CustomerCountDtls>();
+		CustomerCountDtls countDtls = new CustomerCountDtls();getClass();
+		for (RlmsBranchCustomerMap customerCountDtls : listOfCustomers) {
+			countDtls.setBranchName(customerCountDtls.getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());
+			countDtls.setCity(customerCountDtls.getCompanyBranchMapDtls().getRlmsBranchMaster().getCity());
+			//countDtls.setCustomerName(customerCountDtls.getCompanyBranchMapDtls().);
+			countDtls.setCustomerCount(listOfCustomers.size());
+			listOFCountDtos.add(countDtls);
+		}
+       return listOFCountDtos;
+		}
 	
 	private List<CustomerDtlsDto> constructListOfCustomerDtlsDto(List<RlmsBranchCustomerMap> listOfCustomers){
 		List<CustomerDtlsDto> listOFDtos = new ArrayList<CustomerDtlsDto>();
@@ -165,7 +181,7 @@ public class CustomerServiceImpl implements CustomerService{
 			listOfCustomer.add(branchCustomerMap.getCustomerMaster().getCustomerId());
 			CustomerDtlsDto dto = new CustomerDtlsDto();
 			List<RlmsLiftCustomerMap> listOfLifts = this.liftDao.getAllLiftsForCustomers(listOfCustomer);
-			dto.setAddress(branchCustomerMap.getCustomerMaster().getAddress() + ", " + branchCustomerMap.getCustomerMaster().getArea() + ", " + branchCustomerMap.getCustomerMaster().getCity());
+			dto.setAddress(branchCustomerMap.getCustomerMaster().getAddress());
 			dto.setArea(branchCustomerMap.getCustomerMaster().getArea());
 			dto.setCity(branchCustomerMap.getCustomerMaster().getCity());
 			dto.setPinCode(branchCustomerMap.getCustomerMaster().getPincode());
@@ -476,6 +492,11 @@ public class CustomerServiceImpl implements CustomerService{
 	public List<CustomerDtlsDto> getAllApplicableCustomersForDashboard(List<Integer> companyBranchIds, UserMetaInfo metaInfo){
 		List<RlmsBranchCustomerMap> listOfAllCustomers = this.customerDao.getAllCustomersForDashboard(companyBranchIds);
 		return this.constructListOfCustomerDtlsDto(listOfAllCustomers);
+	}
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<RlmsBranchCustomerMap> getAllApplicableCustomersCountForDashboard(List<Integer> companyBranchIds, UserMetaInfo metaInfo){
+		List<RlmsBranchCustomerMap> listOfAllCustomers = this.customerDao.getAllCustomersForDashboard(companyBranchIds);
+		return listOfAllCustomers;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)

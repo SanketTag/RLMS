@@ -18,12 +18,12 @@ public class IndexController extends BaseController{
 	    public String getIndexPage() {
 		  RlmsUserRoles userrole = this.getLoggedInUser();
 		  System.out.println(userrole.getUsername());
-	        return "index.jsp";
+	      return "index.jsp";
 	    }
 	  
 	  @RequestMapping(value="login",method = RequestMethod.GET)
 	    public String getLoginPage() {
-		 
+		 System.out.println("hello world");
 	        return "login.jsp";
 	    }
 	  

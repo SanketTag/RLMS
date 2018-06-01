@@ -28,15 +28,12 @@ public class BaseController {
     	authentication.getCredentials();
     	return this.userService.getUserByUserName(userName);
     }
-    
     public void setMetaInfo(RlmsUserRoles userRoles){
     	this.userMetaInfo = new UserMetaInfo();
     	this.userMetaInfo.setUserId(userRoles.getRlmsUserMaster().getUserId());
     	this.userMetaInfo.setUserName(userRoles.getUsername());
     	this.userMetaInfo.setUserRole(userRoles);
     }
-    
-    
     public UserMetaInfo getMetaInfo(){
     	this.setMetaInfo(this.getLoggedInUser());
     	return this.userMetaInfo;

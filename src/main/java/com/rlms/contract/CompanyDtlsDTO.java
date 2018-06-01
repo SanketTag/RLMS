@@ -154,7 +154,4 @@ public class CompanyDtlsDTO {
 	public void setActiveFlag(Integer activeFlag) {
 		this.activeFlag = activeFlag;
 	}
-	
-	
-	
 }

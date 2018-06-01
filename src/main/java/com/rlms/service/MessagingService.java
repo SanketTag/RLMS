@@ -13,6 +13,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import org.jivesoftware.smack.SmackException;
+import org.json.JSONObject;
 
 import com.rlms.exception.RunTimeException;
 import com.rlms.model.EmailTemplate;
@@ -31,7 +32,9 @@ public interface MessagingService {
 	public void sendNotification(String regId, String message, Map<String, String> dataPayload, String fcmProjectSenderId, String fcmServerKey, String messageId) throws SmackException, IOException, RunTimeException;
 	public String encrypt(String value) throws UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException;
 	public String decrypt(String encrypted) throws UnsupportedEncodingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException;
-	public void sendNotification(String appRegId, Map<String, String> dataPayload) throws SmackException, IOException;
+	public void sendUserNotification(String appRegId, JSONObject dataPayload) throws SmackException, IOException;
+	public void sendTechnicianNotification(String appRegId, JSONObject dataPayload) throws SmackException, IOException;
+
 	public void sendAMCMail(List<String> listOfDyanamicValues, List<String> toList, Integer mailTemplateId) throws UnsupportedEncodingException;
 	
 }

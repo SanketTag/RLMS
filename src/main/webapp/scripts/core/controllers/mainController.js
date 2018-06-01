@@ -1,6 +1,6 @@
 angular.module('theme.core.main_controller', ['theme.core.services'])
-  .controller('MainController', ['$scope', '$theme', '$timeout', 'progressLoader', '$location',
-    function($scope, $theme, $timeout, progressLoader, $location) {
+  .controller('MainController', ['$scope', '$theme', '$timeout', 'progressLoader', '$http','$location',
+    function($scope, $theme, $timeout, progressLoader, $http,$location) {
     'use strict';
     // $scope.layoutIsSmallScreen = false;
     $scope.layoutFixedHeader = $theme.get('fixedHeader');
@@ -237,4 +237,51 @@ angular.module('theme.core.main_controller', ['theme.core.services'])
         $scope.layoutLoading = false;
       }
     });
+    
+    $scope.loggedInuserDetails={
+    		userName:{
+    			firstName:'0',
+    			color:'white',
+    		},
+    		userCompany:{
+    			companyName:'0'
+    		},
+    		userRole:{
+    			 roleName:'0'
+    		}
+    };
+    $http({
+		  method: 'POST',
+		  url: '/RLMS/getLoggedInUser'
+		}).then(function successCallback(response) {
+			//$rootScope.loggedInUserInfoForDashboard=response;
+			/*if($rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsSpocRoleMaster.roleLevel == 1 || $rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsSpocRoleMaster.roleLevel == 2){
+				$rootScope.showDasboardForInditech= true;
+				$rootScope.showDasboardForOthers=false;
+			}else{
+				$rootScope.showDasboardForOthers=true;
+				$rootScope.showDasboardForInditech=false;
+			}*/
+			/*if($rootScope.loggedInUserInfoForDashboard.data.userRole.rlmsSpocRoleMaster.roleLevel == 2){
+				$scope.showCompanies= false;
+				$scope.showAmc=false;
+			}else{
+				$scope.showBranches=false;
+			}*/
+			 $scope.loggedInuserDetails.userName.firstName=response.data.userRole.rlmsUserMaster.firstName
+			 console.log("*****"+response.data.userRole.rlmsCompanyMaster.companyName);
+			 console.log("+++++"+response.data.userRole.rlmsSpocRoleMaster.roleName);
+			 $scope.loggedInuserDetails.userCompany.companyName=response.data.userRole.rlmsCompanyMaster.companyName;
+			
+			 $scope.loggedInuserDetails.userRole.roleName=response.data.userRole.rlmsSpocRoleMaster.roleName
+			 
+		
+/*
+			 console.log($scope.loggedInUserDetails.userName.companyName = response.data.userRole.rlmsCompanyMaster.companyName);
+
+		     console.log($scope.loggedInuserDetails.userName.firstName);*/
+		
+		}, function errorCallback(response) {
+		  });
+    
   }]);

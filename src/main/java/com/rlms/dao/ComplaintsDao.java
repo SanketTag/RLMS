@@ -13,7 +13,7 @@ public interface ComplaintsDao {
 	public List<RlmsComplaintTechMapDtls> getAllComplaintsAssigned(Integer userRoleId, List<Integer> statusList);
 	public List<RlmsComplaintMaster> getAllComplaintsForBranchOrCustomer(Integer branchCompanyMapId, Integer branchCustomerMapId, List<Integer> statusList,Integer callType);
 	public Integer saveComplaintM(RlmsComplaintMaster complaintMaster);
-	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(Integer companyId, Integer branchCompanyMapId, Integer branchCustomerMapId,List<Integer> listOfLioftIds,  List<Integer> statusList,  Date fromDate, Date toDate, Integer callType);
+	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(Integer branchCompanyMapId, Integer branchCustomerMapId,List<Integer> listOfLioftIds,  List<Integer> statusList,  Date fromDate, Date toDate, Integer callType);
 	public RlmsComplaintTechMapDtls getComplTechMapObjByComplaintId(Integer complaintId);
 	public RlmsComplaintMaster getComplaintMasterObj(Integer complaintId,Integer callType);
 	public void saveComplaintTechMapDtls(RlmsComplaintTechMapDtls complaintTechMapDtls);

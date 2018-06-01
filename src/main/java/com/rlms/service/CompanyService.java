@@ -7,10 +7,8 @@ import com.rlms.contract.CompanyDtlsDTO;
 import com.rlms.contract.UserMetaInfo;
 import com.rlms.exception.ValidationException;
 import com.rlms.model.RlmsBranchCustomerMap;
-import com.rlms.model.RlmsBranchMaster;
 import com.rlms.model.RlmsCompanyBranchMapDtls;
 import com.rlms.model.RlmsCompanyMaster;
-import com.rlms.model.RlmsCompanyRoleMap;
 
 public interface CompanyService {
 
@@ -42,7 +40,5 @@ public interface CompanyService {
 	public String editBranchInCompany(BranchDtlsDto dto,UserMetaInfo userMetaInfo);
 	
 	public List<CompanyDtlsDTO> getAllCompanyDetailsForDashboard(UserMetaInfo metaInfo);
-	
-	public List<RlmsCompanyBranchMapDtls> getAllApplicableBranches(Integer companyId, Integer branchId);
 	
 }

@@ -18,9 +18,6 @@ import javax.persistence.Table;
 @Table(name = "rlms_company_branch_map")
 public class RlmsCompanyBranchMapDtls implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Integer companyBranchMapId;
 	private RlmsBranchMaster rlmsBranchMaster;
@@ -34,7 +31,6 @@ public class RlmsCompanyBranchMapDtls implements Serializable{
 	
 	public RlmsCompanyBranchMapDtls() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Id
@@ -121,6 +117,5 @@ public class RlmsCompanyBranchMapDtls implements Serializable{
 	public void setUpdatedBy(Integer updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	
 	
 }

@@ -13,8 +13,9 @@ public enum RLMSConstants {
 	MEMBER_TYPE(34,"Member Type"),
 	MINUS_ONE(-1, "Minus One"),
 	NA(10, "NA"),
-	ZERO(0,"Zero"),
-	EVENT_BY_LIFT(0,"Event By Lift");
+	ZERO(0,"Zero");
+	
+	
 	private Integer id;
 	private String name;
 	

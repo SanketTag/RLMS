@@ -42,26 +42,7 @@ public class BranchDaoImpl implements BranchDao{
 	public List<RlmsCompanyBranchMapDtls> getAllBranches(Integer companyId){
 		Session session = this.sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(RlmsCompanyBranchMapDtls.class);
-		if(null != companyId && 1 != companyId){
-			criteria.add(Restrictions.eq("rlmsCompanyMaster.companyId", companyId));
-		}
-		criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
-		List<RlmsCompanyBranchMapDtls> listOfAllBranches = criteria.list();
-		return listOfAllBranches;
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	public List<RlmsCompanyBranchMapDtls> getAllBranches(Integer companyId, Integer branchId){
-		Session session = this.sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(RlmsCompanyBranchMapDtls.class);
-		if(null != companyId && 1 != companyId){
-			criteria.add(Restrictions.eq("rlmsCompanyMaster.companyId", companyId));
-		}
-		if(null != branchId){
-			criteria.add(Restrictions.eq("rlmsBranchMaster.branchId", branchId));
-		}
-		
+		criteria.add(Restrictions.eq("rlmsCompanyMaster.companyId", companyId));
 		criteria.add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId()));
 		List<RlmsCompanyBranchMapDtls> listOfAllBranches = criteria.list();
 		return listOfAllBranches;

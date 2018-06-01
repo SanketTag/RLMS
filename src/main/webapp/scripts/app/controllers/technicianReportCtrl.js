@@ -13,29 +13,7 @@
 			 $scope.branches = [];
 			 $scope.companies = [];
 		} 
-		// showCompnay Flag
-		if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1) {
-			$scope.showCompany = true;
-			loadCompanyData();
-		} else {
-			$scope.showCompany = false;
-			$scope.loadBranchData();
-		}
 		
-		// showBranch Flag
-		if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel < 3) {
-			$scope.showBranch = true;
-		} else {
-			$scope.showBranch = false;
-		}
-		function loadCompanyData() {
-			serviceApi
-					.doPostWithoutData(
-							'/RLMS/admin/getAllApplicableCompanies')
-					.then(function(response) {
-						$scope.companies = response;
-					});
-		}
 		$scope.loadBranchData = function() {
 			var companyData = {};
 			if ($scope.showCompany == true) {
@@ -48,9 +26,7 @@
 				}
 			}
 			serviceApi
-					.doPostWithData(
-							'/RLMS/admin/getAllBranchesForCompany',
-							companyData)
+					.doPostWithData('/RLMS/admin/getAllBranchesForCompany',companyData)
 					.then(function(response) {
 						$scope.branches = response;
 						$scope.selectedBranch.selected=undefined;
@@ -58,6 +34,32 @@
 						$scope.siteViseReport=emptySite;
 					});
 		}
+		// showCompnay Flag
+		if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1 ) {
+			$scope.showCompany = true;
+			loadCompanyData();
+		} else {
+			$scope.showCompany = false;
+			$scope.loadBranchData();
+		}
+		
+		// showBranch Flag
+		if ($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel < 3) {
+			$scope.showBranch = true;
+			loadCompanyData();
+		} else {
+			$scope.showBranch = false;
+			$scope.loadBranchData();
+		}
+		
+		function loadCompanyData() {
+			serviceApi
+					.doPostWithoutData('/RLMS/admin/getAllApplicableCompanies')
+					.then(function(response) {
+						$scope.companies = response;
+					});
+		}
+		
 		
 		$scope.filterOptions.filterText='';
 		$scope.$watch('filterOptions', function(newVal, oldVal) {
@@ -93,7 +95,7 @@
 	  	  function constructDataToSend(){
 	  		var data = {
 	  				'branchCompanyMapId':$scope.selectedBranch.selected.companyBranchMapId,
-	  				'companyId':$scope.selectedCompany.selected.companyId,
+	  				//'companyId':$scope.selectedCompany.selected.companyId,
 	  		};
 	  		return data;
 	  	  }

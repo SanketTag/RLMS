@@ -147,39 +147,39 @@
 
 	  	    $scope.gridOptions = {
 	  	      data: 'myData',
+	  	      rowHeight: 40,
 	  	      enablePaging: true,
 	  	      showFooter: true,
 	  	      totalServerItems: 'totalServerItems',
 	  	      pagingOptions: $scope.pagingOptions,
 	  	      filterOptions: $scope.filterOptions,
+	  	      multiSelect: false,
+	  	      gridFooterHeight:35,
 	  	      columnDefs : [ {
 					field : "Branch_Name",
-					displayName:"Branch_Name"
+					displayName:"Branch Name"
 				}, {
 					field : "Address",
 					displayName:"Address"
 				}, {
-					field : "City",
-					displayName:"City"
-				}, {
-					field : "Company_Name",
-					displayName:"Company_Name"
-				}
-				, {
 					field : "Number_Of_Technicians",
-					displayName:"Number_Of_Technicians"
+					displayName:"Number Of Technicians"
 				}, {
 					field : "Number_Of_Lifts",
-					displayName:"Number_Of_Lifts"
-				}/*,{
+					displayName:"Number Of Lifts"
+				}, {
+					field : "City",
+					displayName:"City"
+				}
+				,{
 					cellTemplate :  
-			             '<button ng-click="$event.stopPropagation(); editBranchDetails(row.entity);" title="Edit" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
-					width : 30
+			             '<button ng-click="$event.stopPropagation(); editBranchDetails(row.entity);" title="Edit" style="margin-top: 2px;height: 38px;width :38px;" class="btn-sky"><span class="glyphicon glyphicon-pencil"></span></button>',
+					width : 40
 				},{
 					cellTemplate :  
-			             '<button ng-click="$event.stopPropagation(); deleteBranchDetails(row.entity);" title="Delete" style="margin-top: 6px;height: 24px;" class="btn-sky"><span class="glyphicon glyphicon-remove"></span></button>',
-					width : 30
-				}*/
+			             '<button ng-click="$event.stopPropagation(); deleteBranchDetails(row.entity);" title="Delete" style="margin-top: 2px;height: 38px;width :38px;" class="btn-sky"><span class="glyphicon glyphicon-remove"></span></button>',
+					width : 40
+				}
 				]
 	  	    };
 	}]);

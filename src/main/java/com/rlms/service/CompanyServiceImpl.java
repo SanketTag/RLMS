@@ -224,11 +224,6 @@ public class CompanyServiceImpl implements CompanyService{
 	public List<RlmsCompanyBranchMapDtls> getAllBranches(Integer companyId){
 		return this.branchDao.getAllBranches(companyId);
 	}
-	
-	@Transactional(propagation = Propagation.REQUIRED)
-	public List<RlmsCompanyBranchMapDtls> getAllApplicableBranches(Integer companyId, Integer branchId){
-		return this.branchDao.getAllBranches(companyId,branchId);
-	}
 	 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public String validateAndAddNewBranchInCompany(BranchDtlsDto dto,UserMetaInfo userMetaInfo) throws ValidationException{

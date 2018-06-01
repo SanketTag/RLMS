@@ -12,6 +12,8 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.SmackException;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,13 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mysql.fabric.xmlrpc.base.Array;
 import com.mysql.jdbc.Messages;
-import com.rlms.constants.CallType;
 import com.rlms.constants.RLMSConstants;
 import com.rlms.constants.RLMSMessages;
 //import com.rlms.constants.RLMSMessages;
 import com.rlms.constants.RlmsErrorType;
 import com.rlms.constants.Status;
-import com.rlms.constants.UserType;
 //import com.rlms.constants.XMPPServerDetails;
 import com.rlms.contract.ComplaintsDtlsDto;
 import com.rlms.contract.ComplaintsDto;
@@ -97,9 +97,6 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			dto.setServiceStartDate(complaintTechMapDtls.getComplaintMaster().getServiceStartDate());
 			dto.setComplaintId(complaintTechMapDtls.getComplaintMaster().getComplaintId());
 			dto.setComplaintTechMapId(complaintTechMapDtls.getComplaintTechMapId());
-			dto.setAddress(complaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftMaster().getAddress());
-			dto.setTitle(complaintTechMapDtls.getComplaintMaster().getTitle());
-			
 			if(Status.PENDING.getStatusId().equals(complaintTechMapDtls.getComplaintMaster().getStatus())){
 				dto.setStatus(Status.PENDING.getStatusMsg());
 			}else if(Status.ASSIGNED.getStatusId().equals(complaintTechMapDtls.getComplaintMaster().getStatus())){
@@ -119,23 +116,22 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		String result = null;
 		if(this.validateComplaintDetails(dto)){
 			RlmsComplaintMaster complaintMaster = this.counstructComplaintMaster(dto, metaInfo);			
+			if(complaintMaster!=null) {
 			Integer complaintId = this.complaintsDao.saveComplaintM(complaintMaster);
 			complaintMaster.setComplaintNumber(complaintId.toString());
 			this.complaintsDao.mergeComplaintM(complaintMaster);
 			result = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_REG_SUCCESSFUL.getMessage());
 			this.sendNotificationsAboutComplaintRegistration(complaintMaster);
+			}
 		}
 	  return result;
 	}
-	
-	
 	private boolean validateComplaintDetails(ComplaintsDtlsDto dto) throws ValidationException{
 		boolean isValidaDetails = true;
 		if(null == dto.getComplaintsRemark()){
 			isValidaDetails = false;
 			throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_REMARK_BLANK.getMessage()));
 		}
-		
 		if(null == dto.getComplaintsTitle()){
 			isValidaDetails = false;
 			throw new ValidationException(ExceptionCode.VALIDATION_EXCEPTION.getExceptionCode(), PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_TITLE_BLANK.getMessage()));
@@ -242,29 +238,18 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			complaintent = RLMSConstants.COMPLAINT_REG_TYPE_LIFT_EVENT.getName();
 		}
 		dto.setComplaintent(complaintent);
-		dto.setBranch(complaintMaster.getLiftCustomerMap().getBranchCustomerMap().getCompanyBranchMapDtls().getRlmsBranchMaster().getBranchName());
-		dto.setCustomerName(complaintMaster.getLiftCustomerMap().getBranchCustomerMap().getCustomerMaster().getCustomerName());
+		
 		
 		return dto;
 	}
 	
-	private boolean isServiceCallToShow(Date regDate){
-		Date pivotDate = DateUtils.addDaysToDate(new Date(), 8);
-		return DateUtils.isBeforeOrEqualToDate(regDate, pivotDate);
-	}
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<ComplaintsDto> getListOfComplaintsBy(ComplaintsDtlsDto dto){
 		List<ComplaintsDto> listOfAllComplaints = new ArrayList<ComplaintsDto>();
-		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getCompanyId(),dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate(),dto.getServiceCallType());
+		List<RlmsComplaintMaster> listOfComplaints = this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate(),dto.getServiceCallType());
 		for (RlmsComplaintMaster rlmsComplaintMaster : listOfComplaints) {
-			boolean isToShow = true;
-			if(CallType.Amc_Service_Call.getId() == rlmsComplaintMaster.getCallType()){
-				isToShow = this.isServiceCallToShow(rlmsComplaintMaster.getRegistrationDate());
-			}
-			if(isToShow){
-				ComplaintsDto complaintsDto = this.constructComplaintDto(rlmsComplaintMaster);
-				listOfAllComplaints.add(complaintsDto);
-			}
+			ComplaintsDto complaintsDto = this.constructComplaintDto(rlmsComplaintMaster);
+			listOfAllComplaints.add(complaintsDto);
 		}
 		
 		return listOfAllComplaints;
@@ -272,7 +257,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<RlmsComplaintMaster> getAllComplaintsForGivenCriteria(ComplaintsDtlsDto dto){
-		return this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getCompanyId(), dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate(),0);
+		return this.complaintsDao.getAllComplaintsForGivenCriteria(dto.getBranchCompanyMapId(), dto.getBranchCustomerMapId(), dto.getListOfLiftCustoMapId(), dto.getStatusList(),dto.getFromDate(), dto.getToDate(),0);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -286,9 +271,9 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		this.complaintsDao.saveComplaintTechMapDtls(complaintTechMapDtls);
 		RlmsComplaintMaster complaintMaster = complaintTechMapDtls.getComplaintMaster();
 		complaintMaster.setStatus(Status.ASSIGNED.getStatusId());
-		complaintMaster.setServiceStartDate(new Date());
 		complaintMaster.setUpdatedBy(metaInfo.getUserId());
 		complaintMaster.setUpdatedDate(new Date());
+		
 		this.complaintsDao.mergeComplaintM(complaintMaster);
 		String techName = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() +  " " +complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";
 		String statusMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_ASSIGNED_SUUCESSFULLY.getMessage()) + " " + techName;
@@ -339,39 +324,58 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void sendNotificationsAboutComplaintRegistration(RlmsComplaintMaster complaintMaster){
-		Map<String, String> dataPayload = new HashMap<String, String>();
-		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TITLE, PropertyUtils.getPrpertyFromContext(RLMSMessages.COMPLAINT_REGISTERED.getMessage()) + " - " + complaintMaster.getTitle());
-		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_MESSAGE, complaintMaster.getRemark());
-		
+	//	Map<String, String> dataPayload = new HashMap<String, String>();
+		 JSONObject  dataPayload = new JSONObject();
+		try {
+			//dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TITLE, PropertyUtils.getPrpertyFromContext(RLMSMessages.COMPLAINT_REGISTERED.getMessage()) + " - " + complaintMaster.getTitle());
+			//dataPayload.put(Util.PAYLOAD_ATTRIBUTE_MESSAGE, complaintMaster.getRemark());
+			dataPayload.put("title", PropertyUtils.getPrpertyFromContext(RLMSMessages.COMPLAINT_REGISTERED.getMessage()) + " - " + complaintMaster.getTitle());
+			dataPayload.put("body", complaintMaster.getRemark());
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
 		List<UserAppDtls> listOfUsers = this.getRegIdsOfAllApplicableUsers(complaintMaster.getLiftCustomerMap().getLiftCustomerMapId());
-		
-		for (UserAppDtls userAppDtls : listOfUsers) {
-			try{
-				log.debug("sendNotificationsAboutComplaintRegistration :: Sending notification");
-				this.messagingService.sendNotification(userAppDtls.getAppRegId(), dataPayload);
-				log.debug("sendNotificationsAboutComplaintRegistration :: Notification sent to Id :" + userAppDtls.getAppRegId());
-			}catch(Exception e){
-				log.error(ExceptionUtils.getFullStackTrace(e));
+		if(listOfUsers !=null && !listOfUsers.isEmpty()) {
+			for (UserAppDtls userAppDtls : listOfUsers) {
+				try{
+						log.debug("sendNotificationsAboutComplaintRegistration :: Sending notification");
+						if(userAppDtls.getAppRegId()!=null) {
+							this.messagingService.sendUserNotification(userAppDtls.getAppRegId(), dataPayload);
+						log.debug("sendNotificationsAboutComplaintRegistration :: Notification sent to Id :" + userAppDtls.getAppRegId());
+				    }				
+				}catch(Exception e){
+					log.error(ExceptionUtils.getFullStackTrace(e));
+				}
 			}
 		}
-		
+		else {
+			log.error("user app registration id not found");
+		}
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void sendNotificationsAboutComplaintAssign(RlmsComplaintTechMapDtls complaintTechMapDtls){
 		this.notifyTechnician(complaintTechMapDtls);
-	 //	this.sendNotificationsToMembers(complaintTechMapDtls);
+		this.sendNotificationsToMembers(complaintTechMapDtls);
 	}
 	
 	private void notifyTechnician(RlmsComplaintTechMapDtls complaintTechMapDtls){
 		UserAppDtls userAppDtls = this.customerService.getUserAppDtls(complaintTechMapDtls.getUserRoles().getUserRoleId(), RLMSConstants.USER_ROLE_TYPE.getId());
-		Map<String, String> dataPayload = new HashMap<String, String>();
-		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TITLE, PropertyUtils.getPrpertyFromContext(RLMSMessages.COMPLAINT_REGISTERED.getMessage()) + " - " + complaintTechMapDtls.getComplaintMaster().getTitle());
-		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_MESSAGE, complaintTechMapDtls.getComplaintMaster().getRemark());	
+		//Map<String, String> dataPayload = new HashMap<String, String>();
+		JSONObject dataPayload = new JSONObject();
+		try {
+			/*dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TITLE, PropertyUtils.getPrpertyFromContext(RLMSMessages.COMPLAINT_REGISTERED.getMessage()) + " - " + complaintTechMapDtls.getComplaintMaster().getTitle());
+			dataPayload.put(Util.PAYLOAD_ATTRIBUTE_MESSAGE, complaintTechMapDtls.getComplaintMaster().getRemark());*/
+			dataPayload.put("title", PropertyUtils.getPrpertyFromContext(RLMSMessages.COMPLAINT_REGISTERED.getMessage()) + " - " + complaintTechMapDtls.getComplaintMaster().getTitle());
+			dataPayload.put("body", complaintTechMapDtls.getComplaintMaster().getRemark());
+		
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}	
 		
 		try{
 			log.debug("notifyTechnician :: Sending notification");
-			this.messagingService.sendNotification(userAppDtls.getAppRegId(), dataPayload);
+			this.messagingService.sendTechnicianNotification(userAppDtls.getAppRegId(), dataPayload);
 			log.debug("notifyTechnician :: Notification sent to Id :" + userAppDtls.getAppRegId());
 		}catch(Exception e){
 			log.error(ExceptionUtils.getFullStackTrace(e));
@@ -379,18 +383,24 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		
 	}
 	private void sendNotificationsToMembers(RlmsComplaintTechMapDtls complaintTechMapDtls){
-		Map<String, String> dataPayload = new HashMap<String, String>();
-		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TITLE, PropertyUtils.getPrpertyFromContext(RLMSMessages.COMPLAINT_REGISTERED.getMessage()) + " - " + complaintTechMapDtls.getComplaintMaster().getTitle());
-		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_MESSAGE, complaintTechMapDtls.getComplaintMaster().getRemark());
+	//	Map<String, String> dataPayload = new HashMap<String, String>();
+		JSONObject dataPayload = new JSONObject();
 		String techDtls = complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getFirstName() + " " + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getLastName() + " (" + complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber() + ")";
-		dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TECHNICIAN, techDtls);
+
+		try {
+			dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TITLE, PropertyUtils.getPrpertyFromContext(RLMSMessages.COMPLAINT_REGISTERED.getMessage()) + " - " + complaintTechMapDtls.getComplaintMaster().getTitle());
+			dataPayload.put(Util.PAYLOAD_ATTRIBUTE_MESSAGE, complaintTechMapDtls.getComplaintMaster().getRemark());
+			dataPayload.put(Util.PAYLOAD_ATTRIBUTE_TECHNICIAN, techDtls);
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
 		
 		List<UserAppDtls> listOfUsers = this.getRegIdsOfAllApplicableUsers(complaintTechMapDtls.getComplaintMaster().getLiftCustomerMap().getLiftCustomerMapId());
 		
 		for (UserAppDtls userAppDtls : listOfUsers) {
 			try{
 				log.debug("sendNotificationsAboutComplaintRegistration :: Sending notification");
-				this.messagingService.sendNotification(userAppDtls.getAppRegId(), dataPayload);
+				this.messagingService.sendUserNotification(userAppDtls.getAppRegId(), dataPayload);
 				log.debug("sendNotificationsAboutComplaintRegistration :: Notification sent to Id :" + userAppDtls.getAppRegId());
 			}catch(Exception e){
 				log.error(ExceptionUtils.getFullStackTrace(e));
@@ -430,35 +440,6 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		return listOfComplDtls;
 	}
 	
-	
-	private  double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
-		double theta = lon1 - lon2;
-		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
-		dist = Math.acos(dist);
-		dist = rad2deg(dist);
-		dist = dist * 60 * 1.1515;
-		if (unit == "K") {
-			dist = dist * 1.609344;
-		} else if (unit == "N") {
-			dist = dist * 0.8684;
-		}
-
-		return (dist);
-	}
-	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-	/*::	This function converts decimal degrees to radians						 :*/
-	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-	private static double deg2rad(double deg) {
-		return (deg * Math.PI / 180.0);
-	}
-
-	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-	/*::	This function converts radians to decimal degrees						 :*/
-	/*:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-	private static double rad2deg(double rad) {
-		return (rad * 180 / Math.PI);
-	}
-	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<UserRoleDtlsDTO> getAllTechniciansToAssignComplaint(ComplaintsDtlsDto complaintsDtlsDto){
    	 
@@ -475,27 +456,11 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			dto.setContactNumber(rlmsUserRoles.getRlmsUserMaster().getContactNumber());
 			dto.setUserRoleId(rlmsUserRoles.getUserRoleId());
 			
-			if(null != complaintMaster.getLiftCustomerMap().getLiftMaster().getAddress() && !complaintMaster.getLiftCustomerMap().getLiftMaster().getAddress().isEmpty()){
-				dto.setLiftAdd(complaintMaster.getLiftCustomerMap().getLiftMaster().getAddress());
-			}
-			if(null != complaintMaster.getLiftCustomerMap().getLiftMaster().getLatitude() && !complaintMaster.getLiftCustomerMap().getLiftMaster().getLatitude().isEmpty()){
-				dto.setLiftLatitude(Double.valueOf(complaintMaster.getLiftCustomerMap().getLiftMaster().getLatitude()));
-			}
 			
-			if(null != complaintMaster.getLiftCustomerMap().getLiftMaster().getLongitude() && !complaintMaster.getLiftCustomerMap().getLiftMaster().getLatitude().isEmpty()){
-				dto.setLiftLongitude(Double.valueOf(complaintMaster.getLiftCustomerMap().getLiftMaster().getLongitude()));
-			}
 			
-			RlmsUserApplicationMapDtls appMapDtls = this.userService.getUserAppDetails(rlmsUserRoles.getUserRoleId(), UserType.TECHNICIAN.getId());
-			if(null != appMapDtls){
-				dto.setLongitude(appMapDtls.getLongitude());
-				dto.setLatitude(appMapDtls.getLatitude());
-			}
+			dto.setLongitude(rlmsUserRoles.getRlmsUserApplicationMapDetails().getLongitude());
+			dto.setLatitude(rlmsUserRoles.getRlmsUserApplicationMapDetails().getLatitude());
 			
-			if(null != dto.getLiftLatitude() && null != dto.getLiftLongitude() && null != dto.getLatitude() && null != dto.getLongitude()){
-				Double di = this.distance(dto.getLiftLatitude(), dto.getLiftLongitude(), dto.getLatitude(), dto.getLongitude(), "K");
-				dto.setDistance(di.intValue());
-			}
 			
 			 List<Integer> statusList = new ArrayList<Integer>();
 		   	 statusList.add(Status.ASSIGNED.getStatusId());
@@ -611,9 +576,7 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 			dto.setUserId(complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getUserId());
 			dto.setContactNumber(complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getContactNumber());
 			dto.setEmailId(complaintTechMapDtls.getUserRoles().getRlmsUserMaster().getEmailId());
-			
 		}
-		
 		return dto;
 	}
 
@@ -678,6 +641,5 @@ public class ComplaintsServiceImpl implements ComplaintsService{
 		this.complaintsDao.mergeComplaintM(complaintMaster);
 		String resultMessage = PropertyUtils.getPrpertyFromContext(RlmsErrorType.COMPLAINT_DELETE_SUCCESFUL.getMessage());
 		return resultMessage;
-		
 	}
 }

@@ -19,7 +19,7 @@
 							<h4 class="text-center" style="margin-bottom: 25px;">Just click log in!</h4>
 							<form class="form-horizontal ng-pristine ng-valid" action="/RLMS/resources/j_spring_security_check" method="post">
 								<div class="form-group">
-									<label for="email" class="control-label col-sm-4" style="text-align: left;">username</label>
+									<label for="email" class="control-label col-sm-4" style="text-align: left;">Username</label>
 									<div class="col-sm-8">
 										<input type="text" class="form-control" name="username" id="email" placeholder="Email">
 									</div>

@@ -18,9 +18,6 @@ import javax.persistence.Table;
 @Table(name = "rlms_company_role_map")
 public class RlmsCompanyRoleMap implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Integer companyRoleId;
 	private RlmsCompanyBranchMapDtls rlmsCompanyBranchMapDtls;
@@ -33,7 +30,6 @@ public class RlmsCompanyRoleMap implements Serializable {
 	
 	public RlmsCompanyRoleMap() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Id

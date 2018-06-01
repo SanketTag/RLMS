@@ -46,14 +46,6 @@
 				<input ng-model="addLift.liftNumber" required class="form-control" name="liftNumber" type="text"/>
 			</div>
 		</div>
-		
-		<div class="form-group">
-			<label for="liftNumber" class="col-md-3 control-label">Lift Imei Number<sup class="red font-12">*</sup></label>
-			<div class="col-md-6">
-				<input ng-model="addLift.liftImei" required class="form-control" name="liftImei" type="text"/>
-			</div>
-		</div>
-		
 		<div class="form-group">
 			<label for="address" class="col-md-3 control-label">Address </label>
 			<div class="col-md-6"><input ng-model="addLift.address" class="form-control" type="text" name="address" ></div>
@@ -90,24 +82,25 @@
 			<div class="col-md-6"><input ng-model="addLift.longitude" class="form-control"  type="text" name="longitude"></div>
 		</div>
 		<div class="form-group">
-			<label for="serviceStartDate" class="col-md-3 control-label">Service Start Date <sup class="red font-12">*</sup></label>
-			<div class="col-md-6"><input required type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'serviceStartDate')" is-open="openFlag.serviceStartDate" ng-model="addLift.serviceStartDate"/></div>
+			<label for="serviceStartDate" class="col-md-3 control-label">Warranty Start Date <sup class="red font-12">*</sup></label>
+			<div class="col-md-6"><input  type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'serviceStartDate')" is-open="openFlag.serviceStartDate" ng-model="addLift.serviceStartDate" required/></div>
 		</div>
 		<div class="form-group">
-			<label for="serviceEndDate" class="col-md-3 control-label">Service End Date <sup class="red font-12">*</sup></label>
-			<div class="col-md-6"><input required  type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'serviceEndDate')" is-open="openFlag.serviceEndDate" ng-model="addLift.serviceEndDate"/></div>
+			<label for="serviceEndDate" class="col-md-3 control-label">Warranty End Date <sup class="red font-12">*</sup></label>
+			<div class="col-md-6"><input  type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'serviceEndDate')" is-open="openFlag.serviceEndDate" ng-model="addLift.serviceEndDate" required/></div>
 		</div>
 		<div class="form-group">
 			<label for="dateOfInstallation" class="col-md-3 control-label">Date Of Installation</label>
 			<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'dateOfInstallation')" is-open="openFlag.dateOfInstallation" ng-model="addLift.dateOfInstallation" required/></div>
 		</div>
+		<legend>Add AMC</legend>
 		<div class="form-group">
 			<label for="amcStartDate" class="col-md-3 control-label">Amc Start Date</label>
-			<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'amcStartDate')" is-open="openFlag.amcStartDate" ng-model="addLift.amcStartDate" required/></div>
+			<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'amcStartDate')" is-open="openFlag.amcStartDate" ng-model="addLift.amcStartDate" /></div>
 		</div>
 		<div class="form-group">
 			<label for="amcStartDate" class="col-md-3 control-label">Amc End Date</label>
-			<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'amcEndDate')" is-open="openFlag.amcEndDate" ng-model="addLift.amcEndDate" required/></div>
+			<div class="col-md-6"><input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-click="open($event,'amcEndDate')" is-open="openFlag.amcEndDate" ng-model="addLift.amcEndDate" /></div>
 		</div>
 		
 		<div class="form-group">
@@ -158,7 +151,8 @@
 			<!-- <div class="col-md-6"><input ng-model="addLift.doorType" class="form-control"  type="number" name="doorType"></div> -->
 			<div class="col-sm-6">
 					  <ui-select ng-model="selectedDoorType.selected" title="Choose a Door Type">
-					    <ui-select-match placeholder="Select a door type...">{{$select.selected.name}}</ui-select-match> <ui-select-choices
+					    <ui-select-match placeholder="Select a door type...">{{$select.selected.name}}</ui-select-match> 
+					    <ui-select-choices
 								repeat="iterator in DoorType| filter: $select.search">
 							<span
 								ng-bind-html="iterator.name | highlight: $select.search"></span>
@@ -277,7 +271,7 @@
 			
 		</div>
 		<div class="form-group">
-			<label for="intercomm" class="col-md-3 control-label">Texr Details</label>
+			<label for="intercomm" class="col-md-3 control-label">Text Details</label>
 			<div class="col-md-6"><input ng-model="addLift.intercomm" class="form-control"  type="text" name="intercomm"></div>
 		</div>
 		<div class="form-group">
@@ -292,6 +286,15 @@
 			<label for="accessControl" class="col-md-3 control-label">Access Control</label>
 			<div class="col-md-6"><input ng-model="addLift.accessControl" class="form-control"  type="text" name="accessControl"></div>
 		</div>
+		<div class="form-group">
+			<label for="imei" class="col-md-3 control-label">IMEI Number</label>
+			<div class="col-md-6"><input ng-model="addLift.imei" class="form-control"  type="number" name="imei" required></div>
+		</div>
+		<div class="form-group">
+			<label for="lmsEventFromContactNo" class="col-md-3 control-label">LMS Contact Number</label>
+			<div class="col-md-6"><input ng-model="addLift.lmsEventFromContactNo" class="form-control"  type="number" name="lmsEventFromContactNo" required></div>
+		</div>
+		
 	</fieldset>
 	<fieldset title="Step 3">
 		<legend>Photos</legend>

@@ -199,17 +199,6 @@ UserRoleDao{
 	}
 	
 	@Override
-	public RlmsUserApplicationMapDtls getUserAppDetails(Integer userId, Integer userRefType){
-		 Session session = this.sessionFactory.getCurrentSession();
-		 Criteria criteria = session.createCriteria(RlmsUserApplicationMapDtls.class)
-				 .add(Restrictions.eq("userId", userId))
-		 	     .add(Restrictions.eq("userRefType", userRefType));
-		 
-		 RlmsUserApplicationMapDtls userApp = (RlmsUserApplicationMapDtls) criteria.uniqueResult();
-		 return userApp;
-	}
-	
-	@Override
 	public void saveUserAppDlts(RlmsUserApplicationMapDtls userApplicationMapDtls){
 		 this.sessionFactory.getCurrentSession().save(userApplicationMapDtls);
 	}

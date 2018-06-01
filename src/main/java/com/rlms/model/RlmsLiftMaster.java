@@ -15,9 +15,6 @@ import javax.persistence.Table;
 @Table(name = "rlms_lift_master")
 public class RlmsLiftMaster implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Integer liftId;
 	private String liftNumber;
@@ -75,7 +72,7 @@ public class RlmsLiftMaster implements Serializable{
 	private Integer createdBy;
 	private Date updatedDate;
 	private Integer updatedBy;
-	private String liftImei;
+	
 	
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
@@ -516,14 +513,26 @@ public class RlmsLiftMaster implements Serializable{
 		this.amcEndDate = amcEndDate;
 	}
 	
-	@Column(name = "imei", unique = true, nullable = false)
-	public String getLiftImei() {
-		return liftImei;
-	}
-	public void setLiftImei(String liftImei) {
-		this.liftImei = liftImei;
-	}
+	@Column(name="imei")
+	private String imei;
 	
 	
+	public String getImei() {
+		return imei;
+	}
+	public void setImei(String imei) {
+		this.imei = imei;
+	}
+
+	private String lmsEventContactNumber;
+
+	@Column(name="lms_event_contact_no",unique = true, nullable = true)
+  	public String getLmsEventContactNumber() {
+		return lmsEventContactNumber;
+	}
+	public void setLmsEventContactNumber(String lmsEventContactNumber) {
+		this.lmsEventContactNumber = lmsEventContactNumber;
+	}
+
 	
 }

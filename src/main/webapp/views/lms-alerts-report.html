@@ -1,6 +1,6 @@
 <div class="rlms-wrapper">
 <div class="rlms-container amc-management" ng-controller="lmsAlertsCtrl">
-	<h1 class="rlms-heading">Site Visit Report</h1>
+	<h1 class="rlms-heading">LMS Alerts Report</h1>
 	<div class="filter-section">
 		<div class="form-group margin-b10">
 			<label class="control-label" ng-show="showCompany">Select Company : </label>
@@ -12,6 +12,18 @@
 				    </ui-select-choices>
 				  </ui-select>
 			</div>
+			
+			
+			<label class="control-label">Event Type</label>
+			<div class="select-container">
+			   <ui-select ng-model="selectedEventType.selected" title="Choose a event type">
+			    <ui-select-match placeholder="Select Event Type">{{$select.selected.name}}</ui-select-match>
+			    <ui-select-choices repeat="iterator in eventType | filter: $select.search">
+			      <span ng-bind-html="iterator.name | highlight: $select.search"></span>
+			    </ui-select-choices>
+			  </ui-select>
+  		</div>
+		
 			<label class="control-label" ng-show="showBranch">Select Branch</label>
 			<div class="select-container" ng-show="showBranch">
 				  <ui-select ng-model="selectedBranch.selected" title="Choose a Branch" on-select="loadCustomerData()">
@@ -31,17 +43,8 @@
 				  </ui-select>
 			</div>
 		</div>
-		<div class="form-group margin-b10">
-			<label class="control-label">Select Status</label>
-			<div class="select-container margin-left-20">
-			   <ui-select multiple ng-model="selectedStatus.selected" close-on-select="false"  title="Choose a status">
-			    <ui-select-match placeholder="Select status from the list...">{{$select.selected[$index].name}}</ui-select-match>
-			    <ui-select-choices repeat="iterator in status | filter: $select.search">
-			      <span ng-bind-html="iterator.name | highlight: $select.search"></span>
-			    </ui-select-choices>
-			  </ui-select>
-  		</div>
-		</div>
+		<br>
+
 		<div class="row">
 			<div class="col-lg-12 align-right">
 				<button class="btn-sky btn" ng-click="loadReportList()">Proceed</button>
@@ -66,6 +69,8 @@
 				  <th>Date</th>
 				  <th>Address</th>
 				 <th>City</th>
+				 <th>Event</th>
+				 <th>Error</th>
 				 </tr>
 				 <tr rowspan="{{report.listOFAllVisits.length}}" class="table-active" ng-repeat="report in siteViseReport">
 				 {{report.listOFAllVisits.length}}

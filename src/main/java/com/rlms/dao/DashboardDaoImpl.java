@@ -1,7 +1,10 @@
 package com.rlms.dao;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
@@ -19,7 +22,6 @@ import com.rlms.model.RlmsComplaintMaster;
 import com.rlms.model.RlmsComplaintTechMapDtls;
 import com.rlms.model.RlmsEventDtls;
 import com.rlms.model.RlmsLiftAmcDtls;
-import com.rlms.model.RlmsSiteVisitDtls;
 import com.rlms.model.RlmsUserRoles;
 
 @Repository
@@ -114,17 +116,62 @@ public class DashboardDaoImpl implements DashboardDao {
 			}
 		}
 
-		String sql = "select a.* from rlms_db.rlms_user_roles a where (a.user_id,a.updated_date,a.company_branch_map_id,a.spoc_role_id) in (SELECT user_id,max(updated_date) max_date,company_branch_map_id,spoc_role_id FROM rlms_db.rlms_user_roles where company_branch_map_id in ("
+	/*	String sql = "select a.* from rlms_db.rlms_user_roles a where (a.user_id,a.updated_date,a.company_branch_map_id,a.spoc_role_id) in (SELECT user_id,max(updated_date) max_date,company_branch_map_id,spoc_role_id FROM rlms_db.rlms_user_roles where company_branch_map_id in ("
 				+ str
 				+ ") and spoc_role_id="
 				+ spocRoleId
-				+ " and user_id=a.user_id and updated_date < now() order by ABS(DATEDIFF( updated_date, now()))) group by a.user_id,a.company_branch_map_id,a.spoc_role_id";
+				+ " and user_id=a.user_id and updated_date < now() order by ABS(DATEDIFF( updated_date, now())))group by a.user_id,a.company_branch_map_id,a.spoc_role_id";*/
+		
+		
+		String sql = "select * from rlms_user_roles a where  spoc_role_id ="+ spocRoleId+" and company_branch_map_id in ("+ str+")";
+				
 		SQLQuery query = session.createSQLQuery(sql);
 		query.addEntity(RlmsUserRoles.class);
-		List listOfAllTechnicians = query.list();
+		List<RlmsUserRoles>listOfAllTechnicians = query.list();
 		return listOfAllTechnicians;
 	}
-
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getTechnicianActiveStatusCountByCompanyBranchMap(
+			Integer  commpBranchMapId, Integer spocRoleId) {
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		String sql ="select active_flag,count(*) from rlms_user_roles where company_branch_map_id in ("+commpBranchMapId+") and spoc_role_id="+spocRoleId+" group by active_flag";
+    	SQLQuery query = session.createSQLQuery(sql);
+		
+		//List<Object[]>techniciansCount = query.list();
+		
+		return query.list();
+	}
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getTechnicianCountByCompanyBranchMap(
+			List<Integer> commpBranchMapId, Integer spocRoleId) {
+		Session session = this.sessionFactory.getCurrentSession();
+		
+		String str = "";
+		for (Integer mapId : commpBranchMapId) {
+			if (StringUtils.isEmpty(str)) {
+				str = str.concat(String.valueOf(mapId));
+			} else {
+				str = str.concat("," + mapId);
+			}
+		}
+	  String sql ="select company_branch_map_id,count(*) from rlms_user_roles where company_branch_map_id in ("+ str+") and spoc_role_id="+ spocRoleId+" group by company_branch_map_id ";
+    	SQLQuery query = session.createSQLQuery(sql);
+		//query.addEntity(RlmsUserRoles.class);
+		 //query.executeUpdate();
+		List<Object[]>techniciansCount = query.list();
+		
+		/*for (Object[] objects : techniciansCount) {
+			int count =(Integer) objects[0];
+			BigInteger mapId = (BigInteger) objects[1];
+			System.out.println("count"+count);
+			System.out.println("long"+mapId);
+		}*/
+		
+		
+		return techniciansCount;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<RlmsCompanyBranchMapDtls> getAllBranchesForDashboard(
 			Integer companyId) {
@@ -168,17 +215,66 @@ public class DashboardDaoImpl implements DashboardDao {
 
 	@Override
 	public List<RlmsEventDtls> getAllEventDtlsForDashboard(
-			List<Integer> companyBranchIds) {
+			List<Integer> liftCustMapIds,String eventType) {
 		Session session = this.sessionFactory.getCurrentSession();
 		Criteria criteria = session.createCriteria(RlmsEventDtls.class).add(
-				Restrictions.in("liftCustomerMapId", companyBranchIds));
+				Restrictions.in("rlmsLiftCustomerMap.liftCustomerMapId", liftCustMapIds));
 		// .add(Restrictions.eq("activeFlag", RLMSConstants.ACTIVE.getId())
 		List<RlmsEventDtls> eventDtls = criteria.list();
 		return eventDtls;
 	}
+
 	
 	@Override
 	public void saveEventDtls(RlmsEventDtls eventDtls){
 		this.sessionFactory.getCurrentSession().save(eventDtls);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@Transactional
+	public List<RlmsEventDtls>getListOfEventsByType(RlmsEventDtls rlmsEventDtls) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Criteria criteria=session.createCriteria(RlmsEventDtls.class);
+			/*	add(Restrictions.eq("eventType", rlmsEventDtls.getEventType()));*/
+				
+		return criteria.list();
+	}
+
+@Override
+	public List<Object[]> getEventCountDtlsForDashboard(
+			List<Integer> liftCustMapIds) {
+		
+		String str = "";
+		for (Integer mapId : liftCustMapIds) {
+			if (StringUtils.isEmpty(str)) {
+				str = str.concat(String.valueOf(mapId));
+			} else {
+				str = str.concat("," + mapId);
+			}
+		}
+		Session session = this.sessionFactory.getCurrentSession();
+       String sql ="SELECT lift_customer_map_id,event_type,count(*) FROM rlms_event where lift_customer_map_id in("+str+") group by event_type,lift_customer_map_id order by lift_customer_map_id";
+	    	SQLQuery query = session.createSQLQuery(sql);
+		 	List<Object[]>EventCount = query.list();
+			return EventCount;
+		
+	}
+
+@Override
+public List<Object[]> getBranchCountDtlsForDashboard(List<Integer> branchIds) {
+	String str = "";
+	for (Integer mapId : branchIds) {
+		if (StringUtils.isEmpty(str)) {
+			str = str.concat(String.valueOf(mapId));
+		} else {
+			str = str.concat("," + mapId);
+		}
+	}
+	Session session = this.sessionFactory.getCurrentSession();
+   String sql ="SELECT city,count(*) FROM rlms_branch_master  where branch_id in("+str+") group by city";
+    	SQLQuery query = session.createSQLQuery(sql);
+	 	List<Object[]>EventCount = query.list();
+		return EventCount;
+}
 }

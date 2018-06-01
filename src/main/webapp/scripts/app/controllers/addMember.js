@@ -34,22 +34,30 @@
 			    });
 			};
 			$scope.loadBranchData = function(){
-				var data = {
-					companyId : $scope.selectedCompany.selected.companyId
-				}
-			    serviceApi.doPostWithData('/RLMS/admin/getAllBranchesForCompany',data)
+				var companyData={};
+				if($scope.showCompany == true){
+	  	    		companyData = {
+							companyId : $scope.selectedCompany.selected!=undefined?$scope.selectedCompany.selected.companyId:0
+						}
+	  	    	}else{
+	  	    		companyData = {
+							companyId : $rootScope.loggedInUserInfo.data.userRole.rlmsCompanyMaster.companyId
+						}
+	  	    	}
+			    serviceApi.doPostWithData('/RLMS/admin/getAllBranchesForCompany',companyData)
 			    .then(function(response){
 			    	$scope.branches = response;
-		    		$scope.selectedBranch.selected=undefined;
-		    		$scope.selectedCustomer.selected=undefined;
-			    	
+			    	$scope.selectedBranch.selected = undefined;
+			    	$scope.selectedCustomer.selected = undefined;
+			    	var emptyArray=[];
+			    	$scope.myData = emptyArray;
 			    });
 			}
 			$scope.loadCustomerData = function(){
 				var branchData ={};
 	  	    	if($scope.showBranch == true){
 	  	    		branchData = {
-	  	    			branchCompanyMapId : $scope.selectedBranch.selected.companyBranchMapId
+	  	    			branchCompanyMapId : $scope.selectedBranch.selected!=null?$scope.selectedBranch.selected.companyBranchMapId:0
 						}
 	  	    	}else{
 	  	    		branchData = {
@@ -59,7 +67,9 @@
 	  	    	serviceApi.doPostWithData('/RLMS/admin/getAllCustomersForBranch',branchData)
 	 	         .then(function(customerData) {
 	 	        	 $scope.cutomers = customerData;
-	 	        	$scope.selectedCustomer.selected=undefined;
+	 	        	 $scope.selectedCustomer.selected = undefined;
+	 	        	var emptyArray=[];
+			    	$scope.myData = emptyArray;
 	 	         })
 			}
 			//Post call add customer
@@ -82,9 +92,9 @@
 				});
 			}
 			 //showCompnay Flag
-		  	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
+			if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel == 1){
 				$scope.showCompany= true;
-				loadCompayInfo();
+				$scope.loadCompanyData();
 			}else{
 				$scope.showCompany= false;
 				$scope.loadBranchData();
@@ -93,10 +103,13 @@
 		  	//showBranch Flag
 		  	if($rootScope.loggedInUserInfo.data.userRole.rlmsSpocRoleMaster.roleLevel < 3){
 				$scope.showBranch= true;
+				$scope.showCompany=false
+				$scope.loadBranchData();
+				$scope.loadCustomerData();
 			}else{
 				$scope.showBranch=false;
 			}
-			//rese add branch
+			//reset add branch
 			$scope.resetAddMember = function(){
 				initAddMember();
 			}

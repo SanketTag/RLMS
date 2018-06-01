@@ -32,18 +32,8 @@ public class SiteVisitReportDto {
 	private String city;
 	private String sericeDate;
 	private String message;
-	private String callType;
 	
 	
-	
-	
-	
-	public String getCallType() {
-		return callType;
-	}
-	public void setCallType(String callType) {
-		this.callType = callType;
-	}
 	public Integer getCompanyBranchMapId() {
 		return companyBranchMapId;
 	}
